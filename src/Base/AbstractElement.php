@@ -16,7 +16,7 @@ use UIAwesome\Html\{
     Concern\HasPrefixCollection,
     Concern\HasSuffixCollection,
     Concern\HasTemplate,
-    Helper\HTMLBuilder,
+    Core\HTMLBuilder,
     Helper\Template,
     Interop\RenderInterface
 };

@@ -15,7 +15,7 @@ use UIAwesome\Html\{
     Concern\HasAttributes,
     Concern\HasContent,
     Concern\HasTagName,
-    Helper\HTMLBuilder,
+    Core\HTMLBuilder,
     Interop\RenderInterface
 };
 
