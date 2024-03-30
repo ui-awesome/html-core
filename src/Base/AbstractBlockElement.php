@@ -14,7 +14,6 @@ use UIAwesome\Html\{
     Attribute\HasTitle,
     Concern\HasAttributes,
     Concern\HasContent,
-    Concern\HasTagName,
     Core\HTMLBuilder,
     Interop\RenderInterface
 };
@@ -31,8 +30,9 @@ abstract class AbstractBlockElement extends Block implements RenderInterface
     use HasId;
     use HasLang;
     use HasStyle;
-    use HasTagName;
     use HasTitle;
+
+    protected string $tagName = '';
 
     /**
      * Begin rendering the block element.
