@@ -9,13 +9,13 @@ You must specify the tag name in the setter `tagName()`.
 Instantiate the `Block` class using `Block::widget()`.
 
 ```php
-$block = Block::widget();
+$block = Block::widget()->tagName('body');
 ```
 
 Or, block style instantiation.
 
 ```php
-<?= Block::begin() ?>
+<?= Block::widget()->tagName('body')->begin() ?>
     // ... content to be wrapped by `block` element
 <?= Block::end() ?>
 ```
@@ -46,7 +46,7 @@ $block->content('MyContent');
 Or, use `begin()` and `end()` methods to wrap content.
 
 ```php
-<?= Block::begin() ?>
+<?= Block::widget()->tagName('body')->begin() ?>
     My content
 <?= Block::end() ?>
 ```
@@ -92,17 +92,17 @@ comprehensive examples.
 
 The following methods are available for setting attributes:
 
-| Method            | Description                                                                                      |
-| ----------------- | ------------------------------------------------------------------------------------------------ |
-| `attributes()`    | Set multiple `attributes` at once.                                                               |
-| `class()`         | Set the `class` attribute.                                                                       |
-| `content()`       | Set the `content` within the `block` element.                                                    |
-| `dataAttributes()`| Set multiple `data-attributes` at once.                                                          |
-| `id()`            | Set the `id` attribute.                                                                          |
-| `lang()`          | Set the `lang` attribute.                                                                        |
-| `name()`          | Set the `name` attribute.                                                                        |
-| `style()`         | Set the `style` attribute.                                                                       |
-| `title()`         | Set the `title` attribute.                                                                       |
+| Method             | Description                                                                                     |
+| ------------------ | ----------------------------------------------------------------------------------------------- |
+| `attributes()`     | Set multiple `attributes` at once.                                                              |
+| `class()`          | Set the `class` attribute.                                                                      |
+| `content()`        | Set the `content` within the `block` element.                                                   |
+| `dataAttributes()` | Set multiple `data-attributes` at once.                                                         |
+| `id()`             | Set the `id` attribute.                                                                         |
+| `lang()`           | Set the `lang` attribute.                                                                       |
+| `name()`           | Set the `name` attribute.                                                                       |
+| `style()`          | Set the `style` attribute.                                                                      |
+| `title()`          | Set the `title` attribute.                                                                      |
 
 ## Custom methods
 
@@ -111,9 +111,10 @@ for comprehensive examples.
 
 The following methods are available for customizing the `HTML` output:
 
-| Method    | Description                                                                                              |
-| --------- | -------------------------------------------------------------------------------------------------------- |
-| `begin() `| Start the `block` element.                                                                               |
-| `end()`   | End the `block` element, and generate the `HTML` output.                                                 |
-| `render()`| Generates the `HTML` output.                                                                             |
-| `widget()`| Instantiates the `Block::class`.                                                                         |
+| Method      | Description                                                                                            |
+| ----------- | ------------------------------------------------------------------------------------------------------ |
+| `begin() `  | Start the `block` element.                                                                             |
+| `end()`     | End the `block` element, and generate the `HTML` output.                                               |
+| `render()`  | Generates the `HTML` output.                                                                           |
+| `tagName()` | Set the `tag name` for the `block` element.                                                            |
+| `widget()`  | Instantiates the `Block::class`.                                                                       |
