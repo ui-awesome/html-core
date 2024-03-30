@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core;
 
+use UIAwesome\Html\Concern\HasTagName;
+
 /**
  * The `<block>` HTML element represents a generic block-level element.
  *
@@ -23,4 +25,7 @@ namespace UIAwesome\Html\Core;
  *
  * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Block-level_elements
  */
-final class Block extends Base\AbstractBlockElement {}
+final class Block extends Base\AbstractBlockElement
+{
+    use HasTagName;
+}
