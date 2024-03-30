@@ -23,6 +23,4 @@ namespace UIAwesome\Html\Core;
  *
  * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Block-level_elements
  */
-final class Block extends Base\AbstractBlockElement
-{
-}
+final class Block extends Base\AbstractBlockElement {}
