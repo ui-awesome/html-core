@@ -96,7 +96,7 @@ The following methods are available for setting attributes:
 | ----------------- | ------------------------------------------------------------------------------------------------ |
 | `attributes()`    | Set multiple `attributes` at once.                                                               |
 | `class()`         | Set the `class` attribute.                                                                       |
-| `content()`       | Set the `content` within the `block` element.                                                     |
+| `content()`       | Set the `content` within the `block` element.                                                    |
 | `dataAttributes()`| Set multiple `data-attributes` at once.                                                          |
 | `id()`            | Set the `id` attribute.                                                                          |
 | `lang()`          | Set the `lang` attribute.                                                                        |
@@ -113,7 +113,7 @@ The following methods are available for customizing the `HTML` output:
 
 | Method    | Description                                                                                              |
 | --------- | -------------------------------------------------------------------------------------------------------- |
-| `begin() `| Start the `block` element.                                                                                |
-| `end()`   | End the `block` element, and generate the `HTML` output.                                                  |
+| `begin() `| Start the `block` element.                                                                               |
+| `end()`   | End the `block` element, and generate the `HTML` output.                                                 |
 | `render()`| Generates the `HTML` output.                                                                             |
-| `widget()`| Instantiates the `Block::class`.                                                                          |
+| `widget()`| Instantiates the `Block::class`.                                                                         |

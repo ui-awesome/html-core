@@ -65,7 +65,7 @@ Allowed arguments are:
 
 declare(strict_types=1);
 
-use UIAwesome\Html\Helper\HTMLBuilder;
+use UIAwesome\Html\Core\HTMLBuilder;
 ?>
 
 <?= HTMLBuilder::createTag('div', 'Hello, World!', ['class' => 'container']) ?>
@@ -89,7 +89,7 @@ Allowed arguments for `endTag()` method are:
 
 declare(strict_types=1);
 
-use UIAwesome\Html\Helper\HTMLBuilder;
+use UIAwesome\Html\Core\HTMLBuilder;
 
 <?= HTMLBuilder::beginTag('div', ['class' => 'container']) ?>
     Hello, World!
