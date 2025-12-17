@@ -49,13 +49,13 @@ final class ItemScopeProvider
                 false,
                 [],
                 '',
-                'Should return an empty string when setting boolean false.',
+                "Should return an empty string when setting boolean 'false'.",
             ],
             'boolean true' => [
                 true,
                 [],
                 ' itemscope',
-                'Should return the attribute when setting boolean true.',
+                "Should return 'itemscope' when setting boolean 'true'.",
             ],
             'null' => [
                 null,
@@ -67,7 +67,7 @@ final class ItemScopeProvider
                 true,
                 ['itemscope' => false],
                 ' itemscope',
-                "Should return new 'itemscope' after replacing the existing 'itemscope' attribute.",
+                "Should return 'itemscope' after replacing the existing 'itemscope' attribute.",
             ],
             'unset with null' => [
                 null,
@@ -98,13 +98,13 @@ final class ItemScopeProvider
                 false,
                 [],
                 false,
-                'Should return an empty string when setting boolean false.',
+                "Should return 'false' when setting boolean 'false'.",
             ],
             'boolean true' => [
                 true,
                 [],
                 true,
-                'Should return the attribute when setting boolean true.',
+                "Should return 'true' when setting boolean 'true'.",
             ],
             'null' => [
                 null,
@@ -116,7 +116,7 @@ final class ItemScopeProvider
                 true,
                 ['itemscope' => false],
                 true,
-                "Should return new 'itemscope' after replacing the existing 'itemscope' attribute.",
+                "Should return 'true' after replacing the existing 'itemscope' attribute.",
             ],
             'unset with null' => [
                 null,

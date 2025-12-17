@@ -37,7 +37,7 @@ use UIAwesome\Html\Helper\Attributes;
 final class HasTabIndexTest extends TestCase
 {
     /**
-     * @phpstan-param positive-int|null $tabIndex
+     * @phpstan-param int|string|null $tabIndex
      * @phpstan-param mixed[] $attributes
      */
     #[DataProviderExternal(TabIndexProvider::class, 'renderAttribute')]
@@ -89,7 +89,7 @@ final class HasTabIndexTest extends TestCase
     }
 
     /**
-     * @phpstan-param positive-int|null $tabIndex
+     * @phpstan-param int|string|null $tabIndex
      * @phpstan-param mixed[] $attributes
      * @phpstan-param mixed[] $expected
      */
