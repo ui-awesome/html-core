@@ -1,0 +1,144 @@
+<?php
+
+declare(strict_types=1);
+
+namespace UIAwesome\Html\Core\Mixin;
+
+use BackedEnum;
+use Stringable;
+use UIAwesome\Html\Helper\CSSClass;
+
+use function implode;
+
+/**
+ * Trait for managing suffix content and attributes in HTML tag rendering.
+ *
+ * Provides a standards-compliant, immutable API for setting suffix content, attributes, and tag type after the main
+ * HTML element, following the HTML specification for tag structure and rendering.
+ *
+ * Intended for use in components that require dynamic or programmatic manipulation of suffix segments, ensuring correct
+ * handling, type safety, and value assignment.
+ *
+ * Key features.
+ * - Designed for use in tag rendering systems.
+ * - Enforces standards-compliant handling of suffix content and attributes.
+ * - Immutable methods for setting suffix string, attributes, CSS classes, and tag type.
+ * - Supports flexible assignment of suffix values for advanced rendering scenarios.
+ *
+ * @copyright Copyright (C) 2025 Terabytesoftw.
+ * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
+ */
+trait HasSuffixCollection
+{
+    /**
+     * Suffix content string assigned to the element.
+     */
+    protected string $suffix = '';
+
+    /**
+     * HTML attributes array for the suffix tag.
+     *
+     * @phpstan-var mixed[]
+     */
+    protected array $suffixAttributes = [];
+
+    /**
+     * Tag type for the suffix segment.
+     */
+    protected false|BackedEnum $suffixTag = false;
+
+    /**
+     * Sets the suffix content string for the element.
+     *
+     * Creates a new instance with the specified suffix value, overriding any existing value.
+     *
+     * @param string|Stringable ...$values Suffix content to set for the element.
+     *
+     * @return static New instance with the updated suffix property.
+     *
+     * Usage example:
+     * ```php
+     * $element->suffix(' End', ' of ', 'Element');
+     * ```
+     */
+    public function suffix(Stringable|string ...$values): static
+    {
+        $new = clone $this;
+        $new->suffix = implode('', $values);
+
+        return $new;
+    }
+
+    /**
+     * Sets the HTML attributes for the suffix tag.
+     *
+     * Creates a new instance with the specified attributes, overriding any existing suffix attributes.
+     *
+     * @param array $values Associative array of attribute keys and values.
+     *
+     * @return static New instance with the updated suffixAttributes property.
+     *
+     * @phpstan-param mixed[] $values
+     *
+     * Usage example:
+     * ```php
+     * $element->suffixAttributes(['id' => 'suffix-id']);
+     * ```
+     */
+    public function suffixAttributes(array $values): static
+    {
+        $new = clone $this;
+        $new->suffixAttributes = $values;
+
+        return $new;
+    }
+
+    /**
+     * Adds a CSS class to the suffix tag attributes.
+     *
+     * Creates a new instance with the specified CSS class added to the suffixAttributes array.
+     *
+     * @param string $value CSS class name to add.
+     * @param bool $override Whether to override existing class value.
+     *
+     * @return static New instance with the updated suffixAttributes property.
+     *
+     * Usage example:
+     * ```php
+     * $element->suffixClass('new-class');
+     * ```
+     */
+    public function suffixClass(string $value, bool $override = false): static
+    {
+        $new = clone $this;
+        CSSClass::add($new->suffixAttributes, $value, $override);
+
+        return $new;
+    }
+
+    /**
+     * Sets the tag type for the suffix segment.
+     *
+     * Creates a new instance with the specified tag type for the suffix.
+     *
+     * @param false|BackedEnum $value Tag type to set for the suffix segment.
+     *
+     * @return static New instance with the updated suffixTag property.
+     *
+     * Usage example:
+     * ```php
+     * // default
+     * $element->suffixTag(\UIAwesome\Html\Core\Tag\Inline::SPAN);
+     *
+     * // no rendering of suffix tag
+     * $element->suffixTag(false);
+     * ```
+     */
+    public function suffixTag(false|BackedEnum $value = false): static
+    {
+        $new = clone $this;
+        $new->suffixTag = $value;
+
+        return $new;
+    }
+}
