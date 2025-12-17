@@ -45,19 +45,6 @@ final class SimpleFactoryTest extends TestCase
         );
     }
 
-    public function testsThrowExceptionWhenSetNotPublicProperty(): void
-    {
-        try {
-            TagInline::tag(['flagDisabled' => true]);
-        } catch (Error $e) {
-            self::assertSame(
-                'Cannot access private property UIAwesome\Html\Core\Tests\Support\Stub\TagInline::$flagDisabled',
-                $e->getMessage(),
-                'Failed asserting that exception is thrown when setting not public property via factory.',
-            );
-        }
-    }
-
     public function testThrowExceptionWhenInstantiateAbstractClass(): void
     {
         $this->expectException(LogicException::class);
@@ -66,5 +53,15 @@ final class SimpleFactoryTest extends TestCase
         );
 
         SimpleFactory::create(BaseTag::class);
+    }
+
+    public function testThrowExceptionWhenSetNotPublicProperty(): void
+    {
+        $this->expectException(Error::class);
+        $this->expectExceptionMessage(
+            'Cannot access private property UIAwesome\Html\Core\Tests\Support\Stub\TagInline::$flagDisabled',
+        );
+
+        TagInline::tag(['flagDisabled' => true]);
     }
 }

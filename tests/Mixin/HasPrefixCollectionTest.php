@@ -29,7 +29,7 @@ use UIAwesome\Html\Core\Tag\Inline;
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
 #[Group('mixin')]
-final class HasPreffixCollectionTest extends TestCase
+final class HasPrefixCollectionTest extends TestCase
 {
     public function testReturnNewInstanceWhenSettingAttributes(): void
     {

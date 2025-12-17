@@ -7,6 +7,7 @@ namespace UIAwesome\Html\Core\Tests\Support;
 use UIAwesome\Html\Helper\Enum;
 use UnitEnum;
 
+use function sprintf;
 use function strtolower;
 
 /**
@@ -60,5 +61,15 @@ final class EnumDataGenerator
         }
 
         return $cases;
+    }
+    public static function generateTagCases(string $enumClass, string $category): array
+    {
+        $data = [];
+
+        foreach ($enumClass::cases() as $case) {
+            $data[sprintf('%s %s tag', $case->value, $category)] = [$case, $case->value];
+        }
+
+        return $data;
     }
 }
