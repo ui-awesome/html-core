@@ -59,7 +59,7 @@ final class HasIdTest extends TestCase
 
     public function testReturnEmptyWhenIdAttributeNotSet(): void
     {
-        $instance =  new class {
+        $instance = new class {
             use HasAttributes;
             use HasId;
         };

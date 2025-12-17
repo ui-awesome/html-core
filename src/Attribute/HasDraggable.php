@@ -41,7 +41,7 @@ trait HasDraggable
      * Creates a new instance with the specified draggable value, supporting both explicit and nullable
      * assignment according to the HTML specification for global attributes.
      *
-     * @param bool|string|Draggable|null $value Draggable value to set for the element. Can be `null` to unset
+     * @param bool|Draggable|string|null $value Draggable value to set for the element. Can be `null` to unset
      * the attribute.
      *
      * @throws InvalidArgumentException if the provided value is not valid.

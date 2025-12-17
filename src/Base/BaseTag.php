@@ -167,7 +167,7 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
      *
      * @phpstan-return mixed[]
      */
-    public function apply(BaseTag $tag, string $theme): array
+    public function apply(self $tag, string $theme): array
     {
         return [];
     }
@@ -262,7 +262,7 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
      * <?= $tag->getDefaults($tag) ?>
      * ```
      */
-    public function getDefaults(BaseTag $tag): array
+    public function getDefaults(self $tag): array
     {
         return [];
     }

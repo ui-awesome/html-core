@@ -163,7 +163,7 @@ final class HasMicroDataTest extends TestCase
 
     public function testReturnEmptyWhenMicroDataNotSet(): void
     {
-        $instance =  new class {
+        $instance = new class {
             use HasAttributes;
             use HasMicroData;
         };

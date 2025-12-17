@@ -60,7 +60,7 @@ final class CanBeAutofocusTest extends TestCase
 
     public function testReturnEmptyWhenAutofocusAttributeNotSet(): void
     {
-        $instance =  new class {
+        $instance = new class {
             use CanBeAutofocus;
             use HasAttributes;
         };

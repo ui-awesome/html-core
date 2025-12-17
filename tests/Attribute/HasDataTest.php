@@ -37,7 +37,7 @@ use UIAwesome\Html\Helper\Attributes;
 final class HasDataTest extends TestCase
 {
     /**
-     * @param array<string, string|\Closure(): mixed> $data
+     * @param array<string, \Closure(): mixed|string> $data
      * @phpstan-param mixed[] $attributes
      */
     #[DataProviderExternal(DataProvider::class, 'renderAttribute')]
@@ -76,8 +76,8 @@ final class HasDataTest extends TestCase
     }
 
     /**
-     * @param array<string, string|\Closure(): mixed> $data
-     * @param array<string, string|\Closure(): mixed> $expected
+     * @param array<string, \Closure(): mixed|string> $data
+     * @param array<string, \Closure(): mixed|string> $expected
      */
     #[DataProviderExternal(DataProvider::class, 'values')]
     public function testSetDataAttributeValue(array $data, array $expected, string $assertion): void

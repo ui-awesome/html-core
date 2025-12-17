@@ -102,10 +102,9 @@ final class SimpleFactory
      *
      * @param string $class Tag class name.
      *
-     * @return BaseTag Instantiated tag object.
-     *
      * @throws LogicException if the class is abstract and cannot be instantiated.
      * @throws ReflectionException
+     * @return BaseTag Instantiated tag object.
      *
      * @phpstan-param class-string<T> $class
      *
@@ -127,9 +126,7 @@ final class SimpleFactory
         }
 
         /** @phpstan-var T $tag */
-        $tag = $reflection->newInstance();
-
-        return $tag;
+        return $reflection->newInstance();
     }
 
     /**

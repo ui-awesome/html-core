@@ -63,7 +63,7 @@ final class HasLangTest extends TestCase
 
     public function testReturnEmptyWhenLangAttributeNotSet(): void
     {
-        $instance =  new class {
+        $instance = new class {
             use HasAttributes;
             use HasLang;
         };

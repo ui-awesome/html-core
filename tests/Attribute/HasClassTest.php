@@ -64,7 +64,7 @@ final class HasClassTest extends TestCase
 
     public function testReturnEmptyWhenClassAttributeNotSet(): void
     {
-        $instance =  new class {
+        $instance = new class {
             use HasAttributes;
             use HasClass;
         };

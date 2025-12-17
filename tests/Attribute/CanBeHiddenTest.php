@@ -59,7 +59,7 @@ final class CanBeHiddenTest extends TestCase
 
     public function testReturnEmptyWhenHiddenAttributeNotSet(): void
     {
-        $instance =  new class {
+        $instance = new class {
             use CanBeHidden;
             use HasAttributes;
         };

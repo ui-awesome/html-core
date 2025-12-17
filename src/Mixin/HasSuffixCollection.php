@@ -121,7 +121,7 @@ trait HasSuffixCollection
      *
      * Creates a new instance with the specified tag type for the suffix.
      *
-     * @param false|BackedEnum $value Tag type to set for the suffix segment.
+     * @param BackedEnum|false $value Tag type to set for the suffix segment.
      *
      * @return static New instance with the updated suffixTag property.
      *

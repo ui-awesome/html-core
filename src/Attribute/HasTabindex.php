@@ -41,10 +41,9 @@ trait HasTabindex
      *
      * @param int|string|null $value Tab order value to set for the element. Can be `null` to unset the attribute.
      *
-     * @return static New instance with the updated `tabindex` attribute.
-     *
      * @throws InvalidArgumentException if the value is not a valid integer or string representation of an
      * `value >= -1`.
+     * @return static New instance with the updated `tabindex` attribute.
      *
      * @link https://html.spec.whatwg.org/multipage/interaction.html#attr-tabindex
      *
