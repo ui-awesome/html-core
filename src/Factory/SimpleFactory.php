@@ -125,7 +125,7 @@ final class SimpleFactory
             );
         }
 
-        /** @phpstan-var T $tag */
+        /** @phpstan-var T */
         return $reflection->newInstance();
     }
 
