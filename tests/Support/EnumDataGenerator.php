@@ -62,6 +62,7 @@ final class EnumDataGenerator
 
         return $cases;
     }
+
     public static function generateTagCases(string $enumClass, string $category): array
     {
         $data = [];
