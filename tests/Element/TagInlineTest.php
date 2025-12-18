@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace yii\ui\tests\html\phrasing;
+namespace UIAwesome\Html\Core\Tests\Element;
 
 use LogicException;
 use PHPUnit\Framework\Attributes\Group;
