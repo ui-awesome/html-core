@@ -124,6 +124,46 @@ final class HtmlTest extends TestCase
         );
     }
 
+    public function testRenderElementWithComplexAttributeStructures(): void
+    {
+        $content = 'content';
+        $attributes = [
+            'class' => [
+                'class-1',
+                'class-2',
+            ],
+            'data' => [
+                'id' => '123',
+                'name' => 'test',
+            ],
+        ];
+
+        self::equalsWithoutLE(
+            <<<HTML
+            <div class="class-1 class-2" data-id="123" data-name="test">
+            content
+            </div>
+            HTML,
+            Html::element(Block::DIV, $content, $attributes),
+            "Html element '<div>' with complex attribute structures should match expected output.",
+        );
+    }
+
+    public function testRenderElementWithEmptyAttributesArray(): void
+    {
+        $content = 'content';
+
+        self::equalsWithoutLE(
+            <<<HTML
+            <div>
+            content
+            </div>
+            HTML,
+            Html::element(Block::DIV, $content, []),
+            "Html element '<div>' with content and empty attributes array should match expected output.",
+        );
+    }
+
     public function testRenderElementWithInlineTag(): void
     {
         $content = '<mark>inline</mark>';
@@ -143,6 +183,25 @@ final class HtmlTest extends TestCase
             HTML,
             Html::element(Inline::SPAN, $content, $attributes, true),
             "Html element '<span>' with encoded content and attributes should match expected output.",
+        );
+    }
+
+    public function testRenderElementWithSpecialCharactersInAttributes(): void
+    {
+        $content = 'content';
+        $attributes = [
+            'title' => 'Test "quoted" value',
+            'data-info' => 'Value with & ampersand',
+        ];
+
+        self::equalsWithoutLE(
+            <<<HTML
+            <div title="Test &quot;quoted&quot; value" data-info="Value with &amp; ampersand">
+            content
+            </div>
+            HTML,
+            Html::element(Block::DIV, $content, $attributes),
+            "Html element '<div>' with special characters in attributes should match expected output.",
         );
     }
 

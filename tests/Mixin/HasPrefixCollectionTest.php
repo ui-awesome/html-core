@@ -7,6 +7,7 @@ namespace UIAwesome\Html\Core\Tests\Mixin;
 use BackedEnum;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
+use Stringable;
 use UIAwesome\Html\Core\Mixin\HasPrefixCollection;
 use UIAwesome\Html\Core\Tag\Inline;
 
@@ -56,6 +57,42 @@ final class HasPrefixCollectionTest extends TestCase
             $instance,
             $instance->prefixTag(Inline::MARK),
             'Should return a new instance when setting the prefix tag, ensuring immutability.',
+        );
+    }
+
+    public function testSetPrefixAttributesValue(): void
+    {
+        $instance = new class {
+            use HasPrefixCollection;
+
+            /**
+             * @phpstan-return mixed[]
+             */
+            public function getPrefixAttributes(): array
+            {
+                return $this->prefixAttributes;
+            }
+        };
+
+        self::assertEmpty(
+            $instance->getPrefixAttributes(),
+            'Should return an empty array when no attributes are set.',
+        );
+
+        $instance = $instance->prefixAttributes(
+            [
+                'data-value' => '123',
+                'id' => 'prefix-id',
+            ],
+        );
+
+        self::assertSame(
+            [
+                'data-value' => '123',
+                'id' => 'prefix-id',
+            ],
+            $instance->getPrefixAttributes(),
+            'Should return the correct prefix attributes after setting them.',
         );
     }
 
@@ -126,6 +163,13 @@ final class HasPrefixCollectionTest extends TestCase
             $instance->getPrefixTag(),
             'Should return the correct prefix tag after setting it.',
         );
+
+        $instance = $instance->prefixTag(false);
+
+        self::assertFalse(
+            $instance->getPrefixTag(),
+            "Should return 'false' after resetting the prefix tag.",
+        );
     }
 
     public function testSetPrefixValue(): void
@@ -170,6 +214,33 @@ final class HasPrefixCollectionTest extends TestCase
             'Prefix content',
             $instance->getPrefix(),
             'Should concatenate multiple prefix arguments.',
+        );
+    }
+
+    public function testSetPrefixValueWithStringable(): void
+    {
+        $instance = new class {
+            use HasPrefixCollection;
+
+            public function getPrefix(): string
+            {
+                return $this->prefix;
+            }
+        };
+
+        $stringable = new class implements Stringable {
+            public function __toString(): string
+            {
+                return 'Stringable content';
+            }
+        };
+
+        $instance = $instance->prefix($stringable);
+
+        self::assertSame(
+            'Stringable content',
+            $instance->getPrefix(),
+            'Should handle Stringable objects correctly.',
         );
     }
 }

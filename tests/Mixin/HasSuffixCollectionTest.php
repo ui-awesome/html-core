@@ -7,6 +7,7 @@ namespace UIAwesome\Html\Core\Tests\Mixin;
 use BackedEnum;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
+use Stringable;
 use UIAwesome\Html\Core\Mixin\HasSuffixCollection;
 use UIAwesome\Html\Core\Tag\{Block, Inline};
 
@@ -56,6 +57,42 @@ final class HasSuffixCollectionTest extends TestCase
             $instance,
             $instance->suffixTag(Inline::MARK),
             'Should return a new instance when setting the suffix tag, ensuring immutability.',
+        );
+    }
+
+    public function testSetSuffixAttributesValue(): void
+    {
+        $instance = new class {
+            use HasSuffixCollection;
+
+            /**
+             * @phpstan-return mixed[]
+             */
+            public function getSuffixAttributes(): array
+            {
+                return $this->suffixAttributes;
+            }
+        };
+
+        self::assertEmpty(
+            $instance->getSuffixAttributes(),
+            'Should return an empty array when no attributes are set.',
+        );
+
+        $instance = $instance->suffixAttributes(
+            [
+                'data-value' => '123',
+                'id' => 'suffix-id',
+            ],
+        );
+
+        self::assertSame(
+            [
+                'data-value' => '123',
+                'id' => 'suffix-id',
+            ],
+            $instance->getSuffixAttributes(),
+            'Should return the correct suffix attributes after setting them.',
         );
     }
 
@@ -126,6 +163,13 @@ final class HasSuffixCollectionTest extends TestCase
             $instance->getSuffixTag(),
             'Should return the correct suffix tag after setting it.',
         );
+
+        $instance = $instance->suffixTag(false);
+
+        self::assertFalse(
+            $instance->getSuffixTag(),
+            "Should return 'false' after resetting the suffix tag.",
+        );
     }
 
     public function testSetSuffixValue(): void
@@ -170,6 +214,33 @@ final class HasSuffixCollectionTest extends TestCase
             'Suffix content',
             $instance->getSuffix(),
             'Should concatenate multiple suffix arguments.',
+        );
+    }
+
+    public function testSetSuffixValueWithStringable(): void
+    {
+        $instance = new class {
+            use HasSuffixCollection;
+
+            public function getSuffix(): string
+            {
+                return $this->suffix;
+            }
+        };
+
+        $stringable = new class implements Stringable {
+            public function __toString(): string
+            {
+                return 'Stringable content';
+            }
+        };
+
+        $instance = $instance->suffix($stringable);
+
+        self::assertSame(
+            'Stringable content',
+            $instance->getSuffix(),
+            'Should handle Stringable objects correctly.',
         );
     }
 }
