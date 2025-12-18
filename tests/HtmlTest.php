@@ -84,6 +84,70 @@ final class HtmlTest extends TestCase
         );
     }
 
+    public function testRenderElementWithAriaAttributes(): void
+    {
+        $content = 'Accessible content';
+        $attributes = [
+            'aria-label' => 'Main navigation',
+            'aria-hidden' => 'false',
+            'aria-describedby' => 'description-id',
+        ];
+
+        self::equalsWithoutLE(
+            <<<HTML
+            <div aria-label="Main navigation" aria-hidden="false" aria-describedby="description-id">
+            Accessible content
+            </div>
+            HTML,
+            Html::element(Block::DIV, $content, $attributes),
+            "Html element '<div>' with ARIA attributes should match expected output.",
+        );
+    }
+
+    public function testRenderElementWithAttributeValuesContainingNewlines(): void
+    {
+        $content = 'content';
+        $attributes = [
+            'title' => "Line 1\nLine 2\nLine 3",
+            'data-info' => "First\r\nSecond",
+        ];
+
+        $result = Html::element(Block::DIV, $content, $attributes);
+
+        self::assertStringContainsString(
+            'title="Line 1',
+            $result,
+            "Html element '<div>' with newlines in attribute values should contain title attribute.",
+        );
+        self::assertStringContainsString(
+            'data-info="First',
+            $result,
+            "Html element '<div>' with newlines in attribute values should contain data-info attribute.",
+        );
+    }
+
+    public function testRenderElementWithAttributeValuesContainingTabs(): void
+    {
+        $content = 'content';
+        $attributes = [
+            'title' => "Text\twith\ttabs",
+            'data-info' => "\tLeading tab",
+        ];
+
+        $result = Html::element(Block::DIV, $content, $attributes);
+
+        self::assertStringContainsString(
+            'title="Text',
+            $result,
+            "Html element '<div>' with tabs in attribute values should contain title attribute.",
+        );
+        self::assertStringContainsString(
+            'data-info="',
+            $result,
+            "Html element '<div>' with tabs in attribute values should contain data-info attribute.",
+        );
+    }
+
     public function testRenderElementWithBlockTag(): void
     {
         $content = '<span>Test Content</span>';
@@ -121,6 +185,34 @@ final class HtmlTest extends TestCase
             HTML,
             Html::element(Block::DIV, '', $attributes),
             "Html element '<div>' with empty content and attributes should match expected output.",
+        );
+    }
+
+    public function testRenderElementWithBooleanAttributes(): void
+    {
+        $content = 'Button text';
+        $attributes = [
+            'disabled' => true,
+            'readonly' => false,
+            'checked' => true,
+        ];
+
+        $result = Html::element(Inline::BUTTON, $content, $attributes);
+
+        self::assertStringContainsString(
+            'disabled',
+            $result,
+            "Html element '<button>' should contain disabled attribute when value is true.",
+        );
+        self::assertStringContainsString(
+            'checked',
+            $result,
+            "Html element '<button>' should contain checked attribute when value is true.",
+        );
+        self::assertStringNotContainsString(
+            'readonly',
+            $result,
+            "Html element '<button>' should not contain readonly attribute when value is false.",
         );
     }
 
@@ -164,6 +256,34 @@ final class HtmlTest extends TestCase
         );
     }
 
+    public function testRenderElementWithEmptyStringAttributeValue(): void
+    {
+        $content = 'content';
+        $attributes = [
+            'id' => '',
+            'class' => '',
+            'title' => '',
+        ];
+
+        $result = Html::element(Block::DIV, $content, $attributes);
+
+        self::assertStringNotContainsString(
+            'id=',
+            $result,
+            "Html element '<div>' should filter out empty string attribute values.",
+        );
+        self::assertStringNotContainsString(
+            'class=',
+            $result,
+            "Html element '<div>' should filter out empty string attribute values.",
+        );
+        self::assertStringNotContainsString(
+            'title=',
+            $result,
+            "Html element '<div>' should filter out empty string attribute values.",
+        );
+    }
+
     public function testRenderElementWithInlineTag(): void
     {
         $content = '<mark>inline</mark>';
@@ -183,6 +303,46 @@ final class HtmlTest extends TestCase
             HTML,
             Html::element(Inline::SPAN, $content, $attributes, true),
             "Html element '<span>' with encoded content and attributes should match expected output.",
+        );
+    }
+
+    public function testRenderElementWithLargeAttributeValue(): void
+    {
+        $content = 'content';
+        $largeValue = str_repeat('A', 10000);
+        $attributes = [
+            'data-large' => $largeValue,
+        ];
+
+        $expected = <<<HTML
+        <div data-large="{$largeValue}">
+        content
+        </div>
+        HTML;
+
+        self::equalsWithoutLE(
+            $expected,
+            Html::element(Block::DIV, $content, $attributes),
+            "Html element '<div>' with large attribute value should match expected output.",
+        );
+    }
+
+    public function testRenderElementWithNullAttributeValue(): void
+    {
+        $content = 'content';
+        $attributes = [
+            'id' => null,
+            'class' => 'test-class',
+        ];
+
+        self::equalsWithoutLE(
+            <<<HTML
+            <div class="test-class">
+            content
+            </div>
+            HTML,
+            Html::element(Block::DIV, $content, $attributes),
+            "Html element '<div>' with null attribute value should match expected output.",
         );
     }
 
@@ -291,6 +451,33 @@ final class HtmlTest extends TestCase
             "<{$expectedTagName} class=\"void\" data-role=\"presentation\">",
             Html::void($tag, $attributes),
             "Html void '<{$expectedTagName}>' tag should match expected output.",
+        );
+    }
+
+    public function testRenderVoidTagWithBooleanAttributes(): void
+    {
+        $attributes = [
+            'disabled' => true,
+            'readonly' => false,
+            'required' => true,
+        ];
+
+        $result = Html::void(Voids::INPUT, $attributes);
+
+        self::assertStringContainsString(
+            'disabled',
+            $result,
+            "Html void '<input>' tag should contain disabled attribute when value is true.",
+        );
+        self::assertStringContainsString(
+            'required',
+            $result,
+            "Html void '<input>' tag should contain required attribute when value is true.",
+        );
+        self::assertStringNotContainsString(
+            'readonly',
+            $result,
+            "Html void '<input>' tag should not contain readonly attribute when value is false.",
         );
     }
 }
