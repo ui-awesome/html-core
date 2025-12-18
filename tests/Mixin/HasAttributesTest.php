@@ -45,6 +45,7 @@ final class HasAttributesTest extends TestCase
             'Should return the attributes array after removing an attribute.',
         );
     }
+
     public function testReturnEmptyArrayWhenAttributesNotSet(): void
     {
         $instance = new class {
