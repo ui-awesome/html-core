@@ -46,7 +46,7 @@ trait HasData
      * as required by the HTML specification for global attributes.
      *
      * @param string|UnitEnum $key Data attribute key (without the `data-` prefix).
-     * @param bool|float|int|string|Closure|UnitEnum|null $value Data attribute value. Can be `null` to unset the
+     * @param bool|Closure|float|int|string|UnitEnum|null $value Data attribute value. Can be `null` to unset the
      * attribute.
      *
      * @throws InvalidArgumentException if one or more arguments are invalid, of incorrect type or format.
