@@ -37,8 +37,8 @@ trait TestSupport
      */
     public static function equalsWithoutLE(string $expected, string $actual, string $message = ''): void
     {
-        $expected = str_replace("\r\n", "\n", $expected);
-        $actual = str_replace("\r\n", "\n", $actual);
+        $expected = str_replace(["\r\n", "\r"], "\n", $expected);
+        $actual = str_replace(["\r\n", "\r"], "\n", $actual);
 
         Assert::assertEquals($expected, $actual, $message);
     }

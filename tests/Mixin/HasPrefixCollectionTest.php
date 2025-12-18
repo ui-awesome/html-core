@@ -152,4 +152,24 @@ final class HasPrefixCollectionTest extends TestCase
             'Should return the correct prefix after setting it.',
         );
     }
+
+    public function testSetPrefixValueWithMultipleArguments(): void
+    {
+        $instance = new class {
+            use HasPrefixCollection;
+
+            public function getPrefix(): string
+            {
+                return $this->prefix;
+            }
+        };
+
+        $instance = $instance->prefix('Prefix', ' ', 'content');
+
+        self::assertSame(
+            'Prefix content',
+            $instance->getPrefix(),
+            'Should concatenate multiple prefix arguments.',
+        );
+    }
 }

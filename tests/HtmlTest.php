@@ -136,6 +136,14 @@ final class HtmlTest extends TestCase
             Html::element(Inline::SPAN, $content, $attributes),
             "Html element '<span>' with content and attributes should match expected output.",
         );
+
+        self::equalsWithoutLE(
+            <<<HTML
+            <span id="inline">&lt;mark&gt;inline&lt;/mark&gt;</span>
+            HTML,
+            Html::element(Inline::SPAN, $content, $attributes, true),
+            "Html element '<span>' with encoded content and attributes should match expected output.",
+        );
     }
 
     public function testRenderElementWithVoidTag(): void

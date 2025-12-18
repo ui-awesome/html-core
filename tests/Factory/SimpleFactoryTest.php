@@ -45,6 +45,16 @@ final class SimpleFactoryTest extends TestCase
         );
     }
 
+    public function testCreateWithoutConfigurationUsesDefaultValues(): void
+    {
+        $tag = TagInline::tag();
+
+        self::assertFalse(
+            $tag->flag,
+            'Failed asserting that factory creates instance with default property values.',
+        );
+    }
+
     public function testThrowExceptionWhenInstantiateAbstractClass(): void
     {
         $this->expectException(LogicException::class);

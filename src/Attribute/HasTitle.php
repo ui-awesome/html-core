@@ -13,7 +13,7 @@ use UnitEnum;
  * specification for global attributes.
  *
  * Intended for use in tags and components that require dynamic or programmatic manipulation of tooltip text, ensuring
- * correct attribute handling, type safety, and value validation.
+ * correct attribute handling and type safety.
  *
  * Key features.
  * - Designed for use in tags and components.

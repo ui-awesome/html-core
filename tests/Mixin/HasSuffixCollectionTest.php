@@ -152,4 +152,24 @@ final class HasSuffixCollectionTest extends TestCase
             'Should return the correct suffix after setting it.',
         );
     }
+
+    public function testSetSuffixValueWithMultipleArguments(): void
+    {
+        $instance = new class {
+            use HasSuffixCollection;
+
+            public function getSuffix(): string
+            {
+                return $this->suffix;
+            }
+        };
+
+        $instance = $instance->suffix('Suffix', ' ', 'content');
+
+        self::assertSame(
+            'Suffix content',
+            $instance->getSuffix(),
+            'Should concatenate multiple suffix arguments.',
+        );
+    }
 }
