@@ -21,6 +21,8 @@ use UIAwesome\Html\Core\Mixin\HasAttributes;
  * - Accurate retrieval of attributes when not set.
  * - Correct assignment and retrieval of attribute value.
  * - Immutability of the mixin when setting attributes.
+ * - Removal of specific attributes from the attribute set.
+ * - Setting and retrieving single attribute values.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
@@ -28,6 +30,21 @@ use UIAwesome\Html\Core\Mixin\HasAttributes;
 #[Group('mixin')]
 final class HasAttributesTest extends TestCase
 {
+    public function testRemoveAttributeValue(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+        };
+
+        $instance = $instance->attributes(['id' => 'my-id', 'class' => 'my-class']);
+        $instance = $instance->removeAttribute('id');
+
+        self::assertSame(
+            ['class' => 'my-class'],
+            $instance->getAttributes(),
+            'Should return the attributes array after removing an attribute.',
+        );
+    }
     public function testReturnEmptyArrayWhenAttributesNotSet(): void
     {
         $instance = new class {
@@ -52,6 +69,16 @@ final class HasAttributesTest extends TestCase
             $instance->attributes([]),
             'Should return a new instance when setting the attributes, ensuring immutability.',
         );
+        self::assertNotSame(
+            $instance,
+            $instance->addAttribute('key', 'value'),
+            'Should return a new instance when adding an attribute, ensuring immutability.',
+        );
+        self::assertNotSame(
+            $instance,
+            $instance->removeAttribute('key'),
+            'Should return a new instance when removing an attribute, ensuring immutability.',
+        );
     }
 
     public function testSetAttributesValue(): void
@@ -67,6 +94,21 @@ final class HasAttributesTest extends TestCase
             ['class' => 'value', 'disabled' => true],
             $instance->getAttributes(),
             'Should return the attributes value after setting it.',
+        );
+    }
+
+    public function testSetSingleAttributeValue(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+        };
+
+        $instance = $instance->addAttribute('id', 'my-id');
+
+        self::assertSame(
+            ['id' => 'my-id'],
+            $instance->getAttributes(),
+            'Should return the single attribute value after setting it.',
         );
     }
 }
