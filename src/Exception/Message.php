@@ -53,11 +53,11 @@ enum Message: string
     case DATA_ATTRIBUTE_KEY_NOT_EMPTY = "Data attribute key must not be an empty 'string'.";
 
     /**
-     * Error when a data attribute value is not a `string` or `Closure`.
+     * Error when a data attribute value is not a `scalar` or `Closure`.
      *
-     * Format: "Data attribute value must be of type 'string' or 'Closure', '%s' given."
+     * Format: "Data attribute value must be of type 'scalar' or 'Closure', '%s' given."
      */
-    case DATA_ATTRIBUTE_VALUE_MUST_BE_STRING_OR_CLOSURE = "Data attribute value must be of type 'string' or 'Closure'" .
+    case DATA_ATTRIBUTE_VALUE_MUST_BE_SCALAR_OR_CLOSURE = "Data attribute value must be of type 'scalar' or 'Closure'" .
     ", '%s' given.";
 
     /**
