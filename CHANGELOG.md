@@ -1,6 +1,8 @@
-# Change Log
+# ChangeLog
 
 ## 0.1.1 Under development
+
+- Enh #5: Refactor codebase to improve performance (@terabytesoftw)
 
 ## 0.1.0 March 30, 2024
 
