@@ -62,12 +62,26 @@ final class EnumDataGenerator
 
         return $cases;
     }
-    public static function generateTagCases(string $enumClass, string $category): array
+
+    /**
+     * Generates test cases for tag-related enum scenarios.
+     *
+     * Produces a dataset mapping descriptive test names to enum cases and their string values,
+     * suitable for data provider methods in PHPUnit tests.
+     *
+     * @phpstan-param class-string<UnitEnum> $enumClass Enum class name implementing UnitEnum.
+     * @param string $enumClass Enum class name implementing UnitEnum.
+     * @param string $category Descriptive category label for the tag type.
+     *
+     * @phpstan-return array<string, array{UnitEnum, string}> Structured test cases indexed by descriptive keys.
+     */
+    public static function tagCases(string $enumClass, string $category): array
     {
         $data = [];
 
         foreach ($enumClass::cases() as $case) {
-            $data[sprintf('%s %s tag', $case->value, $category)] = [$case, $case->value];
+            $value = (string) Enum::normalizeValue($case);
+            $data[sprintf('%s %s tag', $value, $category)] = [$case, $value];
         }
 
         return $data;

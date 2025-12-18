@@ -33,7 +33,7 @@ final class DefaultThemeProvider implements ThemeProviderInterface
      */
     public function apply(BaseTag $tag, string $theme): array
     {
-        if ($tag instanceof TagInline) {
+        if ($tag instanceof TagBlock) {
             return match ($theme) {
                 'default' => ['class' => 'tag-default'],
                 'primary' => ['class' => 'tag-primary'],

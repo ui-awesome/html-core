@@ -8,6 +8,15 @@ use UIAwesome\Html\Core\Attribute\{HasContentEditable, HasDraggable, HasMicroDat
 use UIAwesome\Html\Core\Element\BaseInline;
 use UIAwesome\Html\Core\Tag\Inline;
 
+/**
+ * Provides a test stub for an inline tag implementation.
+ *
+ * Supplies a minimal {@see BaseInline} implementation that always resolves to the `<span>` tag, supporting
+ * deterministic assertions in unit tests involving inline element rendering.
+ *
+ * @copyright Copyright (C) 2025 Terabytesoftw.
+ * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
+ */
 final class TagInline extends BaseInline
 {
     use HasContentEditable;

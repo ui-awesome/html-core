@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Tests\Support\Provider\Tag;
 
 use UIAwesome\Html\Core\Tag\Inline;
-
-use function sprintf;
+use UIAwesome\Html\Core\Tests\Support\EnumDataGenerator;
+use UnitEnum;
 
 /**
  * Data provider for {@see \UIAwesome\Html\Core\Tests\HtmlTest} class.
@@ -39,16 +39,10 @@ final class InlineProvider
      *
      * @return array Test data for inline tag scenarios.
      *
-     * @phpstan-return array<string, array{Inline, string}>
+     * @phpstan-return array<string, array{UnitEnum, string}>
      */
     public static function inlineTags(): array
     {
-        $data = [];
-
-        foreach (Inline::cases() as $case) {
-            $data[sprintf('%s inline tag', $case->value)] = [$case, $case->value];
-        }
-
-        return $data;
+        return EnumDataGenerator::tagCases(Inline::class, 'inline');
     }
 }

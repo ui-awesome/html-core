@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Tests\Support\Provider\Tag;
 
 use UIAwesome\Html\Core\Tag\Block;
-
-use function sprintf;
+use UIAwesome\Html\Core\Tests\Support\EnumDataGenerator;
+use UnitEnum;
 
 /**
  * Data provider for {@see \UIAwesome\Html\Core\Tests\HtmlTest} class.
@@ -39,16 +39,10 @@ final class BlockProvider
      *
      * @return array Test data for block tag scenarios.
      *
-     * @phpstan-return array<string, array{Block, string}>
+     * @phpstan-return array<string, array{UnitEnum, string}>
      */
     public static function blockTags(): array
     {
-        $data = [];
-
-        foreach (Block::cases() as $case) {
-            $data[sprintf('%s block tag', $case->value)] = [$case, $case->value];
-        }
-
-        return $data;
+        return EnumDataGenerator::tagCases(Block::class, 'block');
     }
 }

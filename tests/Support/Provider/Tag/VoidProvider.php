@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Tests\Support\Provider\Tag;
 
 use UIAwesome\Html\Core\Tag\Voids;
-
-use function sprintf;
+use UIAwesome\Html\Core\Tests\Support\EnumDataGenerator;
+use UnitEnum;
 
 /**
  * Data provider for {@see \UIAwesome\Html\Core\Tests\HtmlTest} class.
@@ -39,16 +39,10 @@ final class VoidProvider
      *
      * @return array Test data for void tag scenarios.
      *
-     * @phpstan-return array<string, array{Voids, string}>
+     * @phpstan-return array<string, array{UnitEnum, string}>
      */
     public static function voidTags(): array
     {
-        $data = [];
-
-        foreach (Voids::cases() as $case) {
-            $data[sprintf('%s void tag', $case->value)] = [$case, $case->value];
-        }
-
-        return $data;
+        return EnumDataGenerator::tagCases(Voids::class, 'void');
     }
 }

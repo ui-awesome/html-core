@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Tests\Support\Provider\Tag;
 
 use UIAwesome\Html\Core\Tag\Root;
-
-use function sprintf;
+use UIAwesome\Html\Core\Tests\Support\EnumDataGenerator;
+use UnitEnum;
 
 /**
  * Data provider for {@see \UIAwesome\Html\Core\Tests\HtmlTest} class.
@@ -39,16 +39,10 @@ final class RootProvider
      *
      * @return array Test data for root tag scenarios.
      *
-     * @phpstan-return array<string, array{Root, string}>
+     * @phpstan-return array<string, array{UnitEnum, string}>
      */
     public static function rootTags(): array
     {
-        $data = [];
-
-        foreach (Root::cases() as $case) {
-            $data[sprintf('%s root tag', $case->value)] = [$case, $case->value];
-        }
-
-        return $data;
+        return EnumDataGenerator::tagCases(Root::class, 'root');
     }
 }

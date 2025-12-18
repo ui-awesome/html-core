@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Tests\Support\Provider\Tag;
 
 use UIAwesome\Html\Core\Tag\Table;
-
-use function sprintf;
+use UIAwesome\Html\Core\Tests\Support\EnumDataGenerator;
+use UnitEnum;
 
 /**
  * Data provider for {@see \UIAwesome\Html\Core\Tests\HtmlTest} class.
@@ -39,16 +39,10 @@ final class TableProvider
      *
      * @return array Test data for table tag scenarios.
      *
-     * @phpstan-return array<string, array{Table, string}>
+     * @phpstan-return array<string, array{UnitEnum, string}>
      */
     public static function tableTags(): array
     {
-        $data = [];
-
-        foreach (Table::cases() as $case) {
-            $data[sprintf('%s table tag', $case->value)] = [$case, $case->value];
-        }
-
-        return $data;
+        return EnumDataGenerator::tagCases(Table::class, 'table');
     }
 }

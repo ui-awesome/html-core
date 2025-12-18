@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Tests\Support\Provider\Tag;
 
 use UIAwesome\Html\Core\Tag\Lists;
-
-use function sprintf;
+use UIAwesome\Html\Core\Tests\Support\EnumDataGenerator;
+use UnitEnum;
 
 /**
  * Data provider for {@see \UIAwesome\Html\Core\Tests\HtmlTest} class.
@@ -39,16 +39,10 @@ final class ListsProvider
      *
      * @return array Test data for list tag scenarios.
      *
-     * @phpstan-return array<string, array{Lists, string}>
+     * @phpstan-return array<string, array{UnitEnum, string}>
      */
     public static function listTags(): array
     {
-        $data = [];
-
-        foreach (Lists::cases() as $case) {
-            $data[sprintf('%s list tag', $case->value)] = [$case, $case->value];
-        }
-
-        return $data;
+        return EnumDataGenerator::tagCases(Lists::class, 'list');
     }
 }
