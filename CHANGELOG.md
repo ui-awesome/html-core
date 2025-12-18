@@ -2,6 +2,8 @@
 
 ## 0.2.1 Under development
 
+- Bug #6: Update testsuite name to match project name (@terabytesoftw)
+
 ## 0.2.0 December 18, 2025
 
 - Enh #5: Refactor codebase to improve performance (@terabytesoftw)
