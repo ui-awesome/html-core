@@ -37,6 +37,30 @@ trait HasAttributes
     protected array $attributes = [];
 
     /**
+     * Sets a single HTML attribute for the element.
+     *
+     * Creates a new instance with the specified attribute, overriding any existing value for that attribute.
+     *
+     * @param string $name  Attribute name.
+     * @param mixed  $value Attribute value.
+     *
+     * @return static New instance with the updated attribute.
+     *
+     * Usage example:
+     * ```php
+     * // sets a single attribute
+     * $element->addAttribute('id', 'my-id');
+     * ```
+     */
+    public function addAttribute(string $name, mixed $value): static
+    {
+        $new = clone $this;
+        $new->attributes[$name] = $value;
+
+        return $new;
+    }
+
+    /**
      * Sets one or more HTML attributes for the element.
      *
      * Creates a new instance with the specified attributes, merging them with any existing attributes according to
@@ -77,5 +101,28 @@ trait HasAttributes
     public function getAttributes(): array
     {
         return $this->attributes;
+    }
+
+    /**
+     * Removes a specific HTML attribute from the element.
+     *
+     * Creates a new instance without the specified attribute.
+     *
+     * @param string $name Attribute name to remove.
+     *
+     * @return static New instance without the specified attribute.
+     *
+     * Usage example:
+     * ```php
+     * // removes a single attribute
+     * $element->removeAttribute('id');
+     * ```
+     */
+    public function removeAttribute(string $name): static
+    {
+        $new = clone $this;
+        unset($new->attributes[$name]);
+
+        return $new;
     }
 }

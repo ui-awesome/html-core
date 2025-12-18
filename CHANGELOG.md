@@ -3,6 +3,7 @@
 ## 0.2.1 Under development
 
 - Bug #6: Update testsuite name to match project name (@terabytesoftw)
+- Enh #7: Add methods to set and remove single HTML attributes (@terabytesoftw)
 
 ## 0.2.0 December 18, 2025
 
