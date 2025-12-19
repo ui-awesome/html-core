@@ -173,6 +173,9 @@ trait HasData
      * ```php
      * // removes `data-role` attribute
      * $element->removeDataAttribute('role');
+     *
+     * // removes `data-id` attribute with an enum key
+     * $element->removeDataAttribute(DataProperty::ID);
      * ```
      */
     public function removeDataAttribute(string|UnitEnum $key): static
