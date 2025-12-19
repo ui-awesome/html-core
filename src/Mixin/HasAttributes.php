@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Mixin;
 
+use InvalidArgumentException;
+use UIAwesome\Html\Core\Exception\Message;
+use UIAwesome\Html\Helper\Enum;
+use UnitEnum;
+
 use function array_merge;
 
 /**
@@ -41,8 +46,8 @@ trait HasAttributes
      *
      * Creates a new instance with the specified attribute, overriding any existing value for that attribute.
      *
-     * @param string $name  Attribute name.
-     * @param mixed  $value Attribute value.
+     * @param string|UnitEnum $key  Attribute name.
+     * @param mixed $value Attribute value.
      *
      * @return static New instance with the updated attribute.
      *
@@ -50,12 +55,33 @@ trait HasAttributes
      * ```php
      * // sets a single attribute
      * $element->addAttribute('id', 'my-id');
+     *
+     * // sets single attribute with an enum key
+     * $element->addAttribute(DataProperty::ID, 'my-id');
+     *
+     * // sets single attribute with an enum value
+     * $element->addAttribute('size', ButtonSize::SMALL);
+     *
+     * // removes attribute
+     * $element->addAttribute('id', null);
      * ```
      */
-    public function addAttribute(string $name, mixed $value): static
+    public function addAttribute(string|UnitEnum $key, mixed $value): static
     {
+        $normalizedKey = Enum::normalizeValue($key);
+
+        if ($normalizedKey === '' || is_string($normalizedKey) === false) {
+            throw new InvalidArgumentException(
+                Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage($normalizedKey),
+            );
+        }
+
+        if ($value === null) {
+            return $this->removeAttribute($normalizedKey);
+        }
+
         $new = clone $this;
-        $new->attributes[$name] = $value;
+        $new->attributes[$normalizedKey] = $value;
 
         return $new;
     }
@@ -76,6 +102,9 @@ trait HasAttributes
      * ```php
      * // sets multiple attributes
      * $element->attributes(['id' => 'my-id', 'data-role' => 'button']);
+     *
+     * // sets multiple attributes with an enum value
+     * $element->attributes(['size' => ButtonSize::LARGE, 'disabled' => true]);
      * ```
      */
     public function attributes(array $values): static
@@ -108,20 +137,25 @@ trait HasAttributes
      *
      * Creates a new instance without the specified attribute.
      *
-     * @param string $name Attribute name to remove.
+     * @param string|UnitEnum $key Attribute name to remove.
      *
      * @return static New instance without the specified attribute.
      *
      * Usage example:
      * ```php
-     * // removes a single attribute
+     * // removes attribute
      * $element->removeAttribute('id');
+     *
+     * // removes attribute with an enum key
+     * $element->removeAttribute(DataProperty::ID);
      * ```
      */
-    public function removeAttribute(string $name): static
+    public function removeAttribute(string|UnitEnum $key): static
     {
+        $normalizedKey = Enum::normalizeValue($key);
+
         $new = clone $this;
-        unset($new->attributes[$name]);
+        unset($new->attributes[$normalizedKey]);
 
         return $new;
     }
