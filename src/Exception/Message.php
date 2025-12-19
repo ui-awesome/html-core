@@ -39,20 +39,6 @@ enum Message: string
     case CANNOT_INSTANTIATE_ABSTRACT_CLASS = "Cannot instantiate abstract class '%s' via 'tag()' method.";
 
     /**
-     * Error when a data attribute key is not a `string`.
-     *
-     * Format: "Data attribute key must be of type 'string', '%s' given."
-     */
-    case DATA_ATTRIBUTE_KEY_MUST_BE_STRING = "Data attribute key must be of type 'string', '%s' given.";
-
-    /**
-     * Error when a data attribute key is an empty `string`.
-     *
-     * Format: "Data attribute key must not be an empty 'string'."
-     */
-    case DATA_ATTRIBUTE_KEY_NOT_EMPTY = "Data attribute key must not be an empty 'string'.";
-
-    /**
      * Error when a data attribute value is not a `scalar` or `Closure`.
      *
      * Format: "Data attribute value must be of type 'scalar' or 'Closure', '%s' given."
@@ -66,6 +52,13 @@ enum Message: string
      * Format: 'Invalid value "%s" for attribute "%s". Expected: %s.'
      */
     case INVALID_ATTRIBUTE_VALUE = 'Invalid value "%s" for attribute "%s". Expected: %s.';
+
+    /**
+     * Error when a key is not a non-empty string.
+     *
+     * Format: "Key must be a non-empty string, '%s' given."
+     */
+    case KEY_MUST_BE_NON_EMPTY_STRING = "Key must be a non-empty string, '%s' given.";
 
     /**
      * Error when there is a class mismatch on `end()` call.

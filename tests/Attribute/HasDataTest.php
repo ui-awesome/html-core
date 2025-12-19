@@ -159,7 +159,7 @@ final class HasDataTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            Message::DATA_ATTRIBUTE_KEY_NOT_EMPTY->getMessage(),
+            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(''),
         );
 
         $instance->dataAttributes(['' => 'value']);
@@ -174,7 +174,7 @@ final class HasDataTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            Message::DATA_ATTRIBUTE_KEY_MUST_BE_STRING->getMessage('integer'),
+            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(1),
         );
 
         $instance->dataAttributes([1 => '']);
@@ -189,7 +189,7 @@ final class HasDataTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            Message::DATA_ATTRIBUTE_KEY_NOT_EMPTY->getMessage(),
+            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(''),
         );
 
         $instance->addDataAttribute('', 'value');
@@ -204,7 +204,7 @@ final class HasDataTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            Message::DATA_ATTRIBUTE_KEY_MUST_BE_STRING->getMessage('integer'),
+            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(2),
         );
 
         $instance->addDataAttribute(Priority::HIGH, 'value');

@@ -5,6 +5,7 @@
 - Bug #6: Update testsuite name to match project name (@terabytesoftw)
 - Enh #7: Add methods to set and remove single HTML attributes (@terabytesoftw)
 - Enh #8: Enhance data attribute handling with support for `scalar`, `Closure`, and `UnitEnum` values (@terabytesoftw)
+- Bug #9: Update `dataAttribute()` method handling to support enum values and improve error messages (@terabytesoftw)
 
 ## 0.2.0 December 18, 2025
 

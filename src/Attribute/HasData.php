@@ -63,6 +63,12 @@ trait HasData
      * // sets `data-id` attribute with a Closure
      * $element->addDataAttribute('id', static fn(): string => uniqid());
      *
+     * // sets `data-id` attribute with an enum key
+     * $element->addDataAttribute(DataProperty::ID, '12345');
+     *
+     * // sets `data-size` attribute with an Enum value
+     * $element->addDataAttribute('size', ButtonSize::SMALL);
+     *
      * // removes `data-role` attribute
      * $element->addDataAttribute('role', null);
      * ```
@@ -71,15 +77,9 @@ trait HasData
     {
         $normalizedKey = Enum::normalizeValue($key);
 
-        if ($normalizedKey === '') {
+        if ($normalizedKey === '' || is_string($normalizedKey) === false) {
             throw new InvalidArgumentException(
-                Message::DATA_ATTRIBUTE_KEY_NOT_EMPTY->getMessage(),
-            );
-        }
-
-        if (is_string($normalizedKey) === false) {
-            throw new InvalidArgumentException(
-                Message::DATA_ATTRIBUTE_KEY_MUST_BE_STRING->getMessage(gettype($normalizedKey)),
+                Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage($normalizedKey),
             );
         }
 
@@ -88,11 +88,7 @@ trait HasData
         }
 
         $new = clone $this;
-
-        $new->attributes["data-$normalizedKey"] = match ($value instanceof Closure) {
-            true => $value,
-            false => Enum::normalizeValue($value),
-        };
+        $new->attributes["data-$normalizedKey"] = $value;
 
         return $new;
     }
@@ -131,15 +127,9 @@ trait HasData
         $new = clone $this;
 
         foreach ($values as $key => $value) {
-            if ($key === '') {
+            if ($key === '' || is_string($key) === false) {
                 throw new InvalidArgumentException(
-                    Message::DATA_ATTRIBUTE_KEY_NOT_EMPTY->getMessage(),
-                );
-            }
-
-            if (is_string($key) === false) {
-                throw new InvalidArgumentException(
-                    Message::DATA_ATTRIBUTE_KEY_MUST_BE_STRING->getMessage(gettype($key)),
+                    Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage($key),
                 );
             }
 
