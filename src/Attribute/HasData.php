@@ -120,6 +120,13 @@ trait HasData
      *         'id' => static fn(): string => uniqid(),
      *     ],
      * );
+     *
+     * // sets `data-status` attribute with an Enum value
+     * $element->dataAttributes(
+     *     [
+     *         'status' => Status::ACTIVE,
+     *     ],
+     * );
      * ```
      */
     public function dataAttributes(array $values): static
