@@ -89,7 +89,7 @@ final class HasAttributesTest extends TestCase
 
     /**
      * @param mixed[] $attributes
-     * @param array<string, string|Closure(): mixed> $expected
+     * @param array<string, Closure(): mixed|string> $expected
      */
     #[DataProviderExternal(AttributeProvider::class, 'values')]
     public function testSetAttributesValue(array $attributes, array $expected, string $message): void
