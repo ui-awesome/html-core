@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Tests\Mixin;
 
 use Closure;
+use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\{DataProviderExternal, Group};
 use PHPUnit\Framework\TestCase;
+use UIAwesome\Html\Core\Exception\Message;
 use UIAwesome\Html\Core\Mixin\HasAttributes;
 use UIAwesome\Html\Core\Tests\Support\Provider\Mixin\AttributeProvider;
+use UIAwesome\Html\Core\Tests\Support\Stub\Enum\Priority;
 
 /**
  * Test suite for {@see HasAttributes} mixin functionality and behavior.
@@ -126,5 +129,33 @@ final class HasAttributesTest extends TestCase
             $instance->getAttributes(),
             $message,
         );
+    }
+
+    public function testThrowInvalidArgumentExceptionWhenSetSingleAttributeWithEmptyKey(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+        };
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(''),
+        );
+
+        $instance->addAttribute('', 'value');
+    }
+
+    public function testThrowInvalidArgumentExceptionWhenSetSingleAttributeWithInvalidKey(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+        };
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(2),
+        );
+
+        $instance->addAttribute(Priority::HIGH, 'value');
     }
 }
