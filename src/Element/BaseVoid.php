@@ -19,7 +19,7 @@ use UIAwesome\Html\Core\Tag\Voids;
  * Intended for use in components and tags that require dynamic or programmatic manipulation of void-level HTML
  * elements, supporting advanced rendering scenarios and consistent API design.
  *
- * Key features:
+ * Key features.
  * - Enforces standards-compliant handling of void tags as defined by the HTML specification.
  * - Immutable API for attribute assignment.
  * - Implements the core logic for void-level tag construction.

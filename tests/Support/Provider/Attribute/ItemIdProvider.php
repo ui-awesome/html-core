@@ -18,7 +18,7 @@ namespace UIAwesome\Html\Core\Tests\Support\Provider\Attribute;
  * The provider organizes test cases with descriptive names for clear identification of failure cases during test
  * execution and debugging sessions.
  *
- * Key features:
+ * Key features.
  * - Ensures correct propagation, assignment, override, and removal of the `itemid` attribute in HTML element rendering.
  * - Named test data sets for precise failure identification.
  * - Validation of string (including empty strings) and `null` for the `itemid` attribute.

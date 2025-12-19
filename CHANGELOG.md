@@ -9,6 +9,7 @@
 - Bug #10: Update documentation for `dataAttributes()` method to include example with enum value (@terabytesoftw)
 - Bug #11: Enhance `DataProvider` class documentation and add comprehensive test cases for HTML `data-*` attributes (@terabytesoftw)
 - Bug #12: Update `removeDataAttribute()` method documentation to include example with enum key (@terabytesoftw)
+- Bug #13: Correct documentation formatting for key features across multiple attribute and providers external classes (@terabytesoftw)
 
 ## 0.2.0 December 18, 2025
 

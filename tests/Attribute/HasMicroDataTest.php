@@ -26,7 +26,7 @@ use UIAwesome\Html\Helper\Attributes;
  * Ensures correct handling, immutability, and validation of the microdata attributes in tag rendering, supporting bool,
  * string and `null` for dynamic assignment.
  *
- * Test coverage:
+ * Test coverage.
  * - Accurate rendering of attributes with the microdata attributes.
  * - Data provider-driven validation for edge cases and expected behaviors.
  * - Immutability of the trait's API when setting or overriding the microdata attributes.

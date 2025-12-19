@@ -19,7 +19,7 @@ use UIAwesome\Html\Helper\Attributes;
  * Ensures correct handling, immutability, and validation of the `hidden` attribute in tag rendering, supporting bool
  * for dynamic hidden state assignment.
  *
- * Test coverage:
+ * Test coverage.
  * - Accurate rendering of attributes with the `hidden` attribute.
  * - Data provider-driven validation for edge cases and expected behaviors.
  * - Immutability of the trait's API when setting or overriding the `hidden` attribute.

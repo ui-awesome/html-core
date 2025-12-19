@@ -22,7 +22,7 @@ use UnitEnum;
  * The provider organizes test cases with descriptive names for clear identification of failure cases during test
  * execution and debugging sessions.
  *
- * Key features:
+ * Key features.
  * - Ensures correct propagation, assignment, override, and removal of the `contenteditable` attribute in HTML element
  *   rendering.
  * - Named test data sets for precise failure identification.
