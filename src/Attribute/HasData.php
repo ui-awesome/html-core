@@ -47,7 +47,7 @@ trait HasData
      * as required by the HTML specification for global attributes.
      *
      * @param string|UnitEnum $key Data attribute key (without the `data-` prefix).
-     * @param bool|Closure|float|int|string|UnitEnum|null $value Data attribute value. Can be `null` to unset
+     * @param bool|Closure|float|int|string|Stringable|UnitEnum|null $value Data attribute value. Can be `null` to unset
      * the attribute.
      *
      * @throws InvalidArgumentException if one or more arguments are invalid, of incorrect type or format.
@@ -174,7 +174,7 @@ trait HasData
      * Modifies the current instance by setting or removing the specified custom data attribute, supporting scalar,
      * Closure and UnitEnum values as required by the HTML specification for global attributes.
      *
-     * @param string|UnitEnum $key Data attribute key (without the `data-` prefix).
+     * @param mixed $key Data attribute key (without the `data-` prefix).
      * @param bool|Closure|float|int|string|UnitEnum|null $value Data attribute value. Can be `null` to unset the
      * attribute.
      *

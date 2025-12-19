@@ -99,7 +99,7 @@ final class ClassProvider
                 'Should return the attribute value after setting it.',
             ],
             'stringable' => [
-                new class {
+                new class implements Stringable {
                     public function __toString(): string
                     {
                         return 'class-stringable';
@@ -192,7 +192,7 @@ final class ClassProvider
             'stringable' => [
                 [
                     [
-                        'value' => new class {
+                        'value' => new class implements Stringable {
                             public function __toString(): string
                             {
                                 return 'class-stringable';

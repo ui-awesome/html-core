@@ -212,7 +212,7 @@ final class DataProvider
     public static function value(): array
     {
         $closure = static fn(): string => 'action';
-        $stringable = new class {
+        $stringable = new class implements Stringable {
             public function __toString(): string
             {
                 return 'stringable-value';
@@ -300,7 +300,7 @@ final class DataProvider
     public static function values(): array
     {
         $closure = static fn(): string => 'action';
-        $stringable = new class {
+        $stringable = new class implements Stringable {
             public function __toString(): string
             {
                 return 'stringable-value';
