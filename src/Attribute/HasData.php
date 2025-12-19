@@ -128,7 +128,7 @@ trait HasData
         foreach ($values as $key => $value) {
             try {
                 $new->addDataAttributeInternal($key, $value);
-            // @phpstan-ignore catch.neverThrown
+                // @phpstan-ignore catch.neverThrown
             } catch (TypeError) {
                 throw new InvalidArgumentException(
                     Message::DATA_ATTRIBUTE_VALUE_MUST_BE_SCALAR_OR_CLOSURE->getMessage(gettype($value)),
