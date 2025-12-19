@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Tests\Support\Provider\Attribute;
 
-use PhpParser\Node\Scalar\String_;
 use Stringable;
 use UIAwesome\Html\Core\Tests\Support\Stub\Enum\Status;
 use UnitEnum;

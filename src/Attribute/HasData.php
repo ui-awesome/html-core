@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Attribute;
 
 use Closure;
-use Error;
 use InvalidArgumentException;
 use Stringable;
 use TypeError;
