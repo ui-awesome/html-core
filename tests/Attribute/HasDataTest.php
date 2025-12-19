@@ -9,6 +9,7 @@ use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\{DataProviderExternal, Group};
 use PHPUnit\Framework\TestCase;
 use stdClass;
+use Stringable;
 use UIAwesome\Html\Core\Attribute\HasData;
 use UIAwesome\Html\Core\Exception\Message;
 use UIAwesome\Html\Core\Mixin\HasAttributes;
@@ -111,13 +112,13 @@ final class HasDataTest extends TestCase
     }
 
     /**
-     * @phpstan-param scalar|UnitEnum|null|Closure(): mixed $value
+     * @phpstan-param scalar|Stringable|UnitEnum|null|Closure(): mixed $value
      * @phpstan-param mixed[] $expected
      */
     #[DataProviderExternal(DataProvider::class, 'value')]
     public function testSetSingleDataAttributeValue(
         string|UnitEnum $key,
-        bool|float|int|string|Closure|UnitEnum|null $value,
+        bool|float|int|string|Closure|Stringable|UnitEnum|null $value,
         array $expected,
         string $message,
     ): void {

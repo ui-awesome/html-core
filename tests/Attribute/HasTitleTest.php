@@ -6,6 +6,7 @@ namespace UIAwesome\Html\Core\Tests\Attribute;
 
 use PHPUnit\Framework\Attributes\{DataProviderExternal, Group};
 use PHPUnit\Framework\TestCase;
+use Stringable;
 use UIAwesome\Html\Core\Attribute\HasTitle;
 use UIAwesome\Html\Core\Mixin\HasAttributes;
 use UIAwesome\Html\Core\Tests\Support\Provider\Attribute\TitleProvider;
@@ -39,7 +40,7 @@ final class HasTitleTest extends TestCase
      */
     #[DataProviderExternal(TitleProvider::class, 'renderAttribute')]
     public function testRenderAttributesWithTitleAttribute(
-        string|UnitEnum|null $title,
+        string|Stringable|UnitEnum|null $title,
         array $attributes,
         string|UnitEnum $expected,
         string $message,
@@ -90,9 +91,9 @@ final class HasTitleTest extends TestCase
      */
     #[DataProviderExternal(TitleProvider::class, 'values')]
     public function testSetTitleAttributeValue(
-        string|UnitEnum|null $title,
+        string|Stringable|UnitEnum|null $title,
         array $attributes,
-        string|UnitEnum $expected,
+        string|Stringable|UnitEnum $expected,
         string $message,
     ): void {
         $instance = new class {

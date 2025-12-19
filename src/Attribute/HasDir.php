@@ -37,10 +37,10 @@ trait HasDir
     /**
      * Sets the HTML `dir` attribute for the element.
      *
-     * Creates a new instance with the specified directionality value, supporting both explicit and nullable assignment
+     * Creates a new instance with the specified directionality, supporting both explicit and nullable assignment
      * according to the HTML specification for global attributes.
      *
-     * @param string|UnitEnum|null $value Directionality value to set for the element. Can be `null` to unset the
+     * @param string|UnitEnum|null $value Directionality to set for the element. Can be `null` to unset the
      * attribute.
      *
      * @throws InvalidArgumentException if the provided value is not valid.

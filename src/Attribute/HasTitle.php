@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Attribute;
 
+use Stringable;
 use UnitEnum;
 
 /**
@@ -19,7 +20,7 @@ use UnitEnum;
  * - Designed for use in tags and components.
  * - Enforces standards-compliant handling of the HTML `title` global attributes.
  * - Immutable method for setting or overriding the `title` attribute.
- * - Supports `string`, `UnitEnum`, and `null` values for flexible title assignment.
+ * - Supports string, Stringable, UnitEnum, and `null` for flexible title assignment.
  *
  * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/title
  * @property array $attributes HTML attributes array used by the implementing class.
@@ -34,10 +35,11 @@ trait HasTitle
     /**
      * Sets the HTML `title` attribute for the element.
      *
-     * Creates a new instance with the specified title value, supporting both explicit and nullable assignment according
-     * to the HTML specification for global attributes.
+     * Creates a new instance with the specified title, supporting both explicit and nullable assignment according to
+     * the HTML specification for global attributes.
      *
-     * @param string|UnitEnum|null $value Title value to set for the element. Can be `null` to unset the attribute.
+     * @param string|Stringable|UnitEnum|null $value Title value to set for the element. Can be `null` to unset the
+     * attribute.
      *
      * @return static New instance with the updated `title` attribute.
      *
@@ -51,11 +53,20 @@ trait HasTitle
      * // sets the `title` attribute to 'Tooltip text' if `TitleEnum::TOOLTIP` is a `UnitEnum`.
      * $element->title(TitleEnum::TOOLTIP);
      *
+     * // sets the `title` attribute with a Stringable
+     * $element->title(
+     *     new class implements Stringable {
+     *         public function __toString(): string {
+     *             return 'Tooltip text from Stringable';
+     *         }
+     *     }
+     * );
+     *
      * // unsets the `title` attribute
      * $element->title(null);
      * ```
      */
-    public function title(string|UnitEnum|null $value): static
+    public function title(string|Stringable|UnitEnum|null $value): static
     {
         $new = clone $this;
 

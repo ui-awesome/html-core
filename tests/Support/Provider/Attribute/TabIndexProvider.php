@@ -12,8 +12,8 @@ namespace UIAwesome\Html\Core\Tests\Support\Provider\Attribute;
  * specification.
  *
  * The test data covers real-world scenarios for setting, overriding, and removing the `tabindex` attribute, supporting
- * both explicit int and string, as well as `null` for attribute removal, to maintain consistent output across different
- * rendering configurations.
+ * explicit int, string, and `null` for attribute removal, to maintain consistent output across different rendering
+ * configurations.
  *
  * The provider organizes test cases with descriptive names for clear identification of failure cases during test
  * execution and debugging sessions.
@@ -33,11 +33,11 @@ final class TabIndexProvider
      * Provides test cases for invalid HTML `tabindex` attribute values.
      *
      * Supplies test data for validating rejection of non-standard or out-of-range values for the global HTML `tabindex`
-     * attribute, including negative integers less than `-1`, non-numeric strings, and float values.
+     * attribute, including negative integers less than `-1`, non-numeric strings, and float.
      *
      * Each test case includes the input value for clear identification.
      *
-     * @return array Test data for invalid `tabindex` attribute values.
+     * @return array Test data for invalid `tabindex` attribute.
      *
      * @phpstan-return array<string, array{int|string|null}>
      */
@@ -139,15 +139,15 @@ final class TabIndexProvider
     }
 
     /**
-     * Provides test cases for HTML `tabindex` attribute value scenarios.
+     * Provides test cases for HTML `tabindex` attribute scenarios.
      *
-     * Supplies test data for validating assignment, override, and removal of the global HTML `tabindex` attribute
-     * value, including int, string, and `null`, as well as replacement and unset scenarios.
+     * Supplies test data for validating assignment, override, and removal of the global HTML `tabindex` attribute,
+     * including int, string, and `null`, as well as replacement and unset scenarios.
      *
-     * Each test case includes the input value, the initial attributes, the expected output array, and an assertion
-     * message for clear identification.
+     * Each test case includes the input value, the initial attributes, the expected value, and an assertion message for
+     * clear identification.
      *
-     * @return array Test data for `tabindex` attribute value scenarios.
+     * @return array Test data for `tabindex` attribute scenarios.
      *
      * @phpstan-return array<string, array{int|string|null, mixed[], mixed[], string}>
      */

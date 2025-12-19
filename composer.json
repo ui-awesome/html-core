@@ -11,7 +11,7 @@
     "license": "BSD-3-Clause",
     "require": {
         "php": "^8.1",
-        "ui-awesome/html-helper": "^0.4"
+        "ui-awesome/html-helper": "^0.5"
     },
     "require-dev": {
         "infection/infection": "^0.27|^0.31",
@@ -35,7 +35,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "0.3.x-dev"
+            "dev-main": "0.4.x-dev"
         }
     },
     "config": {
@@ -49,7 +49,7 @@
         "check-dependencies": "./vendor/bin/composer-require-checker check",
         "ecs": "./vendor/bin/ecs --fix",
         "mutation": "./vendor/bin/infection --threads=4 --ignore-msi-with-no-mutations --min-msi=100 --min-covered-msi=100",
-        "mutation-static": "./vendor/bin/infection --threads=4 --ignore-msi-with-no-mutations --min-msi=100 --min-covered-msi=100 --static-analysis-tool=phpstan",
+        "mutation-static": "./vendor/bin/infection --threads=4 --ignore-msi-with-no-mutations --min-msi=100 --min-covered-msi=100 --static-analysis-tool=phpstan --static-analysis-tool-options='--memory-limit=-1'",
         "rector": "./vendor/bin/rector process src",
         "static": "./vendor/bin/phpstan --memory-limit=512M",
         "tests": "./vendor/bin/phpunit"

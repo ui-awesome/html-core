@@ -39,10 +39,10 @@ trait HasContentEditable
     /**
      * Sets the HTML `contenteditable` attribute for the element.
      *
-     * Creates a new instance with the specified content editability value, supporting both explicit and nullable
-     * assignment according to the HTML specification for global attributes.
+     * Creates a new instance with the specified content editability, supporting both explicit and nullable assignment
+     * according to the HTML specification for global attributes.
      *
-     * @param bool|string|UnitEnum|null $value Content editability value to set for the element. Can be `null` to unset
+     * @param bool|string|UnitEnum|null $value Content editability to set for the element. Can be `null` to unset
      * the attribute.
      *
      * @throws InvalidArgumentException if the provided value is not valid.

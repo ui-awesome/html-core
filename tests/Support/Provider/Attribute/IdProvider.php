@@ -78,7 +78,7 @@ final class IdProvider
     }
 
     /**
-     * Provides test cases for HTML `id` attribute value scenarios.
+     * Provides test cases for HTML `id` attribute scenarios.
      *
      * Supplies test data for validating assignment, override, and removal of the global HTML `id` attribute,
      * including empty string, `null`, and standard string.
@@ -86,7 +86,7 @@ final class IdProvider
      * Each test case includes the input value, the initial attributes, the expected value, and an assertion message for
      * clear identification.
      *
-     * @return array Test data for `id` attribute value scenarios.
+     * @return array Test data for `id` attribute scenarios.
      *
      * @phpstan-return array<string, array{string|null, mixed[], string, string}>
      */

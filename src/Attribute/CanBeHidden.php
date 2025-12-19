@@ -17,7 +17,7 @@ namespace UIAwesome\Html\Core\Attribute;
  * - Designed for use in tags and components.
  * - Enforces standards-compliant handling of the HTML `hidden` global attribute.
  * - Immutable method for setting or overriding the `hidden` attribute.
- * - Supports bool values for explicit visibility control.
+ * - Supports bool for explicit visibility control.
  *
  * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden
  * @property array $attributes HTML attributes array used by the implementing class.
@@ -32,10 +32,10 @@ trait CanBeHidden
     /**
      * Sets the HTML `hidden` attribute for the element.
      *
-     * Creates a new instance with the specified visibility value, supporting explicit assignment according to the HTML
+     * Creates a new instance with the specified visibility, supporting explicit assignment according to the HTML
      * specification for global attributes.
      *
-     * @param bool $value Visibility value to set for the element.
+     * @param bool $value Visibility to set for the element.
      *
      * @return static New instance with the updated `hidden` attribute.
      *
