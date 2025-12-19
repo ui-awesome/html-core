@@ -114,10 +114,7 @@ final class AttributeProvider
      *
      * @return array Test data for attribute value map scenarios.
      *
-     * @phpstan-return array<
-     *   string,
-     *   array{array<string, scalar|\Closure(): mixed|null>, array<string, scalar|\Closure(): mixed|null>, string},
-     * >
+     * @phpstan-return array<string, array{mixed[], mixed[], string}>
      */
     public static function values(): array
     {

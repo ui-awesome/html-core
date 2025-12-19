@@ -88,8 +88,8 @@ final class HasAttributesTest extends TestCase
     }
 
     /**
-     * @param array<string, \Closure(): mixed|string> $attributes
-     * @param array<string, \Closure(): mixed|string> $expected
+     * @param mixed[] $attributes
+     * @param array<string, string|Closure(): mixed> $expected
      */
     #[DataProviderExternal(AttributeProvider::class, 'values')]
     public function testSetAttributesValue(array $attributes, array $expected, string $message): void
@@ -108,7 +108,7 @@ final class HasAttributesTest extends TestCase
     }
 
     /**
-     * @phpstan-param scalar|Closure(): mixed|null $value
+     * @phpstan-param scalar|null|Closure(): mixed $value
      * @phpstan-param mixed[] $expected
      */
     #[DataProviderExternal(AttributeProvider::class, 'value')]
