@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Tests\Mixin;
 
-use PHPUnit\Framework\Attributes\Group;
+use Closure;
+use PHPUnit\Framework\Attributes\{DataProviderExternal, Group};
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Core\Mixin\HasAttributes;
+use UIAwesome\Html\Core\Tests\Support\Provider\Mixin\AttributeProvider;
 
 /**
  * Test suite for {@see HasAttributes} mixin functionality and behavior.
@@ -67,13 +69,13 @@ final class HasAttributesTest extends TestCase
 
         self::assertNotSame(
             $instance,
-            $instance->attributes([]),
-            'Should return a new instance when setting the attributes, ensuring immutability.',
+            $instance->addAttribute('key', 'value'),
+            'Should return a new instance when adding an attribute, ensuring immutability.',
         );
         self::assertNotSame(
             $instance,
-            $instance->addAttribute('key', 'value'),
-            'Should return a new instance when adding an attribute, ensuring immutability.',
+            $instance->attributes([]),
+            'Should return a new instance when setting the attributes, ensuring immutability.',
         );
         self::assertNotSame(
             $instance,
@@ -82,34 +84,47 @@ final class HasAttributesTest extends TestCase
         );
     }
 
-    public function testSetAttributesValue(): void
+    /**
+     * @param array<string, \Closure(): mixed|string> $attributes
+     * @param array<string, \Closure(): mixed|string> $expected
+     */
+    #[DataProviderExternal(AttributeProvider::class, 'values')]
+    public function testSetAttributesValue(array $attributes, array $expected, string $message): void
     {
         $instance = new class {
             use HasAttributes;
         };
 
-        $instance = $instance->attributes(['class' => 'value']);
-        $instance = $instance->attributes(['disabled' => true]);
+        $instance = $instance->attributes($attributes);
 
         self::assertSame(
-            ['class' => 'value', 'disabled' => true],
+            $expected,
             $instance->getAttributes(),
-            'Should return the attributes value after setting it.',
+            $message,
         );
     }
 
-    public function testSetSingleAttributeValue(): void
-    {
+    /**
+     * @phpstan-param scalar|Closure(): mixed|null $value
+     * @phpstan-param mixed[] $expected
+     */
+    #[DataProviderExternal(AttributeProvider::class, 'value')]
+    public function testSetSingleAttributeValue(
+        string $key,
+        bool|float|int|string|Closure|null $value,
+        array $expected,
+        string $message,
+    ): void {
         $instance = new class {
             use HasAttributes;
         };
 
-        $instance = $instance->addAttribute('id', 'my-id');
+        $instance = $instance->addAttribute($key, $value);
 
         self::assertSame(
-            ['id' => 'my-id'],
+            $expected,
             $instance->getAttributes(),
-            'Should return the single attribute value after setting it.',
+            $message,
         );
     }
 }
