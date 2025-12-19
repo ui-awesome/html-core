@@ -16,8 +16,8 @@ use UnitEnum;
  * specification.
  *
  * The test data covers real-world scenarios for setting, appending, overriding, and removing the `class` attribute,
- * supporting both explicit string, UnitEnum for enum-based, and `null` for attribute removal, to maintain consistent
- * output across different rendering configurations.
+ * supporting explicit string, Stringable, UnitEnum for enum-based, and `null` for attribute removal, to maintain
+ * consistent output across different rendering configurations.
  *
  * The provider organizes test cases with descriptive names for clear identification of failure cases during test
  * execution and debugging sessions.

@@ -15,7 +15,7 @@ use UnitEnum;
  * ensuring standards-compliant assignment, override behavior, and value propagation according to the HTML
  * specification.
  *
- * The test data covers real-world scenarios for setting, overriding, and removing the `lang` attribute, supporting both
+ * The test data covers real-world scenarios for setting, overriding, and removing the `lang` attribute, supporting
  * explicit string, UnitEnum for enum-based, and `null` for attribute removal, to maintain consistent output across
  * different rendering configurations.
  *

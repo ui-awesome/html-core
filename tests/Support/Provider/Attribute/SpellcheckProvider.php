@@ -12,8 +12,8 @@ namespace UIAwesome\Html\Core\Tests\Support\Provider\Attribute;
  * specification.
  *
  * The test data covers real-world scenarios for setting, overriding, and removing the `spellcheck` attribute,
- * supporting both explicit bool, string, and `null` for attribute removal, to maintain consistent output across
- * different rendering configurations.
+ * supporting explicit bool, string, and `null` for attribute removal, to maintain consistent output across different
+ * rendering configurations.
  *
  * The provider organizes test cases with descriptive names for clear identification of failure cases during test
  * execution and debugging sessions.
