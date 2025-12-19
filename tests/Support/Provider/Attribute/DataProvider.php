@@ -8,13 +8,42 @@ use UIAwesome\Html\Core\Tests\Support\Stub\Enum\ButtonSize;
 use UIAwesome\Html\Core\Values\DataProperty;
 use UnitEnum;
 
+/**
+ * Data provider for {@see \UIAwesome\Html\Core\Tests\Attribute\HasDataTest} class.
+ *
+ * Supplies comprehensive test data for validating the handling of HTML `data-*` attributes in tag rendering, ensuring
+ * standards-compliant attribute generation, key normalization, override behavior, and value propagation.
+ *
+ * The test data covers real-world scenarios for setting, overriding, and removing `data-*` attributes, supporting bool,
+ * scalar values, UnitEnum, and deferred evaluation via \Closure, to maintain consistent output across different
+ * rendering configurations.
+ *
+ * The provider organizes test cases with descriptive names for clear identification of failure cases during test
+ * execution and debugging sessions.
+ *
+ * Key features.
+ * - Ensures correct propagation, assignment, override, and removal of `data-*` attributes in HTML element rendering.
+ * - Named test data sets for precise failure identification.
+ * - Validation of bool, string (including empty strings), int, float, array, UnitEnum, \Closure, and `null` handling
+ *   for `data-*` attributes, including hyphenated keys and unset scenarios.
+ *
+ * @copyright Copyright (C) 2025 Terabytesoftw.
+ * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
+ */
 final class DataProvider
 {
     /**
-     * @phpstan-return array<
-     *   string,
-     *   array{array<string, scalar|\Closure(): mixed|UnitEnum|null>, mixed[], string, string},
-     * >
+     * Provides test cases for rendered HTML `data-*` attribute scenarios.
+     *
+     * Supplies test data for validating assignment, override, and removal of HTML `data-*` attributes, including scalar
+     * values, array values rendered as JSON, UnitEnum values, and deferred evaluation via \Closure.
+     *
+     * Each test case includes the input `data` values, the initial attributes, the expected rendered output, and an
+     * assertion message for clear identification.
+     *
+     * @return array Test data for rendered `data-*` attribute scenarios.
+     *
+     * @phpstan-return array<string, array{array<string, scalar|\Closure(): mixed|UnitEnum|null>, mixed[], string, string}>
      */
     public static function renderAttribute(): array
     {
@@ -150,6 +179,17 @@ final class DataProvider
     }
 
     /**
+     * Provides test cases for single HTML `data-*` attribute scenarios.
+     *
+     * Supplies test data for validating assignment, override, and removal of a single HTML `data-*` attribute,
+     * including string keys, enum-based keys via UnitEnum, and values provided as scalars, UnitEnum, \Closure, and
+     * `null`.
+     *
+     * Each test case includes the attribute key, the input value, the expected attributes array, and an assertion
+     * message for clear identification.
+     *
+     * @return array Test data for single `data-*` attribute scenarios.
+     *
      * @phpstan-return array<string, array{string|UnitEnum, scalar|\Closure(): mixed|UnitEnum|null, mixed[], string}>
      */
     public static function value(): array
@@ -215,20 +255,34 @@ final class DataProvider
     }
 
     /**
-     * @phpstan-return array<
-     *   string,
-     *   array{
-     *     array<string, scalar|\Closure(): mixed|UnitEnum|null>,
-     *     array<string, scalar|\Closure(): mixed>,
-     *     string,
-     *   }
-     * >
+     * Provides test cases for HTML `data-*` attribute value map scenarios.
+     *
+     * Supplies test data for validating bulk assignment, normalization, and removal of HTML `data-*` attributes,
+     * ensuring consistent key prefixing (`data-`), hyphenated key handling, and value propagation for scalars,
+     * UnitEnum, \Closure, and `null`.
+     *
+     * Each test case includes the input values map, the expected normalized attributes array, and an assertion
+     * message for clear identification.
+     *
+     * @return array Test data for `data-*` attribute value map scenarios.
+     *
+     * @phpstan-return array<string, array{array<string, scalar|\Closure(): mixed|UnitEnum|null>, array<string, scalar|\Closure(): mixed>, string}>
      */
     public static function values(): array
     {
         $closure = static fn(): string => 'action';
 
-        return [
+        $enumCases = [];
+
+        foreach (DataProperty::cases() as $case) {
+            $enumCases[$case->value] = [
+                [$case->value => 'value'],
+                ["data-{$case->value}" => 'value'],
+                'Should return the attribute value after setting it.',
+            ];
+        }
+
+        $staticCases = [
             'boolean false' => [
                 ['value' => false],
                 ['data-value' => false],
@@ -306,5 +360,7 @@ final class DataProvider
                 "Should unset the 'data-value' attribute when 'null' is provided after a value.",
             ],
         ];
+
+        return [...$staticCases, ...$enumCases];
     }
 }
