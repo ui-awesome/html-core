@@ -24,7 +24,7 @@ use UnitEnum;
  * Ensures correct handling, immutability, and validation of the `contenteditable` attribute in tag rendering,
  * supporting bool, string, UnitEnum, and `null` for dynamic content editable state assignment.
  *
- * Test coverage:
+ * Test coverage.
  * - Accurate rendering of attributes with the `contenteditable` attribute.
  * - Data provider-driven validation for edge cases and expected behaviors.
  * - Immutability of the trait's API when setting or overriding the `contenteditable` attribute.

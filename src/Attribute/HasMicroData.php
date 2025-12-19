@@ -13,7 +13,7 @@ namespace UIAwesome\Html\Core\Attribute;
  * Intended for use in tags and components that require dynamic or programmatic manipulation of microdata, ensuring
  * correct attribute handling, type safety and value validation.
  *
- * Key features:
+ * Key features.
  * - Designed for use in tags and components.
  * - Enforces standards-compliant handling of the HTML microdata global attributes.
  * - Immutable methods for setting or overriding microdata attributes.

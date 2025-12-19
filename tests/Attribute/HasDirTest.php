@@ -23,7 +23,7 @@ use UnitEnum;
  * Ensures correct handling, immutability, and validation of the `dir` attribute in tag rendering, supporting string,
  * UnitEnum, and `null` for dynamic direction assignment.
  *
- * Test coverage:
+ * Test coverage.
  * - Accurate rendering of attributes with the `dir` attribute.
  * - Data provider-driven validation for edge cases and expected behaviors.
  * - Immutability of the trait's API when setting or overriding the `dir` attribute.

@@ -24,7 +24,7 @@ use UnitEnum;
  * Ensures correct handling, immutability, and validation of the `draggable` attribute in tag rendering, supporting
  * bool, string, UnitEnum, and `null` for dynamic draggable state assignment.
  *
- * Test coverage:
+ * Test coverage.
  * - Accurate rendering of attributes with the `draggable` attribute.
  * - Data provider-driven validation for edge cases and expected behaviors.
  * - Immutability of the trait's API when setting or overriding the `draggable` attribute.

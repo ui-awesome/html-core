@@ -20,7 +20,7 @@ use UIAwesome\Html\Helper\Attributes;
  * Ensures correct handling, immutability, and validation of the `autofocus` attribute in tag rendering, supporting
  * bool for dynamic autofocus state assignment.
  *
- * Test coverage:
+ * Test coverage.
  * - Accurate rendering of attributes with the `autofocus` attribute.
  * - Data provider-driven validation for edge cases and expected behaviors.
  * - Immutability of the trait's API when setting or overriding the `autofocus` attribute.
