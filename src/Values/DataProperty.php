@@ -7,8 +7,8 @@ namespace UIAwesome\Html\Core\Values;
 /**
  * Represents standardized property names for the HTML `data-*` attributes.
  *
- * Provides a type-safe, standards-compliant set of data property identifiers for use in element rendering, attributes,
- * and view helpers, ensuring technical consistency with the HTML specification and modern web standards.
+ * Provides a type-safe, standards-compliant set of property identifiers for use in `data-*` attribute assignment,
+ * ensuring consistent naming and predictable output aligned with the HTML specification.
  *
  * Key features.
  * - Designed for use in tags, components, and helpers requiring `data-*` attribute assignment.
