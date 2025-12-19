@@ -11,6 +11,7 @@
 - Bug #12: Update `removeDataAttribute()` method documentation to include example with enum key (@terabytesoftw)
 - Bug #13: Correct documentation formatting for key features across multiple attribute and providers external classes (@terabytesoftw)
 - Enh #14: Enhance `addAttribute()` and `removeAttribute()` methods to support enum keys and improve handling of attributes (@terabytesoftw)
+- Bug 315: Update PHPStan annotations in `DataProvider` and `HasDataTest` classes for improved type clarity (@terabytesoftw)
 
 ## 0.2.0 December 18, 2025
 

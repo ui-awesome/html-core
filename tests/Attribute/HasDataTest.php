@@ -41,7 +41,7 @@ use UnitEnum;
 final class HasDataTest extends TestCase
 {
     /**
-     * @param array<string, \Closure(): mixed|string> $data
+     * @param mixed[] $data
      * @phpstan-param mixed[] $attributes
      */
     #[DataProviderExternal(DataProvider::class, 'renderAttribute')]
@@ -90,8 +90,8 @@ final class HasDataTest extends TestCase
     }
 
     /**
-     * @param array<string, \Closure(): mixed|string> $data
-     * @param array<string, \Closure(): mixed|string> $expected
+     * @param mixed[] $data
+     * @param mixed[] $expected
      */
     #[DataProviderExternal(DataProvider::class, 'values')]
     public function testSetDataAttributeValue(array $data, array $expected, string $message): void
@@ -111,7 +111,7 @@ final class HasDataTest extends TestCase
     }
 
     /**
-     * @phpstan-param scalar|Closure(): mixed|UnitEnum|null $value
+     * @phpstan-param scalar|UnitEnum|null|Closure(): mixed $value
      * @phpstan-param mixed[] $expected
      */
     #[DataProviderExternal(DataProvider::class, 'value')]

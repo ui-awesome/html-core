@@ -43,7 +43,7 @@ final class DataProvider
      *
      * @return array Test data for rendered `data-*` attribute scenarios.
      *
-     * @phpstan-return array<string, array{array<string, scalar|\Closure(): mixed|UnitEnum|null>, mixed[], string, string}>
+     * @phpstan-return array<string, array{mixed[], mixed[], string, string}>
      */
     public static function renderAttribute(): array
     {
@@ -190,7 +190,7 @@ final class DataProvider
      *
      * @return array Test data for single `data-*` attribute scenarios.
      *
-     * @phpstan-return array<string, array{string|UnitEnum, scalar|\Closure(): mixed|UnitEnum|null, mixed[], string}>
+     * @phpstan-return array<string, array{string|UnitEnum, scalar|UnitEnum|null|\Closure(): mixed, mixed[], string}>
      */
     public static function value(): array
     {
@@ -266,7 +266,7 @@ final class DataProvider
      *
      * @return array Test data for `data-*` attribute value map scenarios.
      *
-     * @phpstan-return array<string, array{array<string, scalar|\Closure(): mixed|UnitEnum|null>, array<string, scalar|\Closure(): mixed>, string}>
+     * @phpstan-return array<string, array{mixed[], mixed[], string}>
      */
     public static function values(): array
     {
