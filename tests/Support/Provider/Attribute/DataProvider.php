@@ -190,7 +190,7 @@ final class DataProvider
             'enum value' => [
                 'size',
                 ButtonSize::SMALL,
-                ['data-size' => 'sm'],
+                ['data-size' => ButtonSize::SMALL],
                 'Should return the attribute value after setting it.',
             ],
             'hyphenated key' => [
