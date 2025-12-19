@@ -119,7 +119,7 @@ final class ContentEditableProvider
     }
 
     /**
-     * Provides test cases for HTML `contenteditable` attribute value scenarios.
+     * Provides test cases for HTML `contenteditable` attribute scenarios.
      *
      * Supplies test data for validating assignment, override, and removal of the global HTML `contenteditable`
      * attribute, including bool, string, UnitEnum, and replacement scenarios.
@@ -127,7 +127,7 @@ final class ContentEditableProvider
      * Each test case includes the input value, the initial attributes, the expected value, and an assertion message for
      * clear identification.
      *
-     * @return array Test data for `contenteditable` attribute value scenarios.
+     * @return array Test data for `contenteditable` attribute scenarios.
      *
      * @phpstan-return array<string, array{bool|string|UnitEnum|null, mixed[], string|UnitEnum, string}>
      */

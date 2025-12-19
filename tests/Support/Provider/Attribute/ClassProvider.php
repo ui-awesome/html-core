@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Tests\Support\Provider\Attribute;
 
+use Stringable;
 use UIAwesome\Html\Core\Tests\Support\Stub\Enum\AlertType;
 use UnitEnum;
 
@@ -15,8 +16,8 @@ use UnitEnum;
  * specification.
  *
  * The test data covers real-world scenarios for setting, appending, overriding, and removing the `class` attribute,
- * supporting both explicit string, UnitEnum for enum-based class names, and `null` for attribute removal, to maintain
- * consistent output across different rendering configurations.
+ * supporting both explicit string, UnitEnum for enum-based, and `null` for attribute removal, to maintain consistent
+ * output across different rendering configurations.
  *
  * The provider organizes test cases with descriptive names for clear identification of failure cases during test
  * execution and debugging sessions.
@@ -36,14 +37,14 @@ final class ClassProvider
      * Provides test cases for rendered HTML `class` attribute scenarios.
      *
      * Supplies test data for validating assignment, appending, override, and removal of the global HTML `class`
-     * attribute, including empty string, UnitEnum, `null`, and standard string.
+     * attribute, including empty string, UnitEnum, `null`, standard string and Stringable.
      *
      * Each test case includes the input value, the initial attributes, the override flag, the expected rendered output,
      * and an assertion message for clear identification.
      *
      * @return array Test data for rendered `class` attribute scenarios.
      *
-     * @phpstan-return array<string, array{string|UnitEnum|null, mixed[], bool, string, string}>
+     * @phpstan-return array<string, array{string|Stringable|UnitEnum|null, mixed[], bool, string, string}>
      */
     public static function renderAttribute(): array
     {
@@ -97,6 +98,18 @@ final class ClassProvider
                 ' class="class-two"',
                 'Should return the attribute value after setting it.',
             ],
+            'stringable' => [
+                new class {
+                    public function __toString(): string
+                    {
+                        return 'class-stringable';
+                    }
+                },
+                [],
+                false,
+                ' class="class-stringable"',
+                'Should return the attribute value after setting it with a Stringable object.',
+            ],
             'unset with null' => [
                 null,
                 ['class' => 'class-two'],
@@ -111,16 +124,15 @@ final class ClassProvider
      * Provides test cases for HTML `class` attribute scenarios.
      *
      * Supplies test data for validating assignment, appending, and override of the global HTML `class` attribute,
-     * including empty string, UnitEnum, `null`, and standard string.
+     * including empty string, UnitEnum, `null`, standard string and Stringable.
      *
-     * Each test case includes the input value(s), the expected output, and an assertion message for clear
-     * identification.
+     * Each test case includes the input value, the expected output, and an assertion message for clear identification.
      *
      * @return array Test data for `class` attribute scenarios.
      *
      * @phpstan-return array<
      *   string,
-     *   array{array<array{value: string|UnitEnum|null, override?: bool}>, string, string}
+     *   array{array<array{value: string|Stringable|UnitEnum|null, override?: bool}>, string, string}
      * >
      */
     public static function values(): array
@@ -176,6 +188,20 @@ final class ClassProvider
                 [['value' => 'class-one']],
                 'class-one',
                 'Should return the attribute value after setting it.',
+            ],
+            'stringable' => [
+                [
+                    [
+                        'value' => new class {
+                            public function __toString(): string
+                            {
+                                return 'class-stringable';
+                            }
+                        },
+                    ],
+                ],
+                'class-stringable',
+                'Should return the attribute value after setting it with a Stringable object.',
             ],
             'unset with null' => [
                 [

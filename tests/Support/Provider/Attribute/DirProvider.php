@@ -16,8 +16,8 @@ use UnitEnum;
  * specification.
  *
  * The test data covers real-world scenarios for setting, overriding, and removing the `dir` attribute, supporting both
- * explicit string, UnitEnum for enum-based direction values, and `null` for attribute removal, to maintain
- * consistent output across different rendering configurations.
+ * explicit string, UnitEnum for enum-based, and `null` for attribute removal, to maintain consistent output across
+ * different rendering configurations.
  *
  * The provider organizes test cases with descriptive names for clear identification of failure cases during test
  * execution and debugging sessions.
@@ -92,7 +92,7 @@ final class DirProvider
     }
 
     /**
-     * Provides test cases for HTML `dir` attribute value scenarios.
+     * Provides test cases for HTML `dir` attribute scenarios.
      *
      * Supplies test data for validating assignment, override, and removal of the global HTML `dir` attribute,
      * including string, UnitEnum, and replacement scenarios.
@@ -100,7 +100,7 @@ final class DirProvider
      * Each test case includes the input value, the initial attributes, the expected value, and an assertion message for
      * clear identification.
      *
-     * @return array Test data for `dir` attribute value scenarios.
+     * @return array Test data for `dir` attribute scenarios.
      *
      * @phpstan-return array<string, array{string|UnitEnum|null, mixed[], string|UnitEnum, string}>
      */

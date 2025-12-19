@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Tests\Support\Provider\Attribute;
 
+use Stringable;
 use UIAwesome\Html\Core\Tests\Support\Stub\Enum\AlertType;
 use UnitEnum;
 
@@ -15,8 +16,8 @@ use UnitEnum;
  * specification.
  *
  * The test data covers real-world scenarios for setting, overriding, and removing the `style` attribute, supporting
- * explicit string, UnitEnum for enum-based style values, and `null` for attribute removal, to maintain consistent
- * output across different rendering configurations.
+ * explicit string, UnitEnum for enum-based, and `null` for attribute removal, to maintain consistent output across
+ * different rendering configurations.
  *
  * The provider organizes test cases with descriptive names for clear identification of failure cases during test
  * execution and debugging sessions.
@@ -35,14 +36,14 @@ final class StyleProvider
      * Provides test cases for rendered HTML `style` attribute scenarios.
      *
      * Supplies test data for validating assignment, override, and removal of the global HTML `style` attribute,
-     * including empty string, UnitEnum, `null`, and standard string.
+     * including empty string, UnitEnum, `null`, standard string, and Stringable.
      *
      * Each test case includes the input value, the initial attributes, the expected rendered output, and an assertion
      * message for clear identification.
      *
      * @return array Test data for rendered `style` attribute scenarios.
      *
-     * @phpstan-return array<string, array{string|UnitEnum|null, mixed[], string, string}>
+     * @phpstan-return array<string, array{string|Stringable|UnitEnum|null, mixed[], string, string}>
      */
     public static function renderAttribute(): array
     {
@@ -83,6 +84,17 @@ final class StyleProvider
                 ' style="color: red;"',
                 'Should return the attribute value after setting it.',
             ],
+            'stringable' => [
+                new class implements Stringable {
+                    public function __toString(): string
+                    {
+                        return 'color: green;';
+                    }
+                },
+                [],
+                ' style="color: green;"',
+                'Should return the attribute value after setting it with a Stringable instance.',
+            ],
             'unset with null' => [
                 null,
                 ['style' => 'color: red;'],
@@ -93,20 +105,30 @@ final class StyleProvider
     }
 
     /**
-     * Provides test cases for HTML `style` attribute value scenarios.
+     * Provides test cases for HTML `style` attribute scenarios.
      *
      * Supplies test data for validating assignment, override, and removal of the global HTML `style` attribute,
-     * including empty string, UnitEnum, `null`, and standard string.
+     * including empty string, UnitEnum, `null`, standard string, and Stringable.
      *
      * Each test case includes the input value, the initial attributes, the expected value, and an assertion message for
      * clear identification.
      *
-     * @return array Test data for `style` attribute value scenarios.
+     * @return array Test data for `style` attribute scenarios.
      *
-     * @phpstan-return array<string, array{string|UnitEnum|null, mixed[], string|UnitEnum, string}>
+     * @phpstan-return array<
+     *   string,
+     *   array{string|Stringable|UnitEnum|null, mixed[], string|Stringable|UnitEnum, string},
+     * >
      */
     public static function values(): array
     {
+        $stringable = new class implements Stringable {
+            public function __toString(): string
+            {
+                return 'color: green;';
+            }
+        };
+
         return [
             'empty string' => [
                 '',
@@ -143,6 +165,12 @@ final class StyleProvider
                 [],
                 'color: red;',
                 'Should return the attribute value after setting it.',
+            ],
+            'stringable' => [
+                $stringable,
+                [],
+                $stringable,
+                'Should return the attribute value after setting it with a Stringable instance.',
             ],
             'unset with null' => [
                 null,

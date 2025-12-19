@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Attribute;
 
+use Stringable;
 use UIAwesome\Html\Helper\CSSClass;
 use UnitEnum;
 
@@ -35,13 +36,14 @@ trait HasClass
     /**
      * Sets the HTML `class` attribute for the element.
      *
-     * Creates a new instance with the specified CSS class value, optionally overriding any existing value.
+     * Creates a new instance with the specified CSS class, optionally overriding any existing class.
      *
      * This method ensures standards-compliant handling of the `class` global attributes, supporting both additive and
      * override semantics as required by the HTML specification.
      *
-     * @param string|UnitEnum|null $value CSS class value to set for the element. Can be `null` to unset the attribute.
-     * @param bool $override Whether to override the existing class value (`true`) or merge (`false`).
+     * @param string|Stringable|UnitEnum|null $value CSS class to set for the element. Can be `null` to unset the
+     * attribute.
+     * @param bool $override Whether to override the existing class (`true`) or merge (`false`).
      *
      * @return static New instance with the updated `class` attribute.
      *
@@ -55,6 +57,16 @@ trait HasClass
      * // sets the `class` attribute to 'primary' if `Theme::PRIMARY` is a `UnitEnum`
      * $element->class(Theme::PRIMARY);
      *
+     * // sets the `class` attribute to Stringable
+     * $element->class(
+     *     new class implements Stringable {
+     *         public function __toString(): string
+     *         {
+     *            return 'stringable-class';
+     *         }
+     *     },
+     * );
+     *
      * // overrides the `class` attribute with 'another-class'
      * $element->class('another-class', true);
      *
@@ -62,7 +74,7 @@ trait HasClass
      * $element->class(null);
      * ```
      */
-    public function class(string|UnitEnum|null $value, bool $override = false): static
+    public function class(string|Stringable|UnitEnum|null $value, bool $override = false): static
     {
         $new = clone $this;
 

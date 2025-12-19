@@ -78,7 +78,7 @@ final class ItemIdProvider
     }
 
     /**
-     * Provides test cases for HTML `itemid` attribute value scenarios.
+     * Provides test cases for HTML `itemid` attribute scenarios.
      *
      * Supplies test data for validating assignment, override, and removal of the global HTML `itemid` attribute,
      * including empty string and `null` for attribute removal.
@@ -86,7 +86,7 @@ final class ItemIdProvider
      * Each test case includes the input value, the initial attributes, the expected value, and an assertion message for
      * clear identification.
      *
-     * @return array Test data for `itemid` attribute value scenarios.
+     * @return array Test data for `itemid` attribute scenarios.
      *
      * @phpstan-return array<string, array{string|null, mixed[], string, string}>
      */

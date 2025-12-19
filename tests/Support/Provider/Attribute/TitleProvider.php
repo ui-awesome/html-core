@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Tests\Support\Provider\Attribute;
 
+use PhpParser\Node\Scalar\String_;
+use Stringable;
 use UIAwesome\Html\Core\Tests\Support\Stub\Enum\Status;
 use UnitEnum;
 
@@ -15,8 +17,8 @@ use UnitEnum;
  * specification.
  *
  * The test data covers real-world scenarios for setting, overriding, and removing the `title` attribute, supporting
- * explicit string, UnitEnum for enum-based values, and `null` for attribute removal, to maintain consistent output
- * across different rendering configurations.
+ * explicit string, UnitEnum for enum-based, and `null` for attribute removal, to maintain consistent output across
+ * different rendering configurations.
  *
  * The provider organizes test cases with descriptive names for clear identification of failure cases during test
  * execution and debugging sessions.
@@ -42,7 +44,10 @@ final class TitleProvider
      *
      * @return array Test data for rendered `title` attribute scenarios.
      *
-     * @phpstan-return array<string, array{string|UnitEnum|null, mixed[], string|UnitEnum, string}>
+     * @phpstan-return array<
+     *   string,
+     *   array{string|Stringable|UnitEnum|null, mixed[], string|Stringable|UnitEnum, string},
+     * >
      */
     public static function renderAttribute(): array
     {
@@ -83,6 +88,17 @@ final class TitleProvider
                 ' title="active"',
                 'Should return the attribute value after setting it.',
             ],
+            'stringable' => [
+                new class implements Stringable {
+                    public function __toString(): string
+                    {
+                        return 'active';
+                    }
+                },
+                [],
+                ' title="active"',
+                'Should return the attribute value after setting it with a Stringable instance.',
+            ],
             'unset with null' => [
                 null,
                 ['title' => 'active'],
@@ -93,7 +109,7 @@ final class TitleProvider
     }
 
     /**
-     * Provides test cases for HTML `title` attribute value scenarios.
+     * Provides test cases for HTML `title` attribute scenarios.
      *
      * Supplies test data for validating assignment, override, and removal of the global HTML `title` attribute,
      * including empty string, UnitEnum, `null` and standard string.
@@ -101,12 +117,22 @@ final class TitleProvider
      * Each test case includes the input value, the initial attributes, the expected value, and an assertion message for
      * clear identification.
      *
-     * @return array Test data for `title` attribute value scenarios.
+     * @return array Test data for `title` attribute scenarios.
      *
-     * @phpstan-return array<string, array{string|UnitEnum|null, mixed[], string|UnitEnum, string}>
+     * @phpstan-return array<
+     *   string,
+     *   array{string|Stringable|UnitEnum|null, mixed[], string|Stringable|UnitEnum, string},
+     * >
      */
     public static function values(): array
     {
+        $stringable = new class implements Stringable {
+            public function __toString(): string
+            {
+                return 'active';
+            }
+        };
+
         return [
             'empty string' => [
                 '',
@@ -137,6 +163,12 @@ final class TitleProvider
                 [],
                 'active',
                 'Should return the attribute value after setting it.',
+            ],
+            'stringable' => [
+                $stringable,
+                [],
+                $stringable,
+                'Should return the attribute value after setting it with a Stringable instance.',
             ],
             'unset with null' => [
                 null,

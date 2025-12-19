@@ -6,6 +6,7 @@ namespace UIAwesome\Html\Core\Tests\Attribute;
 
 use PHPUnit\Framework\Attributes\{DataProviderExternal, Group};
 use PHPUnit\Framework\TestCase;
+use Stringable;
 use UIAwesome\Html\Core\Attribute\HasStyle;
 use UIAwesome\Html\Core\Mixin\HasAttributes;
 use UIAwesome\Html\Core\Tests\Support\Provider\Attribute\StyleProvider;
@@ -39,7 +40,7 @@ final class HasStyleTest extends TestCase
      */
     #[DataProviderExternal(StyleProvider::class, 'renderAttribute')]
     public function testRenderAttributesWithStyleAttribute(
-        string|UnitEnum|null $style,
+        string|Stringable|UnitEnum|null $style,
         array $attributes,
         string|UnitEnum $expected,
         string $message,
@@ -90,9 +91,9 @@ final class HasStyleTest extends TestCase
      */
     #[DataProviderExternal(StyleProvider::class, 'values')]
     public function testSetStyleAttributeValue(
-        string|UnitEnum|null $style,
+        string|Stringable|UnitEnum|null $style,
         array $attributes,
-        string|UnitEnum $expected,
+        string|Stringable|UnitEnum $expected,
         string $message,
     ): void {
         $instance = new class {

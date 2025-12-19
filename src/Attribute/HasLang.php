@@ -37,10 +37,10 @@ trait HasLang
     /**
      * Sets the HTML `lang` attribute for the element.
      *
-     * Creates a new instance with the specified language value, supporting both explicit and nullable assignment
-     * according to the HTML specification for global attributes.
+     * Creates a new instance with the specified language, supporting both explicit and nullable assignment according to
+     * the HTML specification for global attributes.
      *
-     * @param string|UnitEnum|null $value Language value to set for the element. Can be `null` to unset the attribute.
+     * @param string|UnitEnum|null $value Language to set for the element. Can be `null` to unset the attribute.
      *
      * @throws InvalidArgumentException if the provided value is not valid.
      *

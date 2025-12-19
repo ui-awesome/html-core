@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Attribute;
 
+use Stringable;
 use UnitEnum;
 
 /**
@@ -34,10 +35,11 @@ trait HasStyle
     /**
      * Sets the HTML `style` attribute for the element.
      *
-     * Creates a new instance with the specified style value, supporting both explicit and nullable assignment according
-     * to the HTML specification for global attributes.
+     * Creates a new instance with the specified style, supporting both explicit and nullable assignment according to
+     * the HTML specification for global attributes.
      *
-     * @param string|UnitEnum|null $value Style value to set for the element. Can be `null` to unset the attribute.
+     * @param string|Stringable|UnitEnum|null $value Style to set for the element. Can be `null` to unset the
+     * attribute.
      *
      * @return static New instance with the updated `style` attribute.
      *
@@ -51,11 +53,20 @@ trait HasStyle
      * // sets the `style` attribute to 'color: red;' if `StyleEnum::RED_TEXT` is a `UnitEnum`
      * $element->style(StyleEnum::RED_TEXT);
      *
+     * // set the `style` attribute with a Stringable
+     * $element->style(
+     *     new class implements Stringable {
+     *         public function __toString(): string {
+     *             return 'color: blue;';
+     *         }
+     *     }
+     * );
+     *
      * // unsets the `style` attribute
      * $element->style(null);
      * ```
      */
-    public function style(string|UnitEnum|null $value): static
+    public function style(string|Stringable|UnitEnum|null $value): static
     {
         $new = clone $this;
 

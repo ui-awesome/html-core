@@ -56,9 +56,9 @@ enum Message: string
     /**
      * Error when a key is not a non-empty string.
      *
-     * Format: "Key must be a non-empty string, '%s' given."
+     * Format: "Key must be a non-empty string."
      */
-    case KEY_MUST_BE_NON_EMPTY_STRING = "Key must be a non-empty string, '%s' given.";
+    case KEY_MUST_BE_NON_EMPTY_STRING = "Key must be a non-empty string.";
 
     /**
      * Error when there is a class mismatch on `end()` call.

@@ -72,7 +72,7 @@ final class AutofocusProvider
     }
 
     /**
-     * Provides test cases for HTML `autofocus` attribute value scenarios.
+     * Provides test cases for HTML `autofocus` attribute scenarios.
      *
      * Supplies test data for validating assignment, override, and removal of the global HTML `autofocus` attribute,
      * including bool and replacement scenarios.
@@ -80,7 +80,7 @@ final class AutofocusProvider
      * Each test case includes the input value, the initial attributes, the expected value, and an assertion message for
      * clear identification.
      *
-     * @return array Test data for `autofocus` attribute value scenarios.
+     * @return array Test data for `autofocus` attribute scenarios.
      *
      * @phpstan-return array<string, array{bool, mixed[], bool|string, string}>
      */

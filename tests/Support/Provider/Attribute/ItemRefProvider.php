@@ -79,7 +79,7 @@ final class ItemRefProvider
     }
 
     /**
-     * Provides test cases for HTML `itemref` attribute value scenarios.
+     * Provides test cases for HTML `itemref` attribute scenarios.
      *
      * Supplies test data for validating assignment, override, and removal of the global HTML `itemref` attribute,
      * including empty string, `null`, and standard string.
@@ -87,7 +87,7 @@ final class ItemRefProvider
      * Each test case includes the input value, the initial attributes, the expected value, and an assertion message for
      * clear identification.
      *
-     * @return array Test data for `itemref` attribute value scenarios.
+     * @return array Test data for `itemref` attribute scenarios.
      *
      * @phpstan-return array<string, array{string|null, mixed[], string, string}>
      */

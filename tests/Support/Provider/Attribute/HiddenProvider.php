@@ -72,7 +72,7 @@ final class HiddenProvider
     }
 
     /**
-     * Provides test cases for HTML `hidden` attribute value scenarios.
+     * Provides test cases for HTML `hidden` attribute scenarios.
      *
      * Supplies test data for validating assignment, override, and removal of the global HTML `hidden` attribute,
      * including bool and replacement scenarios.
@@ -80,7 +80,7 @@ final class HiddenProvider
      * Each test case includes the input value, the initial attributes, the expected value, and an assertion message for
      * clear identification.
      *
-     * @return array Test data for `hidden` attribute value scenarios.
+     * @return array Test data for `hidden` attribute scenarios.
      *
      * @phpstan-return array<string, array{bool, mixed[], bool|string, string}>
      */

@@ -6,6 +6,7 @@ namespace UIAwesome\Html\Core\Tests\Attribute;
 
 use PHPUnit\Framework\Attributes\{DataProviderExternal, Group};
 use PHPUnit\Framework\TestCase;
+use Stringable;
 use UIAwesome\Html\Core\Attribute\HasClass;
 use UIAwesome\Html\Core\Mixin\HasAttributes;
 use UIAwesome\Html\Core\Tests\Support\Provider\Attribute\ClassProvider;
@@ -39,7 +40,7 @@ final class HasClassTest extends TestCase
      */
     #[DataProviderExternal(ClassProvider::class, 'renderAttribute')]
     public function testRenderAttributesWithClassAttribute(
-        string|UnitEnum|null $cssClasses,
+        string|Stringable|UnitEnum|null $cssClasses,
         array $attributes,
         bool $override,
         string $expected,

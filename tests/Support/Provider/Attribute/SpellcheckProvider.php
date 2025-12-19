@@ -97,7 +97,7 @@ final class SpellcheckProvider
     }
 
     /**
-     * Provides test cases for HTML `spellcheck` attribute value scenarios.
+     * Provides test cases for HTML `spellcheck` attribute scenarios.
      *
      * Supplies test data for validating assignment, override, and removal of the global HTML `spellcheck` attribute,
      * including bool, string, and replacement scenarios.
@@ -105,7 +105,7 @@ final class SpellcheckProvider
      * Each test case includes the input value, the initial attributes, the expected value, and an assertion message for
      * clear identification.
      *
-     * @return array Test data for `spellcheck` attribute value scenarios.
+     * @return array Test data for `spellcheck` attribute scenarios.
      *
      * @phpstan-return array<string, array{bool|string|null, mixed[], string, string}>
      */

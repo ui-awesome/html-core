@@ -16,8 +16,8 @@ use UnitEnum;
  * specification.
  *
  * The test data covers real-world scenarios for setting, overriding, and removing the `lang` attribute, supporting both
- * explicit string, UnitEnum for enum-based language codes, and `null` for attribute removal, to maintain consistent
- * output across different rendering configurations.
+ * explicit string, UnitEnum for enum-based, and `null` for attribute removal, to maintain consistent output across
+ * different rendering configurations.
  *
  * The provider organizes test cases with descriptive names for clear identification of failure cases during test
  * execution and debugging sessions.
@@ -99,8 +99,8 @@ final class LangProvider
      * Supplies test data for validating assignment, override, and removal of the global HTML `lang` attribute,
      * including empty string, UnitEnum, `null`, and standard string.
      *
-     * Each test case includes the input value, the initial attributes, the expected output, and an assertion message
-     * for clear identification.
+     * Each test case includes the input value, the initial attributes, the expected value, and an assertion message for
+     * clear identification.
      *
      * @return array Test data for `lang` attribute scenarios.
      *

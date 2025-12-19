@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Tests\Support\Provider\Attribute;
 
+use Stringable;
 use UIAwesome\Html\Core\Tests\Support\Stub\Enum\ButtonSize;
 use UIAwesome\Html\Core\Values\DataProperty;
 use UnitEnum;
@@ -15,8 +16,8 @@ use UnitEnum;
  * standards-compliant attribute generation, key normalization, override behavior, and value propagation.
  *
  * The test data covers real-world scenarios for setting, overriding, and removing `data-*` attributes, supporting bool,
- * scalar values, UnitEnum, and deferred evaluation via \Closure, to maintain consistent output across different
- * rendering configurations.
+ * scalar, UnitEnum, and deferred evaluation via \Closure, to maintain consistent output across different rendering
+ * configurations.
  *
  * The provider organizes test cases with descriptive names for clear identification of failure cases during test
  * execution and debugging sessions.
@@ -35,10 +36,10 @@ final class DataProvider
     /**
      * Provides test cases for rendered HTML `data-*` attribute scenarios.
      *
-     * Supplies test data for validating assignment, override, and removal of HTML `data-*` attributes, including scalar
-     * values, array values rendered as JSON, UnitEnum values, and deferred evaluation via \Closure.
+     * Supplies test data for validating assignment, override, and removal of HTML `data-*` attributes,
+     * including scalar, array rendered as JSON, Stringable, UnitEnum, and deferred evaluation via \Closure.
      *
-     * Each test case includes the input `data` values, the initial attributes, the expected rendered output, and an
+     * Each test case includes the input `data`, the initial attributes, the expected rendered output, and an
      * assertion message for clear identification.
      *
      * @return array Test data for rendered `data-*` attribute scenarios.
@@ -169,6 +170,19 @@ final class DataProvider
                 ' data-action="action"',
                 'Should return the attribute value after setting it.',
             ],
+            'stringable' => [
+                [
+                    'value' => new class() implements Stringable {
+                        public function __toString(): string
+                        {
+                            return 'stringable-value';
+                        }
+                    },
+                ],
+                [],
+                ' data-value="stringable-value"',
+                'Should return the attribute value after setting it.',
+            ],
             'unset with null' => [
                 ['value' => null],
                 [],
@@ -182,19 +196,28 @@ final class DataProvider
      * Provides test cases for single HTML `data-*` attribute scenarios.
      *
      * Supplies test data for validating assignment, override, and removal of a single HTML `data-*` attribute,
-     * including string keys, enum-based keys via UnitEnum, and values provided as scalars, UnitEnum, \Closure, and
-     * `null`.
+     * including string keys, enum-based keys via UnitEnum, and values provided as scalars, Stringable, UnitEnum,
+     * \Closure, and `null`.
      *
      * Each test case includes the attribute key, the input value, the expected attributes array, and an assertion
      * message for clear identification.
      *
      * @return array Test data for single `data-*` attribute scenarios.
      *
-     * @phpstan-return array<string, array{string|UnitEnum, scalar|UnitEnum|null|\Closure(): mixed, mixed[], string}>
+     * @phpstan-return array<
+     *   string,
+     *   array{string|UnitEnum, scalar|Stringable|UnitEnum|null|\Closure(): mixed, mixed[], string},
+     * >
      */
     public static function value(): array
     {
         $closure = static fn(): string => 'action';
+        $stringable = new class() {
+            public function __toString(): string
+            {
+                return 'stringable-value';
+            }
+        };
 
         return [
             'boolean false' => [
@@ -245,6 +268,12 @@ final class DataProvider
                 ['data-action' => 'action'],
                 'Should return the attribute value after setting it.',
             ],
+            'stringable' => [
+                'value',
+                $stringable,
+                ['data-value' => $stringable],
+                'Should return the attribute value after setting it.',
+            ],
             'unset with null' => [
                 'value',
                 null,
@@ -255,22 +284,28 @@ final class DataProvider
     }
 
     /**
-     * Provides test cases for HTML `data-*` attribute value map scenarios.
+     * Provides test cases for HTML `data-*` attribute map scenarios.
      *
      * Supplies test data for validating bulk assignment, normalization, and removal of HTML `data-*` attributes,
      * ensuring consistent key prefixing (`data-`), hyphenated key handling, and value propagation for scalars,
-     * UnitEnum, \Closure, and `null`.
+     * Stringable, UnitEnum, \Closure, and `null`.
      *
-     * Each test case includes the input values map, the expected normalized attributes array, and an assertion
-     * message for clear identification.
+     * Each test case includes the input value map, the expected normalized attributes array, and an assertion message
+     * for clear identification.
      *
-     * @return array Test data for `data-*` attribute value map scenarios.
+     * @return array Test data for `data-*` attribute map scenarios.
      *
      * @phpstan-return array<string, array{mixed[], mixed[], string}>
      */
     public static function values(): array
     {
         $closure = static fn(): string => 'action';
+        $stringable = new class() {
+            public function __toString(): string
+            {
+                return 'stringable-value';
+            }
+        };
 
         $enumCases = [];
 
@@ -305,7 +340,7 @@ final class DataProvider
             ],
             'enum value' => [
                 ['size' => ButtonSize::SMALL],
-                ['data-size' => 'sm'],
+                ['data-size' => ButtonSize::SMALL],
                 'Should return the attribute value after setting it.',
             ],
             'float' => [
@@ -350,6 +385,11 @@ final class DataProvider
             'string' => [
                 ['action' => 'action'],
                 ['data-action' => 'action'],
+                'Should return the attribute value after setting it.',
+            ],
+            'stringable' => [
+                ['value' => $stringable],
+                ['data-value' => $stringable],
                 'Should return the attribute value after setting it.',
             ],
             'unset with null' => [
