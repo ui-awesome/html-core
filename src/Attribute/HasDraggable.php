@@ -7,6 +7,7 @@ namespace UIAwesome\Html\Core\Attribute;
 use InvalidArgumentException;
 use UIAwesome\Html\Core\Values\Draggable;
 use UIAwesome\Html\Helper\Validator;
+use UnitEnum;
 
 use function is_bool;
 
@@ -41,7 +42,13 @@ trait HasDraggable
      * Creates a new instance with the specified draggable, supporting both explicit and nullable assignment according
      * to the HTML specification for global attributes.
      *
-     * @param bool|Draggable|string|null $value Draggable to set for the element. Can be `null` to unset
+     * While the method accepts any UnitEnum for flexibility, runtime validation ensures only values matching
+     * MDN-compliant {@see Draggable::cases()} (`true`, `false`) are accepted.
+     *
+     * This allows users to create custom enums with compliant values while preventing browser errors from invalid
+     * attribute values.
+     *
+     * @param bool|string|UnitEnum|null $value Draggable to set for the element. Can be `null` to unset
      * the attribute.
      *
      * @throws InvalidArgumentException if the provided value is not valid.
@@ -60,7 +67,7 @@ trait HasDraggable
      * $element->draggable(Draggable::TRUE);
      * ```
      */
-    public function draggable(bool|string|Draggable|null $value): static
+    public function draggable(bool|string|UnitEnum|null $value): static
     {
         $new = clone $this;
 

@@ -16,6 +16,7 @@
 - Bug #17: Add cases for `<details>`, `<dialog>`, and `<menu>` HTML tags in `Block` enum (@terabytesoftw)
 - Enh #18: Add `HasAccesskey` trait with `accesskey()` method and tests (@terabytesoftw)
 - Enh #19: Add `HasTranslate` trait with `translate()` method and tests (@terabytesoftw)
+- Bug #20: Update `draggable` method parameter type to include `UnitEnum` class (@terabytesoftw)
 
 ## 0.2.0 December 18, 2025
 
