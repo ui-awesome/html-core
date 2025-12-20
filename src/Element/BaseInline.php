@@ -5,7 +5,17 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Element;
 
 use Stringable;
-use UIAwesome\Html\Core\Attribute\{CanBeHidden, HasClass, HasData, HasDir, HasId, HasLang, HasStyle, HasTitle};
+use UIAwesome\Html\Core\Attribute\{
+    CanBeHidden,
+    HasAccesskey,
+    HasClass,
+    HasData,
+    HasDir,
+    HasId,
+    HasLang,
+    HasStyle,
+    HasTitle,
+};
 use UIAwesome\Html\Core\Base\BaseTag;
 use UIAwesome\Html\Core\Html;
 use UIAwesome\Html\Core\Mixin\{HasAttributes, HasContent, HasPrefixCollection, HasSuffixCollection, HasTemplate};
@@ -37,6 +47,7 @@ use UIAwesome\Html\Helper\Template;
 abstract class BaseInline extends BaseTag
 {
     use CanBeHidden;
+    use HasAccesskey;
     use HasAttributes;
     use HasClass;
     use HasContent;

@@ -34,8 +34,8 @@ use function get_class;
  * - Immutability of the API when setting or overriding attributes.
  * - Nested rendering using `begin()` and `end()` methods.
  * - Precedence of user-defined attributes over global defaults.
- * - Proper assignment and overriding of attribute values, including `class`, `id`, `lang`, `style`, `title`, and
- *   `data-*`.
+ * - Proper assignment and overriding of attribute values, including `accesskey`, `class`, `data-*`, `dir`, `id`,
+ *   `lang`, `style`, and `title`.
  * - Stack integrity during nested `begin()` and `end()` calls.
  *
  * {@see DefaultProvider} for default provider implementation.
@@ -51,6 +51,18 @@ use function get_class;
 final class TagBlockTest extends TestCase
 {
     use TestSupport;
+
+    public function testRenderWithAccesskey(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <div accesskey="k">
+            </div>
+            HTML,
+            TagBlock::tag()->accesskey('k')->render(),
+            "Failed asserting that element renders correctly with 'accesskey' attribute.",
+        );
+    }
 
     public function testRenderWithAttributes(): void
     {
