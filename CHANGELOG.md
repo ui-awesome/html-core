@@ -18,6 +18,7 @@
 - Enh #19: Add `HasTranslate` trait with `translate()` method and tests (@terabytesoftw)
 - Bug #20: Update `draggable` method parameter type to include `UnitEnum` class (@terabytesoftw)
 - Bug #21: Improve PHPDoc for attribute related classes to reflect support for `UnitEnum` types (@terabytesoftw)
+- Enh #22: Add `HasRole` trait with `role()` method and tests (@terabytesoftw)
 
 ## 0.2.0 December 18, 2025
 

@@ -12,6 +12,7 @@ use UIAwesome\Html\Core\Attribute\{
     HasDir,
     HasId,
     HasLang,
+    HasRole,
     HasStyle,
     HasTitle,
     HasTranslate,
@@ -53,6 +54,7 @@ abstract class BaseVoid extends BaseTag
     use HasDir;
     use HasId;
     use HasLang;
+    use HasRole;
     use HasStyle;
     use HasTitle;
     use HasTranslate;

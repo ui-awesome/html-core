@@ -13,6 +13,7 @@ use UIAwesome\Html\Core\Attribute\{
     HasDir,
     HasId,
     HasLang,
+    HasRole,
     HasStyle,
     HasTitle,
     HasTranslate,
@@ -57,6 +58,7 @@ abstract class BaseInline extends BaseTag
     use HasId;
     use HasLang;
     use HasPrefixCollection;
+    use HasRole;
     use HasStyle;
     use HasSuffixCollection;
     use HasTemplate;

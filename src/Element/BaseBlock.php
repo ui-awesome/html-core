@@ -16,6 +16,7 @@ use UIAwesome\Html\Core\Attribute\{
     HasId,
     HasLang,
     HasMicroData,
+    HasRole,
     HasSpellcheck,
     HasStyle,
     HasTabindex,
@@ -69,6 +70,7 @@ abstract class BaseBlock extends BaseTag
     use HasId;
     use HasLang;
     use HasMicroData;
+    use HasRole;
     use HasSpellcheck;
     use HasStyle;
     use HasTabindex;
