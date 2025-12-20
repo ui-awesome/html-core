@@ -23,8 +23,8 @@ use UIAwesome\Html\Core\Values\Direction;
  * - Accurate rendering of attributes for the void element.
  * - Application of default providers.
  * - Immutability of the API when setting or overriding attributes.
- * - Proper assignment and overriding of attribute values, including `class`, `id`, `lang`, `style`, `title`, and
- *   `data-*`.
+ * - Proper assignment and overriding of attribute values, including `accesskey`, `class`, `data-*`, `dir`, `id`,
+ *   `lang`, `style`, and `title`.
  *
  * {@see DefaultProvider} for default provider implementation.
  * {@see TagVoid} for element implementation details.
@@ -37,6 +37,17 @@ use UIAwesome\Html\Core\Values\Direction;
 final class TagVoidTest extends TestCase
 {
     use TestSupport;
+
+    public function testRenderWithAccesskey(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <hr accesskey="k">
+            HTML,
+            TagVoid::tag()->accesskey('k')->render(),
+            "Failed asserting that element renders correctly with 'accesskey' attribute.",
+        );
+    }
 
     public function testRenderWithAttributes(): void
     {

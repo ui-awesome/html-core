@@ -29,8 +29,8 @@ use UIAwesome\Html\Core\Values\Direction;
  * - Data provider-driven validation for edge cases and expected behaviors.
  * - Immutability of the API when setting or overriding attributes.
  * - Precedence of user-defined attributes over global defaults.
- * - Proper assignment and overriding of attribute values, including `class`, `id`, `lang`, `style`, `title`, and
- *   `data-*`.
+ * - Proper assignment and overriding of attribute values, including `accesskey`, `class`, `data-*`, `dir`, `id`,
+ *   `lang`, `style`, and `title`.
  * - Rendering with prefix and suffix content, with and without tag wrappers.
  *
  * {@see DefaultProvider} for default provider implementation.
@@ -46,6 +46,17 @@ use UIAwesome\Html\Core\Values\Direction;
 final class TagInlineTest extends TestCase
 {
     use TestSupport;
+
+    public function testRenderWithAccesskey(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <span accesskey="k"></span>
+            HTML,
+            TagInline::tag()->accesskey('k')->render(),
+            "Failed asserting that element renders correctly with 'accesskey' attribute.",
+        );
+    }
 
     public function testRenderWithAttributes(): void
     {
