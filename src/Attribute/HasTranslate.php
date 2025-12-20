@@ -42,7 +42,7 @@ trait HasTranslate
      * Creates a new instance with the specified translate, supporting both explicit and nullable assignment according
      * to the HTML specification for global attributes.
      *
-     * @param bool|UnitEnum|string|null $value Translate to set for the element. Can be `null` to unset the attribute.
+     * @param bool|string|UnitEnum|null $value Translate to set for the element. Can be `null` to unset the attribute.
      *
      * @throws InvalidArgumentException if the provided value is not valid.
      *
