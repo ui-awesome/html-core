@@ -26,14 +26,14 @@ enum Translate: string
     /**
      * Indicates that the element is not translatable (`no`).
      *
-     * The element cannot be translated by the user.
+     * Indicates that the element should not be translated by translation tools.
      */
     case NO = 'no';
 
     /**
      * Indicates that the element is explicitly translatable (`yes`).
      *
-     * The element can be translated by the user.
+     * Indicates that the element should be translated by translation tools.
      */
     case YES = 'yes';
 }
