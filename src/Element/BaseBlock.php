@@ -20,6 +20,7 @@ use UIAwesome\Html\Core\Attribute\{
     HasStyle,
     HasTabindex,
     HasTitle,
+    HasTranslate,
 };
 use UIAwesome\Html\Core\Base\BaseTag;
 use UIAwesome\Html\Core\Html;
@@ -72,6 +73,7 @@ abstract class BaseBlock extends BaseTag
     use HasStyle;
     use HasTabindex;
     use HasTitle;
+    use HasTranslate;
 
     /**
      * Returns the tag instance representing the block element.

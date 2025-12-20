@@ -15,6 +15,7 @@ use UIAwesome\Html\Core\Attribute\{
     HasLang,
     HasStyle,
     HasTitle,
+    HasTranslate,
 };
 use UIAwesome\Html\Core\Base\BaseTag;
 use UIAwesome\Html\Core\Html;
@@ -60,6 +61,7 @@ abstract class BaseInline extends BaseTag
     use HasSuffixCollection;
     use HasTemplate;
     use HasTitle;
+    use HasTranslate;
 
     /**
      * Returns the tag instance representing the inline element.

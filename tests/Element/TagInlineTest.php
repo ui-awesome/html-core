@@ -30,7 +30,7 @@ use UIAwesome\Html\Core\Values\Direction;
  * - Immutability of the API when setting or overriding attributes.
  * - Precedence of user-defined attributes over global defaults.
  * - Proper assignment and overriding of attribute values, including `accesskey`, `class`, `data-*`, `dir`, `id`,
- *   `lang`, `style`, and `title`.
+ *   `lang`, `style`, `title`, and `translate`.
  * - Rendering with prefix and suffix content, with and without tag wrappers.
  *
  * {@see DefaultProvider} for default provider implementation.
@@ -405,6 +405,17 @@ final class TagInlineTest extends TestCase
             HTML,
             (string) TagInline::tag(),
             "Failed asserting that '__toString()' method renders correctly.",
+        );
+    }
+
+    public function testRenderWithTranslate(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <span translate="no"></span>
+            HTML,
+            TagInline::tag()->translate(false)->render(),
+            "Failed asserting that element renders correctly with 'translate' attribute.",
         );
     }
 

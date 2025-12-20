@@ -15,6 +15,7 @@
 - Enh #16: Enhance support for `Stringable` interface types across `HasClass`, `HasData`, `HasStyle`, `HasTitle` and update related tests (@terabytesoftw)
 - Bug #17: Add cases for `<details>`, `<dialog>`, and `<menu>` HTML tags in `Block` enum (@terabytesoftw)
 - Enh #18: Add `HasAccesskey` trait with `accesskey()` method and tests (@terabytesoftw)
+- Enh #19: Add `HasTranslate` trait with `translate()` method and tests (@terabytesoftw)
 
 ## 0.2.0 December 18, 2025
 

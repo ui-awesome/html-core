@@ -14,6 +14,7 @@ use UIAwesome\Html\Core\Attribute\{
     HasLang,
     HasStyle,
     HasTitle,
+    HasTranslate,
 };
 use UIAwesome\Html\Core\Base\BaseTag;
 use UIAwesome\Html\Core\Html;
@@ -54,6 +55,7 @@ abstract class BaseVoid extends BaseTag
     use HasLang;
     use HasStyle;
     use HasTitle;
+    use HasTranslate;
 
     /**
      * Returns the tag instance representing the void element.
