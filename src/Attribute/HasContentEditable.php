@@ -42,6 +42,12 @@ trait HasContentEditable
      * Creates a new instance with the specified content editability, supporting both explicit and nullable assignment
      * according to the HTML specification for global attributes.
      *
+     * While the method accepts any UnitEnum for flexibility, runtime validation ensures only values matching
+     * MDN-compliant {@see ContentEditable::cases()} (`false`, `plaintext-only`, `true`) are accepted.
+     *
+     * This allows users to create custom enums with compliant values while preventing browser errors from invalid
+     * attribute values.
+     *
      * @param bool|string|UnitEnum|null $value Content editability to set for the element. Can be `null` to unset
      * the attribute.
      *

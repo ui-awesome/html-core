@@ -40,6 +40,12 @@ trait HasDir
      * Creates a new instance with the specified directionality, supporting both explicit and nullable assignment
      * according to the HTML specification for global attributes.
      *
+     * While the method accepts any UnitEnum for flexibility, runtime validation ensures only values matching
+     * MDN-compliant {@see Direction::cases()} (`auto`, `ltr`, `rtl`) are accepted.
+     *
+     * This allows users to create custom enums with compliant values while preventing browser errors from invalid
+     * attribute values.
+     *
      * @param string|UnitEnum|null $value Directionality to set for the element. Can be `null` to unset the
      * attribute.
      *
