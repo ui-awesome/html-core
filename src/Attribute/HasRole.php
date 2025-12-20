@@ -53,7 +53,7 @@ trait HasRole
      *
      * @return static New instance with the updated `role` attribute.
      *
-     * @link https://html.spec.whatwg.org/multipage/dom.html#the-dir-attribute
+     * @link https://html.spec.whatwg.org/multipage/infrastructure.html#attr-aria-role
      * {@see Role} for predefined enum values.
      *
      * Usage example:
