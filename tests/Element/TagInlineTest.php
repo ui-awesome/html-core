@@ -30,7 +30,7 @@ use UIAwesome\Html\Core\Values\Direction;
  * - Immutability of the API when setting or overriding attributes.
  * - Precedence of user-defined attributes over global defaults.
  * - Proper assignment and overriding of attribute values, including `accesskey`, `class`, `data-*`, `dir`, `id`,
- *   `lang`, `style`, `title`, and `translate`.
+ *   `lang`, `role`, `style`, `title`, and `translate`.
  * - Rendering with prefix and suffix content, with and without tag wrappers.
  *
  * {@see DefaultProvider} for default provider implementation.
@@ -321,6 +321,17 @@ final class TagInlineTest extends TestCase
                 ->prefixTag(Inline::STRONG)
                 ->render(),
             "Failed asserting that element renders correctly with 'prefixTag()' method.",
+        );
+    }
+
+    public function testRenderWithRole(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <span role="button"></span>
+            HTML,
+            TagInline::tag()->role('button')->render(),
+            "Failed asserting that element renders correctly with 'role' attribute.",
         );
     }
 

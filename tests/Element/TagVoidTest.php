@@ -24,7 +24,7 @@ use UIAwesome\Html\Core\Values\Direction;
  * - Application of default providers.
  * - Immutability of the API when setting or overriding attributes.
  * - Proper assignment and overriding of attribute values, including `accesskey`, `class`, `data-*`, `dir`, `id`,
- *   `lang`, `style`, `title`, and `translate`.
+ *   `lang`, `role`, `style`, `title`, and `translate`.
  *
  * {@see DefaultProvider} for default provider implementation.
  * {@see TagVoid} for element implementation details.
@@ -158,6 +158,17 @@ final class TagVoidTest extends TestCase
             HTML,
             TagVoid::tag()->lang('es')->render(),
             "Failed asserting that element renders correctly with 'lang' attribute.",
+        );
+    }
+
+    public function testRenderWithRole(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <hr role="generic">
+            HTML,
+            TagVoid::tag()->role('generic')->render(),
+            "Failed asserting that element renders correctly with 'role' attribute.",
         );
     }
 
