@@ -35,7 +35,7 @@ use function get_class;
  * - Nested rendering using `begin()` and `end()` methods.
  * - Precedence of user-defined attributes over global defaults.
  * - Proper assignment and overriding of attribute values, including `accesskey`, `class`, `data-*`, `dir`, `id`,
- *   `lang`, `style`, and `title`.
+ *   `lang`, `style`, `title`, and `translate`.
  * - Stack integrity during nested `begin()` and `end()` calls.
  *
  * {@see DefaultProvider} for default provider implementation.
@@ -423,6 +423,18 @@ final class TagBlockTest extends TestCase
             HTML,
             (string) TagBlock::tag(),
             "Failed asserting that '__toString()' method renders correctly.",
+        );
+    }
+
+    public function testRenderWithTranslate(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <div translate="no">
+            </div>
+            HTML,
+            TagBlock::tag()->translate(false)->render(),
+            "Failed asserting that element renders correctly with 'translate' attribute.",
         );
     }
 
