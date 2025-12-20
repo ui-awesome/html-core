@@ -42,6 +42,12 @@ trait HasDraggable
      * Creates a new instance with the specified draggable, supporting both explicit and nullable assignment according
      * to the HTML specification for global attributes.
      *
+     * While the method accepts any UnitEnum for flexibility, runtime validation ensures only values matching
+     * MDN-compliant {@see Draggable::cases()} (`true`, `false`) are accepted.
+     *
+     * This allows users to create custom enums with compliant values while preventing browser errors from invalid
+     * attribute values.
+     *
      * @param bool|string|UnitEnum|null $value Draggable to set for the element. Can be `null` to unset
      * the attribute.
      *
