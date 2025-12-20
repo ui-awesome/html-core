@@ -43,7 +43,7 @@ trait HasDraggable
      * to the HTML specification for global attributes.
      *
      * While the method accepts any UnitEnum for flexibility, runtime validation ensures only values matching
-     * MDN-compliant {@see Draggable::cases()} (`true`, `false`) are accepted.
+     * MDN-compliant {@see Draggable::cases()} (`false`, `true`) are accepted.
      *
      * This allows users to create custom enums with compliant values while preventing browser errors from invalid
      * attribute values.
