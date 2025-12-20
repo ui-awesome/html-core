@@ -89,6 +89,24 @@ enum Block: string
     case DEL = 'del';
 
     /**
+     * Case for the `<details>` HTML tag.
+     *
+     * Categorized as flow and palpable content.
+     *
+     * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/details
+     */
+    case DETAILS = 'details';
+
+    /**
+     * Case for the `<dialog>` HTML tag.
+     *
+     * Categorized as flow and palpable content.
+     *
+     * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/dialog
+     */
+    case DIALOG = 'dialog';
+
+    /**
      * Case for the `<div>` HTML tag.
      *
      * Categorized as flow and palpable content.
@@ -245,6 +263,15 @@ enum Block: string
      * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/main
      */
     case MAIN = 'main';
+
+    /**
+     * Case for the `<menu>` HTML tag.
+     *
+     * Categorized as flow and palpable content.
+     *
+     * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/menu
+     */
+    case MENU = 'menu';
 
     /**
      * Case for the `<nav>` HTML tag.
