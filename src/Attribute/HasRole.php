@@ -63,6 +63,9 @@ trait HasRole
      *
      * // sets the `role` attribute to 'alert'
      * $element->role(Role::ALERT);
+     *
+     * // unsets the `role` attribute
+     * $element->role(null);
      * ```
      */
     public function role(string|UnitEnum|null $value): static
