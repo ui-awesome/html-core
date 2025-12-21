@@ -584,7 +584,7 @@ final class TagBlockTest extends TestCase
             </div>
             HTML,
             TagBlock::tag()->translate(Translate::YES)->render(),
-            "Failed asserting that element renders correctly with 'translate' attribute using boolean.",
+            "Failed asserting that element renders correctly with 'translate' attribute using enum.",
         );
     }
 
