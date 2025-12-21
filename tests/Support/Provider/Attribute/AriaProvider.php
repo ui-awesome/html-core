@@ -203,7 +203,6 @@ final class AriaProvider
      *
      * @return array Test data for single `aria-*` attribute scenarios.
      *
-     *
      * @phpstan-return array<
      *   string,
      *   array{string|UnitEnum, scalar|Stringable|UnitEnum|null|\Closure(): mixed, mixed[], string},

@@ -33,8 +33,8 @@ final class HasAriaTest extends TestCase
         string $message,
     ): void {
         $instance = new class {
-            use HasAttributes;
             use HasAria;
+            use HasAttributes;
         };
 
         $instance = $instance->attributes($attributes)->ariaAttributes($data);
@@ -49,8 +49,8 @@ final class HasAriaTest extends TestCase
     public function testReturnNewInstanceWhenSettingAriaAttribute(): void
     {
         $instance = new class {
-            use HasAttributes;
             use HasAria;
+            use HasAttributes;
         };
 
         self::assertNotSame(
@@ -78,8 +78,8 @@ final class HasAriaTest extends TestCase
     public function testSetAriaAttributeValue(array $data, array $expected, string $message): void
     {
         $instance = new class {
-            use HasAttributes;
             use HasAria;
+            use HasAttributes;
         };
 
         $instance = $instance->ariaAttributes($data);
@@ -103,8 +103,8 @@ final class HasAriaTest extends TestCase
         string $message,
     ): void {
         $instance = new class {
-            use HasAttributes;
             use HasAria;
+            use HasAttributes;
         };
 
         $instance = $instance->addAriaAttribute($key, $value);
@@ -119,8 +119,8 @@ final class HasAriaTest extends TestCase
     public function testThrowInvalidArgumentExceptionWhenAriaAttributeValueIsInvalid(): void
     {
         $instance = new class {
-            use HasAttributes;
             use HasAria;
+            use HasAttributes;
         };
 
         $this->expectException(InvalidArgumentException::class);
@@ -134,8 +134,8 @@ final class HasAriaTest extends TestCase
     public function testThrowInvalidArgumentExceptionWhenSetAriaAttributeKeyIsEmpty(): void
     {
         $instance = new class {
-            use HasAttributes;
             use HasAria;
+            use HasAttributes;
         };
 
         $this->expectException(InvalidArgumentException::class);
@@ -149,8 +149,8 @@ final class HasAriaTest extends TestCase
     public function testThrowInvalidArgumentExceptionWhenSetAriaAttributeKeyIsInvalid(): void
     {
         $instance = new class {
-            use HasAttributes;
             use HasAria;
+            use HasAttributes;
         };
 
         $this->expectException(InvalidArgumentException::class);
@@ -164,8 +164,8 @@ final class HasAriaTest extends TestCase
     public function testThrowInvalidArgumentExceptionWhenSetSingleAriaAttributeWithEmptyKey(): void
     {
         $instance = new class {
-            use HasAttributes;
             use HasAria;
+            use HasAttributes;
         };
 
         $this->expectException(InvalidArgumentException::class);
@@ -179,8 +179,8 @@ final class HasAriaTest extends TestCase
     public function testThrowInvalidArgumentExceptionWhenSetSingleAriaAttributeWithInvalidKey(): void
     {
         $instance = new class {
-            use HasAttributes;
             use HasAria;
+            use HasAttributes;
         };
 
         $this->expectException(InvalidArgumentException::class);
