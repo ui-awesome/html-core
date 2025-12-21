@@ -58,6 +58,45 @@ final class TagInlineTest extends TestCase
         );
     }
 
+    public function testRenderWithAddAriaAttribute(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <span aria-pressed="true"></span>
+            HTML,
+            TagInline::tag()->addAriaAttribute('pressed', true)->render(),
+            "Failed asserting that element renders correctly with 'addAriaAttribute()' method.",
+        );
+    }
+
+    public function testRenderWithAddDataAttribute(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <span data-value="value"></span>
+            HTML,
+            TagInline::tag()->addDataAttribute('value', 'value')->render(),
+            "Failed asserting that element renders correctly with 'addDataAttribute()' method.",
+        );
+    }
+
+    public function testRenderWithAriaAttribute(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <span aria-controls="modal-1" aria-hidden="false" aria-label="Close"></span>
+            HTML,
+            TagInline::tag()->ariaAttributes(
+                [
+                    'controls' => static fn(): string => 'modal-1',
+                    'hidden' => false,
+                    'label' => 'Close',
+                ],
+            )->render(),
+            "Failed asserting that element renders correctly with 'ariaAttributes()' method.",
+        );
+    }
+
     public function testRenderWithAttributes(): void
     {
         self::equalsWithoutLE(

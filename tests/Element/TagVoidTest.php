@@ -49,6 +49,43 @@ final class TagVoidTest extends TestCase
         );
     }
 
+    public function testRenderWithAddAriaAttribute(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <hr aria-pressed="true">
+            HTML,
+            TagVoid::tag()->addAriaAttribute('pressed', true)->render(),
+            "Failed asserting that element renders correctly with 'ariaAttribute()' method.",
+        );
+    }
+
+    public function testRenderWithAddDataAttribute(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <hr data-value="value">
+            HTML,
+            TagVoid::tag()->addDataAttribute('value', 'value')->render(),
+            "Failed asserting that element renders correctly with 'addDataAttribute()' method.",
+        );
+    }
+
+    public function testRenderWithAriaAttributes(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <hr aria-label="Close" aria-hidden="false" aria-controls="modal-1">
+            HTML,
+            TagVoid::tag()->ariaAttributes([
+                'label' => 'Close',
+                'hidden' => false,
+                'controls' => static fn(): string => 'modal-1',
+            ])->render(),
+            "Failed asserting that element renders correctly with 'ariaAttributes()' method.",
+        );
+    }
+
     public function testRenderWithAttributes(): void
     {
         self::equalsWithoutLE(

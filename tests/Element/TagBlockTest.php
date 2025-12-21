@@ -14,7 +14,7 @@ use UIAwesome\Html\Core\Factory\SimpleFactory;
 use UIAwesome\Html\Core\Tag\Block;
 use UIAwesome\Html\Core\Tests\Support\Stub\{DefaultProvider, DefaultThemeProvider, TagBlock, TagInline};
 use UIAwesome\Html\Core\Tests\Support\TestSupport;
-use UIAwesome\Html\Core\Values\{ContentEditable, Direction, Draggable};
+use UIAwesome\Html\Core\Values\{Aria, ContentEditable, DataProperty, Direction, Draggable};
 
 use function get_class;
 
@@ -34,8 +34,8 @@ use function get_class;
  * - Immutability of the API when setting or overriding attributes.
  * - Nested rendering using `begin()` and `end()` methods.
  * - Precedence of user-defined attributes over global defaults.
- * - Proper assignment and overriding of attribute values, including `accesskey`, `class`, `data-*`, `dir`, `id`,
- *   `lang`, `role`, `style`, `title`, and `translate`.
+ * - Proper assignment and overriding of attribute values, including `accesskey`, `aria-*`, `class`, `data-*`, `dir`,
+ *   `id`, `lang`, `role`, `style`, `title`, and `translate`.
  * - Stack integrity during nested `begin()` and `end()` calls.
  *
  * {@see DefaultProvider} for default provider implementation.
@@ -61,6 +61,72 @@ final class TagBlockTest extends TestCase
             HTML,
             TagBlock::tag()->accesskey('k')->render(),
             "Failed asserting that element renders correctly with 'accesskey' attribute.",
+        );
+    }
+
+    public function testRenderWithAddAriaAttribute(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <div aria-pressed="true">
+            </div>
+            HTML,
+            TagBlock::tag()->addAriaAttribute('pressed', true)->render(),
+            "Failed asserting that element renders correctly with 'addAriaAttribute()' method.",
+        );
+    }
+
+    public function testRenderWithAddAriaAttributeUsingEnum(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <div aria-pressed="true">
+            </div>
+            HTML,
+            TagBlock::tag()->addAriaAttribute(Aria::PRESSED, true)->render(),
+            "Failed asserting that element renders correctly with 'addAriaAttribute()' method.",
+        );
+    }
+
+    public function testRenderWithAddDataAttribute(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <div data-value="value">
+            </div>
+            HTML,
+            TagBlock::tag()->addDataAttribute('value', 'value')->render(),
+            "Failed asserting that element renders correctly with 'addDataAttribute()' method.",
+        );
+    }
+
+    public function testRenderAddDataAttributeUsingEnum(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <div data-value="value">
+            </div>
+            HTML,
+            TagBlock::tag()->addDataAttribute(DataProperty::VALUE, 'value')->render(),
+            "Failed asserting that element renders correctly with 'addDataAttribute()' method.",
+        );
+    }
+
+    public function testRenderWithAriaAttributes(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <div aria-controls="modal-1" aria-hidden="false" aria-label="Close">
+            </div>
+            HTML,
+            TagBlock::tag()->ariaAttributes(
+                [
+                    'controls' => static fn(): string => 'modal-1',
+                    'hidden' => false,
+                    'label' => 'Close',
+                ],
+            )->render(),
+            "Failed asserting that element renders correctly with 'ariaAttributes()' method.",
         );
     }
 

@@ -10,43 +10,23 @@ use PHPUnit\Framework\Attributes\{DataProviderExternal, Group};
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Stringable;
-use UIAwesome\Html\Core\Attribute\HasData;
+use UIAwesome\Html\Core\Attribute\HasAria;
 use UIAwesome\Html\Core\Exception\Message;
 use UIAwesome\Html\Core\Mixin\HasAttributes;
-use UIAwesome\Html\Core\Tests\Support\Provider\Attribute\DataProvider;
+use UIAwesome\Html\Core\Tests\Support\Provider\Attribute\AriaProvider;
 use UIAwesome\Html\Core\Tests\Support\Stub\Enum\Priority;
 use UIAwesome\Html\Helper\Attributes;
 use UnitEnum;
 
-/**
- * Test suite for {@see HasData} trait functionality and behavior.
- *
- * Validates the management of the global HTML `data-*` attributes according to the HTML Living Standard specification.
- *
- * Ensures correct handling, immutability, and validation of `data-*` attributes in tag rendering, supporting both
- * string and Closure for dynamic data assignment.
- *
- * Test coverage.
- * - Accurate rendering of attributes with `data-*` attributes.
- * - Data provider-driven validation for edge cases and expected behaviors.
- * - Exception handling for invalid keys and values.
- * - Immutability of the trait's API when setting or overriding `data-*` attributes.
- * - Proper assignment and overriding of `data-*` value.
- *
- * {@see DataProvider} for test case data providers.
- *
- * @copyright Copyright (C) 2025 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
- */
 #[Group('attributes')]
-final class HasDataTest extends TestCase
+final class HasAriaTest extends TestCase
 {
     /**
      * @param mixed[] $data
      * @phpstan-param mixed[] $attributes
      */
-    #[DataProviderExternal(DataProvider::class, 'renderAttribute')]
-    public function testRenderAttributesWithDataAttribute(
+    #[DataProviderExternal(AriaProvider::class, 'renderAttribute')]
+    public function testRenderAttributesWithAriaAttribute(
         array $data,
         array $attributes,
         string $expected,
@@ -54,10 +34,10 @@ final class HasDataTest extends TestCase
     ): void {
         $instance = new class {
             use HasAttributes;
-            use HasData;
+            use HasAria;
         };
 
-        $instance = $instance->attributes($attributes)->dataAttributes($data);
+        $instance = $instance->attributes($attributes)->ariaAttributes($data);
 
         self::assertSame(
             $expected,
@@ -66,26 +46,26 @@ final class HasDataTest extends TestCase
         );
     }
 
-    public function testReturnNewInstanceWhenSettingDataAttribute(): void
+    public function testReturnNewInstanceWhenSettingAriaAttribute(): void
     {
         $instance = new class {
             use HasAttributes;
-            use HasData;
+            use HasAria;
         };
 
         self::assertNotSame(
             $instance,
-            $instance->addDataAttribute('action', 'test-action'),
+            $instance->addAriaAttribute('pressed', true),
             'Should return a new instance when adding the attribute, ensuring immutability.',
         );
         self::assertNotSame(
             $instance,
-            $instance->dataAttributes(['action' => 'test-action']),
+            $instance->ariaAttributes(['pressed' => true]),
             'Should return a new instance when setting the attribute, ensuring immutability.',
         );
         self::assertNotSame(
             $instance,
-            $instance->removeDataAttribute('action'),
+            $instance->removeAriaAttribute('pressed'),
             'Should return a new instance when removing the attribute, ensuring immutability.',
         );
     }
@@ -94,15 +74,15 @@ final class HasDataTest extends TestCase
      * @param mixed[] $data
      * @param mixed[] $expected
      */
-    #[DataProviderExternal(DataProvider::class, 'values')]
-    public function testSetDataAttributeValue(array $data, array $expected, string $message): void
+    #[DataProviderExternal(AriaProvider::class, 'values')]
+    public function testSetAriaAttributeValue(array $data, array $expected, string $message): void
     {
         $instance = new class {
             use HasAttributes;
-            use HasData;
+            use HasAria;
         };
 
-        $instance = $instance->dataAttributes($data);
+        $instance = $instance->ariaAttributes($data);
 
         self::assertSame(
             $expected,
@@ -115,8 +95,8 @@ final class HasDataTest extends TestCase
      * @phpstan-param scalar|Stringable|UnitEnum|null|Closure(): mixed $value
      * @phpstan-param mixed[] $expected
      */
-    #[DataProviderExternal(DataProvider::class, 'value')]
-    public function testSetSingleDataAttributeValue(
+    #[DataProviderExternal(AriaProvider::class, 'value')]
+    public function testSetSingleAriaAttributeValue(
         string|UnitEnum $key,
         bool|float|int|string|Closure|Stringable|UnitEnum|null $value,
         array $expected,
@@ -124,10 +104,10 @@ final class HasDataTest extends TestCase
     ): void {
         $instance = new class {
             use HasAttributes;
-            use HasData;
+            use HasAria;
         };
 
-        $instance = $instance->addDataAttribute($key, $value);
+        $instance = $instance->addAriaAttribute($key, $value);
 
         self::assertSame(
             $expected,
@@ -136,11 +116,11 @@ final class HasDataTest extends TestCase
         );
     }
 
-    public function testThrowInvalidArgumentExceptionWhenDataAttributeValueIsInvalid(): void
+    public function testThrowInvalidArgumentExceptionWhenAriaAttributeValueIsInvalid(): void
     {
         $instance = new class {
             use HasAttributes;
-            use HasData;
+            use HasAria;
         };
 
         $this->expectException(InvalidArgumentException::class);
@@ -148,14 +128,14 @@ final class HasDataTest extends TestCase
             Message::ATTRIBUTE_VALUE_MUST_BE_SCALAR_OR_CLOSURE->getMessage('object'),
         );
 
-        $instance->dataAttributes(['key' => new stdClass()]);
+        $instance->ariaAttributes(['key' => new stdClass()]);
     }
 
-    public function testThrowInvalidArgumentExceptionWhenSetDataAttributeKeyIsEmpty(): void
+    public function testThrowInvalidArgumentExceptionWhenSetAriaAttributeKeyIsEmpty(): void
     {
         $instance = new class {
             use HasAttributes;
-            use HasData;
+            use HasAria;
         };
 
         $this->expectException(InvalidArgumentException::class);
@@ -163,14 +143,14 @@ final class HasDataTest extends TestCase
             Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(''),
         );
 
-        $instance->dataAttributes(['' => 'value']);
+        $instance->ariaAttributes(['' => 'value']);
     }
 
-    public function testThrowInvalidArgumentExceptionWhenSetDataAttributeKeyIsInvalid(): void
+    public function testThrowInvalidArgumentExceptionWhenSetAriaAttributeKeyIsInvalid(): void
     {
         $instance = new class {
             use HasAttributes;
-            use HasData;
+            use HasAria;
         };
 
         $this->expectException(InvalidArgumentException::class);
@@ -178,14 +158,14 @@ final class HasDataTest extends TestCase
             Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(1),
         );
 
-        $instance->dataAttributes([1 => '']);
+        $instance->ariaAttributes([1 => '']);
     }
 
-    public function testThrowInvalidArgumentExceptionWhenSetSingleDataAttributeWithEmptyKey(): void
+    public function testThrowInvalidArgumentExceptionWhenSetSingleAriaAttributeWithEmptyKey(): void
     {
         $instance = new class {
             use HasAttributes;
-            use HasData;
+            use HasAria;
         };
 
         $this->expectException(InvalidArgumentException::class);
@@ -193,14 +173,14 @@ final class HasDataTest extends TestCase
             Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(''),
         );
 
-        $instance->addDataAttribute('', 'value');
+        $instance->addAriaAttribute('', 'value');
     }
 
-    public function testThrowInvalidArgumentExceptionWhenSetSingleDataAttributeWithInvalidKey(): void
+    public function testThrowInvalidArgumentExceptionWhenSetSingleAriaAttributeWithInvalidKey(): void
     {
         $instance = new class {
             use HasAttributes;
-            use HasData;
+            use HasAria;
         };
 
         $this->expectException(InvalidArgumentException::class);
@@ -208,6 +188,6 @@ final class HasDataTest extends TestCase
             Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(2),
         );
 
-        $instance->addDataAttribute(Priority::HIGH, 'value');
+        $instance->addAriaAttribute(Priority::HIGH, 'value');
     }
 }
