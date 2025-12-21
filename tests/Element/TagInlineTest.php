@@ -12,7 +12,7 @@ use UIAwesome\Html\Core\Factory\SimpleFactory;
 use UIAwesome\Html\Core\Tag\Inline;
 use UIAwesome\Html\Core\Tests\Support\Stub\{DefaultProvider, DefaultThemeProvider, TagInline};
 use UIAwesome\Html\Core\Tests\Support\TestSupport;
-use UIAwesome\Html\Core\Values\Direction;
+use UIAwesome\Html\Core\Values\{Aria, ContentEditable, DataProperty, Direction, Draggable, Language, Role, Translate};
 
 /**
  * Test suite for {@see TagInline} element functionality and behavior.
@@ -29,8 +29,8 @@ use UIAwesome\Html\Core\Values\Direction;
  * - Data provider-driven validation for edge cases and expected behaviors.
  * - Immutability of the API when setting or overriding attributes.
  * - Precedence of user-defined attributes over global defaults.
- * - Proper assignment and overriding of attribute values, including `accesskey`, `class`, `data-*`, `dir`, `id`,
- *   `lang`, `role`, `style`, `title`, and `translate`.
+ * - Proper assignment and overriding of attribute values, including `accesskey`, `aria-*`, `class`, `data-*`, `dir`,
+ *  `id`, `lang`, `role`, `style`, `title`, and `translate`.
  * - Rendering with prefix and suffix content, with and without tag wrappers.
  *
  * {@see DefaultProvider} for default provider implementation.
@@ -69,6 +69,17 @@ final class TagInlineTest extends TestCase
         );
     }
 
+    public function testRenderWithAddAriaAttributeUsingEnum(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <span aria-pressed="true"></span>
+            HTML,
+            TagInline::tag()->addAriaAttribute(Aria::PRESSED, true)->render(),
+            "Failed asserting that element renders correctly with 'addAriaAttribute()' method using enum.",
+        );
+    }
+
     public function testRenderWithAddDataAttribute(): void
     {
         self::equalsWithoutLE(
@@ -77,6 +88,17 @@ final class TagInlineTest extends TestCase
             HTML,
             TagInline::tag()->addDataAttribute('value', 'value')->render(),
             "Failed asserting that element renders correctly with 'addDataAttribute()' method.",
+        );
+    }
+
+    public function testRenderWithAddDataAttributeUsingEnum(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <span data-value="value"></span>
+            HTML,
+            TagInline::tag()->addDataAttribute(DataProperty::VALUE, 'value')->render(),
+            "Failed asserting that element renders correctly with 'addDataAttribute()' method using enum.",
         );
     }
 
@@ -141,6 +163,17 @@ final class TagInlineTest extends TestCase
         );
     }
 
+    public function testRenderWithContentEditableUsingEnum(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <span contenteditable="true"></span>
+            HTML,
+            TagInline::tag()->contentEditable(ContentEditable::TRUE)->render(),
+            "Failed asserting that element renders correctly with 'contentEditable' attribute using enum.",
+        );
+    }
+
     public function testRenderWithDataAttributes(): void
     {
         self::equalsWithoutLE(
@@ -191,10 +224,21 @@ final class TagInlineTest extends TestCase
     {
         self::equalsWithoutLE(
             <<<HTML
-            <span dir="ltr"></span>
+            <span dir="rtl"></span>
             HTML,
-            TagInline::tag()->dir(Direction::LTR)->render(),
+            TagInline::tag()->dir('rtl')->render(),
             "Failed asserting that element renders correctly with 'dir' attribute.",
+        );
+    }
+
+    public function testRenderWithDirUsingEnum(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <span dir="rtl"></span>
+            HTML,
+            TagInline::tag()->dir(Direction::RTL)->render(),
+            "Failed asserting that element renders correctly with 'dir' attribute using enum.",
         );
     }
 
@@ -206,6 +250,17 @@ final class TagInlineTest extends TestCase
             HTML,
             TagInline::tag()->draggable(true)->render(),
             "Failed asserting that element renders correctly with 'draggable' attribute.",
+        );
+    }
+
+    public function testRenderWithDraggableUsingEnum(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <span draggable="true"></span>
+            HTML,
+            TagInline::tag()->draggable(Draggable::TRUE)->render(),
+            "Failed asserting that element renders correctly with 'draggable' attribute using enum.",
         );
     }
 
@@ -316,6 +371,17 @@ final class TagInlineTest extends TestCase
         );
     }
 
+    public function testRenderWithLangUsingEnum(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <span lang="es"></span>
+            HTML,
+            TagInline::tag()->lang(Language::SPANISH)->render(),
+            "Failed asserting that element renders correctly with 'lang' attribute using enum.",
+        );
+    }
+
     public function testRenderWithPrefixAndSuffix(): void
     {
         self::equalsWithoutLE(
@@ -371,6 +437,17 @@ final class TagInlineTest extends TestCase
             HTML,
             TagInline::tag()->role('button')->render(),
             "Failed asserting that element renders correctly with 'role' attribute.",
+        );
+    }
+
+    public function testRenderWithRoleUsingEnum(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <span role="button"></span>
+            HTML,
+            TagInline::tag()->role(Role::BUTTON)->render(),
+            "Failed asserting that element renders correctly with 'role' attribute using enum.",
         );
     }
 
@@ -466,6 +543,17 @@ final class TagInlineTest extends TestCase
             HTML,
             TagInline::tag()->translate(false)->render(),
             "Failed asserting that element renders correctly with 'translate' attribute.",
+        );
+    }
+
+    public function testRenderWithTranslateUsingEnum(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <span translate="no"></span>
+            HTML,
+            TagInline::tag()->translate(Translate::NO)->render(),
+            "Failed asserting that element renders correctly with 'translate' attribute using enum.",
         );
     }
 

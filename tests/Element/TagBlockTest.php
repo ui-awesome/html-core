@@ -14,7 +14,7 @@ use UIAwesome\Html\Core\Factory\SimpleFactory;
 use UIAwesome\Html\Core\Tag\Block;
 use UIAwesome\Html\Core\Tests\Support\Stub\{DefaultProvider, DefaultThemeProvider, TagBlock, TagInline};
 use UIAwesome\Html\Core\Tests\Support\TestSupport;
-use UIAwesome\Html\Core\Values\{Aria, ContentEditable, DataProperty, Direction, Draggable};
+use UIAwesome\Html\Core\Values\{Aria, ContentEditable, DataProperty, Direction, Draggable, Language, Role, Translate};
 
 use function get_class;
 
@@ -100,7 +100,7 @@ final class TagBlockTest extends TestCase
         );
     }
 
-    public function testRenderAddDataAttributeUsingEnum(): void
+    public function testRenderWithAddDataAttributeUsingEnum(): void
     {
         self::equalsWithoutLE(
             <<<HTML
@@ -199,8 +199,20 @@ final class TagBlockTest extends TestCase
             <div contenteditable="true">
             </div>
             HTML,
-            TagBlock::tag()->contentEditable(ContentEditable::TRUE)->render(),
+            TagBlock::tag()->contentEditable(true)->render(),
             "Failed asserting that element renders correctly with 'contentEditable' attribute.",
+        );
+    }
+
+    public function testRenderWithContentEditableUsingEnum(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <div contenteditable="true">
+            </div>
+            HTML,
+            TagBlock::tag()->contentEditable(ContentEditable::TRUE)->render(),
+            "Failed asserting that element renders correctly with 'contentEditable' attribute using enum.",
         );
     }
 
@@ -261,8 +273,20 @@ final class TagBlockTest extends TestCase
             <div dir="rtl">
             </div>
             HTML,
-            TagBlock::tag()->dir(Direction::RTL)->render(),
+            TagBlock::tag()->dir('rtl')->render(),
             "Failed asserting that element renders correctly with 'dir' attribute.",
+        );
+    }
+
+    public function testRenderWithDirUsingEnum(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <div dir="rtl">
+            </div>
+            HTML,
+            TagBlock::tag()->dir(Direction::RTL)->render(),
+            "Failed asserting that element renders correctly with 'dir' attribute using enum.",
         );
     }
 
@@ -273,8 +297,20 @@ final class TagBlockTest extends TestCase
             <div draggable="true">
             </div>
             HTML,
-            TagBlock::tag()->draggable(Draggable::TRUE)->render(),
+            TagBlock::tag()->draggable(true)->render(),
             "Failed asserting that element renders correctly with 'draggable' attribute.",
+        );
+    }
+
+    public function testRenderWithDraggableUsingEnum(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <div draggable="true">
+            </div>
+            HTML,
+            TagBlock::tag()->draggable(Draggable::TRUE)->render(),
+            "Failed asserting that element renders correctly with 'draggable' attribute using enum.",
         );
     }
 
@@ -390,6 +426,18 @@ final class TagBlockTest extends TestCase
         );
     }
 
+    public function testRenderWithLangUsingEnum(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <div lang="es">
+            </div>
+            HTML,
+            TagBlock::tag()->lang(Language::SPANISH)->render(),
+            "Failed asserting that element renders correctly with 'lang' attribute using enum.",
+        );
+    }
+
     public function testRenderWithNestedBeginEnd(): void
     {
         self::equalsWithoutLE(
@@ -429,6 +477,18 @@ final class TagBlockTest extends TestCase
             HTML,
             TagBlock::tag()->role('banner')->render(),
             "Failed asserting that element renders correctly with 'role' attribute.",
+        );
+    }
+
+    public function testRenderWithRoleUsingEnum(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <div role="banner">
+            </div>
+            HTML,
+            TagBlock::tag()->role(Role::BANNER)->render(),
+            "Failed asserting that element renders correctly with 'role' attribute using enum.",
         );
     }
 
@@ -513,6 +573,18 @@ final class TagBlockTest extends TestCase
             HTML,
             TagBlock::tag()->translate(false)->render(),
             "Failed asserting that element renders correctly with 'translate' attribute.",
+        );
+    }
+
+    public function testRenderWithTranslateUsingEnum(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <div translate="yes">
+            </div>
+            HTML,
+            TagBlock::tag()->translate(Translate::YES)->render(),
+            "Failed asserting that element renders correctly with 'translate' attribute using boolean.",
         );
     }
 

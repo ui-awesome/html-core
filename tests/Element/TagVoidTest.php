@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Core\Tests\Support\Stub\{DefaultProvider, TagVoid};
 use UIAwesome\Html\Core\Tests\Support\TestSupport;
-use UIAwesome\Html\Core\Values\Direction;
+use UIAwesome\Html\Core\Values\{Aria, DataProperty, Direction};
 
 /**
  * Test suite for {@see TagVoid} element functionality and behavior.
@@ -23,8 +23,8 @@ use UIAwesome\Html\Core\Values\Direction;
  * - Accurate rendering of attributes for the void element.
  * - Application of default providers.
  * - Immutability of the API when setting or overriding attributes.
- * - Proper assignment and overriding of attribute values, including `accesskey`, `class`, `data-*`, `dir`, `id`,
- *   `lang`, `role`, `style`, `title`, and `translate`.
+ * - Proper assignment and overriding of attribute values, including `accesskey`, `aria-*`, `class`, `data-*`, `dir`,
+ *   `id`, `lang`, `role`, `style`, `title`, and `translate`.
  *
  * {@see DefaultProvider} for default provider implementation.
  * {@see TagVoid} for element implementation details.
@@ -60,6 +60,17 @@ final class TagVoidTest extends TestCase
         );
     }
 
+    public function testRenderWithAddAriaAttributeUsingEnum(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <hr aria-pressed="true">
+            HTML,
+            TagVoid::tag()->addAriaAttribute(Aria::PRESSED, true)->render(),
+            "Failed asserting that element renders correctly with 'addAriaAttribute()' method using enum.",
+        );
+    }
+
     public function testRenderWithAddDataAttribute(): void
     {
         self::equalsWithoutLE(
@@ -68,6 +79,17 @@ final class TagVoidTest extends TestCase
             HTML,
             TagVoid::tag()->addDataAttribute('value', 'value')->render(),
             "Failed asserting that element renders correctly with 'addDataAttribute()' method.",
+        );
+    }
+
+    public function testRenderWithAddDataAttributeUsingEnum(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <hr data-value="value">
+            HTML,
+            TagVoid::tag()->addDataAttribute(DataProperty::VALUE, 'value')->render(),
+            "Failed asserting that element renders correctly with 'addDataAttribute()' method using enum.",
         );
     }
 
@@ -160,8 +182,19 @@ final class TagVoidTest extends TestCase
             <<<HTML
             <hr dir="rtl">
             HTML,
-            TagVoid::tag()->dir(Direction::RTL)->render(),
+            TagVoid::tag()->dir('rtl')->render(),
             "Failed asserting that element renders correctly with 'dir' attribute.",
+        );
+    }
+
+    public function testRenderWithDirUsingEnum(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <hr dir="ltr">
+            HTML,
+            TagVoid::tag()->dir(Direction::LTR)->render(),
+            "Failed asserting that element renders correctly with 'dir' attribute using enum.",
         );
     }
 
