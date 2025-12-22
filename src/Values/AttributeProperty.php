@@ -38,14 +38,14 @@ enum AttributeProperty: string
     case ACCESSKEY = 'accesskey';
 
     /**
-     * `align` — (Deprecated) Specifies the horizontal alignment of the element.
-     */
-    case ALIGN = 'align';
-
-    /**
      * `action` — The URI of a program that processes the information submitted via the form.
      */
     case ACTION = 'action';
+
+    /**
+     * `align` — (Deprecated) Specifies the horizontal alignment of the element.
+     */
+    case ALIGN = 'align';
 
     /**
      * `allow` — Specifies a feature policy for an iframe.
