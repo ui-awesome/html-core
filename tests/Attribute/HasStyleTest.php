@@ -36,11 +36,12 @@ use UnitEnum;
 final class HasStyleTest extends TestCase
 {
     /**
+     * @phpstan-param mixed[]|string|Stringable|UnitEnum|null $style
      * @phpstan-param mixed[] $attributes
      */
     #[DataProviderExternal(StyleProvider::class, 'renderAttribute')]
     public function testRenderAttributesWithStyleAttribute(
-        string|Stringable|UnitEnum|null $style,
+        array|string|Stringable|UnitEnum|null $style,
         array $attributes,
         string|UnitEnum $expected,
         string $message,
@@ -87,13 +88,15 @@ final class HasStyleTest extends TestCase
     }
 
     /**
+     * @phpstan-param mixed[]|string|Stringable|UnitEnum|null $style
      * @phpstan-param mixed[] $attributes
+     * @phpstan-param mixed[]|string|Stringable|UnitEnum $expected
      */
     #[DataProviderExternal(StyleProvider::class, 'values')]
     public function testSetStyleAttributeValue(
-        string|Stringable|UnitEnum|null $style,
+        array|string|Stringable|UnitEnum|null $style,
         array $attributes,
-        string|Stringable|UnitEnum $expected,
+        array|string|Stringable|UnitEnum $expected,
         string $message,
     ): void {
         $instance = new class {

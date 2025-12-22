@@ -35,20 +35,39 @@ trait HasStyle
     /**
      * Sets the HTML `style` attribute for the element.
      *
-     * Creates a new instance with the specified style, supporting both explicit and nullable assignment according to
-     * the HTML specification for global attributes.
+     * Creates a new instance with the specified style, supporting array, string, Stringable, UnitEnum, and `null`
+     * assignment according to the HTML specification for global attributes.
      *
-     * @param string|Stringable|UnitEnum|null $value Style to set for the element. Can be `null` to unset the
+     * @param array|string|Stringable|UnitEnum|null $value Style to set for the element. Can be `null` to unset the
      * attribute.
+     *
+     * Expected array structure and processing.
+     * - When an `array` is provided it MUST be an associative array of CSS property => value pairs, for example,
+     *   `['color' => 'red', 'font-size' => '16px']`.
+     * - Values SHOULD be strings or objects implementing `\Stringable`/`UnitEnum` that yield a valid CSS value.
+     * - Array values are converted to single CSS string during rendering (for example, `color: red; font-size: 16px;`).
+     * - No automatic deep validation is performed here; validation/escaping and the actual array to string conversion
+     *   happen in the rendering/attribute handling layer (see `src/Html.php` or the class that serializes attributes
+     *   for output).
      *
      * @return static New instance with the updated `style` attribute.
      *
      * @link https://html.spec.whatwg.org/multipage/dom.html#the-style-attribute
      *
+     * @phpstan-param mixed[]|string|Stringable|UnitEnum|null $value
+     *
      * Usage example:
      * ```php
      * // sets the `style` attribute to 'color: red;'
      * $element->style('color: red;');
+     *
+     * // sets the `style` attribute to an array of styles
+     * $element->style(
+     *     [
+     *         'color' => 'red',
+     *         'font-size' => '16px',
+     *     ]
+     * );
      *
      * // sets the `style` attribute to 'color: red;' if `StyleEnum::RED_TEXT` is a `UnitEnum`
      * $element->style(StyleEnum::RED_TEXT);
@@ -66,7 +85,7 @@ trait HasStyle
      * $element->style(null);
      * ```
      */
-    public function style(string|Stringable|UnitEnum|null $value): static
+    public function style(array|string|Stringable|UnitEnum|null $value): static
     {
         $new = clone $this;
 
