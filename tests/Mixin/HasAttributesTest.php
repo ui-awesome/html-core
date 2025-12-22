@@ -12,6 +12,7 @@ use UIAwesome\Html\Core\Exception\Message;
 use UIAwesome\Html\Core\Mixin\HasAttributes;
 use UIAwesome\Html\Core\Tests\Support\Provider\Mixin\AttributeProvider;
 use UIAwesome\Html\Core\Tests\Support\Stub\Enum\Priority;
+use UnitEnum;
 
 /**
  * Test suite for {@see HasAttributes} mixin functionality and behavior.
@@ -113,7 +114,7 @@ final class HasAttributesTest extends TestCase
      */
     #[DataProviderExternal(AttributeProvider::class, 'value')]
     public function testSetSingleAttributeValue(
-        string $key,
+        string|UnitEnum $key,
         bool|float|int|string|Closure|null $value,
         array $expected,
         string $message,

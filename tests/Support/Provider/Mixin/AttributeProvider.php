@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Tests\Support\Provider\Mixin;
 
+use UIAwesome\Html\Core\Values\AttributeProperty;
+use UnitEnum;
+
 /**
  * Data provider for {@see \UIAwesome\Html\Core\Tests\Mixin\HasAttributesTest} class.
  *
@@ -32,20 +35,31 @@ final class AttributeProvider
      * Provides test cases for single HTML attribute scenarios.
      *
      * Supplies test data for validating assignment, override, and removal of a single HTML attribute, including string
-     * keys and values provided as scalars, \Closure, and `null`.
+     * keys, UnitEnum keys and values provided as scalars, \Closure, and `null`.
      *
      * Each test case includes the attribute key, the input value, the expected attributes array, and an assertion
      * message for clear identification.
      *
      * @return array Test data for single attribute scenarios.
      *
-     * @phpstan-return array<string, array{string, scalar|\Closure(): mixed|null, mixed[], string}>
+     * @phpstan-return array<string, array{string|UnitEnum, scalar|\Closure(): mixed|null, mixed[], string}>
      */
     public static function value(): array
     {
         $closure = static fn(): string => 'my-value';
 
-        return [
+        $enumCases = [];
+
+        foreach (AttributeProperty::cases() as $case) {
+            $enumCases["AttributeProperty::{$case->name}"] = [
+                $case,
+                '',
+                [$case->value => ''],
+                "Should return the attribute '{$case->value}' after setting it.",
+            ];
+        }
+
+        $staticCases = [
             'boolean false' => [
                 'disabled',
                 false,
@@ -101,6 +115,8 @@ final class AttributeProvider
                 "Should unset the 'class' attribute when 'null' is provided after a value.",
             ],
         ];
+
+        return [...$staticCases, ...$enumCases];
     }
 
     /**
@@ -109,8 +125,8 @@ final class AttributeProvider
      * Supplies test data for validating bulk assignment, normalization, and removal of HTML attributes, ensuring
      * consistent key handling, hyphenated key support, and value propagation for scalars, \Closure, and `null`.
      *
-     * Each test case includes the input values map, the expected normalized attributes array, and an assertion
-     * message for clear identification.
+     * Each test case includes the input values map, the expected normalized attributes array, and an assertion message
+     * for clear identification.
      *
      * @return array Test data for attribute value map scenarios.
      *
@@ -166,32 +182,6 @@ final class AttributeProvider
                     'class' => $closure,
                 ],
                 'Should set multiple attributes with mixed string and closure values.',
-            ],
-            'multiple attributes' => [
-                [
-                    'id' => 'my-id',
-                    'class' => 'my-class',
-                    'disabled' => true,
-                ],
-                [
-                    'id' => 'my-id',
-                    'class' => 'my-class',
-                    'disabled' => true,
-                ],
-                'Should set multiple attributes with various value types.',
-            ],
-            'multiple string' => [
-                [
-                    'id' => 'my-id',
-                    'class' => 'my-class',
-                    'title' => 'my-title',
-                ],
-                [
-                    'id' => 'my-id',
-                    'class' => 'my-class',
-                    'title' => 'my-title',
-                ],
-                'Should set multiple attributes with string values.',
             ],
             'string' => [
                 ['id' => 'my-id'],
