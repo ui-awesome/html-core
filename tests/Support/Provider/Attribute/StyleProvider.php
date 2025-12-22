@@ -16,8 +16,8 @@ use UnitEnum;
  * specification.
  *
  * The test data covers real-world scenarios for setting, overriding, and removing the `style` attribute, supporting
- * explicit string, UnitEnum for enum-based, and `null` for attribute removal, to maintain consistent output across
- * different rendering configurations.
+ * explicit array, string, UnitEnum for enum-based, and `null` for attribute removal, to maintain consistent output
+ * across different rendering configurations.
  *
  * The provider organizes test cases with descriptive names for clear identification of failure cases during test
  * execution and debugging sessions.
@@ -25,7 +25,7 @@ use UnitEnum;
  * Key features.
  * - Ensures correct propagation, assignment, and override of the `style` attribute in HTML element rendering.
  * - Named test data sets for precise failure identification.
- * - Validation of string (including empty strings), UnitEnum and `null` for the `style` attribute.
+ * - Validation of array, string (including empty strings), UnitEnum and `null` for the `style` attribute.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
@@ -36,18 +36,24 @@ final class StyleProvider
      * Provides test cases for rendered HTML `style` attribute scenarios.
      *
      * Supplies test data for validating assignment, override, and removal of the global HTML `style` attribute,
-     * including empty string, UnitEnum, `null`, standard string, and Stringable.
+     * including array, empty string, UnitEnum, `null`, standard string, and Stringable.
      *
      * Each test case includes the input value, the initial attributes, the expected rendered output, and an assertion
      * message for clear identification.
      *
      * @return array Test data for rendered `style` attribute scenarios.
      *
-     * @phpstan-return array<string, array{string|Stringable|UnitEnum|null, mixed[], string, string}>
+     * @phpstan-return array<string, array{mixed[]|string|Stringable|UnitEnum|null, mixed[], string, string}>
      */
     public static function renderAttribute(): array
     {
         return [
+            'array' => [
+                ['color' => 'red', 'font-size' => '16px'],
+                [],
+                ' style=\'color: red; font-size: 16px;\'',
+                'Should return the attribute value after setting it with an array.',
+            ],
             'empty string' => [
                 '',
                 [],
@@ -108,7 +114,7 @@ final class StyleProvider
      * Provides test cases for HTML `style` attribute scenarios.
      *
      * Supplies test data for validating assignment, override, and removal of the global HTML `style` attribute,
-     * including empty string, UnitEnum, `null`, standard string, and Stringable.
+     * including array, empty string, UnitEnum, `null`, standard string, and Stringable.
      *
      * Each test case includes the input value, the initial attributes, the expected value, and an assertion message for
      * clear identification.
@@ -117,7 +123,7 @@ final class StyleProvider
      *
      * @phpstan-return array<
      *   string,
-     *   array{string|Stringable|UnitEnum|null, mixed[], string|Stringable|UnitEnum, string},
+     *   array{mixed[]|string|Stringable|UnitEnum|null, mixed[], mixed[]|string|Stringable|UnitEnum, string},
      * >
      */
     public static function values(): array
@@ -130,6 +136,12 @@ final class StyleProvider
         };
 
         return [
+            'array' => [
+                ['color' => 'red', 'font-size' => '16px'],
+                [],
+                ['color' => 'red', 'font-size' => '16px'],
+                'Should return the attribute value after setting it with an array.',
+            ],
             'empty string' => [
                 '',
                 [],

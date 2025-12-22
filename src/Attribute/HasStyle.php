@@ -38,12 +38,14 @@ trait HasStyle
      * Creates a new instance with the specified style, supporting both explicit and nullable assignment according to
      * the HTML specification for global attributes.
      *
-     * @param string|Stringable|UnitEnum|null $value Style to set for the element. Can be `null` to unset the
+     * @param array|string|Stringable|UnitEnum|null $value Style to set for the element. Can be `null` to unset the
      * attribute.
      *
      * @return static New instance with the updated `style` attribute.
      *
      * @link https://html.spec.whatwg.org/multipage/dom.html#the-style-attribute
+     *
+     * @phpstan-param mixed[]|string|Stringable|UnitEnum|null $value
      *
      * Usage example:
      * ```php
@@ -66,7 +68,7 @@ trait HasStyle
      * $element->style(null);
      * ```
      */
-    public function style(string|Stringable|UnitEnum|null $value): static
+    public function style(array|string|Stringable|UnitEnum|null $value): static
     {
         $new = clone $this;
 
