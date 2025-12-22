@@ -52,6 +52,14 @@ trait HasStyle
      * // sets the `style` attribute to 'color: red;'
      * $element->style('color: red;');
      *
+     * // sets the `style` attribute to an array of styles
+     * $element->style(
+     *     [
+     *         'color' => 'red',
+     *         'font-size' => '16px',
+     *     ]
+     * );
+     *
      * // sets the `style` attribute to 'color: red;' if `StyleEnum::RED_TEXT` is a `UnitEnum`
      * $element->style(StyleEnum::RED_TEXT);
      *
