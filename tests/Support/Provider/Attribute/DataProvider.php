@@ -36,11 +36,11 @@ final class DataProvider
     /**
      * Provides test cases for rendered HTML `data-*` attribute scenarios.
      *
-     * Supplies test data for validating assignment, override, and removal of HTML `data-*` attributes,
-     * including scalar, array rendered as JSON, Stringable, UnitEnum, and deferred evaluation via \Closure.
+     * Supplies test data for validating assignment, override, and removal of HTML `data-*` attributes, including
+     * scalar, array rendered as JSON, Stringable, UnitEnum, and deferred evaluation via \Closure.
      *
-     * Each test case includes the input `data`, the initial attributes, the expected rendered output, and an
-     * assertion message for clear identification.
+     * Each test case includes the input value, the initial attributes, the override flag, the expected rendered output,
+     * and an assertion message for clear identification.
      *
      * @return array Test data for rendered `data-*` attribute scenarios.
      *
@@ -154,16 +154,6 @@ final class DataProvider
                 ' data-action="action" data-callback="callback"',
                 "Should set multiple 'data' attributes with mixed string and closure values.",
             ],
-            'multiple string' => [
-                [
-                    'action' => 'action',
-                    'id' => 'id',
-                    'value' => 'value',
-                ],
-                [],
-                ' data-action="action" data-id="id" data-value="value"',
-                "Should set multiple 'data' attributes with string values.",
-            ],
             'string' => [
                 ['action' => 'action'],
                 [],
@@ -211,7 +201,6 @@ final class DataProvider
      */
     public static function value(): array
     {
-        $closure = static fn(): string => 'action';
         $stringable = new class implements Stringable {
             public function __toString(): string
             {
@@ -232,10 +221,58 @@ final class DataProvider
                 ['data-value' => true],
                 'Should return the attribute value after setting it.',
             ],
-            'closure' => [
+            'closure with array' => [
                 'value',
-                $closure,
-                ['data-value' => $closure],
+                static fn(): array => ['key' => 'value'],
+                ['data-value' => ['key' => 'value']],
+                'Should return the attribute value after setting it.',
+            ],
+            'closure with boolean false' => [
+                'value',
+                static fn(): bool => false,
+                ['data-value' => false],
+                'Should return the attribute value after setting it.',
+            ],
+            'closure with boolean true' => [
+                'value',
+                static fn(): bool => true,
+                ['data-value' => true],
+                'Should return the attribute value after setting it.',
+            ],
+            'closure with empty string' => [
+                'value',
+                static fn(): string => '',
+                ['data-value' => ''],
+                'Should return the attribute value after setting it.',
+            ],
+            'closure with enum' => [
+                'value',
+                static fn(): ButtonSize => ButtonSize::SMALL,
+                ['data-value' => ButtonSize::SMALL],
+                'Should return the attribute value after setting it.',
+            ],
+            'closure with float' => [
+                'value',
+                static fn(): float => 0.42,
+                ['data-value' => 0.42],
+                'Should return the attribute value after setting it.',
+            ],
+            'closure with integer' => [
+                'value',
+                static fn(): int => 42,
+                ['data-value' => 42],
+                'Should return the attribute value after setting it.',
+            ],
+            'closure with null' => [
+                'value',
+                static fn(): null|string => null,
+                [],
+                'Should return the attribute value after setting it.',
+            ],
+            'closure with string' => [
+                'value',
+                static fn(): string => 'Close',
+                ['data-value' => 'Close'],
                 'Should return the attribute value after setting it.',
             ],
             'empty string' => [
@@ -256,10 +293,22 @@ final class DataProvider
                 ['data-size' => ButtonSize::SMALL],
                 'Should return the attribute value after setting it.',
             ],
+            'float' => [
+                'value',
+                0.42,
+                ['data-value' => 0.42],
+                'Should return the attribute value after setting it.',
+            ],
             'hyphenated key' => [
                 'custom-action',
                 'value',
                 ['data-custom-action' => 'value'],
+                'Should return the attribute value after setting it.',
+            ],
+            'integer' => [
+                'value',
+                42,
+                ['data-value' => 42],
                 'Should return the attribute value after setting it.',
             ],
             'string' => [
@@ -290,8 +339,8 @@ final class DataProvider
      * ensuring consistent key prefixing (`data-`), hyphenated key handling, and value propagation for scalars,
      * Stringable, UnitEnum, \Closure, and `null`.
      *
-     * Each test case includes the input value map, the expected normalized attributes array, and an assertion message
-     * for clear identification.
+     * Each test case includes the input value, the expected normalized attributes array, and an assertion message for
+     * clear identification.
      *
      * @return array Test data for `data-*` attribute map scenarios.
      *
@@ -299,7 +348,6 @@ final class DataProvider
      */
     public static function values(): array
     {
-        $closure = static fn(): string => 'action';
         $stringable = new class implements Stringable {
             public function __toString(): string
             {
@@ -328,9 +376,49 @@ final class DataProvider
                 ['data-value' => true],
                 'Should return the attribute value after setting it.',
             ],
-            'closure' => [
-                ['value' => $closure],
-                ['data-value' => $closure],
+            'closure with array' => [
+                ['value' => static fn(): array => ['key' => 'value']],
+                ['data-value' => ['key' => 'value']],
+                'Should return the attribute value after setting it.',
+            ],
+            'closure with boolean false' => [
+                ['value' => static fn(): bool => false],
+                ['data-value' => false],
+                'Should return the attribute value after setting it.',
+            ],
+            'closure with boolean true' => [
+                ['value' => static fn(): bool => true],
+                ['data-value' => true],
+                'Should return the attribute value after setting it.',
+            ],
+            'closure with empty string' => [
+                ['value' => static fn(): string => ''],
+                ['data-value' => ''],
+                'Should return the attribute value after setting it.',
+            ],
+            'closure with enum' => [
+                ['value' => static fn(): ButtonSize => ButtonSize::SMALL],
+                ['data-value' => ButtonSize::SMALL],
+                'Should return the attribute value after setting it.',
+            ],
+            'closure with float' => [
+                ['value' => static fn(): float => 0.42],
+                ['data-value' => 0.42],
+                'Should return the attribute value after setting it.',
+            ],
+            'closure with integer' => [
+                ['value' => static fn(): int => 42],
+                ['data-value' => 42],
+                'Should return the attribute value after setting it.',
+            ],
+            'closure with null' => [
+                ['value' => static fn(): null|string => null],
+                [],
+                'Should return the attribute value after setting it.',
+            ],
+            'closure with string' => [
+                ['value' => static fn(): string => 'Close'],
+                ['data-value' => 'Close'],
                 'Should return the attribute value after setting it.',
             ],
             'empty string' => [
@@ -361,26 +449,13 @@ final class DataProvider
             'mixed string and closure' => [
                 [
                     'action' => 'action',
-                    'callback' => $closure,
+                    'callback' => static fn(): string => 'action',
                 ],
                 [
                     'data-action' => 'action',
-                    'data-callback' => $closure,
+                    'data-callback' => 'action',
                 ],
                 "Should set multiple 'data' attributes with mixed string and closure values.",
-            ],
-            'multiple string' => [
-                [
-                    'action' => 'action',
-                    'id' => 'id',
-                    'value' => 'value',
-                ],
-                [
-                    'data-action' => 'action',
-                    'data-id' => 'id',
-                    'data-value' => 'value',
-                ],
-                "Should set multiple 'data' attributes with string values.",
             ],
             'string' => [
                 ['action' => 'action'],

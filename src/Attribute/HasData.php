@@ -196,6 +196,10 @@ trait HasData
             );
         }
 
+        if ($value instanceof Closure) {
+            $value = $value();
+        }
+
         if ($value === null) {
             unset($this->attributes["data-$normalizedKey"]);
         } else {

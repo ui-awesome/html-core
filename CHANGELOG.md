@@ -20,6 +20,7 @@
 - Bug #21: Improve PHPDoc for attribute related classes to reflect support for `UnitEnum` types (@terabytesoftw)
 - Enh #22: Add `HasRole` trait with `role()` method and tests (@terabytesoftw)
 - Enh #23: Add `HasAria` trait with `aria()` method and tests (@terabytesoftw)
+- Bug #24: Improve `HasData` trait to support closure evaluation for `data-*` attributes (@terabytesoftw)
 
 ## 0.2.0 December 18, 2025
 
