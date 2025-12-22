@@ -153,16 +153,6 @@ final class AriaProvider
                 ' aria-label="Close" aria-controls="modal-1"',
                 "Should set multiple 'aria' attributes with mixed string and closure values.",
             ],
-            'multiple string' => [
-                [
-                    'label' => 'Close',
-                    'live' => 'polite',
-                    'value' => 'value',
-                ],
-                [],
-                ' aria-label="Close" aria-live="polite" aria-value="value"',
-                "Should set multiple 'aria' attributes with string values.",
-            ],
             'string' => [
                 ['label' => 'Close'],
                 [],
@@ -320,12 +310,6 @@ final class AriaProvider
                 ['aria-controls' => 'modal-1'],
                 'Should return the attribute value after setting it.',
             ],
-            'multiple string' => [
-                'live',
-                'polite',
-                ['aria-live' => 'polite'],
-                'Should return the attribute value after setting it.',
-            ],
             'string' => [
                 'label',
                 'Close',
@@ -461,19 +445,6 @@ final class AriaProvider
                     'aria-controls' => 'modal-1',
                 ],
                 "Should set multiple 'aria' attributes with mixed string and closure values.",
-            ],
-            'multiple string' => [
-                [
-                    'label' => 'Close',
-                    'live' => 'polite',
-                    'value' => 'value',
-                ],
-                [
-                    'aria-label' => 'Close',
-                    'aria-live' => 'polite',
-                    'aria-value' => 'value',
-                ],
-                "Should set multiple 'aria' attributes with string values.",
             ],
             'string' => [
                 ['label' => 'Close'],

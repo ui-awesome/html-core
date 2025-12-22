@@ -21,6 +21,7 @@
 - Enh #22: Add `HasRole` trait with `role()` method and tests (@terabytesoftw)
 - Enh #23: Add `HasAria` trait with `aria()` method and tests (@terabytesoftw)
 - Bug #24: Improve `HasData` trait to support closure evaluation for `data-*` attributes (@terabytesoftw)
+- Bug #25: Remove redundant test cases for multiple string `aria-*` attributes in `AriaProvider` class (@terabytesoftw)
 
 ## 0.2.0 December 18, 2025
 
