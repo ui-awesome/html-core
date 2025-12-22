@@ -35,11 +35,20 @@ trait HasStyle
     /**
      * Sets the HTML `style` attribute for the element.
      *
-     * Creates a new instance with the specified style, supporting both explicit and nullable assignment according to
-     * the HTML specification for global attributes.
+     * Creates a new instance with the specified style, supporting array, string, Stringable, UnitEnum, and `null`
+     * assignment according to the HTML specification for global attributes.
      *
      * @param array|string|Stringable|UnitEnum|null $value Style to set for the element. Can be `null` to unset the
      * attribute.
+     *
+     * Expected array structure and processing.
+     * - When an `array` is provided it MUST be an associative array of CSS property => value pairs, for example,
+     *   `['color' => 'red', 'font-size' => '16px']`.
+     * - Values SHOULD be strings or objects implementing `\Stringable`/`UnitEnum` that yield a valid CSS value.
+     * - Array values are converted to single CSS string during rendering (for example, `color: red; font-size: 16px;`).
+     * - No automatic deep validation is performed here; validation/escaping and the actual array to string conversion
+     *   happen in the rendering/attribute handling layer (see `src/Html.php` or the class that serializes attributes
+     *   for output).
      *
      * @return static New instance with the updated `style` attribute.
      *
