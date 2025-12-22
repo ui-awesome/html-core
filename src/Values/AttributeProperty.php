@@ -38,14 +38,14 @@ enum AttributeProperty: string
     case ACCESSKEY = 'accesskey';
 
     /**
-     * `action` — The URI of a program that processes the information submitted via the form.
-     */
-    case ACTION = 'action';
-
-    /**
      * `align` — (Deprecated) Specifies the horizontal alignment of the element.
      */
     case ALIGN = 'align';
+
+    /**
+     * `action` — The URI of a program that processes the information submitted via the form.
+     */
+    case ACTION = 'action';
 
     /**
      * `allow` — Specifies a feature policy for an iframe.
@@ -161,11 +161,6 @@ enum AttributeProperty: string
      * `class` — Space-separated list of classes for the element.
      */
     case CSS_CLASS = 'class';
-
-    /**
-     * `data-*` — Allows custom data attributes on elements. Specific data keys are represented in `DataProperty`.
-     */
-    case DATA = 'data-*';
 
     /**
      * `datetime` — Date and time associated with the element (e.g., `<time>`).
@@ -331,11 +326,6 @@ enum AttributeProperty: string
      * `lang` — Language code for the element's content.
      */
     case LANG = 'lang';
-
-    /**
-     * `language` — (Deprecated) Defines the scripting language.
-     */
-    case LANGUAGE = 'language';
 
     /**
      * `list` — Identifies a `datalist` element that provides predefined options.
@@ -566,11 +556,6 @@ enum AttributeProperty: string
      * `style` — Inline CSS styles for the element.
      */
     case STYLE = 'style';
-
-    /**
-     * `summary` — (Deprecated) Summary of the table's purpose.
-     */
-    case SUMMARY = 'summary';
 
     /**
      * `tabindex` — Overrides the browser's default tab order.
