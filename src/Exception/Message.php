@@ -32,19 +32,19 @@ use function sprintf;
 enum Message: string
 {
     /**
+     * Error when a attribute value is not a `scalar` or `Closure`.
+     *
+     * Format: "Attribute value must be of type 'scalar' or 'Closure', '%s' given."
+     */
+    case ATTRIBUTE_VALUE_MUST_BE_SCALAR_OR_CLOSURE = "Attribute value must be of type 'scalar' or 'Closure'," .
+    "'%s' given.";
+
+    /**
      * Error when attempting to instantiate an abstract class.
      *
      * Format: "Cannot instantiate abstract class '%s' via 'tag()' method."
      */
     case CANNOT_INSTANTIATE_ABSTRACT_CLASS = "Cannot instantiate abstract class '%s' via 'tag()' method.";
-
-    /**
-     * Error when a data attribute value is not a `scalar` or `Closure`.
-     *
-     * Format: "Data attribute value must be of type 'scalar' or 'Closure', '%s' given."
-     */
-    case DATA_ATTRIBUTE_VALUE_MUST_BE_SCALAR_OR_CLOSURE = "Data attribute value must be of type 'scalar' or 'Closure'" .
-    ", '%s' given.";
 
     /**
      * Error when an attribute value is invalid.

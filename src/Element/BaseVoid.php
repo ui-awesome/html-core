@@ -7,6 +7,7 @@ namespace UIAwesome\Html\Core\Element;
 use UIAwesome\Html\Core\Attribute\{
     CanBeHidden,
     HasAccesskey,
+    HasAria,
     HasClass,
     HasData,
     HasDir,
@@ -48,6 +49,7 @@ abstract class BaseVoid extends BaseTag
 {
     use CanBeHidden;
     use HasAccesskey;
+    use HasAria;
     use HasAttributes;
     use HasClass;
     use HasData;

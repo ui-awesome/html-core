@@ -14,7 +14,7 @@ use UIAwesome\Html\Core\Factory\SimpleFactory;
 use UIAwesome\Html\Core\Tag\Block;
 use UIAwesome\Html\Core\Tests\Support\Stub\{DefaultProvider, DefaultThemeProvider, TagBlock, TagInline};
 use UIAwesome\Html\Core\Tests\Support\TestSupport;
-use UIAwesome\Html\Core\Values\{ContentEditable, Direction, Draggable};
+use UIAwesome\Html\Core\Values\{Aria, ContentEditable, DataProperty, Direction, Draggable, Language, Role, Translate};
 
 use function get_class;
 
@@ -34,8 +34,8 @@ use function get_class;
  * - Immutability of the API when setting or overriding attributes.
  * - Nested rendering using `begin()` and `end()` methods.
  * - Precedence of user-defined attributes over global defaults.
- * - Proper assignment and overriding of attribute values, including `accesskey`, `class`, `data-*`, `dir`, `id`,
- *   `lang`, `role`, `style`, `title`, and `translate`.
+ * - Proper assignment and overriding of attribute values, including `accesskey`, `aria-*`, `class`, `data-*`, `dir`,
+ *   `id`, `lang`, `role`, `style`, `title`, and `translate`.
  * - Stack integrity during nested `begin()` and `end()` calls.
  *
  * {@see DefaultProvider} for default provider implementation.
@@ -61,6 +61,72 @@ final class TagBlockTest extends TestCase
             HTML,
             TagBlock::tag()->accesskey('k')->render(),
             "Failed asserting that element renders correctly with 'accesskey' attribute.",
+        );
+    }
+
+    public function testRenderWithAddAriaAttribute(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <div aria-pressed="true">
+            </div>
+            HTML,
+            TagBlock::tag()->addAriaAttribute('pressed', true)->render(),
+            "Failed asserting that element renders correctly with 'addAriaAttribute()' method.",
+        );
+    }
+
+    public function testRenderWithAddAriaAttributeUsingEnum(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <div aria-pressed="true">
+            </div>
+            HTML,
+            TagBlock::tag()->addAriaAttribute(Aria::PRESSED, true)->render(),
+            "Failed asserting that element renders correctly with 'addAriaAttribute()' method.",
+        );
+    }
+
+    public function testRenderWithAddDataAttribute(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <div data-value="value">
+            </div>
+            HTML,
+            TagBlock::tag()->addDataAttribute('value', 'value')->render(),
+            "Failed asserting that element renders correctly with 'addDataAttribute()' method.",
+        );
+    }
+
+    public function testRenderWithAddDataAttributeUsingEnum(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <div data-value="value">
+            </div>
+            HTML,
+            TagBlock::tag()->addDataAttribute(DataProperty::VALUE, 'value')->render(),
+            "Failed asserting that element renders correctly with 'addDataAttribute()' method.",
+        );
+    }
+
+    public function testRenderWithAriaAttributes(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <div aria-controls="modal-1" aria-hidden="false" aria-label="Close">
+            </div>
+            HTML,
+            TagBlock::tag()->ariaAttributes(
+                [
+                    'controls' => static fn(): string => 'modal-1',
+                    'hidden' => false,
+                    'label' => 'Close',
+                ],
+            )->render(),
+            "Failed asserting that element renders correctly with 'ariaAttributes()' method.",
         );
     }
 
@@ -133,8 +199,20 @@ final class TagBlockTest extends TestCase
             <div contenteditable="true">
             </div>
             HTML,
-            TagBlock::tag()->contentEditable(ContentEditable::TRUE)->render(),
+            TagBlock::tag()->contentEditable(true)->render(),
             "Failed asserting that element renders correctly with 'contentEditable' attribute.",
+        );
+    }
+
+    public function testRenderWithContentEditableUsingEnum(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <div contenteditable="true">
+            </div>
+            HTML,
+            TagBlock::tag()->contentEditable(ContentEditable::TRUE)->render(),
+            "Failed asserting that element renders correctly with 'contentEditable' attribute using enum.",
         );
     }
 
@@ -195,8 +273,20 @@ final class TagBlockTest extends TestCase
             <div dir="rtl">
             </div>
             HTML,
-            TagBlock::tag()->dir(Direction::RTL)->render(),
+            TagBlock::tag()->dir('rtl')->render(),
             "Failed asserting that element renders correctly with 'dir' attribute.",
+        );
+    }
+
+    public function testRenderWithDirUsingEnum(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <div dir="rtl">
+            </div>
+            HTML,
+            TagBlock::tag()->dir(Direction::RTL)->render(),
+            "Failed asserting that element renders correctly with 'dir' attribute using enum.",
         );
     }
 
@@ -207,8 +297,20 @@ final class TagBlockTest extends TestCase
             <div draggable="true">
             </div>
             HTML,
-            TagBlock::tag()->draggable(Draggable::TRUE)->render(),
+            TagBlock::tag()->draggable(true)->render(),
             "Failed asserting that element renders correctly with 'draggable' attribute.",
+        );
+    }
+
+    public function testRenderWithDraggableUsingEnum(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <div draggable="true">
+            </div>
+            HTML,
+            TagBlock::tag()->draggable(Draggable::TRUE)->render(),
+            "Failed asserting that element renders correctly with 'draggable' attribute using enum.",
         );
     }
 
@@ -324,6 +426,18 @@ final class TagBlockTest extends TestCase
         );
     }
 
+    public function testRenderWithLangUsingEnum(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <div lang="es">
+            </div>
+            HTML,
+            TagBlock::tag()->lang(Language::SPANISH)->render(),
+            "Failed asserting that element renders correctly with 'lang' attribute using enum.",
+        );
+    }
+
     public function testRenderWithNestedBeginEnd(): void
     {
         self::equalsWithoutLE(
@@ -363,6 +477,18 @@ final class TagBlockTest extends TestCase
             HTML,
             TagBlock::tag()->role('banner')->render(),
             "Failed asserting that element renders correctly with 'role' attribute.",
+        );
+    }
+
+    public function testRenderWithRoleUsingEnum(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <div role="banner">
+            </div>
+            HTML,
+            TagBlock::tag()->role(Role::BANNER)->render(),
+            "Failed asserting that element renders correctly with 'role' attribute using enum.",
         );
     }
 
@@ -447,6 +573,18 @@ final class TagBlockTest extends TestCase
             HTML,
             TagBlock::tag()->translate(false)->render(),
             "Failed asserting that element renders correctly with 'translate' attribute.",
+        );
+    }
+
+    public function testRenderWithTranslateUsingEnum(): void
+    {
+        self::equalsWithoutLE(
+            <<<HTML
+            <div translate="yes">
+            </div>
+            HTML,
+            TagBlock::tag()->translate(Translate::YES)->render(),
+            "Failed asserting that element renders correctly with 'translate' attribute using enum.",
         );
     }
 

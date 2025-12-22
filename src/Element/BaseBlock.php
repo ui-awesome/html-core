@@ -8,6 +8,7 @@ use UIAwesome\Html\Core\Attribute\{
     CanBeAutofocus,
     CanBeHidden,
     HasAccesskey,
+    HasAria,
     HasClass,
     HasContentEditable,
     HasData,
@@ -60,6 +61,7 @@ abstract class BaseBlock extends BaseTag
     use CanBeAutofocus;
     use CanBeHidden;
     use HasAccesskey;
+    use HasAria;
     use HasAttributes;
     use HasClass;
     use HasContent;
