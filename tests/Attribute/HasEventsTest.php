@@ -14,7 +14,6 @@ use UIAwesome\Html\Core\Attribute\HasEvents;
 use UIAwesome\Html\Core\Exception\Message;
 use UIAwesome\Html\Core\Mixin\HasAttributes;
 use UIAwesome\Html\Core\Tests\Support\Provider\Attribute\EventProvider;
-use UIAwesome\Html\Core\Tests\Support\Stub\Enum\Priority;
 use UIAwesome\Html\Helper\Attributes;
 use UnitEnum;
 
@@ -65,6 +64,19 @@ final class HasEventsTest extends TestCase
             $expected,
             Attributes::render($instance->getAttributes()),
             $message,
+        );
+    }
+
+    public function testReturnEmptyWhenEventAttributeNotSet(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+            use HasEvents;
+        };
+
+        self::assertEmpty(
+            $instance->getAttributes(),
+            'Should have no attributes set when no attribute is provided.',
         );
     }
 
@@ -154,8 +166,12 @@ final class HasEventsTest extends TestCase
         $instance->events(['onclick' => new stdClass()]);
     }
 
-    public function testThrowInvalidArgumentExceptionWhenRemoveEventAttributeKeyMissingOnPrefix(): void
-    {
+    #[DataProviderExternal(EventProvider::class, 'invalidSingleKey')]
+    public function testThrowInvalidArgumentExceptionWhenRemoveEventAttributeKeyIsInvalid(
+        string|UnitEnum $key,
+        string $handler,
+        string $message,
+    ): void {
         $instance = new class {
             use HasAttributes;
             use HasEvents;
@@ -163,14 +179,20 @@ final class HasEventsTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            Message::EVENT_KEY_MUST_START_WITH_ON->getMessage('invalid-key'),
+            $message,
         );
 
-        $instance->removeEvent('invalid-key');
+        $instance->removeEvent($key);
     }
 
-    public function testThrowInvalidArgumentExceptionWhenRemoveEventAttributeWithEmptyKey(): void
-    {
+    /**
+     * @phpstan-param mixed[] $attributes
+     */
+    #[DataProviderExternal(EventProvider::class, 'invalidKey')]
+    public function testThrowInvalidArgumentExceptionWhenSetEventAttributeKeyIsInvalid(
+        array $attributes,
+        string $message,
+    ): void {
         $instance = new class {
             use HasAttributes;
             use HasEvents;
@@ -178,14 +200,18 @@ final class HasEventsTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
+            $message,
         );
 
-        $instance->removeEvent('');
+        $instance->events($attributes);
     }
 
-    public function testThrowInvalidArgumentExceptionWhenSetEventAttributeKeyIsEmpty(): void
-    {
+    #[DataProviderExternal(EventProvider::class, 'invalidSingleKey')]
+    public function testThrowInvalidArgumentExceptionWhenSetSingleEventAttributeKeyIsInvalid(
+        string|UnitEnum $key,
+        string $handler,
+        string $message,
+    ): void {
         $instance = new class {
             use HasAttributes;
             use HasEvents;
@@ -193,84 +219,9 @@ final class HasEventsTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
+            $message,
         );
 
-        $instance->events(['' => "alert('test')"]);
-    }
-
-    public function testThrowInvalidArgumentExceptionWhenSetEventAttributeKeyIsInvalid(): void
-    {
-        $instance = new class {
-            use HasAttributes;
-            use HasEvents;
-        };
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
-        );
-
-        $instance->events([1 => "alert('test')"]);
-    }
-
-    public function testThrowInvalidArgumentExceptionWhenSetEventAttributeKeyMissingOnPrefix(): void
-    {
-        $instance = new class {
-            use HasAttributes;
-            use HasEvents;
-        };
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            Message::EVENT_KEY_MUST_START_WITH_ON->getMessage('invalid-key'),
-        );
-
-        $instance->events(['invalid-key' => "alert('test')"]);
-    }
-
-    public function testThrowInvalidArgumentExceptionWhenSetSingleEventAttributeKeyMissingOnPrefix(): void
-    {
-        $instance = new class {
-            use HasAttributes;
-            use HasEvents;
-        };
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            Message::EVENT_KEY_MUST_START_WITH_ON->getMessage('invalid-key'),
-        );
-
-        $instance->addEvent('invalid-key', "alert('test')");
-    }
-
-    public function testThrowInvalidArgumentExceptionWhenSetSingleEventAttributeWithEmptyKey(): void
-    {
-        $instance = new class {
-            use HasAttributes;
-            use HasEvents;
-        };
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
-        );
-
-        $instance->addEvent('', "alert('test')");
-    }
-
-    public function testThrowInvalidArgumentExceptionWhenSetSingleEventAttributeWithInvalidKey(): void
-    {
-        $instance = new class {
-            use HasAttributes;
-            use HasEvents;
-        };
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
-        );
-
-        $instance->addEvent(Priority::HIGH, "alert('test')");
+        $instance->addEvent($key, $handler);
     }
 }

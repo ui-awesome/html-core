@@ -27,6 +27,7 @@
 - Bug #28: Improve `HasAriaTest` and `AriaProvider` with comprehensive test coverage for `aria-*` attributes (@terabytesoftw)
 - Enh #29: Add `HasEvents` trait with `events()`, `addEvent()`, `removeEvent()` methods and tests (@terabytesoftw)
 - Bug #30: Improve `HasAriaTest` with additional test cases for invalid `aria-*` attribute keys and `AriaProvider` data provider (@terabytesoftw)
+- Bug #31: Improve `HasEventsTest` with additional cases for invalid `on-*` attribute keys and `EventProvider` data provider (@terabytesoftw)
 
 ## 0.2.0 December 18, 2025
 
