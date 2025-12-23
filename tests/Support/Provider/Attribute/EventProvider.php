@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Tests\Support\Provider\Attribute;
 
 use Stringable;
+use UIAwesome\Html\Core\Exception\Message;
 use UIAwesome\Html\Core\Tests\Support\Stub\Enum\Priority;
 use UIAwesome\Html\Core\Values\Event;
 use UnitEnum;
@@ -33,6 +34,81 @@ use UnitEnum;
  */
 final class EventProvider
 {
+    /**
+     * Provides test cases for invalid HTML `on-*` attribute keys.
+     *
+     * Supplies test data for validating exception handling when setting HTML `on-*` attributes with invalid keys,
+     * including empty string, UnitEnum and keys without the `on` prefix.
+     *
+     * Each test case includes the invalid key input and an assertion message for clear identification.
+     *
+     * @return array Test data for invalid `on-*` attribute keys.
+     *
+     * @phpstan-return array<string, array{mixed[]}>
+     */
+    public static function invalidKey(): array
+    {
+        return [
+            'boolean false' => [
+                [false => 'value'],
+                Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
+            ],
+            'boolean true' => [
+                [true => 'value'],
+                Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
+            ],
+            'empty string' => [
+                ['' => 'value'],
+                Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
+            ],
+            'integer' => [
+                [1 => 'value'],
+                Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
+            ],
+            'null' => [
+                [null => 'value'],
+                Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
+            ],
+            'without on prefix' => [
+                ['invalid-key' => 'value'],
+                Message::EVENT_KEY_MUST_START_WITH_ON->getMessage('invalid-key'),
+            ],
+        ];
+    }
+
+    /**
+     * Provides test cases for invalid single HTML `on-*` attribute keys.
+     *
+     * Supplies test data for validating exception handling when setting a single HTML `on-*` attribute with an invalid
+     * key, including empty string, UnitEnum and keys without the `on` prefix.
+     *
+     * Each test case includes the attribute key, the input value, and an assertion message for clear identification.
+     *
+     * @return array Test data for invalid single `on-*` attribute keys.
+     *
+     * @phpstan-return array<string, array{scalar|UnitEnum|null, string, string}>
+     */
+    public static function invalidSingleKey(): array
+    {
+        return [
+            'empty string' => [
+                '',
+                'value',
+                Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
+            ],
+            'enum key' => [
+                Priority::HIGH,
+                'value',
+                Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
+            ],
+            'without on prefix' => [
+                'invalid-key',
+                'value',
+                Message::EVENT_KEY_MUST_START_WITH_ON->getMessage('invalid-key'),
+            ],
+        ];
+    }
+
     /**
      * Provides test cases for rendered HTML `on*` event attribute scenarios.
      *
