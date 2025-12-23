@@ -18,6 +18,26 @@ use UIAwesome\Html\Core\Tests\Support\Stub\Enum\Priority;
 use UIAwesome\Html\Helper\Attributes;
 use UnitEnum;
 
+/**
+ * Test suite for {@see HasAria} trait functionality and behavior.
+ *
+ * Validates the management of global HTML `aria-*` attributes according to the WAI-ARIA specification.
+ *
+ * Ensures correct handling, immutability, and validation of `aria-*` attributes in tag rendering, supporting scalar,
+ * Stringable, UnitEnum, and Closure for dynamic attribute assignment.
+ *
+ * Test coverage.
+ * - Accurate rendering of attributes with `aria-*` attributes.
+ * - Data provider-driven validation for edge cases and expected behaviors.
+ * - Exception handling for invalid keys and values.
+ * - Immutability of the trait's API when setting or overriding `aria-*` attributes.
+ * - Proper assignment and overriding of `aria-*` attribute values.
+ *
+ * {@see AriaProvider} for test case data providers.
+ *
+ * @copyright Copyright (C) 2025 Terabytesoftw.
+ * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
+ */
 #[Group('attributes')]
 final class HasAriaTest extends TestCase
 {

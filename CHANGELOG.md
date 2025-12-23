@@ -24,6 +24,7 @@
 - Bug #25: Remove redundant test cases for multiple string `aria-*` attributes in `AriaProvider` class (@terabytesoftw)
 - Enh #26: Add `AttributeProperty` enum to standardize common HTML attribute names (@terabytesoftw)
 - Bug #27: Update `style()` method to accept array as a valid input type in `HasStyle` trait (@terabytesoftw)
+- Bug #28: Improve `HasAriaTest` and `AriaProvider` with comprehensive test coverage for `aria-*` attributes (@terabytesoftw)
 
 ## 0.2.0 December 18, 2025
 

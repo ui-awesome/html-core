@@ -6,6 +6,7 @@ namespace UIAwesome\Html\Core\Tests\Support\Provider\Attribute;
 
 use Stringable;
 use UIAwesome\Html\Core\Tests\Support\Stub\Enum\ButtonSize;
+use UIAwesome\Html\Core\Values\Aria;
 use UnitEnum;
 
 /**
@@ -63,7 +64,7 @@ final class AriaProvider
             'closure with array' => [
                 ['controls' => static fn(): array => ['key' => 'value']],
                 [],
-                ' aria-controls=' . "'" . '{"key":"value"}' . "'",
+                " aria-controls='{\"key\":\"value\"}'",
                 'Should return the attribute value after setting it.',
             ],
             'closure with boolean false' => [
@@ -279,6 +280,12 @@ final class AriaProvider
                 '',
                 ['aria-label' => ''],
                 'Should return an empty string when setting an empty string.',
+            ],
+            'enum key' => [
+                Aria::ATOMIC,
+                'value',
+                ['aria-atomic' => 'value'],
+                'Should return the attribute value after setting it.',
             ],
             'enum value' => [
                 'size',
