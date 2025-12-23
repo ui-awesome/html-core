@@ -19,12 +19,13 @@
 - Bug #20: Update `draggable` method parameter type to include `UnitEnum` class (@terabytesoftw)
 - Bug #21: Improve PHPDoc for attribute related classes to reflect support for `UnitEnum` types (@terabytesoftw)
 - Enh #22: Add `HasRole` trait with `role()` method and tests (@terabytesoftw)
-- Enh #23: Add `HasAria` trait with `aria()` method and tests (@terabytesoftw)
+- Enh #23: Add `HasAria` trait with `ariaAttributes()`, `addAriaAttribute()`, `removeAriaAttribute()` methods and tests (@terabytesoftw)
 - Bug #24: Improve `HasData` trait to support closure evaluation for `data-*` attributes (@terabytesoftw)
 - Bug #25: Remove redundant test cases for multiple string `aria-*` attributes in `AriaProvider` class (@terabytesoftw)
 - Enh #26: Add `AttributeProperty` enum to standardize common HTML attribute names (@terabytesoftw)
 - Bug #27: Update `style()` method to accept array as a valid input type in `HasStyle` trait (@terabytesoftw)
 - Bug #28: Improve `HasAriaTest` and `AriaProvider` with comprehensive test coverage for `aria-*` attributes (@terabytesoftw)
+- Enh #29: Add `HasEvents` trait with `events()`, `addEvent()`, `removeEvent()` methods and tests (@terabytesoftw)
 
 ## 0.2.0 December 18, 2025
 
