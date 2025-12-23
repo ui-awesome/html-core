@@ -175,7 +175,7 @@ trait HasEvents
      * and UnitEnum values.
      *
      * @param mixed $key Event key (string or UnitEnum).
-     * @param string|Closure|Stringable|UnitEnum|null $handler Handler string or `null` to unset.
+     * @param Closure|string|Stringable|UnitEnum|null $handler Handler string or `null` to unset.
      *
      * @throws InvalidArgumentException if the key is invalid.
      *
