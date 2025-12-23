@@ -14,7 +14,6 @@ use UIAwesome\Html\Core\Attribute\HasAria;
 use UIAwesome\Html\Core\Exception\Message;
 use UIAwesome\Html\Core\Mixin\HasAttributes;
 use UIAwesome\Html\Core\Tests\Support\Provider\Attribute\AriaProvider;
-use UIAwesome\Html\Core\Tests\Support\Stub\Enum\Priority;
 use UIAwesome\Html\Helper\Attributes;
 use UnitEnum;
 
@@ -63,6 +62,19 @@ final class HasAriaTest extends TestCase
             $expected,
             Attributes::render($instance->getAttributes()),
             $message,
+        );
+    }
+
+    public function testReturnEmptyWhenAriaAttributeNotSet(): void
+    {
+        $instance = new class {
+            use HasAria;
+            use HasAttributes;
+        };
+
+        self::assertEmpty(
+            $instance->getAttributes(),
+            'Should have no attributes set when no attribute is provided.',
         );
     }
 
@@ -151,8 +163,30 @@ final class HasAriaTest extends TestCase
         $instance->ariaAttributes(['key' => new stdClass()]);
     }
 
-    public function testThrowInvalidArgumentExceptionWhenSetAriaAttributeKeyIsEmpty(): void
+    /**
+     * @phpstan-param mixed[] $attributes
+     */
+    #[DataProviderExternal(AriaProvider::class, 'invalidKey')]
+    public function testThrowInvalidArgumentExceptionWhenSetAriaAttributeKeyIsInvalid(array $attributes): void
     {
+        $instance = new class {
+            use HasAria;
+            use HasAttributes;
+        };
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
+        );
+
+        $instance->ariaAttributes($attributes);
+    }
+
+    #[DataProviderExternal(AriaProvider::class, 'invalidSingleKey')]
+    public function testThrowInvalidArgumentExceptionWhenSetSingleAriaAttributeKeyIsInvalid(
+        string|UnitEnum $key,
+        string $value,
+    ): void {
         $instance = new class {
             use HasAria;
             use HasAttributes;
@@ -163,51 +197,6 @@ final class HasAriaTest extends TestCase
             Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(''),
         );
 
-        $instance->ariaAttributes(['' => 'value']);
-    }
-
-    public function testThrowInvalidArgumentExceptionWhenSetAriaAttributeKeyIsInvalid(): void
-    {
-        $instance = new class {
-            use HasAria;
-            use HasAttributes;
-        };
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(1),
-        );
-
-        $instance->ariaAttributes([1 => '']);
-    }
-
-    public function testThrowInvalidArgumentExceptionWhenSetSingleAriaAttributeWithEmptyKey(): void
-    {
-        $instance = new class {
-            use HasAria;
-            use HasAttributes;
-        };
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(''),
-        );
-
-        $instance->addAriaAttribute('', 'value');
-    }
-
-    public function testThrowInvalidArgumentExceptionWhenSetSingleAriaAttributeWithInvalidKey(): void
-    {
-        $instance = new class {
-            use HasAria;
-            use HasAttributes;
-        };
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(2),
-        );
-
-        $instance->addAriaAttribute(Priority::HIGH, 'value');
+        $instance->addAriaAttribute($key, $value);
     }
 }

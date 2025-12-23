@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Tests\Support\Provider\Attribute;
 
 use Stringable;
-use UIAwesome\Html\Core\Tests\Support\Stub\Enum\ButtonSize;
+use UIAwesome\Html\Core\Tests\Support\Stub\Enum\{ButtonSize, Priority};
 use UIAwesome\Html\Core\Values\Aria;
 use UnitEnum;
 
@@ -33,6 +33,69 @@ use UnitEnum;
  */
 final class AriaProvider
 {
+    /**
+     * Provides test cases for invalid HTML `aria-*` attribute keys.
+     *
+     * Supplies test data for validating exception handling when setting HTML `aria-*` attributes with invalid keys,
+     * including empty string and non-string types.
+     *
+     * Each test case includes the invalid key input.
+     *
+     * @return array Test data for invalid `aria-*` attribute keys.
+     *
+     * @phpstan-return array<string, array{mixed[]}>
+     */
+    public static function invalidKey(): array
+    {
+        return [
+            'boolean false' => [
+                [false => 'value'],
+            ],
+            'boolean true' => [
+                [true => 'value'],
+            ],
+            'empty string' => [
+                ['' => 'value'],
+            ],
+            'float' => [
+                // @phpstan-ignore-next-line
+                [0.42 => 'value'],
+            ],
+            'integer' => [
+                [1 => 'value'],
+            ],
+            'null' => [
+                [null => 'value'],
+            ],
+        ];
+    }
+
+    /**
+     * Provides test cases for invalid single HTML `aria-*` attribute keys.
+     *
+     * Supplies test data for validating exception handling when setting a single HTML `aria-*` attribute with an
+     * invalid key, including empty string and UnitEnum.
+     *
+     * Each test case includes the invalid key and value input.
+     *
+     * @return array Test data for invalid single `aria-*` attribute keys.
+     *
+     * @phpstan-return array<string, array{scalar|UnitEnum|null, string}>
+     */
+    public static function invalidSingleKey(): array
+    {
+        return [
+            'empty string' => [
+                '',
+                'value',
+            ],
+            'enum key' => [
+                Priority::HIGH,
+                'value',
+            ],
+        ];
+    }
+
     /**
      * Provides test cases for rendered HTML `aria-*` attribute scenarios.
      *
