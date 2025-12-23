@@ -14,6 +14,7 @@ use UIAwesome\Html\Core\Attribute\{
     HasData,
     HasDir,
     HasDraggable,
+    HasEvents,
     HasId,
     HasLang,
     HasMicroData,
@@ -69,6 +70,7 @@ abstract class BaseBlock extends BaseTag
     use HasData;
     use HasDir;
     use HasDraggable;
+    use HasEvents;
     use HasId;
     use HasLang;
     use HasMicroData;

@@ -47,6 +47,13 @@ enum Message: string
     case CANNOT_INSTANTIATE_ABSTRACT_CLASS = "Cannot instantiate abstract class '%s' via 'tag()' method.";
 
     /**
+     * Error when an event key does not start with 'on'.
+     *
+     * Format: 'Event key "%s" must start with "on".'
+     */
+    case EVENT_KEY_MUST_START_WITH_ON = 'Event key "%s" must start with "on".';
+
+    /**
      * Error when an attribute value is invalid.
      *
      * Format: 'Invalid value "%s" for attribute "%s". Expected: %s.'
