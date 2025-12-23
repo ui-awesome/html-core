@@ -151,7 +151,9 @@ trait HasEvents
         $normalizedKey = Enum::normalizeValue($event);
 
         if (is_string($normalizedKey) === false || $normalizedKey === '') {
-            throw new InvalidArgumentException(Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage());
+            throw new InvalidArgumentException(
+                Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
+            );
         }
 
         if (str_starts_with($normalizedKey, 'on') === false) {
@@ -173,7 +175,7 @@ trait HasEvents
      * and UnitEnum values.
      *
      * @param mixed $key Event key (string or UnitEnum).
-     * @param string|Closure|Stringable|null $handler Handler string or `null` to unset.
+     * @param string|Closure|Stringable|UnitEnum|null $handler Handler string or `null` to unset.
      *
      * @throws InvalidArgumentException if the key is invalid.
      *
@@ -189,14 +191,15 @@ trait HasEvents
             throw new InvalidArgumentException(Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage());
         }
 
-        if ($handler instanceof Closure) {
-            $handler = $handler();
-        }
 
         if (str_starts_with($normalizedKey, 'on') === false) {
             throw new InvalidArgumentException(
                 Message::EVENT_KEY_MUST_START_WITH_ON->getMessage($normalizedKey),
             );
+        }
+
+        if ($handler instanceof Closure) {
+            $handler = $handler();
         }
 
         if (is_bool($handler)) {

@@ -151,7 +151,7 @@ final class HasEventsTest extends TestCase
             Message::ATTRIBUTE_VALUE_MUST_BE_SCALAR_OR_CLOSURE->getMessage('object'),
         );
 
-        $instance->events(['click' => new stdClass()]);
+        $instance->events(['onclick' => new stdClass()]);
     }
 
     public function testThrowInvalidArgumentExceptionWhenRemoveEventAttributeKeyMissingOnPrefix(): void
@@ -193,7 +193,7 @@ final class HasEventsTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(''),
+            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
         );
 
         $instance->events(['' => "alert('test')"]);
@@ -208,7 +208,7 @@ final class HasEventsTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(1),
+            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
         );
 
         $instance->events([1 => "alert('test')"]);
@@ -253,7 +253,7 @@ final class HasEventsTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(''),
+            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
         );
 
         $instance->addEvent('', "alert('test')");
@@ -268,7 +268,7 @@ final class HasEventsTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(2),
+            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
         );
 
         $instance->addEvent(Priority::HIGH, "alert('test')");
