@@ -44,7 +44,7 @@ final class EventProvider
      *
      * @return array Test data for invalid `on-*` attribute keys.
      *
-     * @phpstan-return array<string, array{mixed[]}>
+     * @phpstan-return array<string, array{mixed[], string}>
      */
     public static function invalidKey(): array
     {
