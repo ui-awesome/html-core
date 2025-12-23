@@ -49,7 +49,7 @@ trait HasEvents
      * `'click'`) or as a `UnitEnum` (for example, `Event::CLICK`).
      *
      * @param string|UnitEnum $event Event attribute key (with or without the leading `on` prefix) or enum case.
-     * @param string|Closure|Stringable|UnitEnum|null $handler JavaScript handler code. Can be `null` to unset the
+     * @param Closure|string|Stringable|UnitEnum|null $handler JavaScript handler code. Can be `null` to unset the
      * attribute.
      *
      * @throws InvalidArgumentException if one or more arguments are invalid, of incorrect type or format.
@@ -173,7 +173,7 @@ trait HasEvents
      * and UnitEnum values.
      *
      * @param mixed $key Event key (string or UnitEnum).
-     * @param string|Closure|Stringable|null $handler Handler string or `null` to unset.
+     * @param Closure|string|Stringable|null $handler Handler string or `null` to unset.
      *
      * @throws InvalidArgumentException if the key is invalid.
      *
