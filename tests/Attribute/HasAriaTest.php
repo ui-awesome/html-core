@@ -194,7 +194,7 @@ final class HasAriaTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(''),
+            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
         );
 
         $instance->addAriaAttribute($key, $value);
