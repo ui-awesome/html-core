@@ -9,11 +9,10 @@ use InvalidArgumentException;
 use Stringable;
 use TypeError;
 use UIAwesome\Html\Core\Exception\Message;
-use UIAwesome\Html\Helper\Enum;
+use UIAwesome\Html\Helper\Attributes;
 use UnitEnum;
 
 use function gettype;
-use function is_string;
 
 /**
  * Trait for managing the global HTML `aria-*` attributes in tag rendering.
@@ -166,11 +165,10 @@ trait HasAria
      */
     public function removeAriaAttribute(string|UnitEnum $key): static
     {
-        $normalizedKey = Enum::normalizeValue($key);
+        $normalizedKey = Attributes::normalizeKey($key, 'aria-');
 
         $new = clone $this;
-
-        unset($new->attributes["aria-$normalizedKey"]);
+        unset($new->attributes[$normalizedKey]);
 
         return $new;
     }
@@ -195,13 +193,7 @@ trait HasAria
         mixed $key,
         bool|float|int|string|Closure|Stringable|UnitEnum|null $value,
     ): static {
-        $normalizedKey = Enum::normalizeValue($key);
-
-        if ($normalizedKey === '' || is_string($normalizedKey) === false) {
-            throw new InvalidArgumentException(
-                Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
-            );
-        }
+        $normalizedKey = Attributes::normalizeKey($key, 'aria-');
 
         if ($value instanceof Closure) {
             $value = $value();
@@ -212,9 +204,9 @@ trait HasAria
         }
 
         if ($value === null) {
-            unset($this->attributes["aria-$normalizedKey"]);
+            unset($this->attributes[$normalizedKey]);
         } else {
-            $this->attributes["aria-$normalizedKey"] = $value;
+            $this->attributes[$normalizedKey] = $value;
         }
 
         return $this;

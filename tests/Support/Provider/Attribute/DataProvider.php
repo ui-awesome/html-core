@@ -6,6 +6,7 @@ namespace UIAwesome\Html\Core\Tests\Support\Provider\Attribute;
 
 use Stringable;
 use UIAwesome\Html\Core\Tests\Support\Stub\Enum\ButtonSize;
+use UIAwesome\Html\Core\Tests\Support\Stub\Enum\Priority;
 use UIAwesome\Html\Core\Values\DataProperty;
 use UnitEnum;
 
@@ -34,10 +35,69 @@ use UnitEnum;
 final class DataProvider
 {
     /**
+     * Provides test cases for invalid HTML `data-*` attribute keys.
+     *
+     * Supplies test data for validating exception handling when setting HTML `data-*` attributes with invalid keys,
+     * including empty string and non-string types.
+     *
+     * Each test case includes the invalid key input.
+     *
+     * @return array Test data for invalid `data-*` attribute keys.
+     *
+     * @phpstan-return array<string, array{mixed[]}>
+     */
+    public static function invalidKey(): array
+    {
+        return [
+            'boolean false' => [
+                [false => 'value'],
+            ],
+            'boolean true' => [
+                [true => 'value'],
+            ],
+            'empty string' => [
+                ['' => 'value'],
+            ],
+            'integer' => [
+                [1 => 'value'],
+            ],
+            'null' => [
+                [null => 'value'],
+            ],
+        ];
+    }
+
+    /**
+     * Provides test cases for invalid single HTML `data-*` attribute keys.
+     *
+     * Supplies test data for validating exception handling when setting a single HTML `data-*` attribute with an
+     * invalid key, including empty string and UnitEnum.
+     *
+     * Each test case includes the invalid key and value input.
+     *
+     * @return array Test data for invalid single `data-*` attribute keys.
+     *
+     * @phpstan-return array<string, array{scalar|UnitEnum|null, string}>
+     */
+    public static function invalidSingleKey(): array
+    {
+        return [
+            'empty string' => [
+                '',
+                'value',
+            ],
+            'enum key' => [
+                Priority::HIGH,
+                'value',
+            ],
+        ];
+    }
+
+    /**
      * Provides test cases for rendered HTML `data-*` attribute scenarios.
      *
      * Supplies test data for validating assignment, override, and removal of HTML `data-*` attributes, including
-     * scalar, array rendered as JSON, Stringable, UnitEnum, and deferred evaluation via \Closure.
+     * scalar, array rendered as JSON, Stringable, UnitEnum, \Closure and without `data-` prefix in keys.
      *
      * Each test case includes the input value, the initial attributes, the override flag, the expected rendered output,
      * and an assertion message for clear identification.
@@ -50,119 +110,119 @@ final class DataProvider
     {
         return [
             'boolean false' => [
-                ['value' => static fn(): bool => false],
+                ['data-value' => static fn(): bool => false],
                 [],
                 '',
                 'Should return the attribute value after setting it.',
             ],
             'boolean true' => [
-                ['value' => static fn(): bool => true],
+                ['data-value' => static fn(): bool => true],
                 [],
                 ' data-value',
                 'Should return the attribute value after setting it.',
             ],
             'closure with array' => [
-                ['value' => static fn(): array => ['key' => 'value']],
+                ['data-value' => static fn(): array => ['key' => 'value']],
                 [],
                 ' data-value=\'{"key":"value"}\'',
                 'Should return the attribute value after setting it.',
             ],
             'closure with boolean (false)' => [
-                ['value' => static fn(): bool => false],
+                ['data-value' => static fn(): bool => false],
                 [],
                 '',
                 'Should return the attribute value after setting it.',
             ],
             'closure with boolean (true)' => [
-                ['value' => static fn(): bool => true],
+                ['data-value' => static fn(): bool => true],
                 [],
                 ' data-value',
                 'Should return the attribute value after setting it.',
             ],
             'closure with empty string' => [
-                ['value' => static fn(): string => ''],
+                ['data-value' => static fn(): string => ''],
                 [],
                 '',
                 'Should return the attribute value after setting it.',
             ],
             'closure with enum' => [
-                ['value' => static fn(): ButtonSize => ButtonSize::SMALL],
+                ['data-value' => static fn(): ButtonSize => ButtonSize::SMALL],
                 [],
                 ' data-value="sm"',
                 'Should return the attribute value after setting it.',
             ],
             'closure with float' => [
-                ['value' => static fn(): float => 0.42],
+                ['data-value' => static fn(): float => 0.42],
                 [],
                 ' data-value="0.42"',
                 'Should return the attribute value after setting it.',
             ],
             'closure with integer' => [
-                ['value' => static fn(): int => 42],
+                ['data-value' => static fn(): int => 42],
                 [],
                 ' data-value="42"',
                 'Should return the attribute value after setting it.',
             ],
             'closure with null' => [
-                ['value' => static fn(): null|string => null],
+                ['data-value' => static fn(): null|string => null],
                 [],
                 '',
                 'Should return the attribute value after setting it.',
             ],
             'closure with string' => [
-                ['value' => static fn(): string => 'action'],
+                ['data-value' => static fn(): string => 'action'],
                 [],
                 ' data-value="action"',
                 'Should return the attribute value after setting it.',
             ],
             'empty string' => [
-                ['value' => ''],
+                ['data-value' => ''],
                 [],
                 '',
                 'Should return an empty string when setting an empty string.',
             ],
             'enum value' => [
-                ['size' => ButtonSize::SMALL],
+                ['data-size' => ButtonSize::SMALL],
                 [],
                 ' data-size="sm"',
                 'Should return the attribute value after setting it.',
             ],
             'float' => [
-                ['value' => 0.42],
+                ['data-value' => 0.42],
                 [],
                 ' data-value="0.42"',
                 'Should return the attribute value after setting it.',
             ],
             'hyphenated key' => [
-                ['custom-action' => 'value'],
+                ['data-custom-action' => 'value'],
                 [],
                 ' data-custom-action="value"',
                 'Should return the attribute value after setting it.',
             ],
             'integer' => [
-                ['value' => 42],
+                ['data-value' => 42],
                 [],
                 ' data-value="42"',
                 'Should return the attribute value after setting it.',
             ],
             'mixed string and closure' => [
                 [
-                    'action' => 'action',
-                    'callback' => static fn(): string => 'callback',
+                    'data-action' => 'action',
+                    'data-callback' => static fn(): string => 'callback',
                 ],
                 [],
                 ' data-action="action" data-callback="callback"',
                 "Should set multiple 'data' attributes with mixed string and closure values.",
             ],
             'string' => [
-                ['action' => 'action'],
+                ['data-action' => 'action'],
                 [],
                 ' data-action="action"',
                 'Should return the attribute value after setting it.',
             ],
             'stringable' => [
                 [
-                    'value' => new class implements Stringable {
+                    'data-value' => new class implements Stringable {
                         public function __toString(): string
                         {
                             return 'stringable-value';
@@ -174,10 +234,16 @@ final class DataProvider
                 'Should return the attribute value after setting it.',
             ],
             'unset with null' => [
-                ['value' => null],
+                ['data-value' => null],
                 [],
                 '',
                 "Should unset the 'data-value' attribute when 'null' is provided after a value.",
+            ],
+            'without data prefix' => [
+                ['value' => 'test'],
+                [],
+                ' data-value="test"',
+                "Should normalize the key by adding 'data-' prefix if missing.",
             ],
         ];
     }
@@ -187,7 +253,7 @@ final class DataProvider
      *
      * Supplies test data for validating assignment, override, and removal of a single HTML `data-*` attribute,
      * including string keys, enum-based keys via UnitEnum, and values provided as scalars, Stringable, UnitEnum,
-     * \Closure, and `null`.
+     * \Closure, `null` and without `data-` prefix in keys.
      *
      * Each test case includes the attribute key, the input value, the expected attributes array, and an assertion
      * message for clear identification.
@@ -210,73 +276,73 @@ final class DataProvider
 
         return [
             'boolean false' => [
-                'value',
+                'data-value',
                 false,
                 ['data-value' => false],
                 'Should return the attribute value after setting it.',
             ],
             'boolean true' => [
-                'value',
+                'data-value',
                 true,
                 ['data-value' => true],
                 'Should return the attribute value after setting it.',
             ],
             'closure with array' => [
-                'value',
+                'data-value',
                 static fn(): array => ['key' => 'value'],
                 ['data-value' => ['key' => 'value']],
                 'Should return the attribute value after setting it.',
             ],
             'closure with boolean false' => [
-                'value',
+                'data-value',
                 static fn(): bool => false,
                 ['data-value' => false],
                 'Should return the attribute value after setting it.',
             ],
             'closure with boolean true' => [
-                'value',
+                'data-value',
                 static fn(): bool => true,
                 ['data-value' => true],
                 'Should return the attribute value after setting it.',
             ],
             'closure with empty string' => [
-                'value',
+                'data-value',
                 static fn(): string => '',
                 ['data-value' => ''],
                 'Should return the attribute value after setting it.',
             ],
             'closure with enum' => [
-                'value',
+                'data-value',
                 static fn(): ButtonSize => ButtonSize::SMALL,
                 ['data-value' => ButtonSize::SMALL],
                 'Should return the attribute value after setting it.',
             ],
             'closure with float' => [
-                'value',
+                'data-value',
                 static fn(): float => 0.42,
                 ['data-value' => 0.42],
                 'Should return the attribute value after setting it.',
             ],
             'closure with integer' => [
-                'value',
+                'data-value',
                 static fn(): int => 42,
                 ['data-value' => 42],
                 'Should return the attribute value after setting it.',
             ],
             'closure with null' => [
-                'value',
+                'data-value',
                 static fn(): null|string => null,
                 [],
                 'Should return the attribute value after setting it.',
             ],
             'closure with string' => [
-                'value',
+                'data-value',
                 static fn(): string => 'Close',
                 ['data-value' => 'Close'],
                 'Should return the attribute value after setting it.',
             ],
             'empty string' => [
-                'value',
+                'data-value',
                 '',
                 ['data-value' => ''],
                 'Should return an empty string when setting an empty string.',
@@ -288,37 +354,37 @@ final class DataProvider
                 'Should return the attribute value after setting it.',
             ],
             'enum value' => [
-                'size',
+                'data-size',
                 ButtonSize::SMALL,
                 ['data-size' => ButtonSize::SMALL],
                 'Should return the attribute value after setting it.',
             ],
             'float' => [
-                'value',
+                'data-value',
                 0.42,
                 ['data-value' => 0.42],
                 'Should return the attribute value after setting it.',
             ],
             'hyphenated key' => [
-                'custom-action',
+                'data-custom-action',
                 'value',
                 ['data-custom-action' => 'value'],
                 'Should return the attribute value after setting it.',
             ],
             'integer' => [
-                'value',
+                'data-value',
                 42,
                 ['data-value' => 42],
                 'Should return the attribute value after setting it.',
             ],
             'string' => [
-                'action',
+                'data-action',
                 'action',
                 ['data-action' => 'action'],
                 'Should return the attribute value after setting it.',
             ],
             'stringable' => [
-                'value',
+                'data-value',
                 $stringable,
                 ['data-value' => $stringable],
                 'Should return the attribute value after setting it.',
@@ -329,6 +395,12 @@ final class DataProvider
                 [],
                 "Should unset the 'data-value' attribute when 'null' is provided after a value.",
             ],
+            'without data prefix' => [
+                'value',
+                'test',
+                ['data-value' => 'test'],
+                "Should normalize the key by adding 'data-' prefix if missing.",
+            ],
         ];
     }
 
@@ -337,7 +409,7 @@ final class DataProvider
      *
      * Supplies test data for validating bulk assignment, normalization, and removal of HTML `data-*` attributes,
      * ensuring consistent key prefixing (`data-`), hyphenated key handling, and value propagation for scalars,
-     * Stringable, UnitEnum, \Closure, and `null`.
+     * Stringable, UnitEnum, \Closure, `null` and without `data-` prefix in keys.
      *
      * Each test case includes the input value, the expected normalized attributes array, and an assertion message for
      * clear identification.
@@ -367,89 +439,89 @@ final class DataProvider
 
         $staticCases = [
             'boolean false' => [
-                ['value' => false],
+                ['data-value' => false],
                 ['data-value' => false],
                 'Should return the attribute value after setting it.',
             ],
             'boolean true' => [
-                ['value' => true],
+                ['data-value' => true],
                 ['data-value' => true],
                 'Should return the attribute value after setting it.',
             ],
             'closure with array' => [
-                ['value' => static fn(): array => ['key' => 'value']],
+                ['data-value' => static fn(): array => ['key' => 'value']],
                 ['data-value' => ['key' => 'value']],
                 'Should return the attribute value after setting it.',
             ],
             'closure with boolean false' => [
-                ['value' => static fn(): bool => false],
+                ['data-value' => static fn(): bool => false],
                 ['data-value' => false],
                 'Should return the attribute value after setting it.',
             ],
             'closure with boolean true' => [
-                ['value' => static fn(): bool => true],
+                ['data-value' => static fn(): bool => true],
                 ['data-value' => true],
                 'Should return the attribute value after setting it.',
             ],
             'closure with empty string' => [
-                ['value' => static fn(): string => ''],
+                ['data-value' => static fn(): string => ''],
                 ['data-value' => ''],
                 'Should return the attribute value after setting it.',
             ],
             'closure with enum' => [
-                ['value' => static fn(): ButtonSize => ButtonSize::SMALL],
+                ['data-value' => static fn(): ButtonSize => ButtonSize::SMALL],
                 ['data-value' => ButtonSize::SMALL],
                 'Should return the attribute value after setting it.',
             ],
             'closure with float' => [
-                ['value' => static fn(): float => 0.42],
+                ['data-value' => static fn(): float => 0.42],
                 ['data-value' => 0.42],
                 'Should return the attribute value after setting it.',
             ],
             'closure with integer' => [
-                ['value' => static fn(): int => 42],
+                ['data-value' => static fn(): int => 42],
                 ['data-value' => 42],
                 'Should return the attribute value after setting it.',
             ],
             'closure with null' => [
-                ['value' => static fn(): null|string => null],
+                ['data-value' => static fn(): null|string => null],
                 [],
                 'Should return the attribute value after setting it.',
             ],
             'closure with string' => [
-                ['value' => static fn(): string => 'Close'],
+                ['data-value' => static fn(): string => 'Close'],
                 ['data-value' => 'Close'],
                 'Should return the attribute value after setting it.',
             ],
             'empty string' => [
-                ['value' => ''],
+                ['data-value' => ''],
                 ['data-value' => ''],
                 'Should return an empty string when setting an empty string.',
             ],
             'enum value' => [
-                ['size' => ButtonSize::SMALL],
+                ['data-size' => ButtonSize::SMALL],
                 ['data-size' => ButtonSize::SMALL],
                 'Should return the attribute value after setting it.',
             ],
             'float' => [
-                ['value' => 0.42],
+                ['data-value' => 0.42],
                 ['data-value' => 0.42],
                 'Should return the attribute value after setting it.',
             ],
             'hyphenated key' => [
-                ['custom-action' => 'value'],
+                ['data-custom-action' => 'value'],
                 ['data-custom-action' => 'value'],
                 'Should return the attribute value after setting it.',
             ],
             'integer' => [
-                ['value' => 42],
+                ['data-value' => 42],
                 ['data-value' => 42],
                 'Should return the attribute value after setting it.',
             ],
             'mixed string and closure' => [
                 [
-                    'action' => 'action',
-                    'callback' => static fn(): string => 'action',
+                    'data-action' => 'action',
+                    'data-callback' => static fn(): string => 'action',
                 ],
                 [
                     'data-action' => 'action',
@@ -458,21 +530,24 @@ final class DataProvider
                 "Should set multiple 'data' attributes with mixed string and closure values.",
             ],
             'string' => [
-                ['action' => 'action'],
+                ['data-action' => 'action'],
                 ['data-action' => 'action'],
                 'Should return the attribute value after setting it.',
             ],
             'stringable' => [
-                ['value' => $stringable],
+                ['data-value' => $stringable],
                 ['data-value' => $stringable],
                 'Should return the attribute value after setting it.',
             ],
             'unset with null' => [
-                [
-                    'value' => null,
-                ],
+                ['data-value' => null],
                 [],
                 "Should unset the 'data-value' attribute when 'null' is provided after a value.",
+            ],
+            'without data prefix' => [
+                ['value' => 'test'],
+                ['data-value' => 'test'],
+                "Should normalize the key by adding 'data-' prefix if missing.",
             ],
         ];
 

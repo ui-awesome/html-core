@@ -57,10 +57,6 @@ final class AriaProvider
             'empty string' => [
                 ['' => 'value'],
             ],
-            'float' => [
-                // @phpstan-ignore-next-line
-                [0.42 => 'value'],
-            ],
             'integer' => [
                 [1 => 'value'],
             ],
@@ -100,7 +96,7 @@ final class AriaProvider
      * Provides test cases for rendered HTML `aria-*` attribute scenarios.
      *
      * Supplies test data for validating assignment, override, and removal of HTML `aria-*` attributes, including
-     * scalar, array rendered as JSON, Stringable, UnitEnum, and \Closure.
+     * scalar, array rendered as JSON, Stringable, UnitEnum, \Closure and without `aria-` prefix in keys.
      *
      * Each test case includes the input value, the initial attributes, the override flag, the expected rendered output,
      * and an assertion message for clear identification.
@@ -113,119 +109,119 @@ final class AriaProvider
     {
         return [
             'boolean false' => [
-                ['pressed' => false],
+                ['aria-pressed' => false],
                 [],
                 ' aria-pressed="false"',
                 'Should return the attribute value after setting it.',
             ],
             'boolean true' => [
-                ['pressed' => true],
+                ['aria-pressed' => true],
                 [],
                 ' aria-pressed="true"',
                 'Should return the attribute value after setting it.',
             ],
             'closure with array' => [
-                ['controls' => static fn(): array => ['key' => 'value']],
+                ['aria-controls' => static fn(): array => ['key' => 'value']],
                 [],
                 " aria-controls='{\"key\":\"value\"}'",
                 'Should return the attribute value after setting it.',
             ],
             'closure with boolean false' => [
-                ['pressed' => static fn(): bool => false],
+                ['aria-pressed' => static fn(): bool => false],
                 [],
                 ' aria-pressed="false"',
                 'Should return the attribute value after setting it.',
             ],
             'closure with boolean true' => [
-                ['pressed' => static fn(): bool => true],
+                ['aria-pressed' => static fn(): bool => true],
                 [],
                 ' aria-pressed="true"',
                 'Should return the attribute value after setting it.',
             ],
             'closure with empty string' => [
-                ['label' => static fn(): string => ''],
+                ['aria-label' => static fn(): string => ''],
                 [],
                 '',
                 'Should return the attribute value after setting it.',
             ],
             'closure with enum' => [
-                ['size' => static fn(): ButtonSize => ButtonSize::SMALL],
+                ['aria-size' => static fn(): ButtonSize => ButtonSize::SMALL],
                 [],
                 ' aria-size="sm"',
                 'Should return the attribute value after setting it.',
             ],
             'closure with float' => [
-                ['value' => static fn(): float => 0.42],
+                ['aria-value' => static fn(): float => 0.42],
                 [],
                 ' aria-value="0.42"',
                 'Should return the attribute value after setting it.',
             ],
             'closure with integer' => [
-                ['value' => static fn(): int => 42],
+                ['aria-value' => static fn(): int => 42],
                 [],
                 ' aria-value="42"',
                 'Should return the attribute value after setting it.',
             ],
             'closure with null' => [
-                ['label' => static fn(): null|string => null],
+                ['aria-label' => static fn(): null|string => null],
                 [],
                 '',
                 'Should return the attribute value after setting it.',
             ],
             'closure with string' => [
-                ['label' => static fn(): string => 'Close'],
+                ['aria-label' => static fn(): string => 'Close'],
                 [],
                 ' aria-label="Close"',
                 'Should return the attribute value after setting it.',
             ],
             'empty string' => [
-                ['label' => ''],
+                ['aria-label' => ''],
                 [],
                 '',
                 'Should return an empty string when setting an empty string.',
             ],
             'enum value' => [
-                ['size' => ButtonSize::SMALL],
+                ['aria-size' => ButtonSize::SMALL],
                 [],
                 ' aria-size="sm"',
                 'Should return the attribute value after setting it.',
             ],
             'float' => [
-                ['value' => 0.42],
+                ['aria-value' => 0.42],
                 [],
                 ' aria-value="0.42"',
                 'Should return the attribute value after setting it.',
             ],
             'hyphenated key' => [
-                ['described-by' => 'desc'],
+                ['aria-describedby' => 'desc'],
                 [],
-                ' aria-described-by="desc"',
+                ' aria-describedby="desc"',
                 'Should return the attribute value after setting it.',
             ],
             'integer' => [
-                ['value' => 42],
+                ['aria-value' => 42],
                 [],
                 ' aria-value="42"',
                 'Should return the attribute value after setting it.',
             ],
             'mixed string and closure' => [
                 [
-                    'label' => 'Close',
-                    'controls' => static fn(): string => 'modal-1',
+                    'aria-label' => 'Close',
+                    'aria-controls' => static fn(): string => 'modal-1',
                 ],
                 [],
                 ' aria-label="Close" aria-controls="modal-1"',
                 "Should set multiple 'aria' attributes with mixed string and closure values.",
             ],
             'string' => [
-                ['label' => 'Close'],
+                ['aria-label' => 'Close'],
                 [],
                 ' aria-label="Close"',
                 'Should return the attribute value after setting it.',
             ],
             'stringable' => [
                 [
-                    'label' => new class implements Stringable {
+                    'aria-label' => new class implements Stringable {
                         public function __toString(): string
                         {
                             return 'stringable-value';
@@ -237,10 +233,16 @@ final class AriaProvider
                 'Should return the attribute value after setting it.',
             ],
             'unset with null' => [
-                ['label' => null],
+                ['aria-label' => null],
                 [],
                 '',
                 "Should unset the 'aria-label' attribute when 'null' is provided after a value.",
+            ],
+            'without aria prefix' => [
+                ['pressed' => true],
+                [],
+                ' aria-pressed="true"',
+                'Should normalize key without aria prefix when setting the attribute.',
             ],
         ];
     }
@@ -250,7 +252,7 @@ final class AriaProvider
      *
      * Supplies test data for validating assignment, override, and removal of a single HTML `aria-*` attribute,
      * including string keys, enum-based keys via UnitEnum, and values provided as scalars, Stringable, UnitEnum,
-     * \Closure, and `null`.
+     * \Closure, `null` and without `aria-` prefix in keys.
      *
      * Each test case includes the attribute key, the input value, the expected attributes array, and an assertion
      * message for clear identification.
@@ -273,73 +275,73 @@ final class AriaProvider
 
         return [
             'boolean false' => [
-                'pressed',
+                'aria-pressed',
                 false,
                 ['aria-pressed' => 'false'],
                 'Should return the attribute value after setting it.',
             ],
             'boolean true' => [
-                'pressed',
+                'aria-pressed',
                 true,
                 ['aria-pressed' => 'true'],
                 'Should return the attribute value after setting it.',
             ],
             'closure with array' => [
-                'controls',
+                'aria-controls',
                 static fn(): array => ['key' => 'value'],
                 ['aria-controls' => ['key' => 'value']],
                 'Should return the attribute value after setting it.',
             ],
             'closure with boolean false' => [
-                'pressed',
+                'aria-pressed',
                 static fn(): bool => false,
                 ['aria-pressed' => 'false'],
                 'Should return the attribute value after setting it.',
             ],
             'closure with boolean true' => [
-                'pressed',
+                'aria-pressed',
                 static fn(): bool => true,
                 ['aria-pressed' => 'true'],
                 'Should return the attribute value after setting it.',
             ],
             'closure with empty string' => [
-                'label',
+                'aria-label',
                 static fn(): string => '',
                 ['aria-label' => ''],
                 'Should return the attribute value after setting it.',
             ],
             'closure with enum' => [
-                'size',
+                'aria-size',
                 static fn(): ButtonSize => ButtonSize::SMALL,
                 ['aria-size' => ButtonSize::SMALL],
                 'Should return the attribute value after setting it.',
             ],
             'closure with float' => [
-                'value',
+                'aria-value',
                 static fn(): float => 0.42,
                 ['aria-value' => 0.42],
                 'Should return the attribute value after setting it.',
             ],
             'closure with integer' => [
-                'value',
+                'aria-value',
                 static fn(): int => 42,
                 ['aria-value' => 42],
                 'Should return the attribute value after setting it.',
             ],
             'closure with null' => [
-                'label',
+                'aria-label',
                 static fn(): null|string => null,
                 [],
                 'Should return the attribute value after setting it.',
             ],
             'closure with string' => [
-                'label',
+                'aria-label',
                 static fn(): string => 'Close',
                 ['aria-label' => 'Close'],
                 'Should return the attribute value after setting it.',
             ],
             'empty string' => [
-                'label',
+                'aria-label',
                 '',
                 ['aria-label' => ''],
                 'Should return an empty string when setting an empty string.',
@@ -351,52 +353,58 @@ final class AriaProvider
                 'Should return the attribute value after setting it.',
             ],
             'enum value' => [
-                'size',
+                'aria-size',
                 ButtonSize::SMALL,
                 ['aria-size' => ButtonSize::SMALL],
                 'Should return the attribute value after setting it.',
             ],
             'float' => [
-                'value',
+                'aria-value',
                 0.42,
                 ['aria-value' => 0.42],
                 'Should return the attribute value after setting it.',
             ],
             'hyphenated key' => [
-                'described-by',
+                'aria-describedby',
                 'desc',
-                ['aria-described-by' => 'desc'],
+                ['aria-describedby' => 'desc'],
                 'Should return the attribute value after setting it.',
             ],
             'integer' => [
-                'value',
+                'aria-value',
                 42,
                 ['aria-value' => 42],
                 'Should return the attribute value after setting it.',
             ],
             'mixed string and closure' => [
-                'controls',
+                'aria-controls',
                 static fn(): string => 'modal-1',
                 ['aria-controls' => 'modal-1'],
                 'Should return the attribute value after setting it.',
             ],
             'string' => [
-                'label',
+                'aria-label',
                 'Close',
                 ['aria-label' => 'Close'],
                 'Should return the attribute value after setting it.',
             ],
             'stringable' => [
-                'label',
+                'aria-label',
                 $stringable,
                 ['aria-label' => $stringable],
                 'Should return the attribute value after setting it.',
             ],
             'unset with null' => [
-                'label',
+                'aria-label',
                 null,
                 [],
                 "Should unset the 'aria-label' attribute when 'null' is provided after a value.",
+            ],
+            'without aria prefix' => [
+                'pressed',
+                true,
+                ['aria-pressed' => 'true'],
+                'Should normalize key without aria prefix when setting the attribute.',
             ],
         ];
     }
@@ -406,7 +414,7 @@ final class AriaProvider
      *
      * Supplies test data for validating bulk assignment, normalization, and removal of HTML `aria-*` attributes,
      * ensuring consistent key prefixing (`aria-`), hyphenated key handling, and value propagation for scalars,
-     * Stringable, UnitEnum, \Closure, and `null`.
+     * Stringable, UnitEnum, \Closure, `null` and without `aria-` prefix in keys.
      *
      * Each test case includes the input value, the expected normalized attributes array, and an assertion message for
      * clear identification.
@@ -426,89 +434,89 @@ final class AriaProvider
 
         $staticCases = [
             'boolean false' => [
-                ['pressed' => false],
+                ['aria-pressed' => false],
                 ['aria-pressed' => 'false'],
                 'Should return the attribute value after setting it.',
             ],
             'boolean true' => [
-                ['pressed' => true],
+                ['aria-pressed' => true],
                 ['aria-pressed' => 'true'],
                 'Should return the attribute value after setting it.',
             ],
             'closure with array' => [
-                ['controls' => static fn(): array => ['key' => 'value']],
+                ['aria-controls' => static fn(): array => ['key' => 'value']],
                 ['aria-controls' => ['key' => 'value']],
                 'Should return the attribute value after setting it.',
             ],
             'closure with boolean false' => [
-                ['pressed' => static fn(): bool => false],
+                ['aria-pressed' => static fn(): bool => false],
                 ['aria-pressed' => 'false'],
                 'Should return the attribute value after setting it.',
             ],
             'closure with boolean true' => [
-                ['pressed' => static fn(): bool => true],
+                ['aria-pressed' => static fn(): bool => true],
                 ['aria-pressed' => 'true'],
                 'Should return the attribute value after setting it.',
             ],
             'closure with empty string' => [
-                ['label' => static fn(): string => ''],
+                ['aria-label' => static fn(): string => ''],
                 ['aria-label' => ''],
                 'Should return the attribute value after setting it.',
             ],
             'closure with enum' => [
-                ['size' => static fn(): ButtonSize => ButtonSize::SMALL],
+                ['aria-size' => static fn(): ButtonSize => ButtonSize::SMALL],
                 ['aria-size' => ButtonSize::SMALL],
                 'Should return the attribute value after setting it.',
             ],
             'closure with float' => [
-                ['value' => static fn(): float => 0.42],
+                ['aria-value' => static fn(): float => 0.42],
                 ['aria-value' => 0.42],
                 'Should return the attribute value after setting it.',
             ],
             'closure with integer' => [
-                ['value' => static fn(): int => 42],
+                ['aria-value' => static fn(): int => 42],
                 ['aria-value' => 42],
                 'Should return the attribute value after setting it.',
             ],
             'closure with null' => [
-                ['label' => static fn(): null|string => null],
+                ['aria-label' => static fn(): null|string => null],
                 [],
                 'Should return the attribute value after setting it.',
             ],
             'closure with string' => [
-                ['label' => static fn(): string => 'Close'],
+                ['aria-label' => static fn(): string => 'Close'],
                 ['aria-label' => 'Close'],
                 'Should return the attribute value after setting it.',
             ],
             'empty string' => [
-                ['label' => ''],
+                ['aria-label' => ''],
                 ['aria-label' => ''],
                 'Should return an empty string when setting an empty string.',
             ],
             'enum value' => [
-                ['size' => ButtonSize::SMALL],
+                ['aria-size' => ButtonSize::SMALL],
                 ['aria-size' => ButtonSize::SMALL],
                 'Should return the attribute value after setting it.',
             ],
             'float' => [
-                ['value' => 0.42],
+                ['aria-value' => 0.42],
                 ['aria-value' => 0.42],
                 'Should return the attribute value after setting it.',
             ],
             'hyphenated key' => [
-                ['described-by' => 'desc'],
-                ['aria-described-by' => 'desc'],
+                ['aria-describedby' => 'desc'],
+                ['aria-describedby' => 'desc'],
                 'Should return the attribute value after setting it.',
             ],
             'integer' => [
-                ['value' => 42],
+                ['aria-value' => 42],
                 ['aria-value' => 42],
                 'Should return the attribute value after setting it.',
             ],
             'mixed string and closure' => [
                 [
-                    'label' => 'Close',
-                    'controls' => static fn(): string => 'modal-1',
+                    'aria-label' => 'Close',
+                    'aria-controls' => static fn(): string => 'modal-1',
                 ],
                 [
                     'aria-label' => 'Close',
@@ -517,19 +525,24 @@ final class AriaProvider
                 "Should set multiple 'aria' attributes with mixed string and closure values.",
             ],
             'string' => [
-                ['label' => 'Close'],
+                ['aria-label' => 'Close'],
                 ['aria-label' => 'Close'],
                 'Should return the attribute value after setting it.',
             ],
             'stringable' => [
-                ['label' => $stringable],
+                ['aria-label' => $stringable],
                 ['aria-label' => $stringable],
                 'Should return the attribute value after setting it.',
             ],
             'unset with null' => [
-                ['label' => null],
+                ['aria-label' => null],
                 [],
                 "Should unset the 'aria-label' attribute when 'null' is provided after a value.",
+            ],
+            'without aria prefix' => [
+                ['pressed' => true],
+                ['aria-pressed' => 'true'],
+                'Should normalize key without aria prefix when setting the attribute.',
             ],
         ];
 

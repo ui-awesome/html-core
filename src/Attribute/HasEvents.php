@@ -9,12 +9,11 @@ use InvalidArgumentException;
 use Stringable;
 use TypeError;
 use UIAwesome\Html\Core\Exception\Message;
-use UIAwesome\Html\Helper\Enum;
+use UIAwesome\Html\Helper\Attributes;
 use UnitEnum;
 
 use function gettype;
-use function is_string;
-use function str_starts_with;
+use function is_bool;
 
 /**
  * Trait for managing the global HTML event handler attributes (the `on*` attributes).
@@ -148,19 +147,7 @@ trait HasEvents
      */
     public function removeEvent(string|UnitEnum $event): static
     {
-        $normalizedKey = Enum::normalizeValue($event);
-
-        if (is_string($normalizedKey) === false || $normalizedKey === '') {
-            throw new InvalidArgumentException(
-                Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
-            );
-        }
-
-        if (str_starts_with($normalizedKey, 'on') === false) {
-            throw new InvalidArgumentException(
-                Message::EVENT_KEY_MUST_START_WITH_ON->getMessage($normalizedKey),
-            );
-        }
+        $normalizedKey = Attributes::normalizeKey($event, 'on');
 
         $new = clone $this;
         unset($new->attributes[$normalizedKey]);
@@ -185,18 +172,7 @@ trait HasEvents
      */
     private function addEventInternal(mixed $key, string|Closure|Stringable|UnitEnum|null $handler): static
     {
-        $normalizedKey = Enum::normalizeValue($key);
-
-        if (is_string($normalizedKey) === false || $normalizedKey === '') {
-            throw new InvalidArgumentException(Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage());
-        }
-
-
-        if (str_starts_with($normalizedKey, 'on') === false) {
-            throw new InvalidArgumentException(
-                Message::EVENT_KEY_MUST_START_WITH_ON->getMessage($normalizedKey),
-            );
-        }
+        $normalizedKey = Attributes::normalizeKey($key, 'on');
 
         if ($handler instanceof Closure) {
             $handler = $handler();
