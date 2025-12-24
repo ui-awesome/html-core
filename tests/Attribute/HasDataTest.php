@@ -14,7 +14,6 @@ use UIAwesome\Html\Core\Attribute\HasData;
 use UIAwesome\Html\Core\Exception\Message;
 use UIAwesome\Html\Core\Mixin\HasAttributes;
 use UIAwesome\Html\Core\Tests\Support\Provider\Attribute\DataProvider;
-use UIAwesome\Html\Core\Tests\Support\Stub\Enum\Priority;
 use UIAwesome\Html\Helper\Attributes;
 use UnitEnum;
 
@@ -151,7 +150,11 @@ final class HasDataTest extends TestCase
         $instance->dataAttributes(['key' => new stdClass()]);
     }
 
-    public function testThrowInvalidArgumentExceptionWhenSetDataAttributeKeyIsEmpty(): void
+    /**
+     * @phpstan-param mixed[] $attributes
+     */
+    #[DataProviderExternal(DataProvider::class, 'invalidKey')]
+    public function testThrowInvalidArgumentExceptionWhenSetDataAttributeKeyIsInvalid(array $attributes): void
     {
         $instance = new class {
             use HasAttributes;
@@ -160,14 +163,17 @@ final class HasDataTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(''),
+            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
         );
 
-        $instance->dataAttributes(['' => 'value']);
+        $instance->dataAttributes($attributes);
     }
 
-    public function testThrowInvalidArgumentExceptionWhenSetDataAttributeKeyIsInvalid(): void
-    {
+    #[DataProviderExternal(DataProvider::class, 'invalidSingleKey')]
+    public function testThrowInvalidArgumentExceptionWhenSetSingleDataAttributeWithInvalidKey(
+        string|UnitEnum $key,
+        string $value,
+    ): void {
         $instance = new class {
             use HasAttributes;
             use HasData;
@@ -175,39 +181,9 @@ final class HasDataTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(1),
+            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
         );
 
-        $instance->dataAttributes([1 => '']);
-    }
-
-    public function testThrowInvalidArgumentExceptionWhenSetSingleDataAttributeWithEmptyKey(): void
-    {
-        $instance = new class {
-            use HasAttributes;
-            use HasData;
-        };
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(''),
-        );
-
-        $instance->addDataAttribute('', 'value');
-    }
-
-    public function testThrowInvalidArgumentExceptionWhenSetSingleDataAttributeWithInvalidKey(): void
-    {
-        $instance = new class {
-            use HasAttributes;
-            use HasData;
-        };
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(2),
-        );
-
-        $instance->addDataAttribute(Priority::HIGH, 'value');
+        $instance->addDataAttribute($key, $value);
     }
 }

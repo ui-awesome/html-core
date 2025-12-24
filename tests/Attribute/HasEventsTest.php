@@ -169,8 +169,6 @@ final class HasEventsTest extends TestCase
     #[DataProviderExternal(EventProvider::class, 'invalidSingleKey')]
     public function testThrowInvalidArgumentExceptionWhenRemoveEventAttributeKeyIsInvalid(
         string|UnitEnum $key,
-        string $handler,
-        string $message,
     ): void {
         $instance = new class {
             use HasAttributes;
@@ -179,7 +177,7 @@ final class HasEventsTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            $message,
+            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
         );
 
         $instance->removeEvent($key);
@@ -189,10 +187,8 @@ final class HasEventsTest extends TestCase
      * @phpstan-param mixed[] $attributes
      */
     #[DataProviderExternal(EventProvider::class, 'invalidKey')]
-    public function testThrowInvalidArgumentExceptionWhenSetEventAttributeKeyIsInvalid(
-        array $attributes,
-        string $message,
-    ): void {
+    public function testThrowInvalidArgumentExceptionWhenSetEventAttributeKeyIsInvalid(array $attributes): void
+    {
         $instance = new class {
             use HasAttributes;
             use HasEvents;
@@ -200,7 +196,7 @@ final class HasEventsTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            $message,
+            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
         );
 
         $instance->events($attributes);
@@ -210,7 +206,6 @@ final class HasEventsTest extends TestCase
     public function testThrowInvalidArgumentExceptionWhenSetSingleEventAttributeKeyIsInvalid(
         string|UnitEnum $key,
         string $handler,
-        string $message,
     ): void {
         $instance = new class {
             use HasAttributes;
@@ -219,7 +214,7 @@ final class HasEventsTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            $message,
+            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
         );
 
         $instance->addEvent($key, $handler);

@@ -38,40 +38,31 @@ final class EventProvider
      * Provides test cases for invalid HTML `on-*` attribute keys.
      *
      * Supplies test data for validating exception handling when setting HTML `on-*` attributes with invalid keys,
-     * including empty string, UnitEnum and keys without the `on` prefix.
+     * including empty string, UnitEnum and without `on` prefix in keys.
      *
-     * Each test case includes the invalid key input and an assertion message for clear identification.
+     * Each test case includes the invalid key input.
      *
      * @return array Test data for invalid `on-*` attribute keys.
      *
-     * @phpstan-return array<string, array{mixed[], string}>
+     * @phpstan-return array<string, array{mixed[]}>
      */
     public static function invalidKey(): array
     {
         return [
             'boolean false' => [
                 [false => 'value'],
-                Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
             ],
             'boolean true' => [
                 [true => 'value'],
-                Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
             ],
             'empty string' => [
                 ['' => 'value'],
-                Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
             ],
             'integer' => [
                 [1 => 'value'],
-                Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
             ],
             'null' => [
                 [null => 'value'],
-                Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
-            ],
-            'without on prefix' => [
-                ['invalid-key' => 'value'],
-                Message::EVENT_KEY_MUST_START_WITH_ON->getMessage('invalid-key'),
             ],
         ];
     }
@@ -80,13 +71,13 @@ final class EventProvider
      * Provides test cases for invalid single HTML `on-*` attribute keys.
      *
      * Supplies test data for validating exception handling when setting a single HTML `on-*` attribute with an invalid
-     * key, including empty string, UnitEnum and keys without the `on` prefix.
+     * key, including empty string, UnitEnum and without `on` prefix in keys.
      *
-     * Each test case includes the attribute key, the input value, and an assertion message for clear identification.
+     * Each test case includes the attribute key and the input value.
      *
      * @return array Test data for invalid single `on-*` attribute keys.
      *
-     * @phpstan-return array<string, array{scalar|UnitEnum|null, string, string}>
+     * @phpstan-return array<string, array{scalar|UnitEnum|null, string}>
      */
     public static function invalidSingleKey(): array
     {
@@ -94,17 +85,10 @@ final class EventProvider
             'empty string' => [
                 '',
                 'value',
-                Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
             ],
             'enum key' => [
                 Priority::HIGH,
                 'value',
-                Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
-            ],
-            'without on prefix' => [
-                'invalid-key',
-                'value',
-                Message::EVENT_KEY_MUST_START_WITH_ON->getMessage('invalid-key'),
             ],
         ];
     }
@@ -112,8 +96,8 @@ final class EventProvider
     /**
      * Provides test cases for rendered HTML `on*` event attribute scenarios.
      *
-     * Supplies test data for validating assignment, override, and removal of HTML `on*` event handler attributes,
-     * including string, Stringable, UnitEnum, and deferred evaluation via \Closure.
+     * Supplies test data for validating assignment, override, and removal of HTML `on*` attributes, including scalar,
+     * array rendered as JSON, Stringable, UnitEnum, \Closure and without `on*` prefix in keys.
      *
      * Each test case includes the input value, the initial attributes, the expected rendered output, and an assertion
      * message for clear identification.
@@ -225,6 +209,12 @@ final class EventProvider
                 '',
                 "Should unset the 'onclick' attribute when 'null' is provided after a value.",
             ],
+            'without on prefix' => [
+                ['click' => "alert('test')"],
+                [],
+                ' onclick="alert(&apos;test&apos;)"',
+                'Should normalize key without on prefix when setting the attribute.',
+            ],
         ];
     }
 
@@ -232,8 +222,8 @@ final class EventProvider
      * Provides test cases for single HTML `on*` event attribute scenarios.
      *
      * Supplies test data for validating assignment, override, and removal of a single HTML `on*` event attribute,
-     * including string keys, enum-based keys via UnitEnum, and values provided as string, Stringable, \Closure, and
-     * `null`.
+     * including string keys, enum-based keys via UnitEnum, and values provided as string, Stringable, \Closure, `null`,
+     * and without `on` prefix in keys.
      *
      * Each test case includes the attribute key, the input value, the expected attributes array, and an assertion
      * message for clear identification.
@@ -345,6 +335,12 @@ final class EventProvider
                 [],
                 'Should unset the attribute when null is provided.',
             ],
+            'without on prefix' => [
+                'click',
+                "alert('test')",
+                ['onclick' => "alert('test')"],
+                'Should normalize key without on prefix when setting the attribute.',
+            ],
         ];
     }
 
@@ -353,7 +349,7 @@ final class EventProvider
      *
      * Supplies test data for validating bulk assignment, normalization, and removal of HTML `on*` event handler
      * attributes, ensuring consistent key prefixing (`on`), event name handling, and value propagation for string,
-     * Stringable, UnitEnum, Closure, and `null`.
+     * Stringable, UnitEnum, Closure, `null` and without `on` prefix in keys.
      *
      * Each test case includes the input value, the expected normalized attributes array, and an assertion message for
      * clear identification.
@@ -435,6 +431,11 @@ final class EventProvider
                 ['onclick' => null],
                 [],
                 'Should unset the attribute when null is provided.',
+            ],
+            'without on prefix' => [
+                ['click' => "alert('test')"],
+                ['onclick' => "alert('test')"],
+                'Should normalize key without on prefix when setting the attribute.',
             ],
         ];
 
