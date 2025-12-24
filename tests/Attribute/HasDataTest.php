@@ -172,7 +172,7 @@ final class HasDataTest extends TestCase
     #[DataProviderExternal(DataProvider::class, 'invalidSingleKey')]
     public function testThrowInvalidArgumentExceptionWhenSetSingleDataAttributeWithInvalidKey(
         string|UnitEnum $key,
-        string $handler,
+        string $value,
     ): void {
         $instance = new class {
             use HasAttributes;
@@ -184,6 +184,6 @@ final class HasDataTest extends TestCase
             Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
         );
 
-        $instance->addDataAttribute($key, $handler);
+        $instance->addDataAttribute($key, $value);
     }
 }

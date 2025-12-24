@@ -28,7 +28,7 @@
 - Enh #29: Add `HasEvents` trait with `events()`, `addEvent()`, `removeEvent()` methods and tests (@terabytesoftw)
 - Bug #30: Improve `HasAriaTest` with additional test cases for invalid `aria-*` attribute keys and `AriaProvider` data provider (@terabytesoftw)
 - Bug #31: Improve `HasEventsTest` with additional cases for invalid `on-*` attribute keys and `EventProvider` data provider (@terabytesoftw)
-- Bug #32: Refactor `HasAria`, `HasData`and `HasEvents` classes for handling normalize keys and update related tests (@terabytesoftw)
+- Bug #32: Refactor `HasAria`, `HasData` and `HasEvents` classes for handling normalize keys and update related tests (@terabytesoftw)
 
 ## 0.2.0 December 18, 2025
 
