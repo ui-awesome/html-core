@@ -1,5 +1,7 @@
 # ChangeLog
 
+## 0.3.2 Under development
+
 ## 0.3.1 December 26, 2025
 
 - Bug #33: Update test group annotations for `BaseTagTest` and `SimpleFactoryTest` classes (@terabytesoftw)
