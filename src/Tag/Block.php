@@ -335,6 +335,15 @@ enum Block: string
     case SUMMARY = 'summary';
 
     /**
+     * Case for the `<svg>` HTML tag.
+     *
+     * Categorized as embedded, flow, and palpable content.
+     *
+     * @link https://developer.mozilla.org/en-US/docs/Web/SVG
+     */
+    case SVG = 'svg';
+
+    /**
      * Case for the `<video>` HTML tag.
      *
      * Categorized as embedded, flow, interactive, palpable, and phrasing content.
