@@ -89,28 +89,6 @@ enum Message: string
     case UNEXPECTED_END_CALL_NO_BEGIN = "Unexpected '%s::end()' call, a matching 'begin()' is not found.";
 
     /**
-     * Error when a value can't be empty.
-     *
-     * Format: "The '%s' must not be empty, valid values are: '%s'."
-     */
-    case VALUE_CANNOT_BE_EMPTY = "The '%s' must not be empty, valid values are: '%s'.";
-
-    /**
-     * Error when a value is not in the list of valid values.
-     *
-     * Format: "Value '%s' is not in the list of valid values for '%s': '%s'."
-     */
-    case VALUE_NOT_IN_LIST = "Value '%s' is not in the list of valid values for '%s': '%s'.";
-
-    /**
-     * Error when a value is of an invalid type.
-     *
-     * Format: "Value should be of type 'array', 'scalar', 'null', or 'enum'; '%s' given."
-     */
-    case VALUE_SHOULD_BE_ARRAY_SCALAR_NULL_ENUM = "Value should be of type 'array', 'scalar', 'null', or 'enum'; " .
-    "'%s' given.";
-
-    /**
      * Returns the formatted message string for the error case.
      *
      * Retrieves and formats the error message string by interpolating the provided arguments.

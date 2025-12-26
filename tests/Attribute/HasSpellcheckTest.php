@@ -8,10 +8,10 @@ use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\{DataProviderExternal, Group};
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Core\Attribute\HasSpellcheck;
-use UIAwesome\Html\Core\Exception\Message;
 use UIAwesome\Html\Core\Mixin\HasAttributes;
 use UIAwesome\Html\Core\Tests\Support\Provider\Attribute\SpellcheckProvider;
 use UIAwesome\Html\Helper\Attributes;
+use UIAwesome\Html\Helper\Exception\Message;
 
 /**
  * Test suite for {@see HasSpellcheck} trait functionality and behavior.
