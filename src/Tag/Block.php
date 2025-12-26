@@ -339,7 +339,7 @@ enum Block: string
      *
      * Categorized as embedded, flow, and palpable content.
      *
-     * @link https://developer.mozilla.org/en-US/docs/Web/SVG
+     * @link https://developer.mozilla.org/en-US/docs/Web/SVG/Element/svg
      */
     case SVG = 'svg';
 
