@@ -25,7 +25,7 @@ use UIAwesome\Html\Core\Tests\Support\TestSupport;
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
-#[Group('tag')]
+#[Group('base')]
 final class BaseTagTest extends TestCase
 {
     use TestSupport;
