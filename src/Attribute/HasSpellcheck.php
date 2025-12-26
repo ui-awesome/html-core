@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Attribute;
 
 use InvalidArgumentException;
+use UIAwesome\Html\Core\Values\AttributeProperty;
 use UIAwesome\Html\Helper\Validator;
 
 use function is_bool;
@@ -25,8 +26,7 @@ use function is_bool;
  * - Supports bool, string, and `null` for flexible spellcheck assignment.
  *
  * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/spellcheck
- * @property array $attributes HTML attributes array used by the implementing class.
- * @phpstan-property mixed[] $attributes
+ * @method static addAttribute(string|\UnitEnum $key, mixed $value) Adds an attribute and returns a new instance.
  * {@see \UIAwesome\Html\Core\Mixin\HasAttributes} for managing the underlying attributes array.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
@@ -59,22 +59,12 @@ trait HasSpellcheck
      */
     public function spellcheck(bool|string|null $value): static
     {
-        $new = clone $this;
-
-        if ($value === null) {
-            unset($new->attributes['spellcheck']);
-
-            return $new;
-        }
-
         if (is_bool($value)) {
             $value = $value ? 'true' : 'false';
         }
 
-        Validator::oneOf($value, ['false', 'true'], 'spellcheck');
+        Validator::oneOf($value, ['false', 'true'], AttributeProperty::SPELLCHECK);
 
-        $new->attributes['spellcheck'] = $value;
-
-        return $new;
+        return $this->addAttribute(AttributeProperty::SPELLCHECK, $value);
     }
 }

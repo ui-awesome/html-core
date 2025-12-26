@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Attribute;
 
+use UIAwesome\Html\Core\Values\AttributeProperty;
+
 /**
  * Trait for managing the global HTML `accesskey` attribute in tag rendering.
  *
@@ -20,8 +22,7 @@ namespace UIAwesome\Html\Core\Attribute;
  * - Supports string and `null` for flexible access key assignment.
  *
  * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/accesskey
- * @property array $attributes HTML attributes array used by the implementing class.
- * @phpstan-property mixed[] $attributes
+ * @method static addAttribute(string|\UnitEnum $key, mixed $value) Adds an attribute and returns a new instance.
  * {@see \UIAwesome\Html\Core\Mixin\HasAttributes} for managing the underlying attributes array.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
@@ -52,14 +53,6 @@ trait HasAccesskey
      */
     public function accesskey(string|null $value): static
     {
-        $new = clone $this;
-
-        if ($value === null) {
-            unset($new->attributes['accesskey']);
-        } else {
-            $new->attributes['accesskey'] = $value;
-        }
-
-        return $new;
+        return $this->addAttribute(AttributeProperty::ACCESSKEY, $value);
     }
 }

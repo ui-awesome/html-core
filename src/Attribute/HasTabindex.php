@@ -6,6 +6,7 @@ namespace UIAwesome\Html\Core\Attribute;
 
 use InvalidArgumentException;
 use UIAwesome\Html\Core\Exception\Message;
+use UIAwesome\Html\Core\Values\AttributeProperty;
 use UIAwesome\Html\Helper\Validator;
 
 /**
@@ -24,8 +25,7 @@ use UIAwesome\Html\Helper\Validator;
  * - Supports int, string, and `null` for flexible tab order assignment.
  *
  * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex
- * @property array $attributes HTML attributes array used by the implementing class.
- * @phpstan-property mixed[] $attributes
+ * @method static addAttribute(string|\UnitEnum $key, mixed $value) Adds an attribute and returns a new instance.
  * {@see \UIAwesome\Html\Core\Mixin\HasAttributes} for managing the underlying attributes array.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
@@ -55,22 +55,12 @@ trait HasTabindex
      */
     public function tabIndex(int|string|null $value): static
     {
-        $new = clone $this;
-
-        if ($value === null) {
-            unset($new->attributes['tabindex']);
-
-            return $new;
-        }
-
-        if ($value !== -1 && $value !== '-1' && Validator::intLike($value) === false) {
+        if ($value !== -1 && $value !== '-1' && $value !== null && Validator::intLike($value) === false) {
             throw new InvalidArgumentException(
                 Message::INVALID_ATTRIBUTE_VALUE->getMessage($value, 'tabindex', 'value >= -1'),
             );
         }
 
-        $new->attributes['tabindex'] = $value;
-
-        return $new;
+        return $this->addAttribute(AttributeProperty::TABINDEX, $value);
     }
 }

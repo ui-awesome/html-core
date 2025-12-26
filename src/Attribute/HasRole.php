@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Attribute;
 
 use InvalidArgumentException;
-use UIAwesome\Html\Core\Values\Role;
+use UIAwesome\Html\Core\Values\{AttributeProperty, Role};
 use UIAwesome\Html\Helper\Validator;
 use UnitEnum;
 
@@ -25,8 +25,7 @@ use UnitEnum;
  * - Supports string, UnitEnum, and `null` for flexible role assignment.
  *
  * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/role
- * @property array $attributes HTML attributes array used by the implementing class.
- * @phpstan-property mixed[] $attributes
+ * @method static addAttribute(string|\UnitEnum $key, mixed $value) Adds an attribute and returns a new instance.
  * {@see \UIAwesome\Html\Core\Mixin\HasAttributes} for managing the underlying attributes array.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
@@ -70,16 +69,8 @@ trait HasRole
      */
     public function role(string|UnitEnum|null $value): static
     {
-        $new = clone $this;
+        Validator::oneOf($value, Role::cases(), AttributeProperty::ROLE);
 
-        if ($value === null) {
-            unset($new->attributes['role']);
-        } else {
-            Validator::oneOf($value, Role::cases(), 'role');
-
-            $new->attributes['role'] = $value;
-        }
-
-        return $new;
+        return $this->addAttribute(AttributeProperty::ROLE, $value);
     }
 }

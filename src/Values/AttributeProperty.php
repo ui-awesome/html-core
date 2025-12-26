@@ -308,9 +308,29 @@ enum AttributeProperty: string
     case ISMAP = 'ismap';
 
     /**
+     * `itemid` — Microdata item identifier.
+     */
+    case ITEMID = 'itemid';
+
+    /**
      * `itemprop` — Microdata item property name.
      */
     case ITEMPROP = 'itemprop';
+
+    /**
+     * `itemref` — Microdata item reference.
+     */
+    case ITEMREF = 'itemref';
+
+    /**
+     * `itemscope` — Indicates that the element is a microdata item.
+     */
+    case ITEMSCOPE = 'itemscope';
+
+    /**
+     * `itemtype` — Microdata item type.
+     */
+    case ITEMTYPE = 'itemtype';
 
     /**
      * `kind` — Kind of text track for `<track>` elements.
