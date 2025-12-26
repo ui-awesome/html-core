@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Attribute;
 
+use UIAwesome\Html\Core\Values\AttributeProperty;
+
 /**
  * Trait for managing the global HTML `hidden` attribute in tag rendering.
  *
@@ -20,8 +22,7 @@ namespace UIAwesome\Html\Core\Attribute;
  * - Supports bool for explicit visibility control.
  *
  * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden
- * @property array $attributes HTML attributes array used by the implementing class.
- * @phpstan-property mixed[] $attributes
+ * @method static addAttribute(string|\UnitEnum $key, mixed $value) Adds an attribute and returns a new instance.
  * {@see \UIAwesome\Html\Core\Mixin\HasAttributes} for managing the underlying attributes array.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
@@ -52,9 +53,6 @@ trait CanBeHidden
      */
     public function hidden(bool $value): static
     {
-        $new = clone $this;
-        $new->attributes['hidden'] = $value;
-
-        return $new;
+        return $this->addAttribute(AttributeProperty::HIDDEN, $value);
     }
 }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Attribute;
 
 use InvalidArgumentException;
-use UIAwesome\Html\Core\Values\Translate;
+use UIAwesome\Html\Core\Values\{AttributeProperty, Translate};
 use UIAwesome\Html\Helper\Validator;
 use UnitEnum;
 
@@ -27,8 +27,7 @@ use function is_bool;
  * - Supports bool, string, UnitEnum, and `null` for flexible translate assignment.
  *
  * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/translate
- * @property array $attributes HTML attributes array used by the implementing class.
- * @phpstan-property mixed[] $attributes
+ * @method static addAttribute(string|\UnitEnum $key, mixed $value) Adds an attribute and returns a new instance.
  * {@see \UIAwesome\Html\Core\Mixin\HasAttributes} for managing the underlying attributes array.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
@@ -68,14 +67,6 @@ trait HasTranslate
      */
     public function translate(bool|string|UnitEnum|null $value): static
     {
-        $new = clone $this;
-
-        if ($value === null) {
-            unset($new->attributes['translate']);
-
-            return $new;
-        }
-
         if (is_bool($value)) {
             $value = $value ? 'yes' : 'no';
         }
@@ -86,10 +77,8 @@ trait HasTranslate
             $value = 'no';
         }
 
-        Validator::oneOf($value, Translate::cases(), 'translate');
+        Validator::oneOf($value, Translate::cases(), AttributeProperty::TRANSLATE);
 
-        $new->attributes['translate'] = $value;
-
-        return $new;
+        return $this->addAttribute(AttributeProperty::TRANSLATE, $value);
     }
 }

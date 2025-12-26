@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Attribute;
 
 use InvalidArgumentException;
-use UIAwesome\Html\Core\Values\Draggable;
+use UIAwesome\Html\Core\Values\{AttributeProperty, Draggable};
 use UIAwesome\Html\Helper\Validator;
 use UnitEnum;
 
@@ -27,8 +27,7 @@ use function is_bool;
  * - Supports bool, string, Draggable, and `null` for flexible drag assignment.
  *
  * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/draggable
- * @property array $attributes HTML attributes array used by the implementing class.
- * @phpstan-property mixed[] $attributes
+ * @method static addAttribute(string|\UnitEnum $key, mixed $value) Adds an attribute and returns a new instance.
  * {@see \UIAwesome\Html\Core\Mixin\HasAttributes} for managing the underlying attributes array.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
@@ -69,22 +68,12 @@ trait HasDraggable
      */
     public function draggable(bool|string|UnitEnum|null $value): static
     {
-        $new = clone $this;
-
-        if ($value === null) {
-            unset($new->attributes['draggable']);
-
-            return $new;
-        }
-
         if (is_bool($value)) {
             $value = $value ? 'true' : 'false';
         }
 
-        Validator::oneOf($value, Draggable::cases(), 'draggable');
+        Validator::oneOf($value, Draggable::cases(), AttributeProperty::DRAGGABLE);
 
-        $new->attributes['draggable'] = $value;
-
-        return $new;
+        return $this->addAttribute(AttributeProperty::DRAGGABLE, $value);
     }
 }

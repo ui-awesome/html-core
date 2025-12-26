@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Attribute;
 
+use UIAwesome\Html\Core\Values\AttributeProperty;
+
 /**
  * Trait for managing the global HTML microdata attributes in tag rendering.
  *
@@ -24,8 +26,7 @@ namespace UIAwesome\Html\Core\Attribute;
  * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/itemref
  * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/itemscope
  * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/itemtype
- * @property array $attributes HTML attributes array used by the implementing class.
- * @phpstan-property mixed[] $attributes
+ * @method static addAttribute(string|\UnitEnum $key, mixed $value) Adds an attribute and returns a new instance.
  * {@see \UIAwesome\Html\Core\Mixin\HasAttributes} for managing the underlying attributes array.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
@@ -56,15 +57,7 @@ trait HasMicroData
      */
     public function itemId(string|null $value): static
     {
-        $new = clone $this;
-
-        if ($value === null) {
-            unset($new->attributes['itemid']);
-        } else {
-            $new->attributes['itemid'] = $value;
-        }
-
-        return $new;
+        return $this->addAttribute(AttributeProperty::ITEMID, $value);
     }
 
     /**
@@ -90,15 +83,7 @@ trait HasMicroData
      */
     public function itemProp(string|null $value): static
     {
-        $new = clone $this;
-
-        if ($value === null) {
-            unset($new->attributes['itemprop']);
-        } else {
-            $new->attributes['itemprop'] = $value;
-        }
-
-        return $new;
+        return $this->addAttribute(AttributeProperty::ITEMPROP, $value);
     }
 
     /**
@@ -124,15 +109,7 @@ trait HasMicroData
      */
     public function itemRef(string|null $value): static
     {
-        $new = clone $this;
-
-        if ($value === null) {
-            unset($new->attributes['itemref']);
-        } else {
-            $new->attributes['itemref'] = $value;
-        }
-
-        return $new;
+        return $this->addAttribute(AttributeProperty::ITEMREF, $value);
     }
 
     /**
@@ -158,15 +135,7 @@ trait HasMicroData
      */
     public function itemScope(bool|null $value): static
     {
-        $new = clone $this;
-
-        if ($value === null) {
-            unset($new->attributes['itemscope']);
-        } else {
-            $new->attributes['itemscope'] = $value;
-        }
-
-        return $new;
+        return $this->addAttribute(AttributeProperty::ITEMSCOPE, $value);
     }
 
     /**
@@ -192,14 +161,6 @@ trait HasMicroData
      */
     public function itemType(string|null $value): static
     {
-        $new = clone $this;
-
-        if ($value === null) {
-            unset($new->attributes['itemtype']);
-        } else {
-            $new->attributes['itemtype'] = $value;
-        }
-
-        return $new;
+        return $this->addAttribute(AttributeProperty::ITEMTYPE, $value);
     }
 }

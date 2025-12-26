@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Attribute;
 
 use Stringable;
+use UIAwesome\Html\Core\Values\AttributeProperty;
 use UnitEnum;
 
 /**
@@ -23,8 +24,7 @@ use UnitEnum;
  * - Supports string, Stringable, UnitEnum, and `null` for flexible title assignment.
  *
  * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/title
- * @property array $attributes HTML attributes array used by the implementing class.
- * @phpstan-property mixed[] $attributes
+ * @method static addAttribute(string|\UnitEnum $key, mixed $value) Adds an attribute and returns a new instance.
  * {@see \UIAwesome\Html\Core\Mixin\HasAttributes} for managing the underlying attributes array.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
@@ -68,14 +68,6 @@ trait HasTitle
      */
     public function title(string|Stringable|UnitEnum|null $value): static
     {
-        $new = clone $this;
-
-        if ($value === null) {
-            unset($new->attributes['title']);
-        } else {
-            $new->attributes['title'] = $value;
-        }
-
-        return $new;
+        return $this->addAttribute(AttributeProperty::TITLE, $value);
     }
 }

@@ -5,6 +5,7 @@
 - Bug #33: Update test group annotations for `BaseTagTest` and `SimpleFactoryTest` classes (@terabytesoftw)
 - Dep #34: Update `infection/infection` version constraint to `^0.32` in `composer.json` (@terabytesoftw)
 - Enh #35: Add `SVG` case to `Block` enum for HTML tag representation (@terabytesoftw)
+- Bug #36: Simplify attribute management by utilizing `addAttribute` method across multiple traits (@terabytesoftw)
 
 ## 0.3.0 December 24, 2025
 

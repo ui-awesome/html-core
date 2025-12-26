@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Attribute;
 
 use InvalidArgumentException;
-use UIAwesome\Html\Core\Values\Direction;
+use UIAwesome\Html\Core\Values\{AttributeProperty, Direction};
 use UIAwesome\Html\Helper\Validator;
 use UnitEnum;
 
@@ -25,8 +25,7 @@ use UnitEnum;
  * - Supports string, UnitEnum, and `null` for flexible direction assignment.
  *
  * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/dir
- * @property array $attributes HTML attributes array used by the implementing class.
- * @phpstan-property mixed[] $attributes
+ * @method static addAttribute(string|\UnitEnum $key, mixed $value) Adds an attribute and returns a new instance.
  * {@see \UIAwesome\Html\Core\Mixin\HasAttributes} for managing the underlying attributes array.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
@@ -67,16 +66,8 @@ trait HasDir
      */
     public function dir(string|UnitEnum|null $value): static
     {
-        $new = clone $this;
+        Validator::oneOf($value, Direction::cases(), AttributeProperty::DIR);
 
-        if ($value === null) {
-            unset($new->attributes['dir']);
-        } else {
-            Validator::oneOf($value, Direction::cases(), 'dir');
-
-            $new->attributes['dir'] = $value;
-        }
-
-        return $new;
+        return $this->addAttribute(AttributeProperty::DIR, $value);
     }
 }

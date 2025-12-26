@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Attribute;
 
 use InvalidArgumentException;
-use UIAwesome\Html\Core\Values\Language;
+use UIAwesome\Html\Core\Values\{AttributeProperty, Language};
 use UIAwesome\Html\Helper\Validator;
 use UnitEnum;
 
@@ -25,8 +25,7 @@ use UnitEnum;
  * - Supports string, UnitEnum, and `null` for flexible language assignment.
  *
  * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang
- * @property array $attributes HTML attributes array used by the implementing class.
- * @phpstan-property mixed[] $attributes
+ * @method static addAttribute(string|\UnitEnum $key, mixed $value) Adds an attribute and returns a new instance.
  * {@see \UIAwesome\Html\Core\Mixin\HasAttributes} for managing the underlying attributes array.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
@@ -69,16 +68,8 @@ trait HasLang
      */
     public function lang(string|UnitEnum|null $value): static
     {
-        $new = clone $this;
+        Validator::oneOf($value, Language::cases(), AttributeProperty::LANG);
 
-        if ($value === null) {
-            unset($new->attributes['lang']);
-        } else {
-            Validator::oneOf($value, Language::cases(), 'lang');
-
-            $new->attributes['lang'] = $value;
-        }
-
-        return $new;
+        return $this->addAttribute(AttributeProperty::LANG, $value);
     }
 }
