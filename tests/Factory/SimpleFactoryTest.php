@@ -6,6 +6,7 @@ namespace UIAwesome\Html\Core\Tests\Factory;
 
 use Error;
 use LogicException;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Core\Base\BaseTag;
 use UIAwesome\Html\Core\Exception\Message;
@@ -33,6 +34,7 @@ use UIAwesome\Html\Core\Tests\Support\Stub\TagInline;
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
+#[Group('factory')]
 final class SimpleFactoryTest extends TestCase
 {
     public function testCreateWithDefaultConfigurationPropertiesValues(): void
