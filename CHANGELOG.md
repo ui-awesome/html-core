@@ -1,6 +1,6 @@
 # ChangeLog
 
-## 0.3.2 Under development
+## 0.4.0 Under development
 
 - Bug #37: Move `Message` enum to `Helper\Exception` namespace and clean up unused cases (@terabytesoftw)
 
