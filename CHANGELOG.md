@@ -3,6 +3,7 @@
 ## 0.3.1 Under development
 
 - Bug #33: Update test group annotations for `BaseTagTest` and `SimpleFactoryTest` classes (@terabytesoftw)
+- Dep #34: Update `infection/infection` version constraint to `^0.32` in `composer.json` (@terabytesoftw)
 
 ## 0.3.0 December 24, 2025
 
@@ -42,5 +43,5 @@
 
 - Enh #1: Initial commit (@terabytesoftw)
 - Bug #2: Update docs `Block.md` (@terabytesoftw)
-- Enh #3: Update `ui-awesome/html-attribute`, `ui-awesome/html-concern`, `ui-awesome/html-helper` to `0.2` (@terabytesoftw)
+- Dep #3: Update `ui-awesome/html-attribute`, `ui-awesome/html-concern`, `ui-awesome/html-helper` to `0.2` in `composer.json` (@terabytesoftw)
 - Bug #4: Refactor `AbstractBlockElement` and `Block` classes to use `HasTagName` trait (@terabytesoftw)
