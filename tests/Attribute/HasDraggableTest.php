@@ -8,11 +8,11 @@ use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\{DataProviderExternal, Group};
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Core\Attribute\HasDraggable;
-use UIAwesome\Html\Core\Exception\Message;
 use UIAwesome\Html\Core\Mixin\HasAttributes;
 use UIAwesome\Html\Core\Tests\Support\Provider\Attribute\DraggableProvider;
 use UIAwesome\Html\Core\Values\Draggable;
 use UIAwesome\Html\Helper\{Attributes, Enum};
+use UIAwesome\Html\Helper\Exception\Message;
 use UnitEnum;
 
 /**

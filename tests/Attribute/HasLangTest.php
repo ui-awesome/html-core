@@ -8,11 +8,11 @@ use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\{DataProviderExternal, Group};
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Core\Attribute\HasLang;
-use UIAwesome\Html\Core\Exception\Message;
 use UIAwesome\Html\Core\Mixin\HasAttributes;
 use UIAwesome\Html\Core\Tests\Support\Provider\Attribute\LangProvider;
 use UIAwesome\Html\Core\Values\Language;
 use UIAwesome\Html\Helper\{Attributes, Enum};
+use UIAwesome\Html\Helper\Exception\Message;
 use UnitEnum;
 
 /**

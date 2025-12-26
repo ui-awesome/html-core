@@ -2,6 +2,8 @@
 
 ## 0.3.2 Under development
 
+- Bug #37: Move `Message` enum to `Helper\Exception` namespace and clean up unused cases (@terabytesoftw)
+
 ## 0.3.1 December 26, 2025
 
 - Bug #33: Update test group annotations for `BaseTagTest` and `SimpleFactoryTest` classes (@terabytesoftw)
