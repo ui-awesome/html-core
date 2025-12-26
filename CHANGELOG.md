@@ -1,6 +1,6 @@
 # ChangeLog
 
-## 0.3.1 Under development
+## 0.3.1 December 26, 2025
 
 - Bug #33: Update test group annotations for `BaseTagTest` and `SimpleFactoryTest` classes (@terabytesoftw)
 - Dep #34: Update `infection/infection` version constraint to `^0.32` in `composer.json` (@terabytesoftw)
