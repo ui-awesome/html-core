@@ -1,5 +1,7 @@
 # ChangeLog
 
+## 0.3.1 Under development
+
 ## 0.3.0 December 24, 2025
 
 - Bug #6: Update testsuite name to match project name (@terabytesoftw)
