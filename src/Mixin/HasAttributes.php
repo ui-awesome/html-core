@@ -159,7 +159,7 @@ trait HasAttributes
         $normalizedKey = Enum::normalizeValue($key);
 
         $new = clone $this;
-        
+
         unset($new->attributes[$normalizedKey]);
 
         return $new;
@@ -172,7 +172,7 @@ trait HasAttributes
      * UnitEnum values. Handles normalization of keys with prefixes (for example, 'aria-', 'data-', 'on').
      *
      * @param mixed $key Attribute key (without the prefix if a prefix is supplied).
-     * @param bool|float|int|string|Closure|Stringable|UnitEnum|null $value Attribute value. Can be `null` to unset the attribute.
+     * @param bool|Closure|float|int|string|Stringable|UnitEnum|null $value Attribute value. Can be `null` to unset the attribute.
      * @param string $prefix Optional prefix to prepend to the key (for example, 'aria-', 'data-', 'on').
      * @param bool $boolToString Whether to convert boolean values to 'true'/'false' strings.
      *
