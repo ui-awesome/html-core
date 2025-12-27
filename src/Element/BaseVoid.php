@@ -81,6 +81,6 @@ abstract class BaseVoid extends BaseTag
      */
     protected function run(): string
     {
-        return Html::void($this->getTag(), $this->attributes);
+        return Html::void($this->getTag(), $this->getAttributes());
     }
 }

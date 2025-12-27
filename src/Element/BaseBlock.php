@@ -125,7 +125,7 @@ abstract class BaseBlock extends BaseTag
     protected function run(): string
     {
         if ($this->isBeginExecuted() === false) {
-            return Html::element($this->getTag(), $this->getContent(), $this->attributes);
+            return Html::element($this->getTag(), $this->getContent(), $this->getAttributes());
         }
 
         return Html::end($this->getTag());
@@ -146,6 +146,6 @@ abstract class BaseBlock extends BaseTag
      */
     protected function runBegin(): string
     {
-        return Html::begin($this->getTag(), $this->attributes);
+        return Html::begin($this->getTag(), $this->getAttributes());
     }
 }
