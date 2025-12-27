@@ -6,6 +6,7 @@
 - Bug #38: Update method calls to use `getAttributes()` method for consistency in `BaseBlock`, `BaseInline`, and `BaseVoid` classes (@terabytesoftw)
 - Bug #39: Rename exception test methods for clarity and consistency (@terabytesoftw)
 - Bug #40: Consolidate attribute handling in `setAttribute()` method in `HasAttributes` class and remove redundant code in related classes (@terabytesoftw)
+- Dep #41: Update `ui-awesome/html-helper` version constraint to `^0.6` in `composer.json` and adjust related tests (@terabytesoftw)
 
 ## 0.3.1 December 26, 2025
 

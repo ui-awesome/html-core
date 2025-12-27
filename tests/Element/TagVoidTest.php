@@ -246,7 +246,7 @@ final class TagVoidTest extends TestCase
     {
         self::equalsWithoutLE(
             <<<HTML
-            <hr style="test-value">
+            <hr style='test-value'>
             HTML,
             TagVoid::tag()->style('test-value')->render(),
             "Failed asserting that element renders correctly with 'style' attribute.",
