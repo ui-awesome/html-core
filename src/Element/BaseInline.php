@@ -97,7 +97,7 @@ abstract class BaseInline extends BaseTag
     {
         $tokenTemplateValues = [
             '{prefix}' => $this->renderTag($this->prefixTag, $this->prefix, $this->prefixAttributes),
-            '{tag}' => $this->renderTag($this->getTag(), (string) $content, $this->attributes),
+            '{tag}' => $this->renderTag($this->getTag(), (string) $content, $this->getAttributes()),
             '{suffix}' => $this->renderTag($this->suffixTag, $this->suffix, $this->suffixAttributes),
         ];
 

@@ -146,6 +146,6 @@ abstract class BaseBlock extends BaseTag
      */
     protected function runBegin(): string
     {
-        return Html::begin($this->getTag(), $this->attributes);
+        return Html::begin($this->getTag(), $this->getAttributes());
     }
 }
