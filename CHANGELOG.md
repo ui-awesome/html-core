@@ -1,6 +1,6 @@
 # ChangeLog
 
-## 0.4.0 Under development
+## 0.4.0 December 27, 2025
 
 - Bug #37: Move `Message` enum to `Helper\Exception` namespace and clean up unused cases (@terabytesoftw)
 - Bug #38: Update method calls to use `getAttributes()` method for consistency in `BaseBlock`, `BaseInline`, and `BaseVoid` classes (@terabytesoftw)
