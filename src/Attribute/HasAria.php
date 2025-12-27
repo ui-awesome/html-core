@@ -30,9 +30,11 @@ use function gettype;
  * - Supports scalar, Closure and UnitEnum for advanced dynamic aria scenarios.
  *
  * @link https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes
- * @property array $attributes HTML attributes array used by the implementing class.
- * @phpstan-property mixed[] $attributes
- * {@see \UIAwesome\Html\Core\Mixin\HasAttributes} for managing the underlying attributes array.
+ * @phpstan-type Key string|UnitEnum
+ * @phpstan-type Value scalar|Stringable|UnitEnum|null|Closure(): mixed
+ * @method void setAttribute(Key $key, Value $value, string $prefix = '', bool $boolToString = false) Sets a single
+ * attribute with prefix handling.
+ * @see \UIAwesome\Html\Core\Mixin\HasAttributes for managing the underlying attributes array.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
@@ -84,7 +86,8 @@ trait HasAria
         bool|float|int|string|Closure|Stringable|UnitEnum|null $value,
     ): static {
         $new = clone $this;
-        $new->addAriaAttributeInternal($key, $value);
+
+        $new->setAttribute($key, $value, 'aria-', true);
 
         return $new;
     }
@@ -133,7 +136,7 @@ trait HasAria
         /** @phpstan-var array<string, scalar|Stringable|UnitEnum|Closure(): mixed|null> $values */
         foreach ($values as $key => $value) {
             try {
-                $new->addAriaAttributeInternal($key, $value);
+                $new->setAttribute($key, $value, 'aria-', true);
                 // @phpstan-ignore catch.neverThrown
             } catch (TypeError) {
                 throw new InvalidArgumentException(
@@ -168,47 +171,9 @@ trait HasAria
         $normalizedKey = Attributes::normalizeKey($key, 'aria-');
 
         $new = clone $this;
+
         unset($new->attributes[$normalizedKey]);
 
         return $new;
-    }
-
-    /**
-     * Internal method to set a single HTML `aria-*` attribute.
-     *
-     * Modifies the current instance by setting or removing the specified custom aria attribute, supporting scalar,
-     * Closure and UnitEnum values as required by the HTML specification for global attributes.
-     *
-     * @param mixed $key Aria attribute key (without the `aria-` prefix).
-     * @param bool|Closure|float|int|string|UnitEnum|null $value Aria attribute value. Can be `null` to unset the
-     * attribute.
-     *
-     * @throws InvalidArgumentException if one or more arguments are invalid, of incorrect type or format.
-     *
-     * @return static Current instance with the updated `aria-*` attribute.
-     *
-     * @phpstan-param scalar|Stringable|UnitEnum|Closure(): mixed $value
-     */
-    private function addAriaAttributeInternal(
-        mixed $key,
-        bool|float|int|string|Closure|Stringable|UnitEnum|null $value,
-    ): static {
-        $normalizedKey = Attributes::normalizeKey($key, 'aria-');
-
-        if ($value instanceof Closure) {
-            $value = $value();
-        }
-
-        if (is_bool($value)) {
-            $value = $value ? 'true' : 'false';
-        }
-
-        if ($value === null) {
-            unset($this->attributes[$normalizedKey]);
-        } else {
-            $this->attributes[$normalizedKey] = $value;
-        }
-
-        return $this;
     }
 }

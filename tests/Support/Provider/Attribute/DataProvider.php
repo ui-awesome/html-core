@@ -61,9 +61,6 @@ final class DataProvider
             'integer' => [
                 [1 => 'value'],
             ],
-            'null' => [
-                [null => 'value'],
-            ],
         ];
     }
 

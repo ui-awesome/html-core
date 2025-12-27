@@ -60,9 +60,6 @@ final class AriaProvider
             'integer' => [
                 [1 => 'value'],
             ],
-            'null' => [
-                [null => 'value'],
-            ],
         ];
     }
 

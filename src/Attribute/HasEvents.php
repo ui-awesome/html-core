@@ -13,7 +13,6 @@ use UIAwesome\Html\Helper\Attributes;
 use UnitEnum;
 
 use function gettype;
-use function is_bool;
 
 /**
  * Trait for managing the global HTML event handler attributes (the `on*` attributes).
@@ -31,8 +30,10 @@ use function is_bool;
  * - Supports scalar, Closure and UnitEnum for advanced dynamic event scenarios.
  *
  * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes#event_handler_attributes
- * @property array $attributes HTML attributes array used by the implementing class.
- * @phpstan-property mixed[] $attributes
+ * @phpstan-type Key string|UnitEnum
+ * @phpstan-type Value scalar|Stringable|UnitEnum|null|Closure(): mixed
+ * @method void setAttribute(Key $key, Value $value, string $prefix = '', bool $boolToString = false) Sets a single
+ * attribute with prefix handling.
  * {@see \UIAwesome\Html\Core\Mixin\HasAttributes} for managing the underlying attributes array.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
@@ -75,7 +76,8 @@ trait HasEvents
     public function addEvent(string|UnitEnum $event, string|Closure|Stringable|UnitEnum|null $handler): static
     {
         $new = clone $this;
-        $new->addEventInternal($event, $handler);
+
+        $new->setAttribute($event, $handler, 'on', true);
 
         return $new;
     }
@@ -110,10 +112,10 @@ trait HasEvents
     {
         $new = clone $this;
 
-        /** @phpstan-var array<string|UnitEnum, string|Closure|Stringable|null> $values */
+        /** @phpstan-var array<string, string|Closure|Stringable|null> $values */
         foreach ($values as $key => $value) {
             try {
-                $new->addEventInternal($key, $value);
+                $new->setAttribute($key, $value, 'on', true);
                 // @phpstan-ignore catch.neverThrown
             } catch (TypeError) {
                 throw new InvalidArgumentException(
@@ -150,44 +152,9 @@ trait HasEvents
         $normalizedKey = Attributes::normalizeKey($event, 'on');
 
         $new = clone $this;
+
         unset($new->attributes[$normalizedKey]);
 
         return $new;
-    }
-
-    /**
-     * Internal method to set a single global `on*` event attribute.
-     *
-     * Modifies the current instance by setting or removing the specified event attribute, supporting string, Closure
-     * and UnitEnum values.
-     *
-     * @param mixed $key Event key (string or UnitEnum).
-     * @param Closure|string|Stringable|UnitEnum|null $handler Handler string or `null` to unset.
-     *
-     * @throws InvalidArgumentException if the key is invalid.
-     *
-     * @return static Current instance with the updated event attribute.
-     *
-     * @phpstan-param string|Stringable|Closure(): mixed|null $handler
-     */
-    private function addEventInternal(mixed $key, string|Closure|Stringable|UnitEnum|null $handler): static
-    {
-        $normalizedKey = Attributes::normalizeKey($key, 'on');
-
-        if ($handler instanceof Closure) {
-            $handler = $handler();
-        }
-
-        if (is_bool($handler)) {
-            $handler = $handler ? 'true' : 'false';
-        }
-
-        if ($handler === null) {
-            unset($this->attributes[$normalizedKey]);
-        } else {
-            $this->attributes[$normalizedKey] = $handler;
-        }
-
-        return $this;
     }
 }
