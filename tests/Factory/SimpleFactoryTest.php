@@ -57,17 +57,7 @@ final class SimpleFactoryTest extends TestCase
         );
     }
 
-    public function testThrowExceptionWhenInstantiateAbstractClass(): void
-    {
-        $this->expectException(LogicException::class);
-        $this->expectExceptionMessage(
-            Message::CANNOT_INSTANTIATE_ABSTRACT_CLASS->getMessage(BaseTag::class),
-        );
-
-        SimpleFactory::create(BaseTag::class);
-    }
-
-    public function testThrowExceptionWhenSetNotPublicProperty(): void
+    public function testThrowErrorForSetNotPublicProperty(): void
     {
         $this->expectException(Error::class);
         $this->expectExceptionMessage(
@@ -75,5 +65,15 @@ final class SimpleFactoryTest extends TestCase
         );
 
         TagInline::tag(['flagDisabled' => true]);
+    }
+
+    public function testThrowLogicExceptionForInstantiateAbstractClass(): void
+    {
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage(
+            Message::CANNOT_INSTANTIATE_ABSTRACT_CLASS->getMessage(BaseTag::class),
+        );
+
+        SimpleFactory::create(BaseTag::class);
     }
 }

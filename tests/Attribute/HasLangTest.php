@@ -112,7 +112,7 @@ final class HasLangTest extends TestCase
         );
     }
 
-    public function testThrowExceptionWhenSettingInvalidLangValue(): void
+    public function testThrowInvalidArgumentExceptionForSettingInvalidLangValue(): void
     {
         $instance = new class {
             use HasAttributes;

@@ -113,7 +113,7 @@ final class HasTranslateTest extends TestCase
         );
     }
 
-    public function testThrowExceptionWhenSettingInvalidTranslateValue(): void
+    public function testThrowInvalidArgumentExceptionForSettingInvalidTranslateValue(): void
     {
         $instance = new class {
             use HasAttributes;

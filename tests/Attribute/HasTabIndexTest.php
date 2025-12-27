@@ -115,7 +115,7 @@ final class HasTabIndexTest extends TestCase
     }
 
     #[DataProviderExternal(TabIndexProvider::class, 'invalidValues')]
-    public function testThrowExceptionWhenSettingInvalidTabIndexAttribute(int|string $tabIndex): void
+    public function testThrowInvalidArgumentExceptionForSettingInvalidTabIndexAttribute(int|string $tabIndex): void
     {
         $instance = new class {
             use HasAttributes;

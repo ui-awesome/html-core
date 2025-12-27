@@ -148,26 +148,11 @@ final class HasAriaTest extends TestCase
         );
     }
 
-    public function testThrowInvalidArgumentExceptionWhenAriaAttributeValueIsInvalid(): void
-    {
-        $instance = new class {
-            use HasAria;
-            use HasAttributes;
-        };
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            Message::ATTRIBUTE_VALUE_MUST_BE_SCALAR_OR_CLOSURE->getMessage('object'),
-        );
-
-        $instance->ariaAttributes(['key' => new stdClass()]);
-    }
-
     /**
      * @phpstan-param mixed[] $attributes
      */
     #[DataProviderExternal(AriaProvider::class, 'invalidKey')]
-    public function testThrowInvalidArgumentExceptionWhenSetAriaAttributeKeyIsInvalid(array $attributes): void
+    public function testThrowInvalidArgumentExceptionForAriaAttributeKeyIsInvalid(array $attributes): void
     {
         $instance = new class {
             use HasAria;
@@ -182,8 +167,23 @@ final class HasAriaTest extends TestCase
         $instance->ariaAttributes($attributes);
     }
 
+    public function testThrowInvalidArgumentExceptionForAriaAttributeValueIsInvalid(): void
+    {
+        $instance = new class {
+            use HasAria;
+            use HasAttributes;
+        };
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            Message::ATTRIBUTE_VALUE_MUST_BE_SCALAR_OR_CLOSURE->getMessage('object'),
+        );
+
+        $instance->ariaAttributes(['key' => new stdClass()]);
+    }
+
     #[DataProviderExternal(AriaProvider::class, 'invalidSingleKey')]
-    public function testThrowInvalidArgumentExceptionWhenSetSingleAriaAttributeKeyIsInvalid(
+    public function testThrowInvalidArgumentExceptionForSingleAriaAttributeKeyIsInvalid(
         string|UnitEnum $key,
         string $value,
     ): void {

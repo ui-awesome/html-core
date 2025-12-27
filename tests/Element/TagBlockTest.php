@@ -624,7 +624,17 @@ final class TagBlockTest extends TestCase
         );
     }
 
-    public function testThrowExceptionWhenEndWithMismatchedTag(): void
+    public function testThrowLogicExceptionForEndWithoutBegin(): void
+    {
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage(
+            Message::UNEXPECTED_END_CALL_NO_BEGIN->getMessage(TagBlock::class),
+        );
+
+        TagBlock::end();
+    }
+
+    public function testThrowRuntimeExceptionForEndWithMismatchedTag(): void
     {
         $tag = new class extends BaseBlock {
             /**
@@ -647,15 +657,5 @@ final class TagBlockTest extends TestCase
         );
 
         $tag::end();
-    }
-
-    public function testThrowExceptionWhenEndWithoutBegin(): void
-    {
-        $this->expectException(LogicException::class);
-        $this->expectExceptionMessage(
-            Message::UNEXPECTED_END_CALL_NO_BEGIN->getMessage(TagBlock::class),
-        );
-
-        TagBlock::end();
     }
 }
