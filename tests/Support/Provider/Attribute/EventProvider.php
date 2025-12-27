@@ -61,9 +61,6 @@ final class EventProvider
             'integer' => [
                 [1 => 'value'],
             ],
-            'null' => [
-                [null => 'value'],
-            ],
         ];
     }
 

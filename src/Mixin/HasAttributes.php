@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Mixin;
 
+use Closure;
 use InvalidArgumentException;
+use Stringable;
 use UIAwesome\Html\Core\Exception\Message;
-use UIAwesome\Html\Helper\Enum;
+use UIAwesome\Html\Helper\{Attributes, Enum};
 use UnitEnum;
 
 use function array_merge;
+use function is_bool;
 
 /**
  * Trait for managing global HTML attributes in tag rendering.
@@ -110,7 +113,8 @@ trait HasAttributes
     public function attributes(array $values): static
     {
         $new = clone $this;
-        $new->attributes = array_merge($this->attributes, $values);
+
+        $new->attributes = array_merge($new->attributes, $values);
 
         return $new;
     }
@@ -155,8 +159,45 @@ trait HasAttributes
         $normalizedKey = Enum::normalizeValue($key);
 
         $new = clone $this;
+
         unset($new->attributes[$normalizedKey]);
 
         return $new;
+    }
+
+    /**
+     * Internal method to set a single attribute with prefix handling and value resolution.
+     *
+     * Modifies the current instance by setting or removing the specified attribute, supporting scalar, Closure and
+     * UnitEnum values. Handles normalization of keys with prefixes (for example, 'aria-', 'data-', 'on').
+     *
+     * @param mixed $key Attribute key (without the prefix if a prefix is supplied).
+     * @param bool|Closure|float|int|string|Stringable|UnitEnum|null $value Attribute value. Can be `null` to unset the attribute.
+     * @param string $prefix Optional prefix to prepend to the key (for example, 'aria-', 'data-', 'on').
+     * @param bool $boolToString Whether to convert boolean values to 'true'/'false' strings.
+     *
+     * @phpstan-param scalar|Stringable|UnitEnum|Closure(): mixed $value
+     */
+    private function setAttribute(
+        mixed $key,
+        bool|float|int|string|Closure|Stringable|UnitEnum|null $value,
+        string $prefix = '',
+        bool $boolToString = false,
+    ): void {
+        $normalizedKey = Attributes::normalizeKey($key, $prefix);
+
+        if ($value instanceof Closure) {
+            $value = $value();
+        }
+
+        if ($boolToString && is_bool($value)) {
+            $value = $value ? 'true' : 'false';
+        }
+
+        if ($value === null) {
+            unset($this->attributes[$normalizedKey]);
+        } else {
+            $this->attributes[$normalizedKey] = $value;
+        }
     }
 }
