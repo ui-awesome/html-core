@@ -63,13 +63,13 @@ final class StyleProvider
             'enum' => [
                 AlertType::WARNING,
                 [],
-                ' style="warning"',
+                ' style=\'warning\'',
                 'Should return the attribute value after setting it with an enum.',
             ],
             'enum replace existing' => [
                 AlertType::WARNING,
                 ['style' => 'color: red;'],
-                ' style="warning"',
+                ' style=\'warning\'',
                 "Should return new 'style' after replacing the existing 'style' attribute with enum value.",
             ],
             'null' => [
@@ -81,13 +81,13 @@ final class StyleProvider
             'replace existing' => [
                 'color: blue;',
                 ['style' => 'color: red;'],
-                ' style="color: blue;"',
+                ' style=\'color: blue;\'',
                 "Should return new 'style' after replacing the existing 'style' attribute.",
             ],
             'string' => [
                 'color: red;',
                 [],
-                ' style="color: red;"',
+                ' style=\'color: red;\'',
                 'Should return the attribute value after setting it.',
             ],
             'stringable' => [
@@ -98,7 +98,7 @@ final class StyleProvider
                     }
                 },
                 [],
-                ' style="color: green;"',
+                ' style=\'color: green;\'',
                 'Should return the attribute value after setting it with a Stringable instance.',
             ],
             'unset with null' => [

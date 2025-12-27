@@ -455,7 +455,7 @@ final class TagInlineTest extends TestCase
     {
         self::equalsWithoutLE(
             <<<HTML
-            <span style="test-value"></span>
+            <span style='test-value'></span>
             HTML,
             TagInline::tag()->style('test-value')->render(),
             "Failed asserting that element renders correctly with 'style' attribute.",

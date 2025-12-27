@@ -508,7 +508,7 @@ final class TagBlockTest extends TestCase
     {
         self::equalsWithoutLE(
             <<<HTML
-            <div style="test-value">
+            <div style='test-value'>
             </div>
             HTML,
             TagBlock::tag()->style('test-value')->render(),
