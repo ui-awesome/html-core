@@ -132,7 +132,7 @@ final class HasAttributesTest extends TestCase
         );
     }
 
-    public function testThrowInvalidArgumentExceptionWhenSetSingleAttributeWithEmptyKey(): void
+    public function testThrowInvalidArgumentExceptionForSetSingleAttributeWithEmptyKey(): void
     {
         $instance = new class {
             use HasAttributes;
@@ -146,7 +146,7 @@ final class HasAttributesTest extends TestCase
         $instance->addAttribute('', 'value');
     }
 
-    public function testThrowInvalidArgumentExceptionWhenSetSingleAttributeWithInvalidKey(): void
+    public function testThrowInvalidArgumentExceptionForSetSingleAttributeWithInvalidKey(): void
     {
         $instance = new class {
             use HasAttributes;

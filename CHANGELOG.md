@@ -4,6 +4,7 @@
 
 - Bug #37: Move `Message` enum to `Helper\Exception` namespace and clean up unused cases (@terabytesoftw)
 - Bug #38: Update method calls to use `getAttributes()` method for consistency in `BaseBlock`, `BaseInline`, and `BaseVoid` classes (@terabytesoftw)
+- Bug #39: Rename exception test methods for clarity and consistency (@terabytesoftw)
 
 ## 0.3.1 December 26, 2025
 

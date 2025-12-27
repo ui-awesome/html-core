@@ -135,26 +135,11 @@ final class HasDataTest extends TestCase
         );
     }
 
-    public function testThrowInvalidArgumentExceptionWhenDataAttributeValueIsInvalid(): void
-    {
-        $instance = new class {
-            use HasAttributes;
-            use HasData;
-        };
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            Message::ATTRIBUTE_VALUE_MUST_BE_SCALAR_OR_CLOSURE->getMessage('object'),
-        );
-
-        $instance->dataAttributes(['key' => new stdClass()]);
-    }
-
     /**
      * @phpstan-param mixed[] $attributes
      */
     #[DataProviderExternal(DataProvider::class, 'invalidKey')]
-    public function testThrowInvalidArgumentExceptionWhenSetDataAttributeKeyIsInvalid(array $attributes): void
+    public function testThrowInvalidArgumentExceptionForDataAttributeKeyIsInvalid(array $attributes): void
     {
         $instance = new class {
             use HasAttributes;
@@ -169,8 +154,23 @@ final class HasDataTest extends TestCase
         $instance->dataAttributes($attributes);
     }
 
+    public function testThrowInvalidArgumentExceptionForDataAttributeValueIsInvalid(): void
+    {
+        $instance = new class {
+            use HasAttributes;
+            use HasData;
+        };
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            Message::ATTRIBUTE_VALUE_MUST_BE_SCALAR_OR_CLOSURE->getMessage('object'),
+        );
+
+        $instance->dataAttributes(['key' => new stdClass()]);
+    }
+
     #[DataProviderExternal(DataProvider::class, 'invalidSingleKey')]
-    public function testThrowInvalidArgumentExceptionWhenSetSingleDataAttributeWithInvalidKey(
+    public function testThrowInvalidArgumentExceptionForSingleDataAttributeKeyIsInvalid(
         string|UnitEnum $key,
         string $value,
     ): void {

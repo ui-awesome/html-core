@@ -596,7 +596,7 @@ final class TagInlineTest extends TestCase
         );
     }
 
-    public function testThrowExceptionWhenBeginCalled(): void
+    public function testThrowLogicExceptionForBeginCalled(): void
     {
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage(
@@ -606,7 +606,7 @@ final class TagInlineTest extends TestCase
         TagInline::tag()->begin();
     }
 
-    public function testThrowExceptionWhenEndCalled(): void
+    public function testThrowLogicExceptionForEndCalled(): void
     {
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage(

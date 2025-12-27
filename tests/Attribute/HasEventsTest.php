@@ -151,7 +151,26 @@ final class HasEventsTest extends TestCase
         );
     }
 
-    public function testThrowInvalidArgumentExceptionWhenEventAttributeValueIsInvalid(): void
+    /**
+     * @phpstan-param mixed[] $attributes
+     */
+    #[DataProviderExternal(EventProvider::class, 'invalidKey')]
+    public function testThrowInvalidArgumentExceptionForEventAttributeKeyIsInvalid(array $attributes): void
+    {
+        $instance = new class {
+            use HasAttributes;
+            use HasEvents;
+        };
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
+        );
+
+        $instance->events($attributes);
+    }
+
+    public function testThrowInvalidArgumentExceptionForEventAttributeValueIsInvalid(): void
     {
         $instance = new class {
             use HasAttributes;
@@ -167,7 +186,7 @@ final class HasEventsTest extends TestCase
     }
 
     #[DataProviderExternal(EventProvider::class, 'invalidSingleKey')]
-    public function testThrowInvalidArgumentExceptionWhenRemoveEventAttributeKeyIsInvalid(
+    public function testThrowInvalidArgumentExceptionForRemoveEventAttributeKeyIsInvalid(
         string|UnitEnum $key,
     ): void {
         $instance = new class {
@@ -183,27 +202,8 @@ final class HasEventsTest extends TestCase
         $instance->removeEvent($key);
     }
 
-    /**
-     * @phpstan-param mixed[] $attributes
-     */
-    #[DataProviderExternal(EventProvider::class, 'invalidKey')]
-    public function testThrowInvalidArgumentExceptionWhenSetEventAttributeKeyIsInvalid(array $attributes): void
-    {
-        $instance = new class {
-            use HasAttributes;
-            use HasEvents;
-        };
-
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            Message::KEY_MUST_BE_NON_EMPTY_STRING->getMessage(),
-        );
-
-        $instance->events($attributes);
-    }
-
     #[DataProviderExternal(EventProvider::class, 'invalidSingleKey')]
-    public function testThrowInvalidArgumentExceptionWhenSetSingleEventAttributeKeyIsInvalid(
+    public function testThrowInvalidArgumentExceptionForSingleEventAttributeKeyIsInvalid(
         string|UnitEnum $key,
         string $handler,
     ): void {
