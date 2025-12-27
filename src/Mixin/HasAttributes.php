@@ -114,7 +114,7 @@ trait HasAttributes
     {
         $new = clone $this;
 
-        $new->attributes = array_merge($this->attributes, $values);
+        $new->attributes = array_merge($new->attributes, $values);
 
         return $new;
     }
