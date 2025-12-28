@@ -22,7 +22,7 @@ use UIAwesome\Html\Core\Attribute\{
 use UIAwesome\Html\Core\Base\BaseTag;
 use UIAwesome\Html\Core\Html;
 use UIAwesome\Html\Core\Mixin\HasAttributes;
-use UIAwesome\Html\Core\Tag\Voids;
+use UIAwesome\Html\Core\Tag\VoidInterface;
 
 /**
  * Base class for constructing HTML void elements according to the HTML specification.
@@ -41,7 +41,7 @@ use UIAwesome\Html\Core\Tag\Voids;
  * - Supports extensibility for custom void element implementations.
  *
  * @link https://developer.mozilla.org/en-US/docs/Glossary/Void_element
- * {@see Voids} for valid void-level tags.
+ * {@see VoidInterface} for contract details.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
@@ -68,9 +68,9 @@ abstract class BaseVoid extends BaseTag
      *
      * Must be implemented by subclasses to specify the concrete void tag.
      *
-     * @return Voids Tag instance for the void element.
+     * @return VoidInterface Tag instance for the void element.
      */
-    abstract protected function getTag(): Voids;
+    abstract protected function getTag(): VoidInterface;
 
     /**
      * Renders the void element.

@@ -15,15 +15,17 @@ namespace UIAwesome\Html\Core\Tag;
  * Key features.
  * - Designed for use in view, tags and components requiring table element structure.
  * - Ensures technical consistency with the HTML specification and modern web standards.
+ * - Implementation of {@see BlockInterface} for contract adherence.
  * - Integration-ready for tag rendering and element generation APIs.
  * - Strict mapping of table HTML tags for semantic markup generation.
  *
  * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements#table_content
+ * {@see BlockInterface} for contract details.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
-enum Table: string
+enum Table: string implements BlockInterface
 {
     /**
      * Case for the `<caption>` HTML tag.

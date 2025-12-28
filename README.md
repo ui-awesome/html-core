@@ -37,7 +37,7 @@
 ### Installation
 
 ```bash
-composer require ui-awesome/html-core:^0.1
+composer require ui-awesome/html-core:^0.5
 ```
 
 ### Quick start
@@ -277,6 +277,32 @@ echo Span::tag(['id' => 'badge-1'])
     ->render();
 
 // <span class="badge text-muted" id="badge-1" title="from-global">New</span>
+```
+
+#### Extensibility
+
+This library is agnostic and designed to be extended. You can define your own tag collections (for example, for SVG,
+MathML, or Web Components) by implementing the core interfaces backed by a string Enum.
+
+- `\UIAwesome\Html\Core\Tag\BlockInterface`: For container elements that have content and a closing tag.
+- `\UIAwesome\Html\Core\Tag\InlineInterface`: For text-level elements.
+- `\UIAwesome\Html\Core\Tag\VoidInterface`: For self-closing elements (no closing tag).
+
+You can create a custom Enum for your specific domain (for example, SVG tags) and use it seamlessly with `html-core`.
+
+```php
+use UIAwesome\Html\Core\Tag\BlockInterface;
+
+enum SvgTag: string implements BlockInterface
+{
+    case SVG = 'svg';
+    case G = 'g';
+    // ... add other SVG block tags as needed
+}
+
+// now you can use it with the Html helper or your custom classes
+echo Html::element(SvgTag::G, '...');
+// <g>...</g>
 ```
 
 ## Documentation
