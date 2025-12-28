@@ -1,5 +1,5 @@
 <!-- Mobile layout - Single column -->
-<svg fill="none" viewBox="0 0 600 580" width="100%" height="580" xmlns="http://www.w3.org/2000/svg">
+<svg fill="none" viewBox="0 0 600 610" width="100%" height="580" xmlns="http://www.w3.org/2000/svg">
     <foreignObject width="100%" height="100%">
         <div xmlns="http://www.w3.org/1999/xhtml">
             <style>
@@ -51,7 +51,11 @@
                 </div>
                 <div class="alert-box">
                     <p class="alert-title"><strong>Extensible base elements</strong></p>
-                    <p class="alert-content">Build your own tags by extending BaseBlock, BaseInline, or BaseVoid and implementing `getTag()`</p>
+                    <p class="alert-content">
+                        Build your own tags by extending <code>BaseBlock</code>, <code>BaseInline</code>, or <code>BaseVoid</code>
+                        and implementing <code>getTag()</code> returning the corresponding Interface
+                        (<code>BlockInterface</code>, <code>InlineInterface</code>, or <code>VoidInterface</code>).
+                    </p>
                 </div>
                 <div class="alert-box">
                     <p class="alert-title"><strong>Immutable fluent builders</strong></p>

@@ -15,7 +15,7 @@ namespace UIAwesome\Html\Core\Tag;
  * Key features.
  * - Designed for use in view, tags and components requiring list element structure.
  * - Ensures technical consistency with the HTML specification and modern web standards.
- * - Implement of {@see BlockInterface} for contract adherence.
+ * - Implementation of {@see BlockInterface} for contract adherence.
  * - Integration-ready for tag rendering and element generation APIs.
  * - Strict mapping of list HTML tags for semantic markup generation.
  *
