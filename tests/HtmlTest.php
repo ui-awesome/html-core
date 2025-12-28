@@ -7,7 +7,7 @@ namespace UIAwesome\Html\Core\Tests;
 use PHPUnit\Framework\Attributes\{DataProviderExternal, Group};
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Core\Html;
-use UIAwesome\Html\Core\Tag\{Block, Inline, Lists, Root, Table, Voids};
+use UIAwesome\Html\Core\Tag\{Block, BlockInterface, Inline, InlineInterface, Lists, Root, Table, VoidInterface, Voids};
 use UIAwesome\Html\Core\Tests\Support\Provider\Tag\{
     BlockProvider,
     InlineProvider,
@@ -45,7 +45,7 @@ final class HtmlTest extends TestCase
     use TestSupport;
 
     #[DataProviderExternal(BlockProvider::class, 'blockTags')]
-    public function testRenderBeginWithBlockTag(Block $tag, string $expectedTagName): void
+    public function testRenderBeginWithBlockTag(BlockInterface $tag, string $expectedTagName): void
     {
         self::equalsWithoutLE(
             "<{$expectedTagName}>\n",
@@ -55,7 +55,7 @@ final class HtmlTest extends TestCase
     }
 
     #[DataProviderExternal(ListsProvider::class, 'listTags')]
-    public function testRenderBeginWithListTag(Lists $tag, string $expectedTagName): void
+    public function testRenderBeginWithListTag(BlockInterface $tag, string $expectedTagName): void
     {
         self::equalsWithoutLE(
             "<{$expectedTagName}>\n",
@@ -65,7 +65,7 @@ final class HtmlTest extends TestCase
     }
 
     #[DataProviderExternal(RootProvider::class, 'rootTags')]
-    public function testRenderBeginWithRootTag(Root $tag, string $expectedTagName): void
+    public function testRenderBeginWithRootTag(BlockInterface $tag, string $expectedTagName): void
     {
         self::equalsWithoutLE(
             "<{$expectedTagName}>\n",
@@ -75,7 +75,7 @@ final class HtmlTest extends TestCase
     }
 
     #[DataProviderExternal(TableProvider::class, 'tableTags')]
-    public function testRenderBeginWithTableTag(Table $tag, string $expectedTagName): void
+    public function testRenderBeginWithTableTag(BlockInterface $tag, string $expectedTagName): void
     {
         self::equalsWithoutLE(
             "<{$expectedTagName}>\n",
@@ -382,7 +382,7 @@ final class HtmlTest extends TestCase
     }
 
     #[DataProviderExternal(BlockProvider::class, 'blockTags')]
-    public function testRenderEndWithBlockTag(Block $tag, string $expectedTagName): void
+    public function testRenderEndWithBlockTag(BlockInterface $tag, string $expectedTagName): void
     {
         self::equalsWithoutLE(
             "\n</{$expectedTagName}>",
@@ -392,7 +392,7 @@ final class HtmlTest extends TestCase
     }
 
     #[DataProviderExternal(ListsProvider::class, 'listTags')]
-    public function testRenderEndWithListTag(Lists $tag, string $expectedTagName): void
+    public function testRenderEndWithListTag(BlockInterface $tag, string $expectedTagName): void
     {
         self::equalsWithoutLE(
             "\n</{$expectedTagName}>",
@@ -402,7 +402,7 @@ final class HtmlTest extends TestCase
     }
 
     #[DataProviderExternal(RootProvider::class, 'rootTags')]
-    public function testRenderEndWithRootTag(Root $tag, string $expectedTagName): void
+    public function testRenderEndWithRootTag(BlockInterface $tag, string $expectedTagName): void
     {
         self::equalsWithoutLE(
             "\n</{$expectedTagName}>",
@@ -412,7 +412,7 @@ final class HtmlTest extends TestCase
     }
 
     #[DataProviderExternal(TableProvider::class, 'tableTags')]
-    public function testRenderEndWithTableTag(Table $tag, string $expectedTagName): void
+    public function testRenderEndWithTableTag(BlockInterface $tag, string $expectedTagName): void
     {
         self::equalsWithoutLE(
             "\n</{$expectedTagName}>",
@@ -422,7 +422,7 @@ final class HtmlTest extends TestCase
     }
 
     #[DataProviderExternal(InlineProvider::class, 'inlineTags')]
-    public function testRenderInline(Inline $tag, string $expectedTagName): void
+    public function testRenderInline(InlineInterface $tag, string $expectedTagName): void
     {
         $content = '<mark>inline</mark>';
         $attributes = ['id' => 'inline'];
@@ -440,7 +440,7 @@ final class HtmlTest extends TestCase
     }
 
     #[DataProviderExternal(VoidProvider::class, 'voidTags')]
-    public function testRenderVoid(Voids $tag, string $expectedTagName): void
+    public function testRenderVoid(VoidInterface $tag, string $expectedTagName): void
     {
         $attributes = [
             'class' => ['void'],

@@ -23,7 +23,7 @@ use UIAwesome\Html\Core\Attribute\{
 use UIAwesome\Html\Core\Base\BaseTag;
 use UIAwesome\Html\Core\Html;
 use UIAwesome\Html\Core\Mixin\{HasAttributes, HasContent, HasPrefixCollection, HasSuffixCollection, HasTemplate};
-use UIAwesome\Html\Core\Tag\Inline;
+use UIAwesome\Html\Core\Tag\InlineInterface;
 use UIAwesome\Html\Helper\Template;
 
 /**
@@ -43,7 +43,7 @@ use UIAwesome\Html\Helper\Template;
  * - Supports extensibility for custom inline element implementations.
  *
  * @link https://developer.mozilla.org/en-US/docs/Glossary/Inline-level_content
- * {@see Inline} for valid inline-level tags.
+ * {@see InlineInterface} for contract details.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
@@ -74,9 +74,9 @@ abstract class BaseInline extends BaseTag
      *
      * Must be implemented by subclasses to specify the concrete inline tag.
      *
-     * @return Inline Tag instance for the inline element.
+     * @return InlineInterface Tag instance for the inline element.
      */
-    abstract protected function getTag(): Inline;
+    abstract protected function getTag(): InlineInterface;
 
     /**
      * Builds the inline element using the provided content and token values.
@@ -114,7 +114,7 @@ abstract class BaseInline extends BaseTag
     /**
      * Renders an inline tag or returns the content if the tag is not specified.
      *
-     * @param bool|Inline $inlineTag Tag instance or `false` to skip rendering.
+     * @param bool|InlineInterface $inlineTag Tag instance or `false` to skip rendering.
      * @param string $content Content to be rendered inside the tag.
      * @param array $attributes HTML attributes for the tag.
      *
@@ -124,9 +124,9 @@ abstract class BaseInline extends BaseTag
      *
      * @phpstan-return string
      */
-    private function renderTag(bool|Inline $inlineTag, string $content, array $attributes = []): string
+    private function renderTag(bool|InlineInterface $inlineTag, string $content, array $attributes = []): string
     {
-        if ($inlineTag instanceof Inline) {
+        if ($inlineTag instanceof InlineInterface) {
             return Html::inline($inlineTag, $content, $attributes);
         }
 

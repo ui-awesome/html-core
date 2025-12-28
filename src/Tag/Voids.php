@@ -15,15 +15,17 @@ namespace UIAwesome\Html\Core\Tag;
  * Key features.
  * - Designed for use in view, tags and components requiring void element structure.
  * - Ensures technical consistency with the HTML specification and modern web standards.
+ * - Implement of {@see VoidInterface} for contract adherence.
  * - Integration-ready for tag rendering and element generation APIs.
  * - Strict mapping of void HTML tags for semantic markup generation.
  *
  * @link https://developer.mozilla.org/en-US/docs/Glossary/Void_element
+ * {@see VoidInterface} for contract details.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
-enum Voids: string
+enum Voids: string implements VoidInterface
 {
     /**
      * Case for the `<area>` HTML tag.

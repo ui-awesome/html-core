@@ -28,7 +28,7 @@ use UIAwesome\Html\Core\Attribute\{
 use UIAwesome\Html\Core\Base\BaseTag;
 use UIAwesome\Html\Core\Html;
 use UIAwesome\Html\Core\Mixin\{HasAttributes, HasContent};
-use UIAwesome\Html\Core\Tag\{Block, Lists, Root, Table};
+use UIAwesome\Html\Core\Tag\BlockInterface;
 
 use function preg_replace;
 
@@ -49,10 +49,7 @@ use function preg_replace;
  * - Supports extensibility for custom block element implementations.
  *
  * @link https://developer.mozilla.org/en-US/docs/Glossary/Block-level_content
- * {@see Block} for valid block-level tags.
- * {@see Lists} for valid list-level tags.
- * {@see Root} for valid root-level tags.
- * {@see Table} for valid table-level tags.
+ * {@see BlockInterface} for contract details.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
@@ -86,7 +83,7 @@ abstract class BaseBlock extends BaseTag
      *
      * Must be implemented by subclasses to specify the concrete block tag.
      *
-     * @return Block|Lists|Root|Table Tag instance for the block element.
+     * @return BlockInterface Tag instance for the block element.
      *
      * Usage example:
      * ```php
@@ -96,7 +93,7 @@ abstract class BaseBlock extends BaseTag
      * }
      * ```
      */
-    abstract protected function getTag(): Block|Lists|Root|Table;
+    abstract protected function getTag(): BlockInterface;
 
     /**
      * Cleans up the output after rendering the block element.

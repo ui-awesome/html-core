@@ -15,15 +15,17 @@ namespace UIAwesome\Html\Core\Tag;
  * Key features.
  * - Designed for use in view, tags and components requiring root element structure.
  * - Ensures technical consistency with the HTML specification and modern web standards.
+ * - Implement of {@see BlockInterface} for contract adherence.
  * - Integration-ready for tag rendering and element generation APIs.
  * - Strict mapping of root HTML tags for semantic markup generation.
  *
  * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements#main_root
+ * {@see BlockInterface} for contract details.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
-enum Root: string
+enum Root: string implements BlockInterface
 {
     /**
      * Case for the `<body>` HTML tag.
