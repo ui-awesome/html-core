@@ -69,6 +69,14 @@ abstract class BaseVoid extends BaseTag
      * Must be implemented by subclasses to specify the concrete void tag.
      *
      * @return VoidInterface Tag instance for the void element.
+     *
+     * Usage example:
+     * ```php
+     * public function getTag(): VoidInterface
+     * {
+     *    return Void::IMG;
+     * }
+     * ```
      */
     abstract protected function getTag(): VoidInterface;
 

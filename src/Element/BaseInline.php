@@ -75,6 +75,14 @@ abstract class BaseInline extends BaseTag
      * Must be implemented by subclasses to specify the concrete inline tag.
      *
      * @return InlineInterface Tag instance for the inline element.
+     *
+     * Usage example:
+     * ```php
+     * public function getTag(): InlineInterface
+     * {
+     *    return Inline::SPAN;
+     * }
+     * ```
      */
     abstract protected function getTag(): InlineInterface;
 
