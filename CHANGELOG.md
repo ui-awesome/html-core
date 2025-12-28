@@ -3,6 +3,7 @@
 ## 0.5.0 Under development
 
 - Enh #42: Introduce interfaces for block, inline, and void tags; update related classes and tests (@terabytesoftw)
+- Bug #43: Update usage examples for `getTag()` method in `BaseBlock`, `BaseInline`, and `BaseVoid` classes (@terabytesoftw)
 
 ## 0.4.0 December 27, 2025
 
