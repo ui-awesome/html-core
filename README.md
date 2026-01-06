@@ -131,11 +131,11 @@ declare(strict_types=1);
 namespace App;
 
 use UIAwesome\Html\Core\Element\BaseBlock;
-use UIAwesome\Html\Interop\Block;
+use UIAwesome\Html\Interop\{Block, BlockInterface};
 
 final class Div extends BaseBlock
 {
-    protected function getTag(): Block
+    protected function getTag(): BlockInterface
     {
         return Block::DIV;
     }
@@ -163,11 +163,11 @@ declare(strict_types=1);
 namespace App;
 
 use UIAwesome\Html\Core\Element\BaseBlock;
-use UIAwesome\Html\Interop\Block;
+use UIAwesome\Html\Interop\{Block, BlockInterface};
 
 final class Div extends BaseBlock
 {
-    protected function getTag(): Block
+    protected function getTag(): BlockInterface
     {
         return Block::DIV;
     }
@@ -194,11 +194,11 @@ declare(strict_types=1);
 namespace App;
 
 use UIAwesome\Html\Core\Element\BaseInline;
-use UIAwesome\Html\Interop\Inline;
+use UIAwesome\Html\Interop\{Inline, InlineInterface};
 
 final class Span extends BaseInline
 {
-    protected function getTag(): Inline
+    protected function getTag(): InlineInterface
     {
         return Inline::SPAN;
     }
