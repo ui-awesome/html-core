@@ -5,6 +5,7 @@
 - Enh #42: Introduce interfaces for block, inline, and void tags; update related classes and tests (@terabytesoftw)
 - Bug #43: Update usage examples for `getTag()` method in `BaseBlock`, `BaseInline`, and `BaseVoid` classes (@terabytesoftw)
 - Enh #44: Using global config files organization (@terabytesoftw)
+- Enh #45: Move related tag classes to `ui-awesome/html-interop` package and update imports accordingly (@terabytesoftw)
 
 ## 0.4.0 December 27, 2025
 

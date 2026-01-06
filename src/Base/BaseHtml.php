@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Base;
 
 use BackedEnum;
-use UIAwesome\Html\Core\Tag\{BlockInterface, InlineInterface, VoidInterface};
 use UIAwesome\Html\Helper\{Attributes, Encode};
+use UIAwesome\Html\Interop\{BlockInterface, InlineInterface, VoidInterface};
 
 /**
  * Base class for standards-compliant HTML tag rendering and element generation.
@@ -49,26 +49,26 @@ abstract class BaseHtml
      *
      * @return string Rendered opening tag string with attributes.
      *
-     * {@see \UIAwesome\Html\Core\Tag\Block} for valid block-level tags.
-     * {@see \UIAwesome\Html\Core\Tag\Lists} for valid list-level tags.
-     * {@see \UIAwesome\Html\Core\Tag\Root} for valid root-level tags.
-     * {@see \UIAwesome\Html\Core\Tag\Table} for valid table-level tags.
+     * {@see \UIAwesome\Html\Interop\Block} for valid block-level tags.
+     * {@see \UIAwesome\Html\Interop\Lists} for valid list-level tags.
+     * {@see \UIAwesome\Html\Interop\Root} for valid root-level tags.
+     * {@see \UIAwesome\Html\Interop\Table} for valid table-level tags.
      *
      * @phpstan-param mixed[] $attributes
      *
      * Usage example:
      * ```php
      * // block-level tag
-     * Html::begin(\UIAwesome\Html\Core\Tag\Block::DIV, ['class' => 'container']);
+     * Html::begin(\UIAwesome\Html\Interop\Block::DIV, ['class' => 'container']);
      *
      * // list-level tag
-     * Html::begin(\UIAwesome\Html\Core\Tag\Lists::UL, ['class' => 'list']);
+     * Html::begin(\UIAwesome\Html\Interop\Lists::UL, ['class' => 'list']);
      *
      * // root-level tag
-     * Html::begin(\UIAwesome\Html\Core\Tag\Root::HTML, ['lang' => 'en']);
+     * Html::begin(\UIAwesome\Html\Interop\Root::HTML, ['lang' => 'en']);
      *
      * // table-level tag
-     * Html::begin(\UIAwesome\Html\Core\Tag\Table::TABLE, ['class' => 'table']);
+     * Html::begin(\UIAwesome\Html\Interop\Table::TABLE, ['class' => 'table']);
      * ```
      */
     public static function begin(BlockInterface $tag, array $attributes = []): string
@@ -91,25 +91,25 @@ abstract class BaseHtml
      *
      * @return string Rendered HTML element string.
      *
-     * {@see \UIAwesome\Html\Core\Tag\Block} for valid block-level tags.
-     * {@see \UIAwesome\Html\Core\Tag\Inline} for valid inline-level tags.
-     * {@see \UIAwesome\Html\Core\Tag\Lists} for valid list-level tags.
-     * {@see \UIAwesome\Html\Core\Tag\Root} for valid root-level tags.
-     * {@see \UIAwesome\Html\Core\Tag\Table} for valid table-level tags.
-     * {@see \UIAwesome\Html\Core\Tag\Void} for valid void-level tags.
+     * {@see \UIAwesome\Html\Interop\Block} for valid block-level tags.
+     * {@see \UIAwesome\Html\Interop\Inline} for valid inline-level tags.
+     * {@see \UIAwesome\Html\Interop\Lists} for valid list-level tags.
+     * {@see \UIAwesome\Html\Interop\Root} for valid root-level tags.
+     * {@see \UIAwesome\Html\Interop\Table} for valid table-level tags.
+     * {@see \UIAwesome\Html\Interop\Void} for valid void-level tags.
      *
      * @phpstan-param mixed[] $attributes
      *
      * Usage example:
      * ```php
      * // block-level tag
-     * Html::element(\UIAwesome\Html\Core\Tag\Block::DIV, 'Hello, World!', ['class' => 'container'], true);
+     * Html::element(\UIAwesome\Html\Interop\Block::DIV, 'Hello, World!', ['class' => 'container'], true);
      *
      * // inline-level tag
-     * Html::element(\UIAwesome\Html\Core\Tag\Inline::SPAN, 'Hello, World!', ['class' => 'highlight'], false);
+     * Html::element(\UIAwesome\Html\Interop\Inline::SPAN, 'Hello, World!', ['class' => 'highlight'], false);
      *
      * // void-level tag
-     * Html::element(\UIAwesome\Html\Core\Tag\Void::IMG, '', ['src' => 'image.png', 'alt' => 'An image']);
+     * Html::element(\UIAwesome\Html\Interop\Void::IMG, '', ['src' => 'image.png', 'alt' => 'An image']);
      * ```
      */
     public static function element(
@@ -148,24 +148,24 @@ abstract class BaseHtml
      *
      * @return string Rendered closing tag string.
      *
-     * {@see \UIAwesome\Html\Core\Tag\Block} for valid block-level tags.
-     * {@see \UIAwesome\Html\Core\Tag\Lists} for valid list-level tags.
-     * {@see \UIAwesome\Html\Core\Tag\Root} for valid root-level tags.
-     * {@see \UIAwesome\Html\Core\Tag\Table} for valid table-level tags.
+     * {@see \UIAwesome\Html\Interop\Block} for valid block-level tags.
+     * {@see \UIAwesome\Html\Interop\Lists} for valid list-level tags.
+     * {@see \UIAwesome\Html\Interop\Root} for valid root-level tags.
+     * {@see \UIAwesome\Html\Interop\Table} for valid table-level tags.
      *
      * Usage example:
      * ```php
      * // block-level tag
-     * Html::end(\UIAwesome\Html\Core\Tag\Block::DIV);
+     * Html::end(\UIAwesome\Html\Interop\Block::DIV);
      *
      * // list-level tag
-     * Html::end(\UIAwesome\Html\Core\Tag\Lists::UL);
+     * Html::end(\UIAwesome\Html\Interop\Lists::UL);
      *
      * // root-level tag
-     * Html::end(\UIAwesome\Html\Core\Tag\Root::HTML);
+     * Html::end(\UIAwesome\Html\Interop\Root::HTML);
      *
      * // table-level tag
-     * Html::end(\UIAwesome\Html\Core\Tag\Table::TABLE);
+     * Html::end(\UIAwesome\Html\Interop\Table::TABLE);
      * ```
      */
     public static function end(BlockInterface $tag): string
@@ -185,17 +185,17 @@ abstract class BaseHtml
      *
      * @return string Rendered inline HTML element string.
      *
-     * {@see \UIAwesome\Html\Core\Tag\Inline} for valid inline-level tags.
+     * {@see \UIAwesome\Html\Interop\Inline} for valid inline-level tags.
      *
      * @phpstan-param mixed[] $attributes
      *
      * Usage example:
      * ```php
      * // without content encoding
-     * Html::inline(\UIAwesome\Html\Core\Tag\Inline::SPAN, 'Hello, World!', ['class' => 'highlight']);
+     * Html::inline(\UIAwesome\Html\Interop\Inline::SPAN, 'Hello, World!', ['class' => 'highlight']);
      *
      * // with content encoding
-     * Html::inline(\UIAwesome\Html\Core\Tag\Inline::A, '<Click Here>', ['href' => '#'], true);
+     * Html::inline(\UIAwesome\Html\Interop\Inline::A, '<Click Here>', ['href' => '#'], true);
      * ```
      */
     public static function inline(
@@ -223,13 +223,13 @@ abstract class BaseHtml
      *
      * @return string Rendered void HTML element string.
      *
-     * {@see \UIAwesome\Html\Core\Tag\Void} for valid void-level tags.
+     * {@see \UIAwesome\Html\Interop\Void} for valid void-level tags.
      *
      * @phpstan-param mixed[] $attributes
      *
      * Usage example:
      * ```php
-     * Html::void(\UIAwesome\Html\Core\Tag\Void::IMG, ['src' => 'image.png', 'alt' => 'An image']);
+     * Html::void(\UIAwesome\Html\Interop\Void::IMG, ['src' => 'image.png', 'alt' => 'An image']);
      * ```
      */
     public static function void(VoidInterface $tag, array $attributes = []): string

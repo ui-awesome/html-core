@@ -9,7 +9,7 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Stringable;
 use UIAwesome\Html\Core\Mixin\HasSuffixCollection;
-use UIAwesome\Html\Core\Tag\{Block, Inline};
+use UIAwesome\Html\Interop\{Block, Inline};
 
 /**
  * Test suite for {@see HasSuffixCollection} trait functionality and behavior.

@@ -6,7 +6,8 @@ namespace UIAwesome\Html\Core\Tests\Support\Stub;
 
 use UIAwesome\Html\Core\Attribute\{HasContentEditable, HasDraggable, HasMicroData, HasTabindex};
 use UIAwesome\Html\Core\Element\BaseInline;
-use UIAwesome\Html\Core\Tag\Inline;
+use UIAwesome\Html\Interop\Inline;
+use UIAwesome\Html\Interop\InlineInterface;
 
 /**
  * Provides a test stub for an inline tag implementation.
@@ -39,9 +40,9 @@ final class TagInline extends BaseInline
     /**
      * Returns the tag enumeration for the `<span>` element.
      *
-     * @return Inline Tag enumeration instance for `<span>`.
+     * @return InlineInterface Tag enumeration instance for `<span>`.
      */
-    protected function getTag(): Inline
+    protected function getTag(): InlineInterface
     {
         return Inline::SPAN;
     }

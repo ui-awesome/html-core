@@ -54,7 +54,7 @@ declare(strict_types=1);
 namespace App;
 
 use UIAwesome\Html\Core\Html;
-use UIAwesome\Html\Core\Tag\{Block, Inline, Voids};
+use UIAwesome\Html\Interop\{Block, Inline, Voids};
 
 echo Html::begin(Block::DIV, ['class' => 'container']);
 // <div class="container">
@@ -76,7 +76,7 @@ declare(strict_types=1);
 namespace App;
 
 use UIAwesome\Html\Core\Html;
-use UIAwesome\Html\Core\Tag\Block;
+use UIAwesome\Html\Interop\Block;
 
 $content = '<span>Test Content</span>';
 
@@ -106,7 +106,7 @@ declare(strict_types=1);
 namespace App;
 
 use UIAwesome\Html\Core\Html;
-use UIAwesome\Html\Core\Tag\Voids;
+use UIAwesome\Html\Interop\Voids;
 
 echo Html::void(
     Voids::IMG,
@@ -131,11 +131,11 @@ declare(strict_types=1);
 namespace App;
 
 use UIAwesome\Html\Core\Element\BaseBlock;
-use UIAwesome\Html\Core\Tag\Block;
+use UIAwesome\Html\Interop\{Block, BlockInterface};
 
 final class Div extends BaseBlock
 {
-    protected function getTag(): Block
+    protected function getTag(): BlockInterface
     {
         return Block::DIV;
     }
@@ -163,11 +163,11 @@ declare(strict_types=1);
 namespace App;
 
 use UIAwesome\Html\Core\Element\BaseBlock;
-use UIAwesome\Html\Core\Tag\Block;
+use UIAwesome\Html\Interop\{Block, BlockInterface};
 
 final class Div extends BaseBlock
 {
-    protected function getTag(): Block
+    protected function getTag(): BlockInterface
     {
         return Block::DIV;
     }
@@ -194,11 +194,11 @@ declare(strict_types=1);
 namespace App;
 
 use UIAwesome\Html\Core\Element\BaseInline;
-use UIAwesome\Html\Core\Tag\Inline;
+use UIAwesome\Html\Interop\{Inline, InlineInterface};
 
 final class Span extends BaseInline
 {
-    protected function getTag(): Inline
+    protected function getTag(): InlineInterface
     {
         return Inline::SPAN;
     }
@@ -237,11 +237,11 @@ use UIAwesome\Html\Core\Base\BaseTag;
 use UIAwesome\Html\Core\Element\BaseInline;
 use UIAwesome\Html\Core\Factory\SimpleFactory;
 use UIAwesome\Html\Core\Provider\{DefaultsProviderInterface, ThemeProviderInterface};
-use UIAwesome\Html\Core\Tag\Inline;
+use UIAwesome\Html\Interop\{Inline, InlineInterface};
 
 final class Span extends BaseInline
 {
-    protected function getTag(): Inline
+    protected function getTag(): InlineInterface
     {
         return Inline::SPAN;
     }
@@ -284,14 +284,14 @@ echo Span::tag(['id' => 'badge-1'])
 This library is agnostic and designed to be extended. You can define your own tag collections (for example, for SVG,
 MathML, or Web Components) by implementing the core interfaces backed by a string Enum.
 
-- `\UIAwesome\Html\Core\Tag\BlockInterface`: For container elements that have content and a closing tag.
-- `\UIAwesome\Html\Core\Tag\InlineInterface`: For text-level elements.
-- `\UIAwesome\Html\Core\Tag\VoidInterface`: For self-closing elements (no closing tag).
+- `\UIAwesome\Html\Interop\BlockInterface`: For container elements that have content and a closing tag.
+- `\UIAwesome\Html\Interop\InlineInterface`: For text-level elements.
+- `\UIAwesome\Html\Interop\VoidInterface`: For self-closing elements (no closing tag).
 
 You can create a custom Enum for your specific domain (for example, SVG tags) and use it seamlessly with `html-core`.
 
 ```php
-use UIAwesome\Html\Core\Tag\BlockInterface;
+use UIAwesome\Html\Interop\BlockInterface;
 
 enum SvgTag: string implements BlockInterface
 {

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Tests\Support\Provider\Tag;
 
-use UIAwesome\Html\Core\Tag\Root;
 use UIAwesome\Html\Core\Tests\Support\EnumDataGenerator;
+use UIAwesome\Html\Interop\Root;
 use UnitEnum;
 
 /**

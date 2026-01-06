@@ -28,7 +28,7 @@ use UIAwesome\Html\Core\Attribute\{
 use UIAwesome\Html\Core\Base\BaseTag;
 use UIAwesome\Html\Core\Html;
 use UIAwesome\Html\Core\Mixin\{HasAttributes, HasContent};
-use UIAwesome\Html\Core\Tag\BlockInterface;
+use UIAwesome\Html\Interop\BlockInterface;
 
 use function preg_replace;
 

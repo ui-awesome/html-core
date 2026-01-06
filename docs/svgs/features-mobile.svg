@@ -53,13 +53,16 @@
                     <p class="alert-title"><strong>Extensible base elements</strong></p>
                     <p class="alert-content">
                         Build your own tags by extending <code>BaseBlock</code>, <code>BaseInline</code>, or <code>BaseVoid</code>
-                        and implementing <code>getTag()</code> returning the corresponding Interface
-                        (<code>BlockInterface</code>, <code>InlineInterface</code>, or <code>VoidInterface</code>).
+                        and implementing <code>getTag()</code> returning <code>BlockInterface</code>, <code>InlineInterface</code>, or <code>VoidInterface</code>
                     </p>
                 </div>
                 <div class="alert-box">
                     <p class="alert-title"><strong>Immutable fluent builders</strong></p>
                     <p class="alert-content">Clone-based API via BaseTag, plus attribute/content traits for predictable configuration</p>
+                </div>
+                <div class="alert-box">
+                    <p class="alert-title"><strong>Safe content encoding</strong></p>
+                    <p class="alert-content">Optional HTML entity encoding for XSS protection with `encodeContent()` parameter on element rendering</p>
                 </div>
                 <div class="alert-box">
                     <p class="alert-title"><strong>Stack-safe begin/end</strong></p>
@@ -68,10 +71,6 @@
                 <div class="alert-box">
                     <p class="alert-title"><strong>Static HTML renderer</strong></p>
                     <p class="alert-content">Render begin/end tags and full elements via `Html::begin()`, `::end()`, `::element()`, `::inline()`, `::void()`</p>
-                </div>
-                <div class="alert-box">
-                    <p class="alert-title"><strong>Type-safe tag enums</strong></p>
-                    <p class="alert-content">Standards-aligned tag sets for Block, Inline, Lists, Root, Table and Voids elements</p>
                 </div>
             </div>
         </div>

@@ -9,7 +9,7 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Stringable;
 use UIAwesome\Html\Core\Mixin\HasPrefixCollection;
-use UIAwesome\Html\Core\Tag\Inline;
+use UIAwesome\Html\Interop\Inline;
 
 /**
  * Test suite for {@see HasPrefixCollection} trait functionality and behavior.
