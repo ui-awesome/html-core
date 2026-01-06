@@ -7,7 +7,6 @@ namespace UIAwesome\Html\Core\Tests;
 use PHPUnit\Framework\Attributes\{DataProviderExternal, Group};
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Core\Html;
-use UIAwesome\Html\Core\Tag\{Block, BlockInterface, Inline, InlineInterface, VoidInterface, Voids};
 use UIAwesome\Html\Core\Tests\Support\Provider\Tag\{
     BlockProvider,
     InlineProvider,
@@ -17,6 +16,7 @@ use UIAwesome\Html\Core\Tests\Support\Provider\Tag\{
     VoidProvider,
 };
 use UIAwesome\Html\Core\Tests\Support\TestSupport;
+use UIAwesome\Html\Interop\{Block, BlockInterface, Inline, InlineInterface, VoidInterface, Voids};
 
 /**
  * Test suite for {@see Html} rendering logic and tag validation.

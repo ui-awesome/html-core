@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Base;
 
 use BackedEnum;
-use UIAwesome\Html\Core\Tag\{BlockInterface, InlineInterface, VoidInterface};
 use UIAwesome\Html\Helper\{Attributes, Encode};
+use UIAwesome\Html\Interop\{BlockInterface, InlineInterface, VoidInterface};
 
 /**
  * Base class for standards-compliant HTML tag rendering and element generation.

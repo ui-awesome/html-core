@@ -9,10 +9,10 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Core\Exception\Message;
 use UIAwesome\Html\Core\Factory\SimpleFactory;
-use UIAwesome\Html\Core\Tag\Inline;
 use UIAwesome\Html\Core\Tests\Support\Stub\{DefaultProvider, DefaultThemeProvider, TagInline};
 use UIAwesome\Html\Core\Tests\Support\TestSupport;
 use UIAwesome\Html\Core\Values\{Aria, ContentEditable, DataProperty, Direction, Draggable, Language, Role, Translate};
+use UIAwesome\Html\Interop\Inline;
 
 /**
  * Test suite for {@see TagInline} element functionality and behavior.

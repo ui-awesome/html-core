@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Tests\Support\Stub;
 
 use UIAwesome\Html\Core\Element\BaseVoid;
-use UIAwesome\Html\Core\Tag\Voids;
+use UIAwesome\Html\Interop\VoidInterface;
+use UIAwesome\Html\Interop\Voids;
 
 /**
  * Provides a test stub for a void tag implementation.
@@ -23,9 +24,9 @@ final class TagVoid extends BaseVoid
      *
      * Provides the tag enumeration instance used by the base void element to determine the tag name to render.
      *
-     * @return Voids Tag enumeration instance for `<hr>`.
+     * @return VoidInterface Tag enumeration instance for `<hr>`.
      */
-    protected function getTag(): Voids
+    protected function getTag(): VoidInterface
     {
         return Voids::HR;
     }
