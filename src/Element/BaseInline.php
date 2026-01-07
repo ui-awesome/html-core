@@ -22,9 +22,9 @@ use UIAwesome\Html\Core\Attribute\{
 };
 use UIAwesome\Html\Core\Base\BaseTag;
 use UIAwesome\Html\Core\Html;
-use UIAwesome\Html\Core\Mixin\{HasAttributes, HasContent, HasPrefixCollection, HasSuffixCollection, HasTemplate};
 use UIAwesome\Html\Helper\Template;
 use UIAwesome\Html\Interop\InlineInterface;
+use UIAwesome\Html\Mixin\{HasAttributes, HasContent, HasPrefixCollection, HasSuffixCollection, HasTemplate};
 
 /**
  * Base class for constructing HTML inline-level elements according to the HTML specification.

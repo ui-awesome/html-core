@@ -8,9 +8,9 @@ use PHPUnit\Framework\Attributes\{Group, RequiresPhp};
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Core\Base\BaseTag;
 use UIAwesome\Html\Core\Html;
-use UIAwesome\Html\Core\Mixin\{HasAttributes, HasContent};
 use UIAwesome\Html\Core\Tests\Support\TestSupport;
 use UIAwesome\Html\Interop\{Block, Inline};
+use UIAwesome\Html\Mixin\{HasAttributes, HasContent};
 
 /**
  * Test suite for {@see BaseTag} element functionality and behavior.

@@ -21,8 +21,8 @@ use UIAwesome\Html\Core\Attribute\{
 };
 use UIAwesome\Html\Core\Base\BaseTag;
 use UIAwesome\Html\Core\Html;
-use UIAwesome\Html\Core\Mixin\HasAttributes;
 use UIAwesome\Html\Interop\VoidInterface;
+use UIAwesome\Html\Mixin\HasAttributes;
 
 /**
  * Base class for constructing HTML void elements according to the HTML specification.

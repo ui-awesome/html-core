@@ -7,9 +7,9 @@ namespace UIAwesome\Html\Core\Tests\Attribute;
 use PHPUnit\Framework\Attributes\{DataProviderExternal, Group};
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Core\Attribute\HasId;
-use UIAwesome\Html\Core\Mixin\HasAttributes;
 use UIAwesome\Html\Core\Tests\Support\Provider\Attribute\IdProvider;
 use UIAwesome\Html\Helper\Attributes;
+use UIAwesome\Html\Mixin\HasAttributes;
 
 /**
  * Test suite for {@see HasId} trait functionality and behavior.
