@@ -160,7 +160,7 @@ final class AriaProvider
                 'Should return the attribute value after setting it.',
             ],
             'closure with null' => [
-                ['aria-label' => static fn(): null|string => null],
+                ['aria-label' => static fn(): string|null => null],
                 [],
                 '',
                 'Should return the attribute value after setting it.',
@@ -327,7 +327,7 @@ final class AriaProvider
             ],
             'closure with null' => [
                 'aria-label',
-                static fn(): null|string => null,
+                static fn(): string|null => null,
                 [],
                 'Should return the attribute value after setting it.',
             ],
@@ -476,7 +476,7 @@ final class AriaProvider
                 'Should return the attribute value after setting it.',
             ],
             'closure with null' => [
-                ['aria-label' => static fn(): null|string => null],
+                ['aria-label' => static fn(): string|null => null],
                 [],
                 'Should return the attribute value after setting it.',
             ],

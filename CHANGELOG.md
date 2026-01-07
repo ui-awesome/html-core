@@ -6,6 +6,7 @@
 - Bug #43: Update usage examples for `getTag()` method in `BaseBlock`, `BaseInline`, and `BaseVoid` classes (@terabytesoftw)
 - Enh #44: Using global config files organization (@terabytesoftw)
 - Enh #45: Move related tag classes to `ui-awesome/html-interop` package and update imports accordingly (@terabytesoftw)
+- Enh #46: Add development guide and sync metadata instructions and update testing documentation (@terabytesoftw)
 
 ## 0.4.0 December 27, 2025
 
