@@ -12,9 +12,9 @@ use stdClass;
 use Stringable;
 use UIAwesome\Html\Core\Attribute\HasData;
 use UIAwesome\Html\Core\Exception\Message;
-use UIAwesome\Html\Core\Mixin\HasAttributes;
 use UIAwesome\Html\Core\Tests\Support\Provider\Attribute\DataProvider;
 use UIAwesome\Html\Helper\Attributes;
+use UIAwesome\Html\Mixin\HasAttributes;
 use UnitEnum;
 
 /**

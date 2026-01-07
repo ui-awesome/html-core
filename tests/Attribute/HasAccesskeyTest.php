@@ -7,9 +7,9 @@ namespace UIAwesome\Html\Core\Tests\Attribute;
 use PHPUnit\Framework\Attributes\{DataProviderExternal, Group};
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Core\Attribute\HasAccesskey;
-use UIAwesome\Html\Core\Mixin\HasAttributes;
 use UIAwesome\Html\Core\Tests\Support\Provider\Attribute\AccesskeyProvider;
 use UIAwesome\Html\Helper\Attributes;
+use UIAwesome\Html\Mixin\HasAttributes;
 
 /**
  * Test suite for {@see HasAccesskey} trait functionality and behavior.

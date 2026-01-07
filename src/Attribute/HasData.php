@@ -33,7 +33,7 @@ use function gettype;
  * @phpstan-type Key string|UnitEnum
  * @phpstan-type Value scalar|Stringable|UnitEnum|null|Closure(): mixed
  * @method void setAttribute(Key $key, Value $value, string $prefix = '', bool $boolToString = false) Sets a single
- * attribute with prefix handling. Available via {@see \UIAwesome\Html\Core\Mixin\HasAttributes} trait composition.
+ * attribute with prefix handling. Available via {@see \UIAwesome\Html\Mixin\HasAttributes} trait composition.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
