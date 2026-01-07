@@ -161,7 +161,7 @@ final class DataProvider
                 'Should return the attribute value after setting it.',
             ],
             'closure with null' => [
-                ['data-value' => static fn(): null|string => null],
+                ['data-value' => static fn(): string|null => null],
                 [],
                 '',
                 'Should return the attribute value after setting it.',
@@ -328,7 +328,7 @@ final class DataProvider
             ],
             'closure with null' => [
                 'data-value',
-                static fn(): null|string => null,
+                static fn(): string|null => null,
                 [],
                 'Should return the attribute value after setting it.',
             ],
@@ -481,7 +481,7 @@ final class DataProvider
                 'Should return the attribute value after setting it.',
             ],
             'closure with null' => [
-                ['data-value' => static fn(): null|string => null],
+                ['data-value' => static fn(): string|null => null],
                 [],
                 'Should return the attribute value after setting it.',
             ],

@@ -74,8 +74,8 @@ final class ContentEditableProvider
                 ContentEditable::TRUE,
                 ['contenteditable' => 'false'],
                 ' contenteditable="true"',
-                "Should return new 'contenteditable' after replacing the existing 'contenteditable' attribute with " .
-                'enum value.',
+                "Should return new 'contenteditable' after replacing the existing 'contenteditable' attribute with "
+                . 'enum value.',
             ],
             'null' => [
                 null,
