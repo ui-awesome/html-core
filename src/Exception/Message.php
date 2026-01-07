@@ -36,7 +36,7 @@ enum Message: string
      *
      * Format: "Attribute value must be of type 'scalar' or 'Closure', '%s' given."
      */
-    case ATTRIBUTE_VALUE_MUST_BE_SCALAR_OR_CLOSURE = "Attribute value must be of type 'scalar' or 'Closure',"
+    case ATTRIBUTE_VALUE_MUST_BE_SCALAR_OR_CLOSURE = "Attribute value must be of type 'scalar' or 'Closure', "
     . "'%s' given.";
 
     /**
