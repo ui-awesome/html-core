@@ -32,14 +32,6 @@ use function sprintf;
 enum Message: string
 {
     /**
-     * Error when a attribute value is not a `scalar` or `Closure`.
-     *
-     * Format: "Attribute value must be of type 'scalar' or 'Closure', '%s' given."
-     */
-    case ATTRIBUTE_VALUE_MUST_BE_SCALAR_OR_CLOSURE = "Attribute value must be of type 'scalar' or 'Closure', "
-    . "'%s' given.";
-
-    /**
      * Error when attempting to instantiate an abstract class.
      *
      * Format: "Cannot instantiate abstract class '%s' via 'tag()' method."
@@ -52,20 +44,6 @@ enum Message: string
      * Format: 'Event key "%s" must start with "on".'
      */
     case EVENT_KEY_MUST_START_WITH_ON = 'Event key "%s" must start with "on".';
-
-    /**
-     * Error when an attribute value is invalid.
-     *
-     * Format: 'Invalid value "%s" for attribute "%s". Expected: %s.'
-     */
-    case INVALID_ATTRIBUTE_VALUE = 'Invalid value "%s" for attribute "%s". Expected: %s.';
-
-    /**
-     * Error when a key is not a non-empty string.
-     *
-     * Format: "Key must be a non-empty string."
-     */
-    case KEY_MUST_BE_NON_EMPTY_STRING = 'Key must be a non-empty string.';
 
     /**
      * Error when there is a class mismatch on `end()` call.

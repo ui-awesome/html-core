@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Tests\Support\Provider\Mixin;
 
-use UIAwesome\Html\Core\Values\AttributeProperty;
+use UIAwesome\Html\Attribute\Values\Attribute;
 use UnitEnum;
 
 /**
@@ -50,7 +50,7 @@ final class AttributeProvider
 
         $enumCases = [];
 
-        foreach (AttributeProperty::cases() as $case) {
+        foreach (Attribute::cases() as $case) {
             $enumCases["AttributeProperty::{$case->name}"] = [
                 $case,
                 '',

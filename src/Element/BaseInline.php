@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Element;
 
 use Stringable;
-use UIAwesome\Html\Core\Attribute\{
+use UIAwesome\Html\Attribute\Global\{
     CanBeHidden,
     HasAccesskey,
     HasAria,

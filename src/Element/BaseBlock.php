@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Element;
 
-use UIAwesome\Html\Core\Attribute\{
+use UIAwesome\Html\Attribute\Global\{
     CanBeAutofocus,
     CanBeHidden,
     HasAccesskey,

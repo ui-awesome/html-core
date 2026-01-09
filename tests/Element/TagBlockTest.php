@@ -8,12 +8,12 @@ use LogicException;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
+use UIAwesome\Html\Attribute\Values\{Aria, ContentEditable, Data, Direction, Draggable, Language, Role, Translate};
 use UIAwesome\Html\Core\Element\BaseBlock;
 use UIAwesome\Html\Core\Exception\Message;
 use UIAwesome\Html\Core\Factory\SimpleFactory;
 use UIAwesome\Html\Core\Tests\Support\Stub\{DefaultProvider, DefaultThemeProvider, TagBlock, TagInline};
 use UIAwesome\Html\Core\Tests\Support\TestSupport;
-use UIAwesome\Html\Core\Values\{Aria, ContentEditable, DataProperty, Direction, Draggable, Language, Role, Translate};
 use UIAwesome\Html\Interop\Block;
 
 use function get_class;
@@ -107,7 +107,7 @@ final class TagBlockTest extends TestCase
             <div data-value="value">
             </div>
             HTML,
-            TagBlock::tag()->addDataAttribute(DataProperty::VALUE, 'value')->render(),
+            TagBlock::tag()->addDataAttribute(Data::VALUE, 'value')->render(),
             "Failed asserting that element renders correctly with 'addDataAttribute()' method.",
         );
     }
