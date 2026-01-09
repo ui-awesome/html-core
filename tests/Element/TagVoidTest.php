@@ -6,9 +6,9 @@ namespace UIAwesome\Html\Core\Tests\Element;
 
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
+use UIAwesome\Html\Attribute\Values\{Aria, Data, Direction};
 use UIAwesome\Html\Core\Tests\Support\Stub\{DefaultProvider, TagVoid};
 use UIAwesome\Html\Core\Tests\Support\TestSupport;
-use UIAwesome\Html\Core\Values\{Aria, DataProperty, Direction};
 
 /**
  * Test suite for {@see TagVoid} element functionality and behavior.
@@ -88,7 +88,7 @@ final class TagVoidTest extends TestCase
             <<<HTML
             <hr data-value="value">
             HTML,
-            TagVoid::tag()->addDataAttribute(DataProperty::VALUE, 'value')->render(),
+            TagVoid::tag()->addDataAttribute(Data::VALUE, 'value')->render(),
             "Failed asserting that element renders correctly with 'addDataAttribute()' method using enum.",
         );
     }

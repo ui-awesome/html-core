@@ -8,6 +8,7 @@
 - Enh #45: Move related tag classes to `ui-awesome/html-interop` package and update imports accordingly (@terabytesoftw)
 - Enh #46: Add development guide and sync metadata instructions and update testing documentation (@terabytesoftw)
 - Enh #47: Use package `ui-awesome/html-mixin` for mixin traits and update related imports accordingly (@terabytesoftw)
+- Enh #48: Move attribute traits from `ui-awesome/html-core` package and update related imports accordingly (@terabytesoftw)
 
 ## 0.4.0 December 27, 2025
 

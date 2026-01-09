@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Tests\Support\Stub;
 
-use UIAwesome\Html\Core\Attribute\{HasContentEditable, HasDraggable, HasMicroData, HasTabindex};
+use UIAwesome\Html\Attribute\Global\{HasContentEditable, HasDraggable, HasMicroData, HasTabindex};
 use UIAwesome\Html\Core\Element\BaseInline;
 use UIAwesome\Html\Interop\Inline;
 use UIAwesome\Html\Interop\InlineInterface;
