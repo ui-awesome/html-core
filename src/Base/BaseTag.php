@@ -179,7 +179,18 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
      *
      * Usage example:
      * ```php
-     * <?= $tag->apply($tag, 'dark') ?>
+     * public function apply(self $tag, string $theme): array
+     * {
+     *     if ($tag instanceof ButtonTag === false) {
+     *        return [];
+     *     }
+     *
+     *     return match ($theme) {
+     *         'dark' => ['class' => 'btn-dark'],
+     *         'light' => ['class' => 'btn-light'],
+     *         default => [],
+     *     };
+     * }
      * ```
      */
     public function apply(self $tag, string $theme): array
