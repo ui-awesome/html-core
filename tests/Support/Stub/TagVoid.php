@@ -9,7 +9,7 @@ use UIAwesome\Html\Interop\VoidInterface;
 use UIAwesome\Html\Interop\Voids;
 
 /**
- * Provides a test stub for a void tag implementation.
+ * Stub for a void tag implementation.
  *
  * Supplies a minimal {@see BaseVoid} implementation that always resolves to the `<hr>` tag, supporting deterministic
  * assertions in unit tests involving void element rendering.

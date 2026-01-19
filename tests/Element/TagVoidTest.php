@@ -4,31 +4,23 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Tests\Element;
 
+use PHPForge\Support\LineEndingNormalizer;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Attribute\Values\{Aria, Data, Direction};
 use UIAwesome\Html\Core\Tests\Support\Stub\{DefaultProvider, TagVoid};
-use UIAwesome\Html\Core\Tests\Support\TestSupport;
 
 /**
- * Test suite for {@see TagVoid} element functionality and behavior.
+ * Unit tests for {@see TagVoid} element rendering and attribute handling.
  *
- * Validates the management and rendering of the HTML void element according to the HTML Living Standard
- * specification.
- *
- * Ensures correct handling, immutability, and validation of the void tag rendering, supporting all global HTML
- * attributes and provider-based configuration.
+ * Verifies rendered output and provider application behavior for {@see TagVoid}.
  *
  * Test coverage.
- * - Accurate rendering of attributes for the void element.
- * - Application of default providers.
- * - Immutability of the API when setting or overriding attributes.
- * - Proper assignment and overriding of attribute values, including `accesskey`, `aria-*`, `class`, `data-*`, `dir`,
- *   `id`, `lang`, `role`, `style`, `title`, and `translate`.
+ * - Applies default providers.
+ * - Renders void elements with representative global HTML attributes.
  *
- * {@see DefaultProvider} for default provider implementation.
  * {@see TagVoid} for element implementation details.
- * {@see TestSupport} for assertion utilities.
+ * {@see DefaultProvider} for default provider implementation.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
@@ -36,129 +28,151 @@ use UIAwesome\Html\Core\Tests\Support\TestSupport;
 #[Group('element')]
 final class TagVoidTest extends TestCase
 {
-    use TestSupport;
-
     public function testRenderWithAccesskey(): void
     {
-        self::equalsWithoutLE(
+        self::assertEquals(
             <<<HTML
             <hr accesskey="k">
             HTML,
-            TagVoid::tag()->accesskey('k')->render(),
+            LineEndingNormalizer::normalize(
+                TagVoid::tag()->accesskey('k')->render(),
+            ),
             "Failed asserting that element renders correctly with 'accesskey' attribute.",
         );
     }
 
     public function testRenderWithAddAriaAttribute(): void
     {
-        self::equalsWithoutLE(
+        self::assertEquals(
             <<<HTML
             <hr aria-pressed="true">
             HTML,
-            TagVoid::tag()->addAriaAttribute('pressed', true)->render(),
+            LineEndingNormalizer::normalize(
+                TagVoid::tag()->addAriaAttribute('pressed', true)->render(),
+            ),
             "Failed asserting that element renders correctly with 'ariaAttribute()' method.",
         );
     }
 
     public function testRenderWithAddAriaAttributeUsingEnum(): void
     {
-        self::equalsWithoutLE(
+        self::assertEquals(
             <<<HTML
             <hr aria-pressed="true">
             HTML,
-            TagVoid::tag()->addAriaAttribute(Aria::PRESSED, true)->render(),
+            LineEndingNormalizer::normalize(
+                TagVoid::tag()->addAriaAttribute(Aria::PRESSED, true)->render(),
+            ),
             "Failed asserting that element renders correctly with 'addAriaAttribute()' method using enum.",
         );
     }
 
     public function testRenderWithAddDataAttribute(): void
     {
-        self::equalsWithoutLE(
+        self::assertEquals(
             <<<HTML
             <hr data-value="value">
             HTML,
-            TagVoid::tag()->addDataAttribute('value', 'value')->render(),
+            LineEndingNormalizer::normalize(
+                TagVoid::tag()->addDataAttribute('value', 'value')->render(),
+            ),
             "Failed asserting that element renders correctly with 'addDataAttribute()' method.",
         );
     }
 
     public function testRenderWithAddDataAttributeUsingEnum(): void
     {
-        self::equalsWithoutLE(
+        self::assertEquals(
             <<<HTML
             <hr data-value="value">
             HTML,
-            TagVoid::tag()->addDataAttribute(Data::VALUE, 'value')->render(),
+            LineEndingNormalizer::normalize(
+                TagVoid::tag()->addDataAttribute(Data::VALUE, 'value')->render(),
+            ),
             "Failed asserting that element renders correctly with 'addDataAttribute()' method using enum.",
         );
     }
 
     public function testRenderWithAriaAttributes(): void
     {
-        self::equalsWithoutLE(
+        self::assertEquals(
             <<<HTML
             <hr aria-label="Close" aria-hidden="false" aria-controls="modal-1">
             HTML,
-            TagVoid::tag()->ariaAttributes([
-                'label' => 'Close',
-                'hidden' => false,
-                'controls' => static fn(): string => 'modal-1',
-            ])->render(),
+            LineEndingNormalizer::normalize(
+                TagVoid::tag()->ariaAttributes(
+                    [
+                        'label' => 'Close',
+                        'hidden' => false,
+                        'controls' => static fn(): string => 'modal-1',
+                    ],
+                )->render(),
+            ),
             "Failed asserting that element renders correctly with 'ariaAttributes()' method.",
         );
     }
 
     public function testRenderWithAttributes(): void
     {
-        self::equalsWithoutLE(
+        self::assertEquals(
             <<<HTML
             <hr class="test-class">
             HTML,
-            TagVoid::tag()->attributes(['class' => 'test-class'])->render(),
+            LineEndingNormalizer::normalize(
+                TagVoid::tag()->attributes(['class' => 'test-class'])->render(),
+            ),
             "Failed asserting that element renders correctly with 'attributes()' method.",
         );
     }
 
     public function testRenderWithClass(): void
     {
-        self::equalsWithoutLE(
+        self::assertEquals(
             <<<HTML
             <hr class="test-class">
             HTML,
-            TagVoid::tag()->class('test-class')->render(),
+            LineEndingNormalizer::normalize(
+                TagVoid::tag()->class('test-class')->render(),
+            ),
             "Failed asserting that element renders correctly with 'class' attribute.",
         );
     }
 
     public function testRenderWithDataAttributes(): void
     {
-        self::equalsWithoutLE(
+        self::assertEquals(
             <<<HTML
             <hr data-value="test-value">
             HTML,
-            TagVoid::tag()->dataAttributes(['value' => 'test-value'])->render(),
+            LineEndingNormalizer::normalize(
+                TagVoid::tag()->dataAttributes(['value' => 'test-value'])->render(),
+            ),
             "Failed asserting that element renders correctly with 'dataAttributes()' method.",
         );
     }
 
     public function testRenderWithDefaultConfigurationValues(): void
     {
-        self::equalsWithoutLE(
+        self::assertEquals(
             <<<HTML
             <hr class="default-class" title="default-title">
             HTML,
-            TagVoid::tag(['class' => 'default-class', 'title' => 'default-title'])->render(),
+            LineEndingNormalizer::normalize(
+                TagVoid::tag(['class' => 'default-class', 'title' => 'default-title'])->render(),
+            ),
             'Failed asserting that default configuration values are applied correctly.',
         );
     }
 
     public function testRenderWithDefaultProvider(): void
     {
-        self::equalsWithoutLE(
+        self::assertEquals(
             <<<HTML
             <hr class="default-provider">
             HTML,
-            TagVoid::tag()->addDefaultProvider(DefaultProvider::class)->render(),
+            LineEndingNormalizer::normalize(
+                TagVoid::tag()->addDefaultProvider(DefaultProvider::class)->render(),
+            ),
             'Failed asserting that default provider is applied correctly.',
         );
     }
@@ -167,110 +181,130 @@ final class TagVoidTest extends TestCase
     {
         $instance = TagVoid::tag();
 
-        self::equalsWithoutLE(
+        self::assertEquals(
             <<<HTML
             <hr>
             HTML,
-            $instance->render(),
+            LineEndingNormalizer::normalize(
+                $instance->render(),
+            ),
             'Failed asserting that element renders correctly with default values.',
         );
     }
 
     public function testRenderWithDir(): void
     {
-        self::equalsWithoutLE(
+        self::assertEquals(
             <<<HTML
             <hr dir="rtl">
             HTML,
-            TagVoid::tag()->dir('rtl')->render(),
+            LineEndingNormalizer::normalize(
+                TagVoid::tag()->dir('rtl')->render(),
+            ),
             "Failed asserting that element renders correctly with 'dir' attribute.",
         );
     }
 
     public function testRenderWithDirUsingEnum(): void
     {
-        self::equalsWithoutLE(
+        self::assertEquals(
             <<<HTML
             <hr dir="ltr">
             HTML,
-            TagVoid::tag()->dir(Direction::LTR)->render(),
+            LineEndingNormalizer::normalize(
+                TagVoid::tag()->dir(Direction::LTR)->render(),
+            ),
             "Failed asserting that element renders correctly with 'dir' attribute using enum.",
         );
     }
 
     public function testRenderWithHidden(): void
     {
-        self::equalsWithoutLE(
+        self::assertEquals(
             <<<HTML
             <hr hidden>
             HTML,
-            TagVoid::tag()->hidden(true)->render(),
+            LineEndingNormalizer::normalize(
+                TagVoid::tag()->hidden(true)->render(),
+            ),
             "Failed asserting that element renders correctly with 'hidden' attribute.",
         );
     }
 
     public function testRenderWithId(): void
     {
-        self::equalsWithoutLE(
+        self::assertEquals(
             <<<HTML
             <hr id="test-id">
             HTML,
-            TagVoid::tag()->id('test-id')->render(),
+            LineEndingNormalizer::normalize(
+                TagVoid::tag()->id('test-id')->render(),
+            ),
             "Failed asserting that element renders correctly with 'id' attribute.",
         );
     }
 
     public function testRenderWithLang(): void
     {
-        self::equalsWithoutLE(
+        self::assertEquals(
             <<<HTML
             <hr lang="es">
             HTML,
-            TagVoid::tag()->lang('es')->render(),
+            LineEndingNormalizer::normalize(
+                TagVoid::tag()->lang('es')->render(),
+            ),
             "Failed asserting that element renders correctly with 'lang' attribute.",
         );
     }
 
     public function testRenderWithRole(): void
     {
-        self::equalsWithoutLE(
+        self::assertEquals(
             <<<HTML
             <hr role="generic">
             HTML,
-            TagVoid::tag()->role('generic')->render(),
+            LineEndingNormalizer::normalize(
+                TagVoid::tag()->role('generic')->render(),
+            ),
             "Failed asserting that element renders correctly with 'role' attribute.",
         );
     }
 
     public function testRenderWithStyle(): void
     {
-        self::equalsWithoutLE(
+        self::assertEquals(
             <<<HTML
             <hr style='test-value'>
             HTML,
-            TagVoid::tag()->style('test-value')->render(),
+            LineEndingNormalizer::normalize(
+                TagVoid::tag()->style('test-value')->render(),
+            ),
             "Failed asserting that element renders correctly with 'style' attribute.",
         );
     }
 
     public function testRenderWithTitle(): void
     {
-        self::equalsWithoutLE(
+        self::assertEquals(
             <<<HTML
             <hr title="test-value">
             HTML,
-            TagVoid::tag()->title('test-value')->render(),
+            LineEndingNormalizer::normalize(
+                TagVoid::tag()->title('test-value')->render(),
+            ),
             "Failed asserting that element renders correctly with 'title' attribute.",
         );
     }
 
     public function testRenderWithTranslate(): void
     {
-        self::equalsWithoutLE(
+        self::assertEquals(
             <<<HTML
             <hr translate="no">
             HTML,
-            TagVoid::tag()->translate(false)->render(),
+            LineEndingNormalizer::normalize(
+                TagVoid::tag()->translate('no')->render(),
+            ),
             "Failed asserting that element renders correctly with 'translate' attribute.",
         );
     }

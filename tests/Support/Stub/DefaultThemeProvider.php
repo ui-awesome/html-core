@@ -8,10 +8,9 @@ use UIAwesome\Html\Core\Base\BaseTag;
 use UIAwesome\Html\Core\Provider\ThemeProviderInterface;
 
 /**
- * Provides theme configuration values for tag instances in HTML helper and UI component testing.
+ * Stub theme provider for tests.
  *
- * Supplies a standardized associative array of theme options for use in scenarios involving tag configuration,
- * attribute generation, and component rendering.
+ * Returns deterministic theme configuration used by tests that verify theme application.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.

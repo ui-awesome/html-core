@@ -10,7 +10,7 @@ use UIAwesome\Html\Interop\Inline;
 use UIAwesome\Html\Interop\InlineInterface;
 
 /**
- * Provides a test stub for an inline tag implementation.
+ * Stub for an inline tag implementation.
  *
  * Supplies a minimal {@see BaseInline} implementation that always resolves to the `<span>` tag, supporting
  * deterministic assertions in unit tests involving inline element rendering.

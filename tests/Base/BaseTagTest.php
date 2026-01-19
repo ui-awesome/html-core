@@ -4,23 +4,24 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Tests\Base;
 
+use PHPForge\Support\LineEndingNormalizer;
 use PHPUnit\Framework\Attributes\{Group, RequiresPhp};
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Core\Base\BaseTag;
 use UIAwesome\Html\Core\Html;
-use UIAwesome\Html\Core\Tests\Support\TestSupport;
 use UIAwesome\Html\Interop\{Block, Inline};
 use UIAwesome\Html\Mixin\{HasAttributes, HasContent};
 
 /**
- * Test suite for {@see BaseTag} element functionality and behavior.
+ * Unit tests for {@see BaseTag} rendering and lifecycle behavior.
  *
- * Validates the management and rendering of the base HTML tag element according to the HTML Living Standard
- * specification.
+ * Verifies lifecycle-driven rendering behavior for {@see BaseTag}.
  *
- * Ensures correct handling of the `beforeRun()` lifecycle method and its effect on rendering.
+ * Test coverage.
+ * - Renders begin/end output when `begin()` and `end()` are supported by the tag.
+ * - Skips rendering when `beforeRun()` returns `false`.
  *
- * {@see BaseTag} for element implementation details.
+ * {@see BaseTag} for implementation details.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
@@ -28,8 +29,6 @@ use UIAwesome\Html\Mixin\{HasAttributes, HasContent};
 #[Group('base')]
 final class BaseTagTest extends TestCase
 {
-    use TestSupport;
-
     public function testBeforeRunReturnFalse(): void
     {
         $tag = new class extends BaseTag {
@@ -85,13 +84,13 @@ final class BaseTagTest extends TestCase
             }
         };
 
-        self::equalsWithoutLE(
+        self::assertEquals(
             <<<HTML
             <div>
             Content
             </div>
             HTML,
-            $tag->begin() . 'Content' . $tag::end(),
+            LineEndingNormalizer::normalize($tag->begin() . 'Content' . $tag::end()),
             'Expected correct rendering of begin and end tags.',
         );
     }
