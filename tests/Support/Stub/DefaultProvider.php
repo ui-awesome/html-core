@@ -8,10 +8,9 @@ use UIAwesome\Html\Core\Base\BaseTag;
 use UIAwesome\Html\Core\Provider\DefaultsProviderInterface;
 
 /**
- * Provides default configuration values for tag instances in HTML helper and UI component testing.
+ * Stub defaults provider for tests.
  *
- * Supplies a standardized associative array of default options for use in scenarios involving tag configuration,
- * attribute generation, and component rendering.
+ * Returns deterministic default attributes used by tests that verify configuration precedence.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.

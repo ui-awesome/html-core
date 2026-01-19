@@ -11,6 +11,7 @@
 - Enh #48: Move attribute traits from `ui-awesome/html-core` package and update related imports accordingly (@terabytesoftw)
 - Bug #49: Update documentation for clarity and consistency (@terabytesoftw)
 - Bug #50: Improve `testing.md` for clarity and consistency in Composer script usage (@terabytesoftw)
+- Bug #51: Update documentation in tests for clarity and consistency (@terabytesoftw)
 
 ## 0.4.0 December 27, 2025
 

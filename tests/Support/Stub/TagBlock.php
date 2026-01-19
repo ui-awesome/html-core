@@ -9,7 +9,7 @@ use UIAwesome\Html\Interop\Block;
 use UIAwesome\Html\Interop\BlockInterface;
 
 /**
- * Provides a test stub for a block tag implementation.
+ * Stub for a block tag implementation.
  *
  * Supplies a minimal {@see BaseBlock} implementation that always resolves to the `<div>` tag, supporting deterministic
  * assertions in unit tests involving block element rendering.

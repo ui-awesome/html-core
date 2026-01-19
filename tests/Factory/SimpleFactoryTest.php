@@ -14,19 +14,16 @@ use UIAwesome\Html\Core\Factory\SimpleFactory;
 use UIAwesome\Html\Core\Tests\Support\Stub\TagInline;
 
 /**
- * Test suite for {@see SimpleFactory} functionality and behavior.
+ * Unit tests for {@see SimpleFactory} instantiation and configuration behavior.
  *
- * Validates the instantiation and configuration management of tag elements using the {@see SimpleFactory} according to
- * the HTML Living Standard specification.
- *
- * Ensures correct handling, immutability, and validation of tag creation, supporting default configuration properties
- * and exception handling for abstract class instantiation and non-public property assignments.
+ * Verifies instantiation, configuration assignment, and validation behavior for {@see SimpleFactory}.
  *
  * Test coverage.
- * - Accurate creation of tag instances with default configuration property values.
- * - Exception handling when attempting to instantiate abstract classes and setting non-public properties.
- * - Validation of property assignment and immutability of the factory API.
+ * - Creates instances with default configuration properties and overrides via configuration arrays.
+ * - Throws `Error` when setting non-public properties via configuration.
+ * - Throws `LogicException` when attempting to instantiate an abstract class.
  *
+ * {@see SimpleFactory} for implementation details.
  * {@see BaseTag} for abstract tag base class.
  * {@see Message} for exception message enumeration.
  * {@see TagInline} for stub implementation details.
