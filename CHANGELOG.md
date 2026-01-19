@@ -1,5 +1,7 @@
 # ChangeLog
 
+## 0.5.1 Under development
+
 ## 0.5.0 January 19, 2026
 
 - Enh #42: Introduce interfaces for block, inline, and void tags; update related classes and tests (@terabytesoftw)
