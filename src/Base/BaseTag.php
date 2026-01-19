@@ -18,21 +18,21 @@ use WeakMap;
 use function array_pop;
 
 /**
- * Base class for advanced HTML tag rendering and management.
+ * Base class for HTML tag objects with lifecycle hooks and begin/end support.
  *
- * Provides a robust, extensible, and immutable API for creating, configuring, and rendering HTML tags in a
- * standards-compliant, type-safe manner for modern web applications and UI systems.
+ * Provides shared infrastructure for tag rendering, including `beforeRun()`/`afterRun()` hooks and a context-aware
+ * begin/end stack for nested rendering. The stack is stored in a {@see WeakMap} keyed by the current {@see Fiber}
+ * (or a sentinel object when running outside a fiber).
  *
- * Designed as a foundation for concrete tag implementations, this class enables consistent and secure HTML output
- * across complex UI systems, supporting event hooks, theming, and stack-based rendering for nested structures.
+ * Designed to be extended by concrete tag implementations that implement {@see BaseTag::run()} and optionally override
+ * {@see BaseTag::runBegin()} for `begin()`/`end()` style rendering.
  *
  * Key features.
- * - Immutable configuration and theme support for flexible tag customization.
- * - Integration-ready with before/after run event hooks for extensible rendering.
- * - Stack-based begin/end rendering for managing nested tag structures.
- * - Strict type safety and PHPStan compatibility for modern PHP development.
- * - Uses `WeakMap` and `Fiber` detection to manage rendering stacks in async environments (FrankenPHP, RoadRunner or
- *   Swoole).
+ * - Applies defaults and themes via {@see DefaultsProviderInterface} and {@see ThemeProviderInterface} providers.
+ * - Creates and configures instances via {@see BaseTag::tag()} and {@see SimpleFactory}.
+ * - Supports paired `begin()`/`end()` rendering using a per-context stack.
+ * - Uses `WeakMap` and {@see Fiber} to isolate stacks between execution contexts.
+ * - Wraps {@see BaseTag::run()} with `beforeRun()`/`afterRun()` hooks via {@see BaseTag::render()}.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
@@ -106,6 +106,11 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
      * @return static Tag instance with applied default providers.
      *
      * @phpstan-param class-string<DefaultsProviderInterface> ...$providers
+     *
+     * Usage example:
+     * ```php
+     * $tag = Div::tag()->addDefaultProvider(\UIAwesome\Html\Provider\SomeDefaultProvider::class);
+     * ```
      */
     public function addDefaultProvider(string ...$providers): static
     {
@@ -136,6 +141,11 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
      * @return static Tag instance with applied theme providers.
      *
      * @phpstan-param class-string<ThemeProviderInterface> ...$themeProviders
+     *
+     * Usage example::
+     * ```php
+     * $tag = Div::tag()->addThemeProvider('dark', \UIAwesome\Html\Provider\SomeThemeProvider::class);
+     * ```
      */
     public function addThemeProvider(string $name, string ...$themeProviders): static
     {
@@ -166,6 +176,11 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
      * @return array Configuration array for the theme.
      *
      * @phpstan-return mixed[]
+     *
+     * Usage example:
+     * ```php
+     * <?= $tag->apply($tag, 'dark') ?>
+     * ```
      */
     public function apply(self $tag, string $theme): array
     {

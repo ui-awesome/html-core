@@ -33,23 +33,23 @@ use UIAwesome\Html\Mixin\{HasAttributes, HasContent};
 use function preg_replace;
 
 /**
- * Base class for constructing HTML block-level elements according to the HTML specification.
+ * Base class for constructing block-level HTML elements.
  *
- * Provides a standards-compliant, extensible foundation for block tag rendering, supporting global HTML attributes,
- * content management, and attribute immutability.
+ * Provides the shared implementation for block-level tags rendered through {@see Html}. Subclasses supply the tag via
+ * {@see BaseBlock::getTag()}, while attributes and content are managed via mixins.
  *
- * Intended for use in components and tags that require dynamic or programmatic manipulation of block-level HTML
- * elements, supporting advanced rendering scenarios and consistent API design.
+ * Intended for tag classes that need block-level rendering with optional `begin()`/`end()` usage.
  *
  * Key features.
- * - Enforces standards-compliant handling of block tags as defined by the HTML specification.
- * - Immutable API for attribute and content assignment.
- * - Implements the core logic for block-level tag construction.
- * - Integrates global HTML attribute management via traits.
- * - Supports extensibility for custom block element implementations.
+ * - Mixes in global attribute traits and attribute/content storage.
+ * - Normalizes output by collapsing consecutive blank lines.
+ * - Renders a full element via {@see Html::element()} when not in `begin()`/`end()` mode.
+ * - Requires subclasses to provide a {@see BlockInterface} tag.
+ * - Supports `begin()`/`end()` rendering via {@see Html::begin()} and {@see Html::end()}.
+ *
+ * {@see BlockInterface} for contract details.
  *
  * @link https://developer.mozilla.org/en-US/docs/Glossary/Block-level_content
- * {@see BlockInterface} for contract details.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.

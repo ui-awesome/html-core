@@ -27,23 +27,23 @@ use UIAwesome\Html\Interop\InlineInterface;
 use UIAwesome\Html\Mixin\{HasAttributes, HasContent, HasPrefixCollection, HasSuffixCollection, HasTemplate};
 
 /**
- * Base class for constructing HTML inline-level elements according to the HTML specification.
+ * Base class for constructing inline-level HTML elements.
  *
- * Provides a standards-compliant, extensible foundation for inline tag rendering, supporting global HTML attributes,
- * content management, and attribute immutability.
+ * Provides the shared implementation for inline tags rendered through {@see Html}. Subclasses supply the tag via
+ * {@see BaseInline::getTag()}, while attributes, content, and optional prefix/suffix rendering are managed via mixins.
  *
- * Intended for use in components and tags that require dynamic or programmatic manipulation of inline-level HTML
- * elements, supporting advanced rendering scenarios and consistent API design.
+ * Intended for tag classes that need inline rendering with optional template-driven composition.
  *
  * Key features.
- * - Enforces standards-compliant handling of inline tags as defined by the HTML specification.
- * - Immutable API for attribute and content assignment.
- * - Implements the core logic for inline-level tag construction.
- * - Integrates global HTML attribute management via traits.
- * - Supports extensibility for custom inline element implementations.
+ * - Builds composed output via {@see BaseInline::buildElement()} and {@see Template::render()}.
+ * - Mixes in global attribute traits and attribute/content storage.
+ * - Renders inline tags via {@see Html::inline()} and can skip tag rendering when configured.
+ * - Requires subclasses to provide a {@see InlineInterface} tag.
+ * - Supports additional template token values for prefix/tag/suffix rendering.
+ *
+ * {@see InlineInterface} for contract details.
  *
  * @link https://developer.mozilla.org/en-US/docs/Glossary/Inline-level_content
- * {@see InlineInterface} for contract details.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.

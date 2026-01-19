@@ -7,24 +7,24 @@ namespace UIAwesome\Html\Core\Exception;
 use function sprintf;
 
 /**
- * Represents standardized error messages.
+ * Represents error message templates.
  *
  * This enum defines formatted error messages for various error conditions that may occur during operations such as
- * value validation.
+ * tag handling and event management.
  *
- * It provides a consistent and standardized way to present error messages across the system.
+ * It provides message templates that can be formatted at call sites.
  *
  * Each case represents a specific type of error, with a message template that can be populated with dynamic values
  * using the {@see Message::getMessage()} method.
  *
- * This centralized approach improves the consistency of error messages and simplifies potential internationalization.
+ * Each message template can be formatted with arguments.
  *
  * Key features.
- * - Centralization of an error text for easier maintenance.
- * - Consistent error handling across the system.
- * - Integration with specific exception classes.
- * - Message formatting with dynamic parameters.
- * - Standardized error messages for common and utility cases.
+ * - Can be used by exception call sites that need formatted messages.
+ * - Defines message templates as enum cases.
+ * - Formats templates with `sprintf()` via {@see Message::getMessage()}.
+ * - Supports message formatting with dynamic parameters.
+ * - Uses the enum case `value` as the template string.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
@@ -69,15 +69,13 @@ enum Message: string
     /**
      * Returns the formatted message string for the error case.
      *
-     * Retrieves and formats the error message string by interpolating the provided arguments.
+     * @param int|string ...$argument Values to insert into the message template.
      *
-     * @param int|string ...$argument Dynamic arguments to insert into the message.
-     *
-     * @return string Error message with interpolated arguments.
+     * @return string Formatted error message with interpolated arguments.
      *
      * Usage example:
      * ```php
-     * throw new InvalidArgumentException(Message::VALUE_CANNOT_BE_EMPTY->getMessage('status', 'active, inactive'));
+     * throw new InvalidArgumentException(Message::CANNOT_INSTANTIATE_ABSTRACT_CLASS->getMessage(MyAbstractClass::class));
      * ```
      */
     public function getMessage(int|string ...$argument): string

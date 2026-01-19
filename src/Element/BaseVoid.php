@@ -25,23 +25,23 @@ use UIAwesome\Html\Interop\VoidInterface;
 use UIAwesome\Html\Mixin\HasAttributes;
 
 /**
- * Base class for constructing HTML void elements according to the HTML specification.
+ * Base class for constructing void HTML elements.
  *
- * Provides a standards-compliant, extensible foundation for void tag rendering, supporting global HTML attributes,
- * attribute immutability, and technical consistency.
+ * Provides the shared implementation for void elements rendered through {@see Html}. Subclasses supply the tag via
+ * {@see BaseVoid::getTag()}, and attributes are managed via mixins.
  *
- * Intended for use in components and tags that require dynamic or programmatic manipulation of void-level HTML
- * elements, supporting advanced rendering scenarios and consistent API design.
+ * Intended for tag classes that represent void elements (no child content) with attribute-based configuration.
  *
  * Key features.
- * - Enforces standards-compliant handling of void tags as defined by the HTML specification.
- * - Immutable API for attribute assignment.
- * - Implements the core logic for void-level tag construction.
- * - Integrates global HTML attribute management via traits.
- * - Supports extensibility for custom void element implementations.
+ * - Exposes fluent attribute configuration through attribute traits.
+ * - Mixes in global attribute traits and attribute storage.
+ * - Renders void tags via {@see Html::void()}.
+ * - Represents void elements that do not render child content.
+ * - Requires subclasses to provide a {@see VoidInterface} tag.
+ *
+ * {@see VoidInterface} for contract details.
  *
  * @link https://developer.mozilla.org/en-US/docs/Glossary/Void_element
- * {@see VoidInterface} for contract details.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.

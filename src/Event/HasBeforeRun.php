@@ -5,18 +5,17 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Event;
 
 /**
- * Trait for handling pre-render events in tag rendering.
+ * Trait that defines a pre-render hook.
  *
- * Provides a standards-compliant, immutable API for executing logic before the rendering of HTML tags, supporting
- * extension points for pre-processing or conditional rendering.
+ * Provides {@see HasBeforeRun::beforeRun()} as an extension point for performing checks before
+ * {@see \UIAwesome\Html\Core\Base\BaseTag::run()} executes.
  *
- * Intended for use in tag and component systems that require hooks or event handling prior to tag rendering, ensuring
- * consistent and predictable pre-render behavior.
+ * Intended for tag implementations that need to validate state or conditionally skip rendering by returning `false`.
  *
  * Key features.
- * - Designed for use in tag rendering systems.
- * - Enables pre-processing or conditional logic before rendering HTML output.
- * - Immutable method for customizing pre-render logic.
+ * - Provides an overridable `beforeRun()` hook used to gate rendering.
+ * - Returns `true` to continue rendering, or `false` to skip rendering.
+ * - Used by {@see \UIAwesome\Html\Core\Base\BaseTag::render()} before calling `run()`.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.

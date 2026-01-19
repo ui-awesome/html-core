@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Event;
 
 /**
- * Trait for handling post-render events in tag rendering.
+ * Trait that defines a post-render hook.
  *
- * Provides a standards-compliant, immutable API for executing logic after the rendering of HTML tags, supporting
- * extension points for post-processing or modification of rendered output.
+ * Provides {@see HasAfterRun::afterRun()} as an extension point for transforming the rendered output after
+ * {@see \UIAwesome\Html\Core\Base\BaseTag::run()} has produced a result.
  *
- * Intended for use in tag and component systems that require hooks or event handling after tag rendering, ensuring
- * consistent and predictable post-render behavior.
+ * Intended for tag implementations that need to post-process the rendered string (for example, whitespace
+ * normalization).
  *
  * Key features.
- * - Designed for use in tag rendering systems.
- * - Enables post-processing of rendered HTML output.
- * - Immutable method for customizing post-render logic.
+ * - Provides an overridable `afterRun()` hook that returns the final string.
+ * - Receives the rendered result and must return a `string`.
+ * - Used by {@see \UIAwesome\Html\Core\Base\BaseTag::render()} to wrap core rendering.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.

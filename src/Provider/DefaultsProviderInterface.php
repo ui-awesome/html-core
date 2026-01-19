@@ -9,16 +9,15 @@ use UIAwesome\Html\Core\Base\BaseTag;
 /**
  * Interface for providing default configuration values for tag instances.
  *
- * Defines a contract for classes that supply cookbook-style configuration arrays for HTML tag objects, enabling
- * consistent and extensible default value management across tag rendering systems.
+ * Defines a contract for classes that return cookbook-style configuration arrays for {@see BaseTag} objects. The
+ * returned definitions are applied by {@see \UIAwesome\Html\Core\Base\BaseTag::addDefaultProvider()}.
  *
- * Intended for use in tag factories, theme providers, or component systems that require standardized initialization of
- * tag attributes, options, or behaviors.
+ * Intended for use in factories or component systems that need a consistent way to supply per-tag defaults.
  *
  * Key features.
  * - Centralizes default configuration logic for tag instances.
- * - Promotes maintainable and predictable tag initialization.
- * - Supports extensibility for custom tag types and rendering strategies.
+ * - Enables reusable initialization definitions for multiple tag classes.
+ * - Returns configuration arrays consumed by {@see \UIAwesome\Html\Core\Factory\SimpleFactory::configure()}.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.

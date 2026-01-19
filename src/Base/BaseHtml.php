@@ -9,30 +9,31 @@ use UIAwesome\Html\Helper\{Attributes, Encode};
 use UIAwesome\Html\Interop\{BlockInterface, InlineInterface, VoidInterface};
 
 /**
- * Base class for standards-compliant HTML tag rendering and element generation.
+ * Base class for HTML tag rendering and element generation.
  *
- * Provides a unified, immutable API for creating, rendering, and managing HTML tags, supporting advanced attribute
- * handling, encoding, and tag type abstraction for modern web applications.
+ * Provides static helpers for rendering opening tags, closing tags, and full elements using backed-enum tag values.
+ * Attribute arrays are rendered via {@see Attributes::render()}, and content can be encoded via
+ * {@see Encode::content()} when requested.
  *
- * Designed for use in HTML helpers, tag builders, and view renderers, this class ensures predictable, secure, and
- * extensible HTML output, integrating with attribute and encoding systems for robust UI component development.
+ * Intended for helper and facade classes that expose a consistent rendering API for block, inline, and void tag types.
  *
  * Key features.
- * - Attribute array processing and encoding for safe HTML output.
- * - Immutable, stateless design for safe reuse.
- * - Integration-ready for tag, attribute, and encoding helpers.
- * - Support `UnitEnum` tag types for flexible API design.
- * - Type-safe, static methods for tag and content rendering.
- * - Unified rendering for block-level, inline-level, and void-level tag types.
+ * - Accepts backed-enum tags for block, inline, and void elements.
+ * - Encodes content via {@see Encode::content()} when `$encode` is `true`.
+ * - Formats block element output with line breaks and predictable empty-content handling.
+ * - Provides static helpers for `begin()`, `end()`, `element()`, `inline()`, and `void()`.
+ * - Renders attribute arrays via {@see Attributes::render()}.
+ * - Selects rendering strategy based on `VoidInterface` and `InlineInterface` tag contracts.
+ *
+ * {@see BlockInterface} for contract details.
+ * {@see InlineInterface} for contract details.
+ * {@see VoidInterface} for contract details.
  *
  * @link https://developer.mozilla.org/en-US/docs/Glossary/Block-level_content
  * @link https://developer.mozilla.org/en-US/docs/Glossary/Inline-level_content
  * @link https://developer.mozilla.org/en-US/docs/Glossary/Void_element
  * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements#main_root
  * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements#table_content
- * {@see BlockInterface} for contract details.
- * {@see InlineInterface} for contract details.
- * {@see VoidInterface} for contract details.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
@@ -58,16 +59,9 @@ abstract class BaseHtml
      *
      * Usage example:
      * ```php
-     * // block-level tag
      * Html::begin(\UIAwesome\Html\Interop\Block::DIV, ['class' => 'container']);
-     *
-     * // list-level tag
      * Html::begin(\UIAwesome\Html\Interop\Lists::UL, ['class' => 'list']);
-     *
-     * // root-level tag
      * Html::begin(\UIAwesome\Html\Interop\Root::HTML, ['lang' => 'en']);
-     *
-     * // table-level tag
      * Html::begin(\UIAwesome\Html\Interop\Table::TABLE, ['class' => 'table']);
      * ```
      */
@@ -102,13 +96,8 @@ abstract class BaseHtml
      *
      * Usage example:
      * ```php
-     * // block-level tag
      * Html::element(\UIAwesome\Html\Interop\Block::DIV, 'Hello, World!', ['class' => 'container'], true);
-     *
-     * // inline-level tag
      * Html::element(\UIAwesome\Html\Interop\Inline::SPAN, 'Hello, World!', ['class' => 'highlight'], false);
-     *
-     * // void-level tag
      * Html::element(\UIAwesome\Html\Interop\Void::IMG, '', ['src' => 'image.png', 'alt' => 'An image']);
      * ```
      */
@@ -155,16 +144,9 @@ abstract class BaseHtml
      *
      * Usage example:
      * ```php
-     * // block-level tag
      * Html::end(\UIAwesome\Html\Interop\Block::DIV);
-     *
-     * // list-level tag
      * Html::end(\UIAwesome\Html\Interop\Lists::UL);
-     *
-     * // root-level tag
      * Html::end(\UIAwesome\Html\Interop\Root::HTML);
-     *
-     * // table-level tag
      * Html::end(\UIAwesome\Html\Interop\Table::TABLE);
      * ```
      */
@@ -191,10 +173,7 @@ abstract class BaseHtml
      *
      * Usage example:
      * ```php
-     * // without content encoding
      * Html::inline(\UIAwesome\Html\Interop\Inline::SPAN, 'Hello, World!', ['class' => 'highlight']);
-     *
-     * // with content encoding
      * Html::inline(\UIAwesome\Html\Interop\Inline::A, '<Click Here>', ['href' => '#'], true);
      * ```
      */

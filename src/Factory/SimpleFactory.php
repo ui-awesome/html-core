@@ -15,20 +15,20 @@ use function method_exists;
 use function property_exists;
 
 /**
- * Factory class for instantiating and configuring HTML tag objects.
+ * Factory class for instantiating and configuring tag objects.
  *
- * Provides a type-safe, extensible API for creating and configuring instances of {@see BaseTag} and its subclasses,
- * supporting method-based initialization and global defaults for tag classes.
+ * Creates instances of {@see BaseTag} subclasses via reflection and applies configuration using cookbook-style arrays.
+ * Configuration entries are mapped to method calls (when a method exists) or to property assignment (when a property
+ * exists).
  *
- * Designed for use in tag rendering systems, this class enables consistent, predictable instantiation and configuration
- * of tag objects for advanced HTML generation scenarios.
+ * Designed to support {@see BaseTag::tag()} and provider pipelines that apply defaults and theme definitions.
  *
  * Key features.
- * - Global and per-instance default configuration management.
- * - Integration-ready for tag, view, and UI component factories.
- * - Method-based configuration using callable actions and argument arrays.
- * - Strict validation for abstract class instantiation.
- * - Type-safe instantiation of tag classes with support for generics.
+ * - Applies configuration by invoking methods and assigning properties when available.
+ * - Creates non-abstract tag classes via {@see ReflectionClass}.
+ * - Rejects abstract classes during instantiation.
+ * - Stores global default configuration arrays per tag class.
+ * - Supports chaining multiple configuration arrays in a deterministic order.
  *
  * @phpstan-template T of BaseTag
  *
