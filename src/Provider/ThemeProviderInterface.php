@@ -9,16 +9,15 @@ use UIAwesome\Html\Core\Base\BaseTag;
 /**
  * Interface for applying theme configurations to tag instances.
  *
- * Defines a contract for classes that provide theme-based configuration arrays for HTML tag objects, enabling
- * consistent and extensible theming across tag rendering systems.
+ * Defines a contract for classes that return theme-based configuration arrays for {@see BaseTag} objects. The returned
+ * definitions are applied by {@see \UIAwesome\Html\Core\Base\BaseTag::addThemeProvider()}.
  *
- * Intended for use in theme providers, tag factories, or component systems that require standardized application of
- * theme options, attributes, or behaviors to tag instances.
+ * Intended for use in theme provider implementations that map a theme identifier to configuration definitions.
  *
  * Key features.
  * - Centralizes theme application logic for tag instances.
- * - Promotes maintainable and predictable theming strategies.
- * - Supports extensibility for custom tag types and theme strategies.
+ * - Maps a theme identifier to configuration arrays.
+ * - Returns configuration arrays consumed by {@see \UIAwesome\Html\Core\Factory\SimpleFactory::configure()}.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
