@@ -142,7 +142,7 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
      *
      * @phpstan-param class-string<ThemeProviderInterface> ...$themeProviders
      *
-     * Usage example::
+     * Usage example:
      * ```php
      * $tag = Div::tag()->addThemeProvider('dark', \UIAwesome\Html\Provider\SomeThemeProvider::class);
      * ```
