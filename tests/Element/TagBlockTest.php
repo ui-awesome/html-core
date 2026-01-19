@@ -34,7 +34,6 @@ use function get_class;
  * {@see DefaultProvider} for default provider implementation.
  * {@see DefaultThemeProvider} for theme provider implementation.
  * {@see SimpleFactory} for default configuration management.
- * {@see TestSupport} for assertion utilities.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.

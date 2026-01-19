@@ -22,7 +22,6 @@ use UIAwesome\Html\Mixin\{HasAttributes, HasContent};
  * - Skips rendering when `beforeRun()` returns `false`.
  *
  * {@see BaseTag} for implementation details.
- * {@see TestSupport} for assertion utilities.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.

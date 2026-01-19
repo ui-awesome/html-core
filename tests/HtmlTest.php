@@ -35,7 +35,6 @@ use UIAwesome\Html\Interop\{Block, BlockInterface, Inline, InlineInterface, Void
  * {@see Html} for implementation details.
  * {@see BlockProvider}, {@see InlineProvider}, {@see ListsProvider}, {@see RootProvider}, {@see TableProvider},
  * {@see VoidProvider} for test case data providers.
- * {@see TestSupport} for assertion utilities.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.

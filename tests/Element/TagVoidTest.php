@@ -21,7 +21,6 @@ use UIAwesome\Html\Core\Tests\Support\Stub\{DefaultProvider, TagVoid};
  *
  * {@see TagVoid} for element implementation details.
  * {@see DefaultProvider} for default provider implementation.
- * {@see TestSupport} for assertion utilities.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
