@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core;
 
+use UIAwesome\Html\Core\Base\BaseHtml;
+
 /**
  * Facade for HTML tag rendering helpers.
  *
@@ -17,7 +19,7 @@ namespace UIAwesome\Html\Core;
  * - Renders attributes and optionally encodes content via the base implementation.
  * - Supports block, inline, and void tag types through the corresponding interop contracts.
  *
- * {@see Base\BaseHtml} for the base implementation.
+ * {@see BaseHtml} for the base implementation.
  *
  * @link https://developer.mozilla.org/en-US/docs/Glossary/Block-level_content
  * @link https://developer.mozilla.org/en-US/docs/Glossary/Inline-level_content
@@ -28,4 +30,4 @@ namespace UIAwesome\Html\Core;
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
-final class Html extends Base\BaseHtml {}
+final class Html extends BaseHtml {}

@@ -2,6 +2,8 @@
 
 ## 0.5.1 Under development
 
+- Enh #52: Add `php-forge/coding-standard` to development dependencies for code quality checks (@terabytesoftw)
+
 ## 0.5.0 January 19, 2026
 
 - Enh #42: Introduce interfaces for block, inline, and void tags; update related classes and tests (@terabytesoftw)
