@@ -1,5 +1,7 @@
 # ChangeLog
 
+## 0.5.3 Under development
+
 ## 0.5.2 January 28, 2026
 
 - Bug #53: Add section for automated refactoring using `Rector` in testing documentation (@terabytesoftw)
