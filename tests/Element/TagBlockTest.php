@@ -16,8 +16,6 @@ use UIAwesome\Html\Core\Factory\SimpleFactory;
 use UIAwesome\Html\Core\Tests\Support\Stub\{DefaultProvider, DefaultThemeProvider, TagBlock, TagInline};
 use UIAwesome\Html\Interop\Block;
 
-use function get_class;
-
 /**
  * Unit tests for {@see TagBlock} element rendering and attribute handling.
  *
@@ -725,7 +723,7 @@ final class TagBlockTest extends TestCase
             }
         };
 
-        $tagClass = get_class($tag);
+        $tagClass = $tag::class;
         TagBlock::tag()->begin();
 
         $this->expectException(RuntimeException::class);
