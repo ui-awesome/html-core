@@ -1,6 +1,6 @@
 # ChangeLog
 
-## 0.5.2 Under development
+## 0.5.2 January 28, 2026
 
 - Bug #53: Add section for automated refactoring using `Rector` in testing documentation (@terabytesoftw)
 - Bug #54: Update examples in `testing.md` for running Composer script with arguments and update `.styleci.yml` accordingly (@terabytesoftw)
