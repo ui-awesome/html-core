@@ -3,6 +3,7 @@
 ## 0.5.3 Under development
 
 - Dep #57: Update `ui-awesome/html-interop` requirement from `^0.2` to `^0.3` in `composer.json` (@terabytesoftw)
+- Enh #58: Add `loadDefault()` method in `BaseTag` class to provide default attribute values (@terabytesoftw)
 
 ## 0.5.2 January 28, 2026
 

@@ -279,6 +279,48 @@ echo Span::tag(['id' => 'badge-1'])
 // <span class="badge text-muted" id="badge-1" title="from-global">New</span>
 ```
 
+#### Class level defaults with `loadDefault()`
+
+For a simpler approach without separate provider classes, override `loadDefault()` in your tag class. These defaults are
+applied automatically when `tag()` is called.
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App;
+
+use UIAwesome\Html\Core\Element\BaseBlock;
+use UIAwesome\Html\Interop\{Block, BlockInterface};
+
+final class Container extends BaseBlock
+{
+    protected function getTag(): BlockInterface
+    {
+        return Block::DIV;
+    }
+
+    protected function loadDefaultDefinitions(): array
+    {
+        return [
+            'class' => 'container',
+        ];
+    }
+}
+
+echo Container::tag()->render();
+// <div class="container"></div>
+
+echo Container::tag(['class' => 'container-fluid'])->render();
+// <div class="container-fluid"></div>
+```
+
+Configuration priority (from weakest to strongest):
+1. Global defaults via `SimpleFactory::setDefaults()`
+2. Class defaults from `loadDefault()`
+3. User defaults passed to `tag()`
+
 #### Extensibility
 
 This library is agnostic and designed to be extended. You can define your own tag collections (for example, for SVG,
