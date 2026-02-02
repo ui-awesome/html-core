@@ -12,10 +12,9 @@ use UIAwesome\Html\Interop\BlockInterface;
  * Stub for a block tag with default definitions.
  *
  * Supplies a {@see BaseBlock} implementation that provides default definitions via
- * {@see TagBlockWithDefaults::loadDefaultDefinitions()}, supporting tests for default value
- * application.
+ * {@see TagBlockWithDefaults::loadDefault()}, supporting tests for default value application.
  *
- * @copyright Copyright (C) 2025 Terabytesoftw.
+ * @copyright Copyright (C) 2026 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
 final class TagBlockWithDefaults extends BaseBlock

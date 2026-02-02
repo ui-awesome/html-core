@@ -279,7 +279,7 @@ echo Span::tag(['id' => 'badge-1'])
 // <span class="badge text-muted" id="badge-1" title="from-global">New</span>
 ```
 
-#### Class level defaults with `loadDefault()`
+#### Class-level defaults with `loadDefault()`
 
 For a simpler approach without separate provider classes, override `loadDefault()` in your tag class. These defaults are
 applied automatically when `tag()` is called.
@@ -301,7 +301,7 @@ final class Container extends BaseBlock
         return Block::DIV;
     }
 
-    protected function loadDefaultDefinitions(): array
+    protected function loadDefault(): array
     {
         return [
             'class' => 'container',
@@ -317,6 +317,7 @@ echo Container::tag(['class' => 'container-fluid'])->render();
 ```
 
 Configuration priority (from weakest to strongest):
+
 1. Global defaults via `SimpleFactory::setDefaults()`
 2. Class defaults from `loadDefault()`
 3. User defaults passed to `tag()`
