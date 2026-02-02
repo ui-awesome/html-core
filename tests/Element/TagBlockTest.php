@@ -6,6 +6,7 @@ namespace UIAwesome\Html\Core\Tests\Element;
 
 use LogicException;
 use PHPForge\Support\LineEndingNormalizer;
+use PHPForge\Support\ReflectionHelper;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
@@ -13,7 +14,13 @@ use UIAwesome\Html\Attribute\Values\{Aria, ContentEditable, Data, Direction, Dra
 use UIAwesome\Html\Core\Element\BaseBlock;
 use UIAwesome\Html\Core\Exception\Message;
 use UIAwesome\Html\Core\Factory\SimpleFactory;
-use UIAwesome\Html\Core\Tests\Support\Stub\{DefaultProvider, DefaultThemeProvider, TagBlock, TagInline};
+use UIAwesome\Html\Core\Tests\Support\Stub\{
+    DefaultProvider,
+    DefaultThemeProvider,
+    TagBlock,
+    TagBlockWithDefaults,
+    TagInline,
+};
 use UIAwesome\Html\Interop\Block;
 
 /**
@@ -487,6 +494,20 @@ final class TagBlockTest extends TestCase
         );
     }
 
+    public function testRenderWithLoadDefault(): void
+    {
+        self::assertEquals(
+            <<<HTML
+            <div class="default-class">
+            </div>
+            HTML,
+            LineEndingNormalizer::normalize(
+                TagBlockWithDefaults::tag()->render(),
+            ),
+            'Failed asserting that default definitions are applied correctly.',
+        );
+    }
+
     public function testRenderWithNestedBeginEnd(): void
     {
         self::assertEquals(
@@ -696,6 +717,16 @@ final class TagBlockTest extends TestCase
         self::assertEmpty(
             $tag->getDefaults($tag),
             'Failed asserting that getting defaults returns an empty array when no defaults are set.',
+        );
+    }
+
+    public function testReturnEmptyArrayWhenLoadDefaultAndNoDefaultsSet(): void
+    {
+        $tag = TagBlock::tag();
+
+        self::assertEmpty(
+            ReflectionHelper::invokeMethod($tag, 'loadDefault'),
+            'Failed asserting that loading default definitions returns an empty array when no defaults are set.',
         );
     }
 

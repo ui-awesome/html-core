@@ -319,6 +319,7 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
      *
      * Configuration priority (from weakest to strongest):
      * - Global defaults defined via {@see SimpleFactory::setDefaults()}.
+     * - Class defaults from {@see BaseTag::loadDefault()}.
      * - Defaults passed directly by the user to {@see tag()}.
      *
      * After construction, additional user modifications (via setter methods like `class`, `id`, `data`, etc.) and
@@ -348,6 +349,7 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
 
         $pipeline = [
             SimpleFactory::getDefaults(static::class),
+            $tag->loadDefault(),
             ...$defaults,
         ];
 
@@ -371,6 +373,37 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
     protected function isBeginExecuted(): bool
     {
         return $this->beginExecuted;
+    }
+
+    /**
+     * Returns default definitions for the tag class.
+     *
+     * Provides a cookbook style array of default configurations that are applied when the tag is instantiated.
+     *
+     * These defaults have the medium priority in the configuration pipeline.
+     *
+     * Override this method in subclasses to provide class specific default values.
+     *
+     * @return array<string, mixed> Cookbook style configuration array.
+     *
+     * @phpstan-return mixed[]
+     *
+     * Usage example:
+     * ```php
+     * protected function loadDefault(): array
+     * {
+     *     $shortClassName = Utils::getShortNameClass(static::class, false, true);
+     *
+     *     return [
+     *         'id()' => [Utils::generateId("$shortClassName-")],
+     *         'template()' => ['{prefix}\n{tag}\n{suffix}'],
+     *     ];
+     * }
+     * ```
+     */
+    protected function loadDefault(): array
+    {
+        return [];
     }
 
     /**

@@ -1,5 +1,5 @@
 <!-- Mobile layout - Single column -->
-<svg fill="none" viewBox="0 0 600 610" width="100%" height="580" xmlns="http://www.w3.org/2000/svg">
+<svg fill="none" viewBox="0 0 600 630" width="100%" height="580" xmlns="http://www.w3.org/2000/svg">
     <foreignObject width="100%" height="100%">
         <div xmlns="http://www.w3.org/1999/xhtml">
             <style>
@@ -47,7 +47,7 @@
             <div class="container">
                 <div class="alert-box">
                     <p class="alert-title"><strong>Defaults and theming</strong></p>
-                    <p class="alert-content">Configure tags via SimpleFactory defaults, DefaultsProviderInterface and ThemeProviderInterface</p>
+                                        <p class="alert-content">Configure tags via SimpleFactory defaults, DefaultsProviderInterface, ThemeProviderInterface, or override loadDefault() for class-level defaults</p>
                 </div>
                 <div class="alert-box">
                     <p class="alert-title"><strong>Extensible base elements</strong></p>

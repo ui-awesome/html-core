@@ -44,7 +44,7 @@
             <div class="container">
                 <div class="alert-box">
                     <p class="alert-title"><strong>Defaults and theming</strong></p>
-                    <p class="alert-content">Configure tags via SimpleFactory defaults, DefaultsProviderInterface and ThemeProviderInterface</p>
+                    <p class="alert-content">Configure tags via SimpleFactory defaults, DefaultsProviderInterface, ThemeProviderInterface, or override loadDefault() for class-level defaults</p>
                 </div>
                 <div class="alert-box">
                     <p class="alert-title"><strong>Extensible base elements</strong></p>
