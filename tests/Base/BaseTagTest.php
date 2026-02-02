@@ -56,7 +56,7 @@ final class BaseTagTest extends TestCase
         );
     }
 
-    #[RequiresPhp('8.4')]
+    #[RequiresPhp('8.5')]
     public function testRenderBegin(): void
     {
         $tag = new class extends BaseTag {
