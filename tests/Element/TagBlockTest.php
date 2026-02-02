@@ -494,7 +494,7 @@ final class TagBlockTest extends TestCase
         );
     }
 
-    public function testRenderWithLoadDefaultDefinitions(): void
+    public function testRenderWithLoadDefault(): void
     {
         self::assertEquals(
             <<<HTML
@@ -720,7 +720,7 @@ final class TagBlockTest extends TestCase
         );
     }
 
-    public function testReturnEmptyArrayWhenLoadDefaultDefinitionsAndNoDefaultsSet(): void
+    public function testReturnEmptyArrayWhenLoadDefaultAndNoDefaultsSet(): void
     {
         $tag = TagBlock::tag();
 
