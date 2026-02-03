@@ -20,45 +20,49 @@ use UIAwesome\Html\Attribute\Global\{
     HasTitle,
     HasTranslate,
 };
+use UIAwesome\Html\Attribute\{HasDisabled, HasForm, HasType};
+use UIAwesome\Html\Attribute\Values\Attribute;
 use UIAwesome\Html\Core\Base\BaseTag;
 use UIAwesome\Html\Core\Html;
-use UIAwesome\Html\Helper\Template;
+use UIAwesome\Html\Helper\{Naming, Template};
 use UIAwesome\Html\Interop\{BlockInterface, InlineInterface, VoidInterface};
-use UIAwesome\Html\Mixin\{HasAttributes, HasContent, HasPrefixCollection, HasSuffixCollection, HasTemplate};
+use UIAwesome\Html\Mixin\{HasAttributes, HasPrefixCollection, HasSuffixCollection, HasTemplate};
+use UnitEnum;
 
 /**
- * Base class for constructing inline-level HTML elements.
+ * Abstract base class for HTML input element components.
  *
- * Provides the shared implementation for inline tags rendered through {@see Html}. Subclasses supply the tag via
- * {@see BaseInline::getTag()}, while attributes, content, and optional prefix/suffix rendering are managed via mixins.
+ * Provides the foundation for creating various input type components (text, email, password, checkbox, radio, etc.).
  *
- * Intended for tag classes that need inline rendering with optional template-driven composition.
+ * Implements common functionality for rendering input elements with prefix/suffix support and template-based
+ * composition.
+ *
+ * This class serves as the base for all input element types and provides the structure for implementing HTML input
+ * attributes through traits.
  *
  * Key features.
- * - Builds composed output via {@see BaseInline::buildElement()} and {@see Template::render()}.
- * - Mixes in global attribute traits and attribute/content storage.
- * - Renders inline tags via {@see Html::inline()} and can skip tag rendering when configured.
- * - Requires subclasses to provide a {@see InlineInterface} tag.
+ * - Automatic ID generation based on class name.
+ * - Immutable configuration through method chaining.
  * - Supports additional template token values for prefix/tag/suffix rendering.
+ * - Template-based rendering with prefix, tag, and suffix placeholders.
  *
- * {@see InlineInterface} for contract details.
+ * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
  *
- * @link https://developer.mozilla.org/en-US/docs/Glossary/Inline-level_content
- *
- * @copyright Copyright (C) 2025 Terabytesoftw.
+ * @copyright Copyright (C) 2026 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
-abstract class BaseInline extends BaseTag
+abstract class BaseInput extends BaseTag
 {
     use CanBeHidden;
     use HasAccesskey;
     use HasAria;
     use HasAttributes;
     use HasClass;
-    use HasContent;
     use HasData;
     use HasDir;
+    use HasDisabled;
     use HasEvents;
+    use HasForm;
     use HasId;
     use HasLang;
     use HasPrefixCollection;
@@ -68,31 +72,50 @@ abstract class BaseInline extends BaseTag
     use HasTemplate;
     use HasTitle;
     use HasTranslate;
+    use HasType;
 
     /**
-     * Returns the tag instance representing the inline element.
+     * Returns the tag instance representing the void element.
      *
-     * Must be implemented by subclasses to specify the concrete inline tag.
+     * Must be implemented by subclasses to specify the concrete void tag.
      *
-     * @return InlineInterface Tag instance for the inline element.
+     * @return VoidInterface Tag instance for the void element.
      *
      * Usage example:
      * ```php
-     * public function getTag(): InlineInterface
+     * public function getTag(): VoidInterface
      * {
-     *    return Inline::SPAN;
+     *     return Void::INPUT;
      * }
      * ```
      */
-    abstract protected function getTag(): InlineInterface;
+    abstract protected function getTag(): VoidInterface;
 
     /**
-     * Builds the inline element using the provided content and token values.
+     * Sets the HTML `name` attribute for the input element.
+     *
+     * Note: The HTML `name` attribute for `<input>` elements is not limited to the set of standard metadata names used
+     * by `<meta>`.
+     *
+     * @param string|Stringable|UnitEnum|null $value Name value to set for the input element. Can be `null` to unset.
+     *
+     * @return static New instance with the updated `name` attribute.
+     */
+    public function name(string|Stringable|UnitEnum|null $value): static
+    {
+        return $this->addAttribute(Attribute::NAME, $value);
+    }
+
+    /**
+     * Builds the input element using the provided content and token values.
      *
      * Constructs the element by rendering the prefix, main tag, and suffix using the configured template and
      * attributes.
      *
      * @param string|Stringable $content Content to be rendered inside the tag.
+     *
+     * Note: The `<input>` element is a void element and does not render inner content.
+     * Use attributes such as `value` to configure the input's value.
      * @param array $tokenValues Additional token values for template rendering.
      *
      * @return string Rendered HTML for the inline element.
@@ -105,7 +128,7 @@ abstract class BaseInline extends BaseTag
     {
         $tokenTemplateValues = [
             '{prefix}' => $this->renderTag($this->prefixTag, $this->prefix, $this->prefixAttributes),
-            '{tag}' => $this->renderTag($this->getTag(), (string) $content, $this->getAttributes()),
+            '{tag}' => $this->renderTag($this->getTag(), '', $this->getAttributes()),
             '{suffix}' => $this->renderTag($this->suffixTag, $this->suffix, $this->suffixAttributes),
         ];
 
@@ -117,6 +140,25 @@ abstract class BaseInline extends BaseTag
         }
 
         return Template::render($template, $tokenTemplateValues);
+    }
+
+    /**
+     * Returns the default configuration for the input element.
+     *
+     * Generates default values for the element based on the short class name.
+     *
+     * @return array Default configuration array with method calls as keys.
+     *
+     * @phpstan-return array<string, mixed>
+     */
+    protected function loadDefault(): array
+    {
+        $shortClassName = Naming::getShortNameClass(static::class, false, true);
+
+        return [
+            'id' => [Naming::generateId("$shortClassName-")],
+            'template' => ['{prefix}\n{tag}\n{suffix}'],
+        ];
     }
 
     /**

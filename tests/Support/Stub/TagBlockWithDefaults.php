@@ -36,7 +36,7 @@ final class TagBlockWithDefaults extends BaseBlock
      *
      * @return array Default definitions.
      *
-     * @phpstan-return mixed[]
+     * @phpstan-return array<string, mixed>
      */
     protected function loadDefault(): array
     {

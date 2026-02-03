@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Tests\Element;
 
 use PHPForge\Support\LineEndingNormalizer;
+use PHPForge\Support\ReflectionHelper;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
-use UIAwesome\Html\Attribute\Values\{Aria, Data, Direction};
-use UIAwesome\Html\Core\Tests\Support\Stub\{DefaultProvider, TagVoid};
+use UIAwesome\Html\Attribute\Values\{Aria, Data, Direction, Event, Language, Role, Translate};
+use UIAwesome\Html\Core\Factory\SimpleFactory;
+use UIAwesome\Html\Core\Tests\Support\Stub\{DefaultProvider, DefaultThemeProvider, TagVoid};
 
 /**
  * Unit tests for {@see TagVoid} element rendering and attribute handling.
@@ -50,7 +52,7 @@ final class TagVoidTest extends TestCase
             LineEndingNormalizer::normalize(
                 TagVoid::tag()->addAriaAttribute('pressed', true)->render(),
             ),
-            "Failed asserting that element renders correctly with 'ariaAttribute()' method.",
+            "Failed asserting that element renders correctly with 'addAriaAttribute()' method.",
         );
     }
 
@@ -90,6 +92,19 @@ final class TagVoidTest extends TestCase
                 TagVoid::tag()->addDataAttribute(Data::VALUE, 'value')->render(),
             ),
             "Failed asserting that element renders correctly with 'addDataAttribute()' method using enum.",
+        );
+    }
+
+    public function testRenderWithAddEvent(): void
+    {
+        self::assertEquals(
+            <<<HTML
+            <hr onclick="handleClick()">
+            HTML,
+            LineEndingNormalizer::normalize(
+                TagVoid::tag()->addEvent(Event::CLICK, 'handleClick()')->render(),
+            ),
+            "Failed asserting that element renders correctly with 'addEvent()' method.",
         );
     }
 
@@ -218,6 +233,40 @@ final class TagVoidTest extends TestCase
         );
     }
 
+    public function testRenderWithEvents(): void
+    {
+        self::assertEquals(
+            <<<HTML
+            <hr onchange="handleChange()">
+            HTML,
+            LineEndingNormalizer::normalize(
+                TagVoid::tag()->events(['change' => 'handleChange()'])->render(),
+            ),
+            "Failed asserting that element renders correctly with 'events()' method.",
+        );
+    }
+
+    public function testRenderWithGlobalDefaultsAreApplied(): void
+    {
+        $previous = SimpleFactory::getDefaults(TagVoid::class);
+
+        try {
+            SimpleFactory::setDefaults(TagVoid::class, ['class' => 'from-global']);
+
+            self::assertEquals(
+                <<<HTML
+                <hr class="from-global">
+                HTML,
+                LineEndingNormalizer::normalize(
+                    TagVoid::tag()->render(),
+                ),
+                'Failed asserting that global defaults are applied correctly.',
+            );
+        } finally {
+            SimpleFactory::setDefaults(TagVoid::class, $previous);
+        }
+    }
+
     public function testRenderWithHidden(): void
     {
         self::assertEquals(
@@ -257,6 +306,29 @@ final class TagVoidTest extends TestCase
         );
     }
 
+    public function testRenderWithLangUsingEnum(): void
+    {
+        self::assertEquals(
+            <<<HTML
+            <hr lang="es">
+            HTML,
+            LineEndingNormalizer::normalize(
+                TagVoid::tag()->lang(Language::SPANISH)->render(),
+            ),
+            "Failed asserting that element renders correctly with 'lang' attribute using enum.",
+        );
+    }
+
+    public function testRenderWithLoadDefault(): void
+    {
+        $tag = TagVoid::tag();
+
+        self::assertEmpty(
+            ReflectionHelper::invokeMethod($tag, 'loadDefault'),
+            'Failed asserting that loading default definitions returns an empty array when no defaults are set.',
+        );
+    }
+
     public function testRenderWithRole(): void
     {
         self::assertEquals(
@@ -267,6 +339,19 @@ final class TagVoidTest extends TestCase
                 TagVoid::tag()->role('generic')->render(),
             ),
             "Failed asserting that element renders correctly with 'role' attribute.",
+        );
+    }
+
+    public function testRenderWithRoleUsingEnum(): void
+    {
+        self::assertEquals(
+            <<<HTML
+            <hr role="button">
+            HTML,
+            LineEndingNormalizer::normalize(
+                TagVoid::tag()->role(Role::BUTTON)->render(),
+            ),
+            "Failed asserting that element renders correctly with 'role' attribute using enum.",
         );
     }
 
@@ -283,6 +368,19 @@ final class TagVoidTest extends TestCase
         );
     }
 
+    public function testRenderWithThemeProvider(): void
+    {
+        self::assertEquals(
+            <<<HTML
+            <hr class="text-muted">
+            HTML,
+            LineEndingNormalizer::normalize(
+                TagVoid::tag()->addThemeProvider('muted', DefaultThemeProvider::class)->render(),
+            ),
+            'Failed asserting that theme provider is applied correctly.',
+        );
+    }
+
     public function testRenderWithTitle(): void
     {
         self::assertEquals(
@@ -296,6 +394,19 @@ final class TagVoidTest extends TestCase
         );
     }
 
+    public function testRenderWithToString(): void
+    {
+        self::assertEquals(
+            <<<HTML
+            <hr>
+            HTML,
+            LineEndingNormalizer::normalize(
+                (string) TagVoid::tag(),
+            ),
+            "Failed asserting that '__toString()' method renders correctly.",
+        );
+    }
+
     public function testRenderWithTranslate(): void
     {
         self::assertEquals(
@@ -303,9 +414,63 @@ final class TagVoidTest extends TestCase
             <hr translate="no">
             HTML,
             LineEndingNormalizer::normalize(
-                TagVoid::tag()->translate('no')->render(),
+                TagVoid::tag()->translate(false)->render(),
             ),
             "Failed asserting that element renders correctly with 'translate' attribute.",
+        );
+    }
+
+    public function testRenderWithTranslateUsingEnum(): void
+    {
+        self::assertEquals(
+            <<<HTML
+            <hr translate="no">
+            HTML,
+            LineEndingNormalizer::normalize(
+                TagVoid::tag()->translate(Translate::NO)->render(),
+            ),
+            "Failed asserting that element renders correctly with 'translate' attribute using enum.",
+        );
+    }
+
+    public function testRenderWithUserOverridesGlobalDefaults(): void
+    {
+        $previous = SimpleFactory::getDefaults(TagVoid::class);
+
+        try {
+            SimpleFactory::setDefaults(TagVoid::class, ['class' => 'from-global', 'id' => 'id-global']);
+
+            self::assertEquals(
+                <<<HTML
+                <hr class="from-global" id="id-user">
+                HTML,
+                LineEndingNormalizer::normalize(
+                    TagVoid::tag(['id' => 'id-user'])->render(),
+                ),
+                'Failed asserting that user-defined attributes override global defaults correctly.',
+            );
+        } finally {
+            SimpleFactory::setDefaults(TagVoid::class, $previous);
+        }
+    }
+
+    public function testReturnEmptyArrayWhenApplyThemeAndUndefinedTheme(): void
+    {
+        $tag = TagVoid::tag();
+
+        self::assertEmpty(
+            $tag->apply($tag, ''),
+            'Failed asserting that applying an undefined theme returns an empty array.',
+        );
+    }
+
+    public function testReturnEmptyArrayWhenGetDefaultsAndNoDefaultsSet(): void
+    {
+        $tag = TagVoid::tag();
+
+        self::assertEmpty(
+            $tag->getDefaults($tag),
+            'Failed asserting that getting defaults returns an empty array when no defaults are set.',
         );
     }
 }
