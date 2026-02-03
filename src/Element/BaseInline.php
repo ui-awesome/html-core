@@ -133,7 +133,7 @@ abstract class BaseInline extends BaseTag
      * @phpstan-return string
      */
     private function renderTag(
-        false|BlockInterface|InlineInterface|VoidInterface $tag,
+        BlockInterface|false|InlineInterface|VoidInterface $tag,
         string $content,
         array $attributes = [],
     ): string {
