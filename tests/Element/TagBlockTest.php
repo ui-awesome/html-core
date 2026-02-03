@@ -6,11 +6,20 @@ namespace UIAwesome\Html\Core\Tests\Element;
 
 use LogicException;
 use PHPForge\Support\LineEndingNormalizer;
-use PHPForge\Support\ReflectionHelper;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
-use UIAwesome\Html\Attribute\Values\{Aria, ContentEditable, Data, Direction, Draggable, Language, Role, Translate};
+use UIAwesome\Html\Attribute\Values\{
+    Aria,
+    ContentEditable,
+    Data,
+    Direction,
+    Draggable,
+    Event,
+    Language,
+    Role,
+    Translate,
+};
 use UIAwesome\Html\Core\Element\BaseBlock;
 use UIAwesome\Html\Core\Exception\Message;
 use UIAwesome\Html\Core\Factory\SimpleFactory;
@@ -113,6 +122,20 @@ final class TagBlockTest extends TestCase
                 TagBlock::tag()->addDataAttribute(Data::VALUE, 'value')->render(),
             ),
             "Failed asserting that element renders correctly with 'addDataAttribute()' method.",
+        );
+    }
+
+    public function testRenderWithAddEvent(): void
+    {
+        self::assertEquals(
+            <<<HTML
+            <div onclick="handleClick()">
+            </div>
+            HTML,
+            LineEndingNormalizer::normalize(
+                TagBlock::tag()->addEvent(Event::CLICK, 'handleClick()')->render(),
+            ),
+            "Failed asserting that element renders correctly with 'addEvent()' method.",
         );
     }
 
@@ -350,22 +373,40 @@ final class TagBlockTest extends TestCase
         );
     }
 
-    public function testRenderWithGlobalDefaultsAreApplied(): void
+    public function testRenderWithEvents(): void
     {
-        SimpleFactory::setDefaults(TagBlock::class, ['class' => 'from-global']);
-
         self::assertEquals(
             <<<HTML
-            <div class="from-global">
+            <div onchange="handleChange()">
             </div>
             HTML,
             LineEndingNormalizer::normalize(
-                TagBlock::tag()->render(),
+                TagBlock::tag()->events(['change' => 'handleChange()'])->render(),
             ),
-            'Failed asserting that global defaults are applied correctly.',
+            "Failed asserting that element renders correctly with 'events()' method.",
         );
+    }
 
-        SimpleFactory::setDefaults(TagBlock::class, []);
+    public function testRenderWithGlobalDefaultsAreApplied(): void
+    {
+        $previous = SimpleFactory::getDefaults(TagBlock::class);
+
+        try {
+            SimpleFactory::setDefaults(TagBlock::class, ['class' => 'from-global']);
+
+            self::assertEquals(
+                <<<HTML
+                <div class="from-global">
+                </div>
+                HTML,
+                LineEndingNormalizer::normalize(
+                    TagBlock::tag()->render(),
+                ),
+                'Failed asserting that global defaults are applied correctly.',
+            );
+        } finally {
+            SimpleFactory::setDefaults(TagBlock::class, $previous);
+        }
     }
 
     public function testRenderWithHidden(): void
@@ -684,20 +725,24 @@ final class TagBlockTest extends TestCase
 
     public function testRenderWithUserOverridesGlobalDefaults(): void
     {
-        SimpleFactory::setDefaults(TagBlock::class, ['class' => 'from-global', 'id' => 'id-global']);
+        $previous = SimpleFactory::getDefaults(TagBlock::class);
 
-        self::assertEquals(
-            <<<HTML
-            <div class="from-global" id="id-user">
-            </div>
-            HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag(['id' => 'id-user'])->render(),
-            ),
-            'Failed asserting that user-defined attributes override global defaults correctly.',
-        );
+        try {
+            SimpleFactory::setDefaults(TagBlock::class, ['class' => 'from-global', 'id' => 'id-global']);
 
-        SimpleFactory::setDefaults(TagBlock::class, []);
+            self::assertEquals(
+                <<<HTML
+                <div class="from-global" id="id-user">
+                </div>
+                HTML,
+                LineEndingNormalizer::normalize(
+                    TagBlock::tag(['id' => 'id-user'])->render(),
+                ),
+                'Failed asserting that user-defined attributes override global defaults correctly.',
+            );
+        } finally {
+            SimpleFactory::setDefaults(TagBlock::class, $previous);
+        }
     }
 
     public function testReturnEmptyArrayWhenApplyThemeAndUndefinedTheme(): void
@@ -717,16 +762,6 @@ final class TagBlockTest extends TestCase
         self::assertEmpty(
             $tag->getDefaults($tag),
             'Failed asserting that getting defaults returns an empty array when no defaults are set.',
-        );
-    }
-
-    public function testReturnEmptyArrayWhenLoadDefaultAndNoDefaultsSet(): void
-    {
-        $tag = TagBlock::tag();
-
-        self::assertEmpty(
-            ReflectionHelper::invokeMethod($tag, 'loadDefault'),
-            'Failed asserting that loading default definitions returns an empty array when no defaults are set.',
         );
     }
 

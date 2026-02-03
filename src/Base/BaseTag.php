@@ -384,9 +384,9 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
      *
      * Override this method in subclasses to provide class specific default values.
      *
-     * @return array<string, mixed> Cookbook style configuration array.
+     * @return array Cookbook style configuration array.
      *
-     * @phpstan-return mixed[]
+     * @phpstan-return array<string, mixed>
      *
      * Usage example:
      * ```php
