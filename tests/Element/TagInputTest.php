@@ -568,6 +568,7 @@ final class TagInputTest extends TestCase
             "Failed asserting that element renders correctly with 'suffixTag()' method.",
         );
     }
+
     public function testRenderWithTemplateFallbackWhenTemplateEmpty(): void
     {
         self::assertEquals(

@@ -656,6 +656,7 @@ final class TagInlineTest extends TestCase
             "Failed asserting that element renders correctly with 'tabindex' attribute.",
         );
     }
+
     public function testRenderWithTemplateFallbackWhenTemplateEmpty(): void
     {
         self::assertEquals(
