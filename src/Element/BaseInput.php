@@ -128,7 +128,7 @@ abstract class BaseInput extends BaseTag
     {
         $tokenTemplateValues = [
             '{prefix}' => $this->renderTag($this->prefixTag, $this->prefix, $this->prefixAttributes),
-            '{tag}' => $this->renderTag($this->getTag(), '', $this->getAttributes()),
+            '{tag}' => $this->renderTag($this->getTag(), (string) $content, $this->getAttributes()),
             '{suffix}' => $this->renderTag($this->suffixTag, $this->suffix, $this->suffixAttributes),
         ];
 
@@ -175,7 +175,7 @@ abstract class BaseInput extends BaseTag
      * @phpstan-return string
      */
     private function renderTag(
-        false|BlockInterface|InlineInterface|VoidInterface $tag,
+        BlockInterface|false|InlineInterface|VoidInterface $tag,
         string $content,
         array $attributes = [],
     ): string {
