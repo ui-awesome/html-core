@@ -6,6 +6,7 @@
 - Enh #58: Add `loadDefault()` method in `BaseTag` class to provide default attribute values (@terabytesoftw)
 - Bug #59: Update PHP version requirement in `BaseTagTest` from `8.4` to `8.5` (@terabytesoftw)
 - Enh #60: Add `BaseInput` class for HTML input elements with common attributes, methods and fix prefix/suffix rendering to support block, inline and void tags in `BaseInline` (@terabytesoftw)
+- Bug #61: Correct parameter order in docblocks for `BaseInput` and `BaseInline` classes (@terabytesoftw)
 
 ## 0.5.2 January 28, 2026
 

@@ -128,7 +128,7 @@ abstract class BaseInput extends BaseTag
     {
         $tokenTemplateValues = [
             '{prefix}' => $this->renderTag($this->prefixTag, $this->prefix, $this->prefixAttributes),
-            '{tag}' => $this->renderTag($this->getTag(), '', $this->getAttributes()),
+            '{tag}' => $this->renderTag($this->getTag(), (string) $content, $this->getAttributes()),
             '{suffix}' => $this->renderTag($this->suffixTag, $this->suffix, $this->suffixAttributes),
         ];
 
@@ -164,7 +164,7 @@ abstract class BaseInput extends BaseTag
     /**
      * Renders a tag or returns the content if the tag is not specified.
      *
-     * @param BlockInterface|false|InlineInterface|VoidInterface $tag Tag instance or `false` to skip rendering.
+     * @param false|BlockInterface|InlineInterface|VoidInterface $tag Tag instance or `false` to skip rendering.
      * @param string $content Content to be rendered inside the tag.
      * @param array $attributes HTML attributes for the tag.
      *
