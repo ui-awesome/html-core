@@ -21,14 +21,12 @@ use UIAwesome\Html\Attribute\Global\{
     HasTitle,
     HasTranslate,
 };
-use UIAwesome\Html\Attribute\{HasDisabled, HasType};
-use UIAwesome\Html\Attribute\Values\Attribute;
+use UIAwesome\Html\Attribute\{HasDisabled, HasName, HasType};
 use UIAwesome\Html\Core\Base\BaseTag;
 use UIAwesome\Html\Core\Html;
 use UIAwesome\Html\Helper\{Naming, Template};
 use UIAwesome\Html\Interop\{BlockInterface, InlineInterface, VoidInterface};
 use UIAwesome\Html\Mixin\{HasAttributes, HasPrefixCollection, HasSuffixCollection, HasTemplate};
-use UnitEnum;
 
 /**
  * Abstract base class for HTML input element components.
@@ -66,6 +64,7 @@ abstract class BaseInput extends BaseTag
     use HasForm;
     use HasId;
     use HasLang;
+    use HasName;
     use HasPrefixCollection;
     use HasRole;
     use HasStyle;
@@ -91,21 +90,6 @@ abstract class BaseInput extends BaseTag
      * ```
      */
     abstract protected function getTag(): VoidInterface;
-
-    /**
-     * Sets the HTML `name` attribute for the input element.
-     *
-     * Note: The HTML `name` attribute for `<input>` elements is not limited to the set of standard metadata names used
-     * by `<meta>`.
-     *
-     * @param string|Stringable|UnitEnum|null $value Name value to set for the input element. Can be `null` to unset.
-     *
-     * @return static New instance with the updated `name` attribute.
-     */
-    public function name(string|Stringable|UnitEnum|null $value): static
-    {
-        return $this->addAttribute(Attribute::NAME, $value);
-    }
 
     /**
      * Builds the input element using the provided content and token values.
