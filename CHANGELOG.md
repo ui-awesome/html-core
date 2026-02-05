@@ -8,6 +8,7 @@
 - Enh #60: Add `BaseInput` class for HTML input elements with common attributes, methods and fix prefix/suffix rendering to support block, inline and void tags in `BaseInline` (@terabytesoftw)
 - Bug #61: Correct parameter order in docblocks for `BaseInput` and `BaseInline` classes (@terabytesoftw)
 - Bug #62: Reorder use statements in `BaseInput` class for better organization (@terabytesoftw)
+- Bug #63: Use `HasName` trait in `BaseInput` class to manage the `name` attribute (@terabytesoftw)
 
 ## 0.5.2 January 28, 2026
 
