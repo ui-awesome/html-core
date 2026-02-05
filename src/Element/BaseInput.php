@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Element;
 
 use Stringable;
+use UIAwesome\Html\Attribute\Form\HasForm;
 use UIAwesome\Html\Attribute\Global\{
     CanBeHidden,
     HasAccesskey,
@@ -20,7 +21,7 @@ use UIAwesome\Html\Attribute\Global\{
     HasTitle,
     HasTranslate,
 };
-use UIAwesome\Html\Attribute\{HasDisabled, HasForm, HasType};
+use UIAwesome\Html\Attribute\{HasDisabled, HasType};
 use UIAwesome\Html\Attribute\Values\Attribute;
 use UIAwesome\Html\Core\Base\BaseTag;
 use UIAwesome\Html\Core\Html;
