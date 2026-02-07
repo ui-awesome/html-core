@@ -114,9 +114,10 @@ abstract class BaseInput extends BaseTag
 
         /** @phpstan-var string|null $id */
         $id = $this->getAttribute('id', null);
+        $ariaDescribedBy = $this->getAttribute('aria-describedby', null);
 
-        if ($this->getAttribute('aria-describedby', null) === true && $id !== null) {
-            $attributes['aria-describedby'] = "{$id}-help";
+        if ($ariaDescribedBy === true) {
+            $attributes['aria-describedby'] = $id !== null ? "{$id}-help" : null;
         }
 
         $tokenTemplateValues = [

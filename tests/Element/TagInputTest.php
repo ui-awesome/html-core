@@ -140,6 +140,19 @@ final class TagInputTest extends TestCase
         );
     }
 
+    public function testRenderWithAriaDescribedByTrueAndIdNull(): void
+    {
+        self::assertEquals(
+            <<<HTML
+            <input>
+            HTML,
+            LineEndingNormalizer::normalize(
+                TagInput::tag()->id(null)->attributes(['aria-describedby' => true])->render(),
+            ),
+            "Failed asserting that element renders correctly with 'aria-describedby' attribute set to true and 'id' is null.",
+        );
+    }
+
     public function testRenderWithAriaDescribedByTrueAndPrefixSuffix(): void
     {
         self::assertEquals(
