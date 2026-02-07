@@ -98,9 +98,8 @@ abstract class BaseInput extends BaseTag
      * attributes.
      *
      * @param string|Stringable $content Content to be rendered inside the tag.
-     *
-     * Note: The `<input>` element is a void element and does not render inner content.
-     * Use attributes such as `value` to configure the input's value.
+     * Note: The `<input>` element is a void element and does not render inner content. Use attributes such as `value`
+     * to configure the input's value.
      * @param array $tokenValues Additional token values for template rendering.
      *
      * @return string Rendered HTML for the inline element.
@@ -111,9 +110,19 @@ abstract class BaseInput extends BaseTag
      */
     protected function buildElement(string|Stringable $content = '', array $tokenValues = []): string
     {
+        $attributes = $this->getAttributes();
+
+        /** @phpstan-var string|null $id */
+        $id = $this->getAttribute('id', null);
+        $ariaDescribedBy = $this->getAttribute('aria-describedby', null);
+
+        if ($ariaDescribedBy === true) {
+            $attributes['aria-describedby'] = $id !== null ? "{$id}-help" : null;
+        }
+
         $tokenTemplateValues = [
             '{prefix}' => $this->renderTag($this->prefixTag, $this->prefix, $this->prefixAttributes),
-            '{tag}' => $this->renderTag($this->getTag(), (string) $content, $this->getAttributes()),
+            '{tag}' => $this->renderTag($this->getTag(), (string) $content, $attributes),
             '{suffix}' => $this->renderTag($this->suffixTag, $this->suffix, $this->suffixAttributes),
         ];
 
