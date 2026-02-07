@@ -127,6 +127,19 @@ final class TagInputTest extends TestCase
         );
     }
 
+    public function testRenderWithAriaDescribedByString(): void
+    {
+        self::assertEquals(
+            <<<HTML
+            <input id="test-id" aria-describedby="custom-help">
+            HTML,
+            LineEndingNormalizer::normalize(
+                TagInput::tag()->id('test-id')->attributes(['aria-describedby' => 'custom-help'])->render(),
+            ),
+            "Failed asserting that an explicit 'aria-describedby' string value is preserved.",
+        );
+    }
+
     public function testRenderWithAriaDescribedByTrue(): void
     {
         self::assertEquals(
