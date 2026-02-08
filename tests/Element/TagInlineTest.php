@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Tests\Element;
 
 use LogicException;
-use PHPForge\Support\LineEndingNormalizer;
-use PHPForge\Support\ReflectionHelper;
+use PHPForge\Support\{LineEndingNormalizer, ReflectionHelper};
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Attribute\Values\{
@@ -22,7 +21,7 @@ use UIAwesome\Html\Attribute\Values\{
 };
 use UIAwesome\Html\Core\Exception\Message;
 use UIAwesome\Html\Core\Factory\SimpleFactory;
-use UIAwesome\Html\Core\Tests\Support\Stub\{DefaultProvider, DefaultThemeProvider, TagInline};
+use UIAwesome\Html\Core\Tests\Support\Stub\{DefaultProvider, DefaultThemeProvider, TagInline, TagInlineWithTokenValues};
 use UIAwesome\Html\Interop\{Block, Inline, Voids};
 
 /**
@@ -208,6 +207,24 @@ final class TagInlineTest extends TestCase
                 TagInline::tag()->contentEditable(ContentEditable::TRUE)->render(),
             ),
             "Failed asserting that element renders correctly with 'contentEditable' attribute using enum.",
+        );
+    }
+
+    public function testRenderWithCustomTokenValues(): void
+    {
+        self::assertEquals(
+            <<<HTML
+            <span>Test content</span>
+            <div class="custom-token">Custom content from token</div>
+            HTML,
+            LineEndingNormalizer::normalize(
+                TagInlineWithTokenValues::tag()
+                    ->content('Test content')
+                    ->template('{tag}\n{custom}')
+                    ->tokenValues(['{custom}' => '<div class="custom-token">Custom content from token</div>'])
+                    ->render(),
+            ),
+            'Failed asserting that element renders correctly with custom token values spread into template.',
         );
     }
 

@@ -109,14 +109,13 @@ abstract class BaseInline extends BaseTag
             '{suffix}' => $this->renderTag($this->suffixTag, $this->suffix, $this->suffixAttributes),
         ];
 
-        $tokenTemplateValues += $tokenValues;
-        $template = $this->template;
+        $template = $this->getTemplate();
 
         if ($template === '') {
             $template = '{prefix}\n{tag}\n{suffix}';
         }
 
-        return Template::render($template, $tokenTemplateValues);
+        return Template::render($template, [...$tokenTemplateValues, ...$tokenValues]);
     }
 
     /**
