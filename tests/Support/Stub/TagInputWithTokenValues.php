@@ -19,7 +19,7 @@ use UIAwesome\Html\Interop\{VoidInterface, Voids};
 final class TagInputWithTokenValues extends BaseInput
 {
     /**
-     * @var array Additional token values to pass to {@see BaseInline::buildElement()}.
+     * Additional token values to pass to {@see BaseInput::buildElement()}.
      *
      * @phpstan-var mixed[]
      */
