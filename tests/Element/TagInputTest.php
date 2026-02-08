@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Tests\Element;
 
-use PHPForge\Support\LineEndingNormalizer;
-use PHPForge\Support\ReflectionHelper;
+use PHPForge\Support\{LineEndingNormalizer, ReflectionHelper};
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Attribute\Values\{Aria, Data, Direction, Event, Language, Role, Translate};
 use UIAwesome\Html\Core\Factory\SimpleFactory;
-use UIAwesome\Html\Core\Tests\Support\Stub\{DefaultProvider, TagInput};
+use UIAwesome\Html\Core\Tests\Support\Stub\{DefaultProvider, TagInput, TagInputWithTokenValues};
 use UIAwesome\Html\Interop\{Block, Inline, Voids};
 
 /**
@@ -211,6 +210,24 @@ final class TagInputTest extends TestCase
                 TagInput::tag()->class('test-class')->id(null)->render(),
             ),
             "Failed asserting that element renders correctly with 'class' attribute.",
+        );
+    }
+
+    public function testRenderWithCustomTokenValues(): void
+    {
+        self::assertEquals(
+            <<<HTML
+            <input id="test-id">
+            <span class="custom-token">Custom content from token</span>
+            HTML,
+            LineEndingNormalizer::normalize(
+                TagInputWithTokenValues::tag()
+                    ->id('test-id')
+                    ->template('{tag}\n{custom}')
+                    ->tokenValues(['{custom}' => '<span class="custom-token">Custom content from token</span>'])
+                    ->render(),
+            ),
+            'Failed asserting that element renders correctly with custom token values spread into template.',
         );
     }
 
