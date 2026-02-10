@@ -112,7 +112,7 @@ abstract class BaseInline extends BaseTag
         $template = $this->getTemplate();
 
         if ($template === '') {
-            $template = '{prefix}\n{tag}\n{suffix}';
+            $template = "{prefix}\n{tag}\n{suffix}";
         }
 
         return Template::render($template, [...$tokenTemplateValues, ...$tokenValues]);

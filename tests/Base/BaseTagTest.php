@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Tests\Base;
 
-use PHPForge\Support\LineEndingNormalizer;
 use PHPUnit\Framework\Attributes\{Group, RequiresPhp};
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Core\Base\BaseTag;
@@ -90,7 +89,7 @@ final class BaseTagTest extends TestCase
             Content
             </div>
             HTML,
-            LineEndingNormalizer::normalize($tag->begin() . 'Content' . $tag::end()),
+            $tag->begin() . 'Content' . $tag::end(),
             'Expected correct rendering of begin and end tags.',
         );
     }

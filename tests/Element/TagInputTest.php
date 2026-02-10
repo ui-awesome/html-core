@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Tests\Element;
 
-use PHPForge\Support\{LineEndingNormalizer, ReflectionHelper};
+use PHPForge\Support\ReflectionHelper;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Attribute\Values\{Aria, Data, Direction, Event, Language, Role, Translate};
 use UIAwesome\Html\Core\Factory\SimpleFactory;
 use UIAwesome\Html\Core\Tests\Support\Stub\{DefaultProvider, TagInput, TagInputWithTokenValues};
 use UIAwesome\Html\Interop\{Block, Inline, Voids};
-
-use const PHP_EOL;
 
 /**
  * Unit tests for {@see TagInput} element rendering.
@@ -30,7 +28,7 @@ final class TagInputTest extends TestCase
 {
     public function testRenderWithAccesskey(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput" accesskey="k">
             HTML,
@@ -44,7 +42,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithAddAriaAttribute(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput" aria-pressed="true">
             HTML,
@@ -58,7 +56,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithAddAriaAttributeUsingEnum(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput" aria-pressed="true">
             HTML,
@@ -72,7 +70,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithAddAriaDescribedByString(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput" aria-describedby="custom-help">
             HTML,
@@ -86,7 +84,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithAddAriaDescribedByTrueBooleanValue(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput" aria-describedby="taginput-help">
             HTML,
@@ -101,7 +99,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithAddAriaDescribedByTrueBooleanValueAndIdNull(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input>
             HTML,
@@ -116,7 +114,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithAddAriaDescribedByTrueBooleanValueAndPrefixSuffix(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span>Prefix</span>
             <input id="taginput" aria-describedby="taginput-help">
@@ -137,7 +135,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithAddAriaDescribedByTrueBooleanValueString(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput" aria-describedby="taginput-help">
             HTML,
@@ -152,7 +150,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithAddAriaDescribedByTrueStringValueAndPrefixSuffix(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span>Prefix</span>
             <input id="taginput" aria-describedby="taginput-help">
@@ -173,7 +171,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithAddDataAttribute(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput" data-value="value">
             HTML,
@@ -187,7 +185,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithAddDataAttributeUsingEnum(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput" data-value="value">
             HTML,
@@ -201,7 +199,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithAddEvent(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput" onclick="handleClick()">
             HTML,
@@ -215,7 +213,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithAriaAttributes(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput" aria-label="Close" aria-hidden="false" aria-controls="modal-1">
             HTML,
@@ -235,7 +233,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithAriaAttributesAndAriaDescribedByTrueBooleanValue(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput" aria-describedby="taginput-help">
             HTML,
@@ -249,7 +247,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithAriaAttributesAndAriaDescribedByTrueStringValue(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput" aria-describedby="taginput-help">
             HTML,
@@ -263,7 +261,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithAttributes(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input class="value" id="taginput">
             HTML,
@@ -277,7 +275,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithAttributesAndAriaDescribedByTrueBooleanValue(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput" aria-describedby="taginput-help">
             HTML,
@@ -291,7 +289,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithAttributesAndAriaDescribedByTrueStringValue(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput" aria-describedby="taginput-help">
             HTML,
@@ -305,7 +303,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithClass(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input class="value" id="taginput">
             HTML,
@@ -319,14 +317,14 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithCustomTokenValues(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput">
             <span class="custom-token">Custom content from token</span>
             HTML,
             TagInputWithTokenValues::tag()
                 ->id('taginput')
-                ->template('{tag}' . PHP_EOL . '{custom}')
+                ->template("{tag}\n{custom}")
                 ->tokenValues(['{custom}' => '<span class="custom-token">Custom content from token</span>'])
                 ->render(),
             'Failed asserting that element renders correctly with custom token values spread into template.',
@@ -335,7 +333,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithDataAttributes(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput" data-value="test-value">
             HTML,
@@ -349,7 +347,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithDefaultConfigurationValues(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input class="default-class" id="taginput" title="default-title">
             HTML,
@@ -362,7 +360,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithDefaultProvider(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input class="default-provider" id="taginput">
             HTML,
@@ -376,20 +374,20 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithDefaultValues(): void
     {
-        $instance = TagInput::tag()->id(null);
-
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input>
             HTML,
-            $instance->render(),
+            TagInput::tag()
+                ->id(null)
+                ->render(),
             'Failed asserting that element renders correctly with default values.',
         );
     }
 
     public function testRenderWithDir(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput" dir="rtl">
             HTML,
@@ -403,7 +401,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithDirUsingEnum(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput" dir="ltr">
             HTML,
@@ -417,7 +415,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithDisabled(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput" disabled>
             HTML,
@@ -431,7 +429,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithEvents(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput" onchange="handleChange()">
             HTML,
@@ -445,7 +443,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithForm(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput" form="signup-form">
             HTML,
@@ -475,12 +473,10 @@ final class TagInputTest extends TestCase
 
         SimpleFactory::setDefaults(
             TagInput::class,
-            [
-                'class' => 'from-global',
-            ],
+            ['class' => 'from-global'],
         );
 
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input class="from-global" id="taginput">
             HTML,
@@ -498,7 +494,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithHidden(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput" hidden>
             HTML,
@@ -512,7 +508,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithId(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput">
             HTML,
@@ -525,7 +521,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithLang(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput" lang="es">
             HTML,
@@ -539,7 +535,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithLangUsingEnum(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput" lang="es">
             HTML,
@@ -575,7 +571,7 @@ final class TagInputTest extends TestCase
             "Failed asserting that default 'id' is generated correctly in 'loadDefault()' method.",
         );
         self::assertSame(
-            ['{prefix}' . PHP_EOL . '{tag}' . PHP_EOL . '{suffix}'],
+            ["{prefix}\n{tag}\n{suffix}"],
             $defaults['template'] ?? [],
             'Failed asserting that default definitions are applied correctly.',
         );
@@ -583,7 +579,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithName(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput" name="username">
             HTML,
@@ -597,7 +593,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithPrefixAndSuffix(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <strong>Prefix</strong>
             <input id="taginput">
@@ -616,7 +612,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithPrefixSetWithoutPrefixTag(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             Prefix content
             <input class="test" id="taginput">
@@ -632,7 +628,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithPrefixTagUsingBlockTag(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div class="prefix-class" id="prefix-id">
             Prefix content
@@ -652,7 +648,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithPrefixTagWhenPrefixSet(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <strong class="prefix-class" id="prefix-id">Prefix content</strong>
             <input id="taginput">
@@ -670,7 +666,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithRole(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput" role="button">
             HTML,
@@ -684,7 +680,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithRoleUsingEnum(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput" role="button">
             HTML,
@@ -698,7 +694,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithStyle(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput" style='test-value'>
             HTML,
@@ -712,7 +708,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithSuffixSetWithoutSuffixTag(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input class="test" id="taginput">
             Suffix content
@@ -728,7 +724,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithSuffixTagUsingBlockTag(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput">
             <div class="suffix-class" id="suffix-id">
@@ -748,7 +744,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithSuffixTagWhenSuffixSet(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput">
             <strong class="suffix-class" id="suffix-id">Suffix content</strong>
@@ -766,7 +762,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithTemplateFallbackWhenTemplateEmpty(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             Prefix content
             <input id="taginput">
@@ -784,7 +780,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithTitle(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput" title="test-value">
             HTML,
@@ -798,21 +794,18 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithToString(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input>
             HTML,
-            LineEndingNormalizer::normalize(
-                (string) TagInput::tag()
-                    ->id(null),
-            ),
+            (string) TagInput::tag()->id(null),
             "Failed asserting that '__toString()' method renders correctly.",
         );
     }
 
     public function testRenderWithTranslate(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput" translate="no">
             HTML,
@@ -826,7 +819,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithTranslateUsingEnum(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput" translate="yes">
             HTML,
@@ -840,7 +833,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithType(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input id="taginput" type="text">
             HTML,
@@ -864,7 +857,7 @@ final class TagInputTest extends TestCase
             ],
         );
 
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input class="from-global" id="id-user">
             HTML,
@@ -880,7 +873,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithVoidPrefixTag(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <img src="icon.svg" alt="Icon">
             <input>
@@ -896,7 +889,7 @@ final class TagInputTest extends TestCase
 
     public function testRenderWithVoidSuffixTag(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <input>
             <img src="icon.svg" alt="Icon">
