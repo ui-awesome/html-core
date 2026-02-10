@@ -28,6 +28,8 @@ use UIAwesome\Html\Helper\{Naming, Template};
 use UIAwesome\Html\Interop\{BlockInterface, InlineInterface, VoidInterface};
 use UIAwesome\Html\Mixin\{HasAttributes, HasPrefixCollection, HasSuffixCollection, HasTemplate};
 
+use const PHP_EOL;
+
 /**
  * Abstract base class for HTML input element components.
  *
@@ -129,7 +131,7 @@ abstract class BaseInput extends BaseTag
         $template = $this->getTemplate();
 
         if ($template === '') {
-            $template = '{prefix}\n{tag}\n{suffix}';
+            $template = '{prefix}' . PHP_EOL . '{tag}' . PHP_EOL . '{suffix}';
         }
 
         return Template::render($template, [...$tokenTemplateValues, ...$tokenValues]);
@@ -150,7 +152,7 @@ abstract class BaseInput extends BaseTag
 
         return [
             'id' => [Naming::generateId("$shortClassName-")],
-            'template' => ['{prefix}\n{tag}\n{suffix}'],
+            'template' => ['{prefix}' . PHP_EOL . '{tag}' . PHP_EOL . '{suffix}'],
         ];
     }
 

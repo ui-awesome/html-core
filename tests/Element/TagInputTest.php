@@ -12,6 +12,8 @@ use UIAwesome\Html\Core\Factory\SimpleFactory;
 use UIAwesome\Html\Core\Tests\Support\Stub\{DefaultProvider, TagInput, TagInputWithTokenValues};
 use UIAwesome\Html\Interop\{Block, Inline, Voids};
 
+use const PHP_EOL;
+
 /**
  * Unit tests for {@see TagInput} element rendering.
  *
@@ -30,11 +32,12 @@ final class TagInputTest extends TestCase
     {
         self::assertEquals(
             <<<HTML
-            <input accesskey="k">
+            <input id="taginput" accesskey="k">
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()->accesskey('k')->id(null)->render(),
-            ),
+            TagInput::tag()
+                ->accesskey('k')
+                ->id('taginput')
+                ->render(),
             "Failed asserting that element renders correctly with 'accesskey' attribute.",
         );
     }
@@ -43,11 +46,12 @@ final class TagInputTest extends TestCase
     {
         self::assertEquals(
             <<<HTML
-            <input aria-pressed="true">
+            <input id="taginput" aria-pressed="true">
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()->addAriaAttribute('pressed', true)->id(null)->render(),
-            ),
+            TagInput::tag()
+                ->addAriaAttribute('pressed', true)
+                ->id('taginput')
+                ->render(),
             "Failed asserting that element renders correctly with 'addAriaAttribute()' method.",
         );
     }
@@ -56,11 +60,12 @@ final class TagInputTest extends TestCase
     {
         self::assertEquals(
             <<<HTML
-            <input aria-pressed="true">
+            <input id="taginput" aria-pressed="true">
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()->addAriaAttribute(Aria::PRESSED, true)->id(null)->render(),
-            ),
+            TagInput::tag()
+                ->addAriaAttribute(Aria::PRESSED, true)
+                ->id('taginput')
+                ->render(),
             "Failed asserting that element renders correctly with 'addAriaAttribute()' method using enum.",
         );
     }
@@ -69,31 +74,32 @@ final class TagInputTest extends TestCase
     {
         self::assertEquals(
             <<<HTML
-            <input id="test-id" aria-describedby="custom-help">
+            <input id="taginput" aria-describedby="custom-help">
             HTML,
             TagInput::tag()
                 ->addAriaAttribute('describedby', 'custom-help')
-                ->id('test-id')
+                ->id('taginput')
                 ->render(),
             "Failed asserting that an explicit 'aria-describedby' string value is preserved.",
         );
     }
 
-    public function testRenderWithAddAriaDescribedByTrue(): void
+    public function testRenderWithAddAriaDescribedByTrueBooleanValue(): void
     {
         self::assertEquals(
             <<<HTML
-            <input id="test-id" aria-describedby="test-id-help">
+            <input id="taginput" aria-describedby="taginput-help">
             HTML,
             TagInput::tag()
                 ->addAriaAttribute('describedby', true)
-                ->id('test-id')
+                ->id('taginput')
                 ->render(),
-            "Failed asserting that element renders correctly with 'aria-describedby' attribute set to true.",
+            "Failed asserting that element renders correctly with 'aria-describedby' attribute set to "
+            . "'true'.",
         );
     }
 
-    public function testRenderWithAddAriaDescribedByTrueAndIdNull(): void
+    public function testRenderWithAddAriaDescribedByTrueBooleanValueAndIdNull(): void
     {
         self::assertEquals(
             <<<HTML
@@ -103,27 +109,65 @@ final class TagInputTest extends TestCase
                 ->addAriaAttribute('describedby', true)
                 ->id(null)
                 ->render(),
-            "Failed asserting that element renders correctly with 'aria-describedby' attribute set to true and 'id' is null.",
+            "Failed asserting that element renders correctly with 'aria-describedby' attribute set to "
+            . "'true' and 'id' is 'null'.",
         );
     }
 
-    public function testRenderWithAddAriaDescribedByTrueAndPrefixSuffix(): void
+    public function testRenderWithAddAriaDescribedByTrueBooleanValueAndPrefixSuffix(): void
     {
         self::assertEquals(
             <<<HTML
             <span>Prefix</span>
-            <input id="test-id" aria-describedby="test-id-help">
+            <input id="taginput" aria-describedby="taginput-help">
             <span>Suffix</span>
             HTML,
             TagInput::tag()
                 ->addAriaAttribute('describedby', true)
-                ->id('test-id')
+                ->id('taginput')
                 ->prefix('Prefix')
                 ->prefixTag(Inline::SPAN)
                 ->suffix('Suffix')
                 ->suffixTag(Inline::SPAN)
                 ->render(),
-            "Failed asserting that element renders correctly with 'aria-describedby' attribute set to true and prefix/suffix.",
+            "Failed asserting that element renders correctly with 'aria-describedby' attribute set to "
+            . "'true' and prefix/suffix.",
+        );
+    }
+
+    public function testRenderWithAddAriaDescribedByTrueBooleanValueString(): void
+    {
+        self::assertEquals(
+            <<<HTML
+            <input id="taginput" aria-describedby="taginput-help">
+            HTML,
+            TagInput::tag()
+                ->addAriaAttribute('describedby', 'true')
+                ->id('taginput')
+                ->render(),
+            "Failed asserting that element renders correctly with 'aria-describedby' attribute set to "
+            . "'true'.",
+        );
+    }
+
+    public function testRenderWithAddAriaDescribedByTrueStringValueAndPrefixSuffix(): void
+    {
+        self::assertEquals(
+            <<<HTML
+            <span>Prefix</span>
+            <input id="taginput" aria-describedby="taginput-help">
+            <span>Suffix</span>
+            HTML,
+            TagInput::tag()
+                ->addAriaAttribute('describedby', 'true')
+                ->id('taginput')
+                ->prefix('Prefix')
+                ->prefixTag(Inline::SPAN)
+                ->suffix('Suffix')
+                ->suffixTag(Inline::SPAN)
+                ->render(),
+            "Failed asserting that element renders correctly with 'aria-describedby' attribute set to "
+            . "'true' and prefix/suffix.",
         );
     }
 
@@ -131,11 +175,12 @@ final class TagInputTest extends TestCase
     {
         self::assertEquals(
             <<<HTML
-            <input data-value="value">
+            <input id="taginput" data-value="value">
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()->addDataAttribute('value', 'value')->id(null)->render(),
-            ),
+            TagInput::tag()
+                ->addDataAttribute('value', 'value')
+                ->id('taginput')
+                ->render(),
             "Failed asserting that element renders correctly with 'addDataAttribute()' method.",
         );
     }
@@ -144,11 +189,12 @@ final class TagInputTest extends TestCase
     {
         self::assertEquals(
             <<<HTML
-            <input data-value="value">
+            <input id="taginput" data-value="value">
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()->addDataAttribute(Data::VALUE, 'value')->id(null)->render(),
-            ),
+            TagInput::tag()
+                ->addDataAttribute(Data::VALUE, 'value')
+                ->id('taginput')
+                ->render(),
             "Failed asserting that element renders correctly with 'addDataAttribute()' method using enum.",
         );
     }
@@ -157,11 +203,12 @@ final class TagInputTest extends TestCase
     {
         self::assertEquals(
             <<<HTML
-            <input onclick="handleClick()">
+            <input id="taginput" onclick="handleClick()">
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()->addEvent(Event::CLICK, 'handleClick()')->id(null)->render(),
-            ),
+            TagInput::tag()
+                ->addEvent(Event::CLICK, 'handleClick()')
+                ->id('taginput')
+                ->render(),
             "Failed asserting that element renders correctly with 'addEvent()' method.",
         );
     }
@@ -170,33 +217,45 @@ final class TagInputTest extends TestCase
     {
         self::assertEquals(
             <<<HTML
-            <input aria-label="Close" aria-hidden="false" aria-controls="modal-1">
+            <input id="taginput" aria-label="Close" aria-hidden="false" aria-controls="modal-1">
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()
-                    ->ariaAttributes(
-                        [
-                            'label' => 'Close',
-                            'hidden' => false,
-                            'controls' => static fn(): string => 'modal-1',
-                        ],
-                    )
-                    ->id(null)
-                    ->render(),
-            ),
+            TagInput::tag()
+                ->ariaAttributes(
+                    [
+                        'label' => 'Close',
+                        'hidden' => false,
+                        'controls' => static fn(): string => 'modal-1',
+                    ],
+                )
+                ->id('taginput')
+                ->render(),
             "Failed asserting that element renders correctly with 'ariaAttributes()' method.",
         );
     }
 
-    public function testRenderWithAriaAttributesAndAriaDescribedByTrue(): void
+    public function testRenderWithAriaAttributesAndAriaDescribedByTrueBooleanValue(): void
     {
         self::assertEquals(
             <<<HTML
-            <input id="test-id" aria-describedby="test-id-help">
+            <input id="taginput" aria-describedby="taginput-help">
             HTML,
             TagInput::tag()
                 ->ariaAttributes(['describedby' => true])
-                ->id('test-id')
+                ->id('taginput')
+                ->render(),
+            "Failed asserting that element renders correctly with 'aria-describedby' attribute set to true.",
+        );
+    }
+
+    public function testRenderWithAriaAttributesAndAriaDescribedByTrueStringValue(): void
+    {
+        self::assertEquals(
+            <<<HTML
+            <input id="taginput" aria-describedby="taginput-help">
+            HTML,
+            TagInput::tag()
+                ->ariaAttributes(['describedby' => 'true'])
+                ->id('taginput')
                 ->render(),
             "Failed asserting that element renders correctly with 'aria-describedby' attribute set to true.",
         );
@@ -206,24 +265,39 @@ final class TagInputTest extends TestCase
     {
         self::assertEquals(
             <<<HTML
-            <input class="test-class">
+            <input class="value" id="taginput">
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()->attributes(['class' => 'test-class'])->id(null)->render(),
-            ),
+            TagInput::tag()
+                ->attributes(['class' => 'value'])
+                ->id('taginput')
+                ->render(),
             "Failed asserting that element renders correctly with 'attributes()' method.",
         );
     }
 
-    public function testRenderWithAttributesAndAriaDescribedByTrue(): void
+    public function testRenderWithAttributesAndAriaDescribedByTrueBooleanValue(): void
     {
         self::assertEquals(
             <<<HTML
-            <input id="test-id" aria-describedby="test-id-help">
+            <input id="taginput" aria-describedby="taginput-help">
             HTML,
             TagInput::tag()
                 ->attributes(['aria-describedby' => true])
-                ->id('test-id')
+                ->id('taginput')
+                ->render(),
+            "Failed asserting that element renders correctly with 'aria-describedby' attribute set to true.",
+        );
+    }
+
+    public function testRenderWithAttributesAndAriaDescribedByTrueStringValue(): void
+    {
+        self::assertEquals(
+            <<<HTML
+            <input id="taginput" aria-describedby="taginput-help">
+            HTML,
+            TagInput::tag()
+                ->attributes(['aria-describedby' => 'true'])
+                ->id('taginput')
                 ->render(),
             "Failed asserting that element renders correctly with 'aria-describedby' attribute set to true.",
         );
@@ -233,11 +307,12 @@ final class TagInputTest extends TestCase
     {
         self::assertEquals(
             <<<HTML
-            <input class="test-class">
+            <input class="value" id="taginput">
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()->class('test-class')->id(null)->render(),
-            ),
+            TagInput::tag()
+                ->class('value')
+                ->id('taginput')
+                ->render(),
             "Failed asserting that element renders correctly with 'class' attribute.",
         );
     }
@@ -246,16 +321,14 @@ final class TagInputTest extends TestCase
     {
         self::assertEquals(
             <<<HTML
-            <input id="test-id">
+            <input id="taginput">
             <span class="custom-token">Custom content from token</span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInputWithTokenValues::tag()
-                    ->id('test-id')
-                    ->template('{tag}\n{custom}')
-                    ->tokenValues(['{custom}' => '<span class="custom-token">Custom content from token</span>'])
-                    ->render(),
-            ),
+            TagInputWithTokenValues::tag()
+                ->id('taginput')
+                ->template('{tag}' . PHP_EOL . '{custom}')
+                ->tokenValues(['{custom}' => '<span class="custom-token">Custom content from token</span>'])
+                ->render(),
             'Failed asserting that element renders correctly with custom token values spread into template.',
         );
     }
@@ -264,11 +337,12 @@ final class TagInputTest extends TestCase
     {
         self::assertEquals(
             <<<HTML
-            <input data-value="test-value">
+            <input id="taginput" data-value="test-value">
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()->dataAttributes(['value' => 'test-value'])->id(null)->render(),
-            ),
+            TagInput::tag()
+                ->dataAttributes(['value' => 'test-value'])
+                ->id('taginput')
+                ->render(),
             "Failed asserting that element renders correctly with 'dataAttributes()' method.",
         );
     }
@@ -277,11 +351,11 @@ final class TagInputTest extends TestCase
     {
         self::assertEquals(
             <<<HTML
-            <input class="default-class" title="default-title">
+            <input class="default-class" id="taginput" title="default-title">
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag(['class' => 'default-class', 'title' => 'default-title'])->id(null)->render(),
-            ),
+            TagInput::tag(['class' => 'default-class', 'title' => 'default-title'])
+                ->id('taginput')
+                ->render(),
             'Failed asserting that default configuration values are applied correctly.',
         );
     }
@@ -290,11 +364,12 @@ final class TagInputTest extends TestCase
     {
         self::assertEquals(
             <<<HTML
-            <input class="default-provider">
+            <input class="default-provider" id="taginput">
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()->addDefaultProvider(DefaultProvider::class)->id(null)->render(),
-            ),
+            TagInput::tag()
+                ->addDefaultProvider(DefaultProvider::class)
+                ->id('taginput')
+                ->render(),
             'Failed asserting that default provider is applied correctly.',
         );
     }
@@ -307,9 +382,7 @@ final class TagInputTest extends TestCase
             <<<HTML
             <input>
             HTML,
-            LineEndingNormalizer::normalize(
-                $instance->render(),
-            ),
+            $instance->render(),
             'Failed asserting that element renders correctly with default values.',
         );
     }
@@ -318,11 +391,12 @@ final class TagInputTest extends TestCase
     {
         self::assertEquals(
             <<<HTML
-            <input dir="rtl">
+            <input id="taginput" dir="rtl">
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()->dir('rtl')->id(null)->render(),
-            ),
+            TagInput::tag()
+                ->dir('rtl')
+                ->id('taginput')
+                ->render(),
             "Failed asserting that element renders correctly with 'dir' attribute.",
         );
     }
@@ -331,11 +405,12 @@ final class TagInputTest extends TestCase
     {
         self::assertEquals(
             <<<HTML
-            <input dir="ltr">
+            <input id="taginput" dir="ltr">
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()->dir(Direction::LTR)->id(null)->render(),
-            ),
+            TagInput::tag()
+                ->dir(Direction::LTR)
+                ->id('taginput')
+                ->render(),
             "Failed asserting that element renders correctly with 'dir' attribute using enum.",
         );
     }
@@ -344,11 +419,12 @@ final class TagInputTest extends TestCase
     {
         self::assertEquals(
             <<<HTML
-            <input disabled>
+            <input id="taginput" disabled>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()->disabled(true)->id(null)->render(),
-            ),
+            TagInput::tag()
+                ->disabled(true)
+                ->id('taginput')
+                ->render(),
             "Failed asserting that element renders correctly with 'disabled' attribute.",
         );
     }
@@ -357,11 +433,12 @@ final class TagInputTest extends TestCase
     {
         self::assertEquals(
             <<<HTML
-            <input onchange="handleChange()">
+            <input id="taginput" onchange="handleChange()">
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()->events(['change' => 'handleChange()'])->id(null)->render(),
-            ),
+            TagInput::tag()
+                ->events(['change' => 'handleChange()'])
+                ->id('taginput')
+                ->render(),
             "Failed asserting that element renders correctly with 'events()' method.",
         );
     }
@@ -370,21 +447,25 @@ final class TagInputTest extends TestCase
     {
         self::assertEquals(
             <<<HTML
-            <input form="signup-form">
+            <input id="taginput" form="signup-form">
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()->form('signup-form')->id(null)->render(),
-            ),
+            TagInput::tag()
+                ->form('signup-form')
+                ->id('taginput')
+                ->render(),
             "Failed asserting that element renders correctly with 'form' attribute.",
         );
     }
 
     public function testRenderWithGenerateId(): void
     {
-        self::assertStringContainsString(
-            'id="taginput-',
-            TagInput::tag()->render(),
-            "Failed asserting that element generates an 'id' attribute when none is provided.",
+        /** @phpstan-var string $id */
+        $id = TagInput::tag()->getAttribute('id', '');
+
+        self::assertMatchesRegularExpression(
+            '/^taginput-\w+$/',
+            $id,
+            'Failed asserting that element generates an ID when not provided.',
         );
     }
 
@@ -392,32 +473,39 @@ final class TagInputTest extends TestCase
     {
         $previous = SimpleFactory::getDefaults(TagInput::class);
 
-        try {
-            SimpleFactory::setDefaults(TagInput::class, ['class' => 'from-global']);
+        SimpleFactory::setDefaults(
+            TagInput::class,
+            [
+                'class' => 'from-global',
+            ],
+        );
 
-            self::assertEquals(
-                <<<HTML
-                <input class="from-global">
-                HTML,
-                LineEndingNormalizer::normalize(
-                    TagInput::tag()->id(null)->render(),
-                ),
-                'Failed asserting that global defaults are applied correctly.',
-            );
-        } finally {
-            SimpleFactory::setDefaults(TagInput::class, $previous);
-        }
+        self::assertEquals(
+            <<<HTML
+            <input class="from-global" id="taginput">
+            HTML,
+            TagInput::tag()
+                ->id('taginput')
+                ->render(),
+            'Failed asserting that global defaults are applied correctly.',
+        );
+
+        SimpleFactory::setDefaults(
+            TagInput::class,
+            $previous,
+        );
     }
 
     public function testRenderWithHidden(): void
     {
         self::assertEquals(
             <<<HTML
-            <input hidden>
+            <input id="taginput" hidden>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()->hidden(true)->id(null)->render(),
-            ),
+            TagInput::tag()
+                ->hidden(true)
+                ->id('taginput')
+                ->render(),
             "Failed asserting that element renders correctly with 'hidden' attribute.",
         );
     }
@@ -426,11 +514,11 @@ final class TagInputTest extends TestCase
     {
         self::assertEquals(
             <<<HTML
-            <input id="test-id">
+            <input id="taginput">
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()->id('test-id')->render(),
-            ),
+            TagInput::tag()
+                ->id('taginput')
+                ->render(),
             "Failed asserting that element renders correctly with 'id' attribute.",
         );
     }
@@ -439,11 +527,12 @@ final class TagInputTest extends TestCase
     {
         self::assertEquals(
             <<<HTML
-            <input lang="es">
+            <input id="taginput" lang="es">
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()->lang('es')->id(null)->render(),
-            ),
+            TagInput::tag()
+                ->id('taginput')
+                ->lang('es')
+                ->render(),
             "Failed asserting that element renders correctly with 'lang' attribute.",
         );
     }
@@ -452,11 +541,12 @@ final class TagInputTest extends TestCase
     {
         self::assertEquals(
             <<<HTML
-            <input lang="es">
+            <input id="taginput" lang="es">
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()->lang(Language::SPANISH)->id(null)->render(),
-            ),
+            TagInput::tag()
+                ->id('taginput')
+                ->lang(Language::SPANISH)
+                ->render(),
             "Failed asserting that element renders correctly with 'lang' attribute using enum.",
         );
     }
@@ -485,7 +575,7 @@ final class TagInputTest extends TestCase
             "Failed asserting that default 'id' is generated correctly in 'loadDefault()' method.",
         );
         self::assertSame(
-            ['{prefix}\n{tag}\n{suffix}'],
+            ['{prefix}' . PHP_EOL . '{tag}' . PHP_EOL . '{suffix}'],
             $defaults['template'] ?? [],
             'Failed asserting that default definitions are applied correctly.',
         );
@@ -495,11 +585,12 @@ final class TagInputTest extends TestCase
     {
         self::assertEquals(
             <<<HTML
-            <input name="username">
+            <input id="taginput" name="username">
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()->name('username')->id(null)->render(),
-            ),
+            TagInput::tag()
+                ->id('taginput')
+                ->name('username')
+                ->render(),
             "Failed asserting that element renders correctly with 'name' attribute.",
         );
     }
@@ -509,18 +600,16 @@ final class TagInputTest extends TestCase
         self::assertEquals(
             <<<HTML
             <strong>Prefix</strong>
-            <input>
+            <input id="taginput">
             <em>Suffix</em>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()
-                    ->id(null)
-                    ->prefix('Prefix')
-                    ->prefixTag(Inline::STRONG)
-                    ->suffix('Suffix')
-                    ->suffixTag(Inline::EM)
-                    ->render(),
-            ),
+            TagInput::tag()
+                ->id('taginput')
+                ->prefix('Prefix')
+                ->prefixTag(Inline::STRONG)
+                ->suffix('Suffix')
+                ->suffixTag(Inline::EM)
+                ->render(),
             "Failed asserting that element renders correctly with both 'prefix()' and 'suffix()' methods.",
         );
     }
@@ -530,11 +619,13 @@ final class TagInputTest extends TestCase
         self::assertEquals(
             <<<HTML
             Prefix content
-            <input class="test">
+            <input class="test" id="taginput">
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()->class('test')->prefix('Prefix content')->id(null)->render(),
-            ),
+            TagInput::tag()
+                ->class('test')
+                ->id('taginput')
+                ->prefix('Prefix content')
+                ->render(),
             "Failed asserting that element renders correctly with 'prefix()' method.",
         );
     }
@@ -546,17 +637,15 @@ final class TagInputTest extends TestCase
             <div class="prefix-class" id="prefix-id">
             Prefix content
             </div>
-            <input>
+            <input id="taginput">
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()
-                    ->prefix('Prefix content')
-                    ->prefixAttributes(['id' => 'prefix-id'])
-                    ->prefixClass('prefix-class')
-                    ->prefixTag(Block::DIV)
-                    ->id(null)
-                    ->render(),
-            ),
+            TagInput::tag()
+                ->id('taginput')
+                ->prefix('Prefix content')
+                ->prefixAttributes(['id' => 'prefix-id'])
+                ->prefixClass('prefix-class')
+                ->prefixTag(Block::DIV)
+                ->render(),
             "Failed asserting that element renders correctly with 'prefixTag()' method using a block tag.",
         );
     }
@@ -566,17 +655,15 @@ final class TagInputTest extends TestCase
         self::assertEquals(
             <<<HTML
             <strong class="prefix-class" id="prefix-id">Prefix content</strong>
-            <input>
+            <input id="taginput">
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()
-                    ->prefix('Prefix content')
-                    ->prefixAttributes(['id' => 'prefix-id'])
-                    ->prefixClass('prefix-class')
-                    ->prefixTag(Inline::STRONG)
-                    ->id(null)
-                    ->render(),
-            ),
+            TagInput::tag()
+                ->id('taginput')
+                ->prefix('Prefix content')
+                ->prefixAttributes(['id' => 'prefix-id'])
+                ->prefixClass('prefix-class')
+                ->prefixTag(Inline::STRONG)
+                ->render(),
             "Failed asserting that element renders correctly with 'prefixTag()' method.",
         );
     }
@@ -585,11 +672,12 @@ final class TagInputTest extends TestCase
     {
         self::assertEquals(
             <<<HTML
-            <input role="button">
+            <input id="taginput" role="button">
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()->role('button')->id(null)->render(),
-            ),
+            TagInput::tag()
+                ->id('taginput')
+                ->role('button')
+                ->render(),
             "Failed asserting that element renders correctly with 'role' attribute.",
         );
     }
@@ -598,11 +686,12 @@ final class TagInputTest extends TestCase
     {
         self::assertEquals(
             <<<HTML
-            <input role="button">
+            <input id="taginput" role="button">
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()->role(Role::BUTTON)->id(null)->render(),
-            ),
+            TagInput::tag()
+                ->id('taginput')
+                ->role(Role::BUTTON)
+                ->render(),
             "Failed asserting that element renders correctly with 'role' attribute using enum.",
         );
     }
@@ -611,11 +700,12 @@ final class TagInputTest extends TestCase
     {
         self::assertEquals(
             <<<HTML
-            <input style='test-value'>
+            <input id="taginput" style='test-value'>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()->style('test-value')->id(null)->render(),
-            ),
+            TagInput::tag()
+                ->id('taginput')
+                ->style('test-value')
+                ->render(),
             "Failed asserting that element renders correctly with 'style' attribute.",
         );
     }
@@ -624,12 +714,14 @@ final class TagInputTest extends TestCase
     {
         self::assertEquals(
             <<<HTML
-            <input class="test">
+            <input class="test" id="taginput">
             Suffix content
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()->class('test')->suffix('Suffix content')->id(null)->render(),
-            ),
+            TagInput::tag()
+                ->class('test')
+                ->id('taginput')
+                ->suffix('Suffix content')
+                ->render(),
             "Failed asserting that element renders correctly with 'suffix()' method.",
         );
     }
@@ -638,20 +730,18 @@ final class TagInputTest extends TestCase
     {
         self::assertEquals(
             <<<HTML
-            <input>
+            <input id="taginput">
             <div class="suffix-class" id="suffix-id">
             Suffix content
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()
-                    ->suffix('Suffix content')
-                    ->suffixAttributes(['id' => 'suffix-id'])
-                    ->suffixClass('suffix-class')
-                    ->suffixTag(Block::DIV)
-                    ->id(null)
-                    ->render(),
-            ),
+            TagInput::tag()
+                ->id('taginput')
+                ->suffix('Suffix content')
+                ->suffixAttributes(['id' => 'suffix-id'])
+                ->suffixClass('suffix-class')
+                ->suffixTag(Block::DIV)
+                ->render(),
             "Failed asserting that element renders correctly with 'suffixTag()' method using a block tag.",
         );
     }
@@ -660,18 +750,16 @@ final class TagInputTest extends TestCase
     {
         self::assertEquals(
             <<<HTML
-            <input>
+            <input id="taginput">
             <strong class="suffix-class" id="suffix-id">Suffix content</strong>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()
-                    ->suffix('Suffix content')
-                    ->suffixAttributes(['id' => 'suffix-id'])
-                    ->suffixClass('suffix-class')
-                    ->suffixTag(Inline::STRONG)
-                    ->id(null)
-                    ->render(),
-            ),
+            TagInput::tag()
+                ->id('taginput')
+                ->suffix('Suffix content')
+                ->suffixAttributes(['id' => 'suffix-id'])
+                ->suffixClass('suffix-class')
+                ->suffixTag(Inline::STRONG)
+                ->render(),
             "Failed asserting that element renders correctly with 'suffixTag()' method.",
         );
     }
@@ -681,17 +769,15 @@ final class TagInputTest extends TestCase
         self::assertEquals(
             <<<HTML
             Prefix content
-            <input>
+            <input id="taginput">
             Suffix content
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()
-                    ->id(null)
-                    ->template('')
-                    ->prefix('Prefix content')
-                    ->suffix('Suffix content')
-                    ->render(),
-            ),
+            TagInput::tag()
+                ->id('taginput')
+                ->template('')
+                ->prefix('Prefix content')
+                ->suffix('Suffix content')
+                ->render(),
             "Failed asserting that element renders correctly when 'template()' is empty.",
         );
     }
@@ -700,12 +786,27 @@ final class TagInputTest extends TestCase
     {
         self::assertEquals(
             <<<HTML
-            <input title="test-value">
+            <input id="taginput" title="test-value">
+            HTML,
+            TagInput::tag()
+                ->id('taginput')
+                ->title('test-value')
+                ->render(),
+            "Failed asserting that element renders correctly with 'title' attribute.",
+        );
+    }
+
+    public function testRenderWithToString(): void
+    {
+        self::assertEquals(
+            <<<HTML
+            <input>
             HTML,
             LineEndingNormalizer::normalize(
-                TagInput::tag()->title('test-value')->id(null)->render(),
+                (string) TagInput::tag()
+                    ->id(null),
             ),
-            "Failed asserting that element renders correctly with 'title' attribute.",
+            "Failed asserting that '__toString()' method renders correctly.",
         );
     }
 
@@ -713,11 +814,12 @@ final class TagInputTest extends TestCase
     {
         self::assertEquals(
             <<<HTML
-            <input translate="no">
+            <input id="taginput" translate="no">
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()->translate('no')->id(null)->render(),
-            ),
+            TagInput::tag()
+                    ->id('taginput')
+                    ->translate('no')
+                    ->render(),
             "Failed asserting that element renders correctly with 'translate' attribute.",
         );
     }
@@ -726,11 +828,12 @@ final class TagInputTest extends TestCase
     {
         self::assertEquals(
             <<<HTML
-            <input translate="yes">
+            <input id="taginput" translate="yes">
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()->translate(Translate::YES)->id(null)->render(),
-            ),
+            TagInput::tag()
+                ->translate(Translate::YES)
+                ->id('taginput')
+                ->render(),
             "Failed asserting that element renders correctly with 'translate' attribute using enum.",
         );
     }
@@ -739,11 +842,12 @@ final class TagInputTest extends TestCase
     {
         self::assertEquals(
             <<<HTML
-            <input type="text">
+            <input id="taginput" type="text">
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()->type('text')->id(null)->render(),
-            ),
+            TagInput::tag()
+                ->id('taginput')
+                ->type('text')
+                ->render(),
             "Failed asserting that element renders correctly with 'type' attribute.",
         );
     }
@@ -752,21 +856,26 @@ final class TagInputTest extends TestCase
     {
         $previous = SimpleFactory::getDefaults(TagInput::class);
 
-        try {
-            SimpleFactory::setDefaults(TagInput::class, ['class' => 'from-global', 'id' => 'id-global']);
+        SimpleFactory::setDefaults(
+            TagInput::class,
+            [
+                'class' => 'from-global',
+                'id' => 'id-global',
+            ],
+        );
 
-            self::assertEquals(
-                <<<HTML
-                <input class="from-global" id="id-user">
-                HTML,
-                LineEndingNormalizer::normalize(
-                    TagInput::tag(['id' => 'id-user'])->render(),
-                ),
-                'Failed asserting that user-defined attributes override global defaults correctly.',
-            );
-        } finally {
-            SimpleFactory::setDefaults(TagInput::class, $previous);
-        }
+        self::assertEquals(
+            <<<HTML
+            <input class="from-global" id="id-user">
+            HTML,
+            TagInput::tag(['id' => 'id-user'])->render(),
+            'Failed asserting that user-defined attributes override global defaults correctly.',
+        );
+
+        SimpleFactory::setDefaults(
+            TagInput::class,
+            $previous,
+        );
     }
 
     public function testRenderWithVoidPrefixTag(): void
@@ -776,13 +885,11 @@ final class TagInputTest extends TestCase
             <img src="icon.svg" alt="Icon">
             <input>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()
-                    ->id(null)
-                    ->prefixAttributes(['src' => 'icon.svg', 'alt' => 'Icon'])
-                    ->prefixTag(Voids::IMG)
-                    ->render(),
-            ),
+            TagInput::tag()
+                ->id(null)
+                ->prefixAttributes(['src' => 'icon.svg', 'alt' => 'Icon'])
+                ->prefixTag(Voids::IMG)
+                ->render(),
             'Failed asserting that element renders correctly with a void prefix tag.',
         );
     }
@@ -794,13 +901,11 @@ final class TagInputTest extends TestCase
             <input>
             <img src="icon.svg" alt="Icon">
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()
-                    ->id(null)
-                    ->suffixAttributes(['src' => 'icon.svg', 'alt' => 'Icon'])
-                    ->suffixTag(Voids::IMG)
-                    ->render(),
-            ),
+            TagInput::tag()
+                ->id(null)
+                ->suffixAttributes(['src' => 'icon.svg', 'alt' => 'Icon'])
+                ->suffixTag(Voids::IMG)
+                ->render(),
             'Failed asserting that element renders correctly with a void suffix tag.',
         );
     }
