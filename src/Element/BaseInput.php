@@ -121,9 +121,9 @@ abstract class BaseInput extends BaseTag
         }
 
         $tokenTemplateValues = [
-            '{prefix}' => $this->renderTag($this->prefixTag, $this->prefix, $this->prefixAttributes),
+            '{prefix}' => $this->renderTag($this->getPrefixTag(), $this->getPrefix(), $this->getPrefixAttributes()),
             '{tag}' => $this->renderTag($this->getTag(), (string) $content, $attributes),
-            '{suffix}' => $this->renderTag($this->suffixTag, $this->suffix, $this->suffixAttributes),
+            '{suffix}' => $this->renderTag($this->getSuffixTag(), $this->getSuffix(), $this->getSuffixAttributes()),
         ];
 
         $template = $this->getTemplate();
