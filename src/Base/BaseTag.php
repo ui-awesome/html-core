@@ -396,7 +396,7 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
      *
      *     return [
      *         'id()' => [Utils::generateId("$shortClassName-")],
-     *         'template()' => ['{prefix}' . PHP_EOL . '{tag}' . PHP_EOL . '{suffix}'],
+     *         'template()' => ["{prefix}\n{tag}\n{suffix}"],
      *     ];
      * }
      * ```

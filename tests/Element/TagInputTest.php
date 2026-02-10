@@ -12,8 +12,6 @@ use UIAwesome\Html\Core\Factory\SimpleFactory;
 use UIAwesome\Html\Core\Tests\Support\Stub\{DefaultProvider, TagInput, TagInputWithTokenValues};
 use UIAwesome\Html\Interop\{Block, Inline, Voids};
 
-use const PHP_EOL;
-
 /**
  * Unit tests for {@see TagInput} element rendering.
  *
@@ -326,7 +324,7 @@ final class TagInputTest extends TestCase
             HTML,
             TagInputWithTokenValues::tag()
                 ->id('taginput')
-                ->template('{tag}' . PHP_EOL . '{custom}')
+                ->template("{tag}\n{custom}")
                 ->tokenValues(['{custom}' => '<span class="custom-token">Custom content from token</span>'])
                 ->render(),
             'Failed asserting that element renders correctly with custom token values spread into template.',
@@ -573,7 +571,7 @@ final class TagInputTest extends TestCase
             "Failed asserting that default 'id' is generated correctly in 'loadDefault()' method.",
         );
         self::assertSame(
-            ['{prefix}' . PHP_EOL . '{tag}' . PHP_EOL . '{suffix}'],
+            ["{prefix}\n{tag}\n{suffix}"],
             $defaults['template'] ?? [],
             'Failed asserting that default definitions are applied correctly.',
         );

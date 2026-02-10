@@ -26,8 +26,6 @@ use UIAwesome\Html\Helper\Template;
 use UIAwesome\Html\Interop\{BlockInterface, InlineInterface, VoidInterface};
 use UIAwesome\Html\Mixin\{HasAttributes, HasContent, HasPrefixCollection, HasSuffixCollection, HasTemplate};
 
-use const PHP_EOL;
-
 /**
  * Base class for constructing inline-level HTML elements.
  *
@@ -114,7 +112,7 @@ abstract class BaseInline extends BaseTag
         $template = $this->getTemplate();
 
         if ($template === '') {
-            $template = '{prefix}' . PHP_EOL . '{tag}' . PHP_EOL . '{suffix}';
+            $template = "{prefix}\n{tag}\n{suffix}";
         }
 
         return Template::render($template, [...$tokenTemplateValues, ...$tokenValues]);
