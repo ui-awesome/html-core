@@ -116,7 +116,7 @@ abstract class BaseInput extends BaseTag
         $id = $this->getAttribute('id', null);
         $ariaDescribedBy = $this->getAttribute('aria-describedby', null);
 
-        if ($ariaDescribedBy === true) {
+        if ($ariaDescribedBy === true || $ariaDescribedBy === 'true') {
             $attributes['aria-describedby'] = $id !== null ? "{$id}-help" : null;
         }
 

@@ -12,6 +12,7 @@
 - Enh #64: Add support for automatic `aria-describedby` attribute in `BaseInput` class (@terabytesoftw)
 - Enh #65: Add stubs for `TagInline` and `TagInput` with token values for template rendering tests (@terabytesoftw)
 - Bug #66: Replace direct property access with getter methods for `prefix` and `suffix` in `BaseInput` and `BaseInline` classes (@terabytesoftw)
+- Bug #67: Update condition for `aria-describedby` attribute in `BaseInput` class to accept string `true` (@terabytesoftw)
 
 ## 0.5.2 January 28, 2026
 

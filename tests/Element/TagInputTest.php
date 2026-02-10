@@ -65,6 +65,68 @@ final class TagInputTest extends TestCase
         );
     }
 
+    public function testRenderWithAddAriaDescribedByString(): void
+    {
+        self::assertEquals(
+            <<<HTML
+            <input id="test-id" aria-describedby="custom-help">
+            HTML,
+            TagInput::tag()
+                ->addAriaAttribute('describedby', 'custom-help')
+                ->id('test-id')
+                ->render(),
+            "Failed asserting that an explicit 'aria-describedby' string value is preserved.",
+        );
+    }
+
+    public function testRenderWithAddAriaDescribedByTrue(): void
+    {
+        self::assertEquals(
+            <<<HTML
+            <input id="test-id" aria-describedby="test-id-help">
+            HTML,
+            TagInput::tag()
+                ->addAriaAttribute('describedby', true)
+                ->id('test-id')
+                ->render(),
+            "Failed asserting that element renders correctly with 'aria-describedby' attribute set to true.",
+        );
+    }
+
+    public function testRenderWithAddAriaDescribedByTrueAndIdNull(): void
+    {
+        self::assertEquals(
+            <<<HTML
+            <input>
+            HTML,
+            TagInput::tag()
+                ->addAriaAttribute('describedby', true)
+                ->id(null)
+                ->render(),
+            "Failed asserting that element renders correctly with 'aria-describedby' attribute set to true and 'id' is null.",
+        );
+    }
+
+    public function testRenderWithAddAriaDescribedByTrueAndPrefixSuffix(): void
+    {
+        self::assertEquals(
+            <<<HTML
+            <span>Prefix</span>
+            <input id="test-id" aria-describedby="test-id-help">
+            <span>Suffix</span>
+            HTML,
+            TagInput::tag()
+                ->addAriaAttribute('describedby', true)
+                ->id('test-id')
+                ->prefix('Prefix')
+                ->prefixTag(Inline::SPAN)
+                ->suffix('Suffix')
+                ->suffixTag(Inline::SPAN)
+                ->render(),
+            "Failed asserting that element renders correctly with 'aria-describedby' attribute set to true and prefix/suffix.",
+        );
+    }
+
     public function testRenderWithAddDataAttribute(): void
     {
         self::assertEquals(
@@ -126,64 +188,17 @@ final class TagInputTest extends TestCase
         );
     }
 
-    public function testRenderWithAriaDescribedByString(): void
-    {
-        self::assertEquals(
-            <<<HTML
-            <input id="test-id" aria-describedby="custom-help">
-            HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()->id('test-id')->attributes(['aria-describedby' => 'custom-help'])->render(),
-            ),
-            "Failed asserting that an explicit 'aria-describedby' string value is preserved.",
-        );
-    }
-
-    public function testRenderWithAriaDescribedByTrue(): void
+    public function testRenderWithAriaAttributesAndAriaDescribedByTrue(): void
     {
         self::assertEquals(
             <<<HTML
             <input id="test-id" aria-describedby="test-id-help">
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()->id('test-id')->attributes(['aria-describedby' => true])->render(),
-            ),
+            TagInput::tag()
+                ->ariaAttributes(['describedby' => true])
+                ->id('test-id')
+                ->render(),
             "Failed asserting that element renders correctly with 'aria-describedby' attribute set to true.",
-        );
-    }
-
-    public function testRenderWithAriaDescribedByTrueAndIdNull(): void
-    {
-        self::assertEquals(
-            <<<HTML
-            <input>
-            HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()->id(null)->attributes(['aria-describedby' => true])->render(),
-            ),
-            "Failed asserting that element renders correctly with 'aria-describedby' attribute set to true and 'id' is null.",
-        );
-    }
-
-    public function testRenderWithAriaDescribedByTrueAndPrefixSuffix(): void
-    {
-        self::assertEquals(
-            <<<HTML
-            <span>Prefix</span>
-            <input id="test-id" aria-describedby="test-id-help">
-            <span>Suffix</span>
-            HTML,
-            LineEndingNormalizer::normalize(
-                TagInput::tag()
-                    ->id('test-id')
-                    ->attributes(['aria-describedby' => true])
-                    ->prefix('Prefix')
-                    ->prefixTag(Inline::SPAN)
-                    ->suffix('Suffix')
-                    ->suffixTag(Inline::SPAN)
-                    ->render(),
-            ),
-            "Failed asserting that element renders correctly with 'aria-describedby' attribute set to true and prefix/suffix.",
         );
     }
 
@@ -197,6 +212,20 @@ final class TagInputTest extends TestCase
                 TagInput::tag()->attributes(['class' => 'test-class'])->id(null)->render(),
             ),
             "Failed asserting that element renders correctly with 'attributes()' method.",
+        );
+    }
+
+    public function testRenderWithAttributesAndAriaDescribedByTrue(): void
+    {
+        self::assertEquals(
+            <<<HTML
+            <input id="test-id" aria-describedby="test-id-help">
+            HTML,
+            TagInput::tag()
+                ->attributes(['aria-describedby' => true])
+                ->id('test-id')
+                ->render(),
+            "Failed asserting that element renders correctly with 'aria-describedby' attribute set to true.",
         );
     }
 
