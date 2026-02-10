@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Tests\Element;
 
 use LogicException;
-use PHPForge\Support\{LineEndingNormalizer, ReflectionHelper};
+use PHPForge\Support\ReflectionHelper;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Attribute\Values\{
@@ -49,438 +49,429 @@ final class TagInlineTest extends TestCase
 {
     public function testRenderWithAccesskey(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span accesskey="k"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->accesskey('k')->render(),
-            ),
+            TagInline::tag()
+                ->accesskey('k')
+                ->render(),
             "Failed asserting that element renders correctly with 'accesskey' attribute.",
         );
     }
 
     public function testRenderWithAddAriaAttribute(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span aria-pressed="true"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->addAriaAttribute('pressed', true)->render(),
-            ),
+            TagInline::tag()
+                ->addAriaAttribute('pressed', true)
+                ->render(),
             "Failed asserting that element renders correctly with 'addAriaAttribute()' method.",
         );
     }
 
     public function testRenderWithAddAriaAttributeUsingEnum(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span aria-pressed="true"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->addAriaAttribute(Aria::PRESSED, true)->render(),
-            ),
+            TagInline::tag()
+                ->addAriaAttribute(Aria::PRESSED, true)
+                ->render(),
             "Failed asserting that element renders correctly with 'addAriaAttribute()' method using enum.",
         );
     }
 
     public function testRenderWithAddDataAttribute(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span data-value="value"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->addDataAttribute('value', 'value')->render(),
-            ),
+            TagInline::tag()
+                ->addDataAttribute('value', 'value')
+                ->render(),
             "Failed asserting that element renders correctly with 'addDataAttribute()' method.",
         );
     }
 
     public function testRenderWithAddDataAttributeUsingEnum(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span data-value="value"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->addDataAttribute(Data::VALUE, 'value')->render(),
-            ),
+            TagInline::tag()
+                ->addDataAttribute(Data::VALUE, 'value')
+                ->render(),
             "Failed asserting that element renders correctly with 'addDataAttribute()' method using enum.",
         );
     }
 
     public function testRenderWithAddEvent(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span onclick="handleClick()"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->addEvent(Event::CLICK, 'handleClick()')->render(),
-            ),
+            TagInline::tag()
+                ->addEvent(Event::CLICK, 'handleClick()')
+                ->render(),
             "Failed asserting that element renders correctly with 'addEvent()' method.",
         );
     }
 
     public function testRenderWithAriaAttribute(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span aria-controls="modal-1" aria-hidden="false" aria-label="Close"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()
-                    ->ariaAttributes(
-                        [
-                            'controls' => static fn(): string => 'modal-1',
-                            'hidden' => false,
-                            'label' => 'Close',
-                        ],
-                    )->render(),
-            ),
+            TagInline::tag()
+                ->ariaAttributes(
+                    [
+                        'controls' => static fn(): string => 'modal-1',
+                        'hidden' => false,
+                        'label' => 'Close',
+                    ],
+                )
+                ->render(),
             "Failed asserting that element renders correctly with 'ariaAttributes()' method.",
         );
     }
 
     public function testRenderWithAttributes(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span class="test-class"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->attributes(['class' => 'test-class'])->render(),
-            ),
+            TagInline::tag()
+                ->attributes(['class' => 'test-class'])
+                ->render(),
             "Failed asserting that element renders correctly with 'attributes()' method.",
         );
     }
 
     public function testRenderWithClass(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span class="test-class"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->class('test-class')->render(),
-            ),
+            TagInline::tag()
+                ->class('test-class')
+                ->render(),
             "Failed asserting that element renders correctly with 'class' attribute.",
         );
     }
 
     public function testRenderWithContent(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span>Content</span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->content('Content')->render(),
-            ),
+            TagInline::tag()
+                ->content('Content')
+                ->render(),
             "Failed asserting that element renders correctly with 'content()' method.",
         );
     }
 
     public function testRenderWithContentEditable(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span contenteditable="true"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->contentEditable(true)->render(),
-            ),
+            TagInline::tag()
+                ->contentEditable(true)
+                ->render(),
             "Failed asserting that element renders correctly with 'contentEditable' attribute.",
         );
     }
 
     public function testRenderWithContentEditableUsingEnum(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span contenteditable="true"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->contentEditable(ContentEditable::TRUE)->render(),
-            ),
+            TagInline::tag()
+                ->contentEditable(ContentEditable::TRUE)
+                ->render(),
             "Failed asserting that element renders correctly with 'contentEditable' attribute using enum.",
         );
     }
 
     public function testRenderWithCustomTokenValues(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span>Test content</span>
             <div class="custom-token">Custom content from token</div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInlineWithTokenValues::tag()
-                    ->content('Test content')
-                    ->template('{tag}\n{custom}')
-                    ->tokenValues(['{custom}' => '<div class="custom-token">Custom content from token</div>'])
-                    ->render(),
-            ),
+            TagInlineWithTokenValues::tag()
+                ->content('Test content')
+                ->template('{tag}\n{custom}')
+                ->tokenValues(['{custom}' => '<div class="custom-token">Custom content from token</div>'])
+                ->render(),
             'Failed asserting that element renders correctly with custom token values spread into template.',
         );
     }
 
     public function testRenderWithDataAttributes(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
-            <span data-value="test-value"></span>
+            <span data-value="value"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->dataAttributes(['value' => 'test-value'])->render(),
-            ),
+            TagInline::tag()
+                ->dataAttributes(['value' => 'value'])
+                ->render(),
             "Failed asserting that element renders correctly with 'dataAttributes()' method.",
         );
     }
 
     public function testRenderWithDefaultConfigurationMethodValues(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span class="default-class" title="default-title"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag(['class' => 'default-class', 'title' => 'default-title'])->render(),
-            ),
+            TagInline::tag(['class' => 'default-class', 'title' => 'default-title'])->render(),
             'Failed asserting that default configuration values are applied correctly.',
         );
     }
 
     public function testRenderWithDefaultProvider(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span class="default-provider"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->addDefaultProvider(DefaultProvider::class)->render(),
-            ),
+            TagInline::tag()
+                ->addDefaultProvider(DefaultProvider::class)
+                ->render(),
             'Failed asserting that default provider is applied correctly.',
         );
     }
 
     public function testRenderWithDefaultValues(): void
     {
-        $instance = TagInline::tag();
-
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                $instance->render(),
-            ),
+            TagInline::tag()->render(),
             'Failed asserting that element renders correctly with default values.',
         );
     }
 
     public function testRenderWithDir(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span dir="rtl"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->dir('rtl')->render(),
-            ),
+            TagInline::tag()
+                ->dir('rtl')
+                ->render(),
             "Failed asserting that element renders correctly with 'dir' attribute.",
         );
     }
 
     public function testRenderWithDirUsingEnum(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span dir="rtl"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->dir(Direction::RTL)->render(),
-            ),
+            TagInline::tag()
+                ->dir(Direction::RTL)
+                ->render(),
             "Failed asserting that element renders correctly with 'dir' attribute using enum.",
         );
     }
 
     public function testRenderWithDraggable(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span draggable="true"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->draggable(true)->render(),
-            ),
+            TagInline::tag()
+                ->draggable(true)
+                ->render(),
             "Failed asserting that element renders correctly with 'draggable' attribute.",
         );
     }
 
     public function testRenderWithDraggableUsingEnum(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span draggable="true"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->draggable(Draggable::TRUE)->render(),
-            ),
+            TagInline::tag()
+                ->draggable(Draggable::TRUE)
+                ->render(),
             "Failed asserting that element renders correctly with 'draggable' attribute using enum.",
         );
     }
 
     public function testRenderWithEvents(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span onchange="handleChange()"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->events(['change' => 'handleChange()'])->render(),
-            ),
+            TagInline::tag()
+                ->events(['change' => 'handleChange()'])
+                ->render(),
             "Failed asserting that element renders correctly with 'events()' method.",
         );
     }
 
     public function testRenderWithGlobalDefaultsAreApplied(): void
     {
-        $previous = SimpleFactory::getDefaults(TagInline::class);
+        SimpleFactory::setDefaults(
+            TagInline::class,
+            ['class' => 'from-global'],
+        );
 
-        try {
-            SimpleFactory::setDefaults(TagInline::class, ['class' => 'from-global']);
+        self::assertSame(
+            <<<HTML
+            <span class="from-global"></span>
+            HTML,
+            TagInline::tag()->render(),
+            'Failed asserting that global defaults are applied correctly.',
+        );
 
-            self::assertEquals(
-                <<<HTML
-                <span class="from-global"></span>
-                HTML,
-                LineEndingNormalizer::normalize(
-                    TagInline::tag()->render(),
-                ),
-                'Failed asserting that global defaults are applied correctly.',
-            );
-        } finally {
-            SimpleFactory::setDefaults(TagInline::class, $previous);
-        }
+        SimpleFactory::setDefaults(
+            TagInline::class,
+            [],
+        );
     }
 
     public function testRenderWithHidden(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span hidden></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->hidden(true)->render(),
-            ),
+            TagInline::tag()
+                ->hidden(true)
+                ->render(),
             "Failed asserting that element renders correctly with 'hidden' attribute.",
         );
     }
 
     public function testRenderWithId(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
-            <span id="test-id"></span>
+            <span id="taginline"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->id('test-id')->render(),
-            ),
+            TagInline::tag()
+                ->id('taginline')
+                ->render(),
             "Failed asserting that element renders correctly with 'id' attribute.",
         );
     }
 
     public function testRenderWithItemId(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span itemid="http://example.com/item"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->itemId('http://example.com/item')->render(),
-            ),
+            TagInline::tag()
+                ->itemId('http://example.com/item')
+                ->render(),
             "Failed asserting that element renders correctly with 'itemId' attribute.",
         );
     }
 
     public function testRenderWithItemProp(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span itemprop="name"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->itemProp('name')->render(),
-            ),
+            TagInline::tag()
+                ->itemProp('name')
+                ->render(),
             "Failed asserting that element renders correctly with 'itemProp' attribute.",
         );
     }
 
     public function testRenderWithItemRef(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span itemref="additional-info"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->itemRef('additional-info')->render(),
-            ),
+            TagInline::tag()
+                ->itemRef('additional-info')
+                ->render(),
             "Failed asserting that element renders correctly with 'itemRef' attribute.",
         );
     }
 
     public function testRenderWithItemScope(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span itemscope></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->itemScope(true)->render(),
-            ),
+            TagInline::tag()
+                ->itemScope(true)
+                ->render(),
             "Failed asserting that element renders correctly with 'itemScope' attribute.",
         );
     }
 
     public function testRenderWithItemType(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span itemtype="http://schema.org/Person"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->itemType('http://schema.org/Person')->render(),
-            ),
+            TagInline::tag()
+                ->itemType('http://schema.org/Person')
+                ->render(),
             "Failed asserting that element renders correctly with 'itemType' attribute.",
         );
     }
 
     public function testRenderWithLang(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span lang="es"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->lang('es')->render(),
-            ),
+            TagInline::tag()
+                ->lang('es')
+                ->render(),
             "Failed asserting that element renders correctly with 'lang' attribute.",
         );
     }
 
     public function testRenderWithLangUsingEnum(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span lang="es"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->lang(Language::SPANISH)->render(),
-            ),
+            TagInline::tag()
+                ->lang(Language::SPANISH)
+                ->render(),
             "Failed asserting that element renders correctly with 'lang' attribute using enum.",
         );
     }
@@ -497,319 +488,308 @@ final class TagInlineTest extends TestCase
 
     public function testRenderWithPrefixAndSuffix(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <strong>Prefix</strong>
             <span>Content</span>
             <em>Suffix</em>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()
-                    ->content('Content')
-                    ->prefix('Prefix')
-                    ->prefixTag(Inline::STRONG)
-                    ->suffix('Suffix')
-                    ->suffixTag(Inline::EM)
-                    ->render(),
-            ),
+            TagInline::tag()
+                ->content('Content')
+                ->prefix('Prefix')
+                ->prefixTag(Inline::STRONG)
+                ->suffix('Suffix')
+                ->suffixTag(Inline::EM)
+                ->render(),
             "Failed asserting that element renders correctly with both 'prefix()' and 'suffix()' methods.",
         );
     }
 
     public function testRenderWithPrefixSetWithoutPrefixTag(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             Prefix content
-            <span class="test"></span>
+            <span class="value"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->class('test')->prefix('Prefix content')->render(),
-            ),
+            TagInline::tag()
+                ->class('value')
+                ->prefix('Prefix content')
+                ->render(),
             "Failed asserting that element renders correctly with 'prefix()' method.",
         );
     }
 
     public function testRenderWithPrefixTagUsingBlockTag(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div class="prefix-class" id="prefix-id">
             Prefix content
             </div>
             <span></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->prefix('Prefix content')
-                    ->prefixAttributes(['id' => 'prefix-id'])
-                    ->prefixClass('prefix-class')
-                    ->prefixTag(Block::DIV)
-                    ->render(),
-            ),
+            TagInline::tag()->prefix('Prefix content')
+                ->prefixAttributes(['id' => 'prefix-id'])
+                ->prefixClass('prefix-class')
+                ->prefixTag(Block::DIV)
+                ->render(),
             "Failed asserting that element renders correctly with 'prefixTag()' method using a block tag.",
         );
     }
 
     public function testRenderWithPrefixTagWhenPrefixSet(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <strong class="prefix-class" id="prefix-id">Prefix content</strong>
             <span></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->prefix('Prefix content')
-                    ->prefixAttributes(['id' => 'prefix-id'])
-                    ->prefixClass('prefix-class')
-                    ->prefixTag(Inline::STRONG)
-                    ->render(),
-            ),
+            TagInline::tag()->prefix('Prefix content')
+                ->prefixAttributes(['id' => 'prefix-id'])
+                ->prefixClass('prefix-class')
+                ->prefixTag(Inline::STRONG)
+                ->render(),
             "Failed asserting that element renders correctly with 'prefixTag()' method.",
         );
     }
 
     public function testRenderWithRole(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span role="button"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->role('button')->render(),
-            ),
+            TagInline::tag()
+                ->role('button')
+                ->render(),
             "Failed asserting that element renders correctly with 'role' attribute.",
         );
     }
 
     public function testRenderWithRoleUsingEnum(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span role="button"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->role(Role::BUTTON)->render(),
-            ),
+            TagInline::tag()
+                ->role(Role::BUTTON)
+                ->render(),
             "Failed asserting that element renders correctly with 'role' attribute using enum.",
         );
     }
 
     public function testRenderWithStyle(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
-            <span style='test-value'></span>
+            <span style='value'></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->style('test-value')->render(),
-            ),
+            TagInline::tag()
+                ->style('value')
+                ->render(),
             "Failed asserting that element renders correctly with 'style' attribute.",
         );
     }
 
     public function testRenderWithSuffixSetWithoutSuffixTag(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
-            <span class="test"></span>
+            <span class="value"></span>
             Suffix content
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->class('test')->suffix('Suffix content')->render(),
-            ),
+            TagInline::tag()
+                ->class('value')
+                ->suffix('Suffix content')
+                ->render(),
             "Failed asserting that element renders correctly with 'suffix()' method.",
         );
     }
 
     public function testRenderWithSuffixTagUsingBlockTag(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span></span>
             <div class="suffix-class" id="suffix-id">
             Suffix content
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()
-                    ->suffix('Suffix content')
-                    ->suffixAttributes(['id' => 'suffix-id'])
-                    ->suffixClass('suffix-class')
-                    ->suffixTag(Block::DIV)
-                    ->render(),
-            ),
+            TagInline::tag()
+                ->suffix('Suffix content')
+                ->suffixAttributes(['id' => 'suffix-id'])
+                ->suffixClass('suffix-class')
+                ->suffixTag(Block::DIV)
+                ->render(),
             "Failed asserting that element renders correctly with 'suffixTag()' method using a block tag.",
         );
     }
 
     public function testRenderWithSuffixTagWhenSuffixSet(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span></span>
             <strong class="suffix-class" id="suffix-id">Suffix content</strong>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()
-                    ->suffix('Suffix content')
-                    ->suffixAttributes(['id' => 'suffix-id'])
-                    ->suffixClass('suffix-class')
-                    ->suffixTag(Inline::STRONG)
-                    ->render(),
-            ),
+            TagInline::tag()
+                ->suffix('Suffix content')
+                ->suffixAttributes(['id' => 'suffix-id'])
+                ->suffixClass('suffix-class')
+                ->suffixTag(Inline::STRONG)
+                ->render(),
             "Failed asserting that element renders correctly with 'suffixTag()' method.",
         );
     }
 
     public function testRenderWithTabindex(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span tabindex="3"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->tabIndex(3)->render(),
-            ),
+            TagInline::tag()
+                ->tabIndex(3)
+                ->render(),
             "Failed asserting that element renders correctly with 'tabindex' attribute.",
         );
     }
 
     public function testRenderWithTemplateFallbackWhenTemplateEmpty(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             Prefix content
             <span>Content</span>
             Suffix content
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()
-                    ->template('')
-                    ->prefix('Prefix content')
-                    ->content('Content')
-                    ->suffix('Suffix content')
-                    ->render(),
-            ),
+            TagInline::tag()
+                ->content('Content')
+                ->prefix('Prefix content')
+                ->suffix('Suffix content')
+                ->template('')
+                ->render(),
             "Failed asserting that element renders correctly when 'template()' is empty.",
         );
     }
 
     public function testRenderWithThemeProvider(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span class="text-muted"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->addThemeProvider('muted', DefaultThemeProvider::class)->render(),
-            ),
+            TagInline::tag()
+                ->addThemeProvider('muted', DefaultThemeProvider::class)
+                ->render(),
             'Failed asserting that theme provider is applied correctly.',
         );
     }
 
     public function testRenderWithTitle(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
-            <span title="test-value"></span>
+            <span title="value"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->title('test-value')->render(),
-            ),
+            TagInline::tag()
+                ->title('value')
+                ->render(),
             "Failed asserting that element renders correctly with 'title' attribute.",
         );
     }
 
     public function testRenderWithToString(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                (string) TagInline::tag(),
-            ),
+            (string) TagInline::tag(),
             "Failed asserting that '__toString()' method renders correctly.",
         );
     }
 
     public function testRenderWithTranslate(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span translate="no"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->translate('no')->render(),
-            ),
+            TagInline::tag()
+                ->translate('no')
+                ->render(),
             "Failed asserting that element renders correctly with 'translate' attribute.",
         );
     }
 
     public function testRenderWithTranslateUsingEnum(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span translate="no"></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()->translate(Translate::NO)->render(),
-            ),
+            TagInline::tag()
+                ->translate(Translate::NO)
+                ->render(),
             "Failed asserting that element renders correctly with 'translate' attribute using enum.",
         );
     }
 
     public function testRenderWithUserOverridesGlobalDefaults(): void
     {
-        $previous = SimpleFactory::getDefaults(TagInline::class);
+        SimpleFactory::setDefaults(
+            TagInline::class,
+            [
+                'class' => 'from-global',
+                'id' => 'taginline-id-global',
+            ],
+        );
 
-        try {
-            SimpleFactory::setDefaults(TagInline::class, ['class' => 'from-global', 'id' => 'id-global']);
+        self::assertSame(
+            <<<HTML
+            <span class="from-global" id="taginline-id-user"></span>
+            HTML,
+            TagInline::tag()
+                ->id('taginline-id-user')
+                ->render(),
+            'Failed asserting that user-defined attributes override global defaults correctly.',
+        );
 
-            self::assertEquals(
-                <<<HTML
-                <span class="from-global" id="id-user"></span>
-                HTML,
-                LineEndingNormalizer::normalize(
-                    TagInline::tag()->id('id-user')->render(),
-                ),
-                'Failed asserting that user-defined attributes override global defaults correctly.',
-            );
-        } finally {
-            SimpleFactory::setDefaults(TagInline::class, $previous);
-        }
+        SimpleFactory::setDefaults(
+            TagInline::class,
+            [],
+        );
     }
 
     public function testRenderWithVoidPrefixTag(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <img src="icon.svg" alt="Icon">
             <span></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()
-                    ->prefixAttributes(['src' => 'icon.svg', 'alt' => 'Icon'])
-                    ->prefixTag(Voids::IMG)
-                    ->render(),
-            ),
+            TagInline::tag()
+                ->prefixAttributes(['src' => 'icon.svg', 'alt' => 'Icon'])
+                ->prefixTag(Voids::IMG)
+                ->render(),
             'Failed asserting that element renders correctly with a void prefix tag.',
         );
     }
 
     public function testRenderWithVoidSuffixTag(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span></span>
             <img src="icon.svg" alt="Icon">
             HTML,
-            LineEndingNormalizer::normalize(
-                TagInline::tag()
-                    ->suffixAttributes(['src' => 'icon.svg', 'alt' => 'Icon'])
-                    ->suffixTag(Voids::IMG)
-                    ->render(),
-            ),
+            TagInline::tag()
+                ->suffixAttributes(['src' => 'icon.svg', 'alt' => 'Icon'])
+                ->suffixTag(Voids::IMG)
+                ->render(),
             'Failed asserting that element renders correctly with a void suffix tag.',
         );
     }

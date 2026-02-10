@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Tests\Element;
 
 use LogicException;
-use PHPForge\Support\LineEndingNormalizer;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
@@ -44,7 +43,6 @@ use UIAwesome\Html\Interop\Block;
  * - Throws exceptions for invalid `begin()`/`end()` usage.
  * - Uses `SimpleFactory` defaults while preserving user overrides.
  *
- * {@see TagBlock} for element implementation details.
  * {@see DefaultProvider} for default provider implementation.
  * {@see DefaultThemeProvider} for theme provider implementation.
  * {@see SimpleFactory} for default configuration management.
@@ -57,501 +55,489 @@ final class TagBlockTest extends TestCase
 {
     public function testRenderWithAccesskey(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div accesskey="k">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->accesskey('k')->render(),
-            ),
+            TagBlock::tag()
+                ->accesskey('k')
+                ->render(),
             "Failed asserting that element renders correctly with 'accesskey' attribute.",
         );
     }
 
     public function testRenderWithAddAriaAttribute(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div aria-pressed="true">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->addAriaAttribute('pressed', true)->render(),
-            ),
+            TagBlock::tag()
+                ->addAriaAttribute('pressed', true)
+                ->render(),
             "Failed asserting that element renders correctly with 'addAriaAttribute()' method.",
         );
     }
 
     public function testRenderWithAddAriaAttributeUsingEnum(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div aria-pressed="true">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->addAriaAttribute(Aria::PRESSED, true)->render(),
-            ),
+            TagBlock::tag()
+                ->addAriaAttribute(Aria::PRESSED, true)
+                ->render(),
             "Failed asserting that element renders correctly with 'addAriaAttribute()' method.",
         );
     }
 
     public function testRenderWithAddDataAttribute(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div data-value="value">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->addDataAttribute('value', 'value')->render(),
-            ),
+            TagBlock::tag()
+                ->addDataAttribute('value', 'value')
+                ->render(),
             "Failed asserting that element renders correctly with 'addDataAttribute()' method.",
         );
     }
 
     public function testRenderWithAddDataAttributeUsingEnum(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div data-value="value">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->addDataAttribute(Data::VALUE, 'value')->render(),
-            ),
+            TagBlock::tag()
+                ->addDataAttribute(Data::VALUE, 'value')
+                ->render(),
             "Failed asserting that element renders correctly with 'addDataAttribute()' method.",
         );
     }
 
     public function testRenderWithAddEvent(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div onclick="handleClick()">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->addEvent(Event::CLICK, 'handleClick()')->render(),
-            ),
+            TagBlock::tag()
+                ->addEvent(Event::CLICK, 'handleClick()')
+                ->render(),
             "Failed asserting that element renders correctly with 'addEvent()' method.",
         );
     }
 
     public function testRenderWithAriaAttributes(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div aria-controls="modal-1" aria-hidden="false" aria-label="Close">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->ariaAttributes(
+            TagBlock::tag()
+                ->ariaAttributes(
                     [
                         'controls' => static fn(): string => 'modal-1',
                         'hidden' => false,
                         'label' => 'Close',
                     ],
-                )->render(),
-            ),
+                )
+                ->render(),
             "Failed asserting that element renders correctly with 'ariaAttributes()' method.",
         );
     }
 
     public function testRenderWithAttributes(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div class="test-class">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->attributes(['class' => 'test-class'])->render(),
-            ),
+            TagBlock::tag()
+                ->attributes(['class' => 'test-class'])
+                ->render(),
             "Failed asserting that element renders correctly with 'attributes()' method.",
         );
     }
 
     public function testRenderWithAutofocus(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div autofocus>
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->autofocus(true)->render(),
-            ),
+            TagBlock::tag()
+                ->autofocus(true)
+                ->render(),
             "Failed asserting that element renders correctly with 'autofocus' attribute.",
         );
     }
 
     public function testRenderWithBeginEnd(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div>
             Content
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->begin() . 'Content' . TagBlock::end(),
-            ),
+            TagBlock::tag()->begin() . 'Content' . TagBlock::end(),
             "Failed asserting that element renders correctly with 'begin()' and 'end()' methods.",
         );
     }
 
     public function testRenderWithClass(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div class="test-class">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->class('test-class')->render(),
-            ),
+            TagBlock::tag()
+                ->class('test-class')
+                ->render(),
             "Failed asserting that element renders correctly with 'class' attribute.",
         );
     }
 
     public function testRenderWithContent(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div>
             Content
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->content('Content')->render(),
-            ),
+            TagBlock::tag()
+                ->content('Content')
+                ->render(),
             "Failed asserting that element renders correctly with 'content()' method.",
         );
     }
 
     public function testRenderWithContentEditable(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div contenteditable="true">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->contentEditable(true)->render(),
-            ),
+            TagBlock::tag()
+                ->contentEditable(true)
+                ->render(),
             "Failed asserting that element renders correctly with 'contentEditable' attribute.",
         );
     }
 
     public function testRenderWithContentEditableUsingEnum(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div contenteditable="true">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->contentEditable(ContentEditable::TRUE)->render(),
-            ),
+            TagBlock::tag()
+                ->contentEditable(ContentEditable::TRUE)
+                ->render(),
             "Failed asserting that element renders correctly with 'contentEditable' attribute using enum.",
         );
     }
 
     public function testRenderWithDataAttributes(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div data-value="test-value">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->dataAttributes(['value' => 'test-value'])->render(),
-            ),
+            TagBlock::tag()
+                ->dataAttributes(['value' => 'test-value'])
+                ->render(),
             "Failed asserting that element renders correctly with 'dataAttributes()' method.",
         );
     }
 
     public function testRenderWithDefaultConfigurationValues(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div class="default-class" title="default-title">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag(['class' => 'default-class', 'title' => 'default-title'])->render(),
-            ),
+            TagBlock::tag(['class' => 'default-class', 'title' => 'default-title'])->render(),
             'Failed asserting that default configuration values are applied correctly.',
         );
     }
 
     public function testRenderWithDefaultProvider(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div class="default-provider">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->addDefaultProvider(DefaultProvider::class)->render(),
-            ),
+            TagBlock::tag()
+                ->addDefaultProvider(DefaultProvider::class)
+                ->render(),
             'Failed asserting that default provider is applied correctly.',
         );
     }
 
     public function testRenderWithDefaultValues(): void
     {
-        $instance = TagBlock::tag();
-
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div>
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                $instance->render(),
-            ),
+            TagBlock::tag()->render(),
             'Failed asserting that element renders correctly with default values.',
         );
     }
 
     public function testRenderWithDir(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div dir="rtl">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->dir('rtl')->render(),
-            ),
+            TagBlock::tag()->dir('rtl')->render(),
             "Failed asserting that element renders correctly with 'dir' attribute.",
         );
     }
 
     public function testRenderWithDirUsingEnum(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div dir="rtl">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->dir(Direction::RTL)->render(),
-            ),
+            TagBlock::tag()
+                ->dir(Direction::RTL)
+                ->render(),
             "Failed asserting that element renders correctly with 'dir' attribute using enum.",
         );
     }
 
     public function testRenderWithDraggable(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div draggable="true">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->draggable(true)->render(),
-            ),
+            TagBlock::tag()
+                ->draggable(true)
+                ->render(),
             "Failed asserting that element renders correctly with 'draggable' attribute.",
         );
     }
 
     public function testRenderWithDraggableUsingEnum(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div draggable="true">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->draggable(Draggable::TRUE)->render(),
-            ),
+            TagBlock::tag()
+                ->draggable(Draggable::TRUE)
+                ->render(),
             "Failed asserting that element renders correctly with 'draggable' attribute using enum.",
         );
     }
 
     public function testRenderWithEvents(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div onchange="handleChange()">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->events(['change' => 'handleChange()'])->render(),
-            ),
+            TagBlock::tag()
+                ->events(['change' => 'handleChange()'])
+                ->render(),
             "Failed asserting that element renders correctly with 'events()' method.",
         );
     }
 
     public function testRenderWithGlobalDefaultsAreApplied(): void
     {
-        $previous = SimpleFactory::getDefaults(TagBlock::class);
+        SimpleFactory::setDefaults(
+            TagBlock::class,
+            ['class' => 'from-global'],
+        );
 
-        try {
-            SimpleFactory::setDefaults(TagBlock::class, ['class' => 'from-global']);
+        self::assertSame(
+            <<<HTML
+            <div class="from-global">
+            </div>
+            HTML,
+            TagBlock::tag()->render(),
+            'Failed asserting that global defaults are applied correctly.',
+        );
 
-            self::assertEquals(
-                <<<HTML
-                <div class="from-global">
-                </div>
-                HTML,
-                LineEndingNormalizer::normalize(
-                    TagBlock::tag()->render(),
-                ),
-                'Failed asserting that global defaults are applied correctly.',
-            );
-        } finally {
-            SimpleFactory::setDefaults(TagBlock::class, $previous);
-        }
+        SimpleFactory::setDefaults(
+            TagBlock::class,
+            [],
+        );
     }
 
     public function testRenderWithHidden(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div hidden>
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->hidden(true)->render(),
-            ),
+            TagBlock::tag()
+                ->hidden(true)
+                ->render(),
             "Failed asserting that element renders correctly with 'hidden' attribute.",
         );
     }
 
     public function testRenderWithId(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
-            <div id="test-id">
+            <div id="tagblock">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->id('test-id')->render(),
-            ),
+            TagBlock::tag()
+                ->id('tagblock')
+                ->render(),
             "Failed asserting that element renders correctly with 'id' attribute.",
         );
     }
 
     public function testRenderWithItemId(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div itemid="http://example.com/item">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->itemId('http://example.com/item')->render(),
-            ),
+            TagBlock::tag()
+                ->itemId('http://example.com/item')
+                ->render(),
             "Failed asserting that element renders correctly with 'itemId' attribute.",
         );
     }
 
     public function testRenderWithItemProp(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div itemprop="name">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->itemProp('name')->render(),
-            ),
+            TagBlock::tag()
+                ->itemProp('name')
+                ->render(),
             "Failed asserting that element renders correctly with 'itemProp' attribute.",
         );
     }
 
     public function testRenderWithItemRef(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div itemref="additional-info">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->itemRef('additional-info')->render(),
-            ),
+            TagBlock::tag()
+                ->itemRef('additional-info')
+                ->render(),
             "Failed asserting that element renders correctly with 'itemRef' attribute.",
         );
     }
 
     public function testRenderWithItemScope(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div itemscope>
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->itemScope(true)->render(),
-            ),
+            TagBlock::tag()
+                ->itemScope(true)
+                ->render(),
             "Failed asserting that element renders correctly with 'itemScope' attribute.",
         );
     }
 
     public function testRenderWithItemType(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div itemtype="http://schema.org/Person">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->itemType('http://schema.org/Person')->render(),
-            ),
+            TagBlock::tag()
+                ->itemType('http://schema.org/Person')
+                ->render(),
             "Failed asserting that element renders correctly with 'itemType' attribute.",
         );
     }
 
     public function testRenderWithLang(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div lang="es">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->lang('es')->render(),
-            ),
+            TagBlock::tag()
+                ->lang('es')
+                ->render(),
             "Failed asserting that element renders correctly with 'lang' attribute.",
         );
     }
 
     public function testRenderWithLangUsingEnum(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div lang="es">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->lang(Language::SPANISH)->render(),
-            ),
+            TagBlock::tag()
+                ->lang(Language::SPANISH)
+                ->render(),
             "Failed asserting that element renders correctly with 'lang' attribute using enum.",
         );
     }
 
     public function testRenderWithLoadDefault(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div class="default-class">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlockWithDefaults::tag()->render(),
-            ),
+            TagBlockWithDefaults::tag()->render(),
             'Failed asserting that default definitions are applied correctly.',
         );
     }
 
     public function testRenderWithNestedBeginEnd(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div>
             <div>
@@ -559,190 +545,185 @@ final class TagBlockTest extends TestCase
             </div>
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->begin() . TagBlock::tag()->begin() . 'Nested Content' . TagBlock::end() . TagBlock::end(),
-            ),
+            TagBlock::tag()->begin() . TagBlock::tag()->begin() . 'Nested Content' . TagBlock::end() . TagBlock::end(),
             "Failed asserting that nested elements render correctly with 'begin()' and 'end()' methods.",
         );
     }
 
     public function testRenderWithNestedDifferentTagsEnsuresStackUpdate(): void
     {
-        $html = TagBlock::tag()->begin() . TagInline::tag()->content('Content')->render() . TagBlock::end();
-
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div>
             <span>Content</span>
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                $html,
-            ),
+            TagBlock::tag()->begin() . TagInline::tag()->content('Content')->render() . TagBlock::end(),
             'Failed asserting that nested different tags render correctly and stack is updated.',
         );
     }
 
     public function testRenderWithRole(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div role="banner">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->role('banner')->render(),
-            ),
+            TagBlock::tag()
+                ->role('banner')
+                ->render(),
             "Failed asserting that element renders correctly with 'role' attribute.",
         );
     }
 
     public function testRenderWithRoleUsingEnum(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div role="banner">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->role(Role::BANNER)->render(),
-            ),
+            TagBlock::tag()
+                ->role(Role::BANNER)
+                ->render(),
             "Failed asserting that element renders correctly with 'role' attribute using enum.",
         );
     }
 
     public function testRenderWithSpellcheck(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div spellcheck="true">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->spellcheck(true)->render(),
-            ),
+            TagBlock::tag()
+                ->spellcheck(true)
+                ->render(),
             "Failed asserting that element renders correctly with 'spellcheck' attribute.",
         );
     }
 
     public function testRenderWithStyle(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div style='test-value'>
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->style('test-value')->render(),
-            ),
+            TagBlock::tag()
+                ->style('test-value')
+                ->render(),
             "Failed asserting that element renders correctly with 'style' attribute.",
         );
     }
 
     public function testRenderWithTabindex(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div tabindex="3">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->tabIndex(3)->render(),
-            ),
+            TagBlock::tag()
+                ->tabIndex(3)
+                ->render(),
             "Failed asserting that element renders correctly with 'tabindex' attribute.",
         );
     }
 
     public function testRenderWithThemeProvider(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div class="tag-primary">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->addThemeProvider('primary', DefaultThemeProvider::class)->render(),
-            ),
+            TagBlock::tag()
+                ->addThemeProvider('primary', DefaultThemeProvider::class)
+                ->render(),
             'Failed asserting that theme provider is applied correctly.',
         );
     }
 
     public function testRenderWithTitle(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div title="test-value">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->title('test-value')->render(),
-            ),
+            TagBlock::tag()
+                ->title('test-value')
+                ->render(),
             "Failed asserting that element renders correctly with 'title' attribute.",
         );
     }
 
     public function testRenderWithToString(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div>
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                (string) TagBlock::tag(),
-            ),
+            (string) TagBlock::tag(),
             "Failed asserting that '__toString()' method renders correctly.",
         );
     }
 
     public function testRenderWithTranslate(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div translate="no">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->translate(false)->render(),
-            ),
+            TagBlock::tag()
+                ->translate(false)
+                ->render(),
             "Failed asserting that element renders correctly with 'translate' attribute.",
         );
     }
 
     public function testRenderWithTranslateUsingEnum(): void
     {
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div translate="yes">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                TagBlock::tag()->translate(Translate::YES)->render(),
-            ),
+            TagBlock::tag()
+                ->translate(Translate::YES)
+                ->render(),
             "Failed asserting that element renders correctly with 'translate' attribute using enum.",
         );
     }
 
     public function testRenderWithUserOverridesGlobalDefaults(): void
     {
-        $previous = SimpleFactory::getDefaults(TagBlock::class);
+        SimpleFactory::setDefaults(
+            TagBlock::class,
+            [
+                'class' => 'from-global',
+                'id' => 'id-global',
+            ],
+        );
 
-        try {
-            SimpleFactory::setDefaults(TagBlock::class, ['class' => 'from-global', 'id' => 'id-global']);
+        self::assertSame(
+            <<<HTML
+            <div class="from-global" id="id-user">
+            </div>
+            HTML,
+            TagBlock::tag(['id' => 'id-user'])->render(),
+            'Failed asserting that user-defined attributes override global defaults correctly.',
+        );
 
-            self::assertEquals(
-                <<<HTML
-                <div class="from-global" id="id-user">
-                </div>
-                HTML,
-                LineEndingNormalizer::normalize(
-                    TagBlock::tag(['id' => 'id-user'])->render(),
-                ),
-                'Failed asserting that user-defined attributes override global defaults correctly.',
-            );
-        } finally {
-            SimpleFactory::setDefaults(TagBlock::class, $previous);
-        }
+        SimpleFactory::setDefaults(
+            TagBlock::class,
+            [],
+        );
     }
 
     public function testReturnEmptyArrayWhenApplyThemeAndUndefinedTheme(): void
@@ -789,12 +770,11 @@ final class TagBlockTest extends TestCase
             }
         };
 
-        $tagClass = $tag::class;
         TagBlock::tag()->begin();
 
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage(
-            Message::TAG_CLASS_MISMATCH_ON_END->getMessage(TagBlock::class, $tagClass),
+            Message::TAG_CLASS_MISMATCH_ON_END->getMessage(TagBlock::class, $tag::class),
         );
 
         $tag::end();

@@ -8,6 +8,8 @@ use BackedEnum;
 use UIAwesome\Html\Helper\{Attributes, Encode};
 use UIAwesome\Html\Interop\{BlockInterface, InlineInterface, VoidInterface};
 
+use const PHP_EOL;
+
 /**
  * Base class for HTML tag rendering and element generation.
  *
@@ -69,7 +71,7 @@ abstract class BaseHtml
     {
         $renderAttributes = Attributes::render($attributes);
 
-        return "<{$tag->value}{$renderAttributes}>\n";
+        return "<{$tag->value}{$renderAttributes}>" . PHP_EOL;
     }
 
     /**
@@ -122,10 +124,10 @@ abstract class BaseHtml
         $renderAttributes = Attributes::render($attributes);
 
         if ($content === '') {
-            return "<{$tag->value}{$renderAttributes}>\n</{$tag->value}>";
+            return "<{$tag->value}{$renderAttributes}>" . PHP_EOL . "</{$tag->value}>";
         }
 
-        return "<{$tag->value}{$renderAttributes}>\n{$content}\n</{$tag->value}>";
+        return "<{$tag->value}{$renderAttributes}>" . PHP_EOL . "{$content}" . PHP_EOL . "</{$tag->value}>";
     }
 
     /**
@@ -152,7 +154,7 @@ abstract class BaseHtml
      */
     public static function end(BlockInterface $tag): string
     {
-        return "\n</{$tag->value}>";
+        return PHP_EOL . "</{$tag->value}>";
     }
 
     /**

@@ -30,8 +30,6 @@ use UIAwesome\Html\Core\Html;
 use UIAwesome\Html\Interop\BlockInterface;
 use UIAwesome\Html\Mixin\{HasAttributes, HasContent};
 
-use function preg_replace;
-
 /**
  * Base class for constructing block-level HTML elements.
  *
@@ -94,22 +92,6 @@ abstract class BaseBlock extends BaseTag
      * ```
      */
     abstract protected function getTag(): BlockInterface;
-
-    /**
-     * Cleans up the output after rendering the block element.
-     *
-     * Removes excessive consecutive newlines from the rendered output to ensure clean HTML structure.
-     *
-     * @param string $result Rendered HTML output.
-     *
-     * @return string Cleaned HTML output with excessive newlines removed.
-     */
-    protected function afterRun(string $result): string
-    {
-        $normalizeOutput = preg_replace("/\n{2,}/", "\n", $result) ?? '';
-
-        return parent::afterRun($normalizeOutput);
-    }
 
     /**
      * Renders the block element.

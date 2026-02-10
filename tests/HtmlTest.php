@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Tests;
 
-use PHPForge\Support\LineEndingNormalizer;
 use PHPUnit\Framework\Attributes\{DataProviderExternal, Group};
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Core\Html;
@@ -45,7 +44,7 @@ final class HtmlTest extends TestCase
     #[DataProviderExternal(BlockProvider::class, 'blockTags')]
     public function testRenderBeginWithBlockTag(BlockInterface $tag, string $expectedTagName): void
     {
-        self::assertEquals(
+        self::assertSame(
             "<{$expectedTagName}>\n",
             Html::begin($tag),
             "Html begin '<{$expectedTagName}>' block tag should match expected output.",
@@ -55,7 +54,7 @@ final class HtmlTest extends TestCase
     #[DataProviderExternal(ListsProvider::class, 'listTags')]
     public function testRenderBeginWithListTag(BlockInterface $tag, string $expectedTagName): void
     {
-        self::assertEquals(
+        self::assertSame(
             "<{$expectedTagName}>\n",
             Html::begin($tag),
             "Html begin '<{$expectedTagName}>' list tag should match expected output.",
@@ -65,7 +64,7 @@ final class HtmlTest extends TestCase
     #[DataProviderExternal(RootProvider::class, 'rootTags')]
     public function testRenderBeginWithRootTag(BlockInterface $tag, string $expectedTagName): void
     {
-        self::assertEquals(
+        self::assertSame(
             "<{$expectedTagName}>\n",
             Html::begin($tag),
             "Html begin '<{$expectedTagName}>' root tag should match expected output.",
@@ -75,7 +74,7 @@ final class HtmlTest extends TestCase
     #[DataProviderExternal(TableProvider::class, 'tableTags')]
     public function testRenderBeginWithTableTag(BlockInterface $tag, string $expectedTagName): void
     {
-        self::assertEquals(
+        self::assertSame(
             "<{$expectedTagName}>\n",
             Html::begin($tag),
             "Html begin '<{$expectedTagName}>' table tag should match expected output.",
@@ -91,15 +90,13 @@ final class HtmlTest extends TestCase
             'aria-describedby' => 'description-id',
         ];
 
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div aria-label="Main navigation" aria-hidden="false" aria-describedby="description-id">
             Accessible content
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                Html::element(Block::DIV, $content, $attributes),
-            ),
+            Html::element(Block::DIV, $content, $attributes),
             "Html element '<div>' with ARIA attributes should match expected output.",
         );
     }
@@ -153,27 +150,23 @@ final class HtmlTest extends TestCase
         $content = '<span>Test Content</span>';
         $attributes = ['class' => 'test-class'];
 
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div class="test-class">
             <span>Test Content</span>
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                Html::element(Block::DIV, $content, $attributes),
-            ),
+            Html::element(Block::DIV, $content, $attributes),
             "Html element '<div>' with content and attributes should match expected output.",
         );
 
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div class="test-class">
             &lt;span&gt;Test Content&lt;/span&gt;
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                Html::element(Block::DIV, $content, $attributes, true),
-            ),
+            Html::element(Block::DIV, $content, $attributes, true),
             "Html element '<div>' with encoded content and attributes should match expected output.",
         );
     }
@@ -182,14 +175,12 @@ final class HtmlTest extends TestCase
     {
         $attributes = ['class' => 'empty-content'];
 
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div class="empty-content">
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                Html::element(Block::DIV, '', $attributes),
-            ),
+            Html::element(Block::DIV, '', $attributes),
             "Html element '<div>' with empty content and attributes should match expected output.",
         );
     }
@@ -236,15 +227,13 @@ final class HtmlTest extends TestCase
             ],
         ];
 
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div class="class-1 class-2" data-id="123" data-name="test">
             content
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                Html::element(Block::DIV, $content, $attributes),
-            ),
+            Html::element(Block::DIV, $content, $attributes),
             "Html element '<div>' with complex attribute structures should match expected output.",
         );
     }
@@ -253,15 +242,13 @@ final class HtmlTest extends TestCase
     {
         $content = 'content';
 
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div>
             content
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                Html::element(Block::DIV, $content, []),
-            ),
+            Html::element(Block::DIV, $content, []),
             "Html element '<div>' with content and empty attributes array should match expected output.",
         );
     }
@@ -299,17 +286,15 @@ final class HtmlTest extends TestCase
         $content = '<mark>inline</mark>';
         $attributes = ['id' => 'inline'];
 
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span id="inline"><mark>inline</mark></span>
             HTML,
-            LineEndingNormalizer::normalize(
-                Html::element(Inline::SPAN, $content, $attributes),
-            ),
+            Html::element(Inline::SPAN, $content, $attributes),
             "Html element '<span>' with content and attributes should match expected output.",
         );
 
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <span id="inline">&lt;mark&gt;inline&lt;/mark&gt;</span>
             HTML,
@@ -332,11 +317,9 @@ final class HtmlTest extends TestCase
         </div>
         HTML;
 
-        self::assertEquals(
+        self::assertSame(
             $expected,
-            LineEndingNormalizer::normalize(
-                Html::element(Block::DIV, $content, $attributes),
-            ),
+            Html::element(Block::DIV, $content, $attributes),
             "Html element '<div>' with large attribute value should match expected output.",
         );
     }
@@ -349,15 +332,13 @@ final class HtmlTest extends TestCase
             'class' => 'test-class',
         ];
 
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div class="test-class">
             content
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                Html::element(Block::DIV, $content, $attributes),
-            ),
+            Html::element(Block::DIV, $content, $attributes),
             "Html element '<div>' with null attribute value should match expected output.",
         );
     }
@@ -370,15 +351,13 @@ final class HtmlTest extends TestCase
             'data-info' => 'Value with & ampersand',
         ];
 
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <div title="Test &quot;quoted&quot; value" data-info="Value with &amp; ampersand">
             content
             </div>
             HTML,
-            LineEndingNormalizer::normalize(
-                Html::element(Block::DIV, $content, $attributes),
-            ),
+            Html::element(Block::DIV, $content, $attributes),
             "Html element '<div>' with special characters in attributes should match expected output.",
         );
     }
@@ -390,13 +369,11 @@ final class HtmlTest extends TestCase
             'data' => ['role' => 'presentation'],
         ];
 
-        self::assertEquals(
+        self::assertSame(
             <<<HTML
             <img class="void" data-role="presentation">
             HTML,
-            LineEndingNormalizer::normalize(
-                Html::element(Voids::IMG, '', $attributes),
-            ),
+            Html::element(Voids::IMG, '', $attributes),
             "Html element '<img>' void tag with attributes should match expected output.",
         );
     }
@@ -404,7 +381,7 @@ final class HtmlTest extends TestCase
     #[DataProviderExternal(BlockProvider::class, 'blockTags')]
     public function testRenderEndWithBlockTag(BlockInterface $tag, string $expectedTagName): void
     {
-        self::assertEquals(
+        self::assertSame(
             "\n</{$expectedTagName}>",
             Html::end($tag),
             "Html end '</{$expectedTagName}>' block tag should match expected output.",
@@ -414,7 +391,7 @@ final class HtmlTest extends TestCase
     #[DataProviderExternal(ListsProvider::class, 'listTags')]
     public function testRenderEndWithListTag(BlockInterface $tag, string $expectedTagName): void
     {
-        self::assertEquals(
+        self::assertSame(
             "\n</{$expectedTagName}>",
             Html::end($tag),
             "Html end '</{$expectedTagName}>' list tag should match expected output.",
@@ -424,7 +401,7 @@ final class HtmlTest extends TestCase
     #[DataProviderExternal(RootProvider::class, 'rootTags')]
     public function testRenderEndWithRootTag(BlockInterface $tag, string $expectedTagName): void
     {
-        self::assertEquals(
+        self::assertSame(
             "\n</{$expectedTagName}>",
             Html::end($tag),
             "Html end '</{$expectedTagName}>' root tag should match expected output.",
@@ -434,7 +411,7 @@ final class HtmlTest extends TestCase
     #[DataProviderExternal(TableProvider::class, 'tableTags')]
     public function testRenderEndWithTableTag(BlockInterface $tag, string $expectedTagName): void
     {
-        self::assertEquals(
+        self::assertSame(
             "\n</{$expectedTagName}>",
             Html::end($tag),
             "Html end '</{$expectedTagName}>' table tag should match expected output.",
@@ -447,12 +424,12 @@ final class HtmlTest extends TestCase
         $content = '<mark>inline</mark>';
         $attributes = ['id' => 'inline'];
 
-        self::assertEquals(
+        self::assertSame(
             "<{$expectedTagName} id=\"inline\">{$content}</{$expectedTagName}>",
             Html::inline($tag, $content, $attributes),
             "Html inline '<{$expectedTagName}>' tag without encoding should match expected output.",
         );
-        self::assertEquals(
+        self::assertSame(
             "<{$expectedTagName} id=\"inline\">&lt;mark&gt;inline&lt;/mark&gt;</{$expectedTagName}>",
             Html::inline($tag, $content, $attributes, true),
             "Html inline '<{$expectedTagName}>' tag with encoding should match expected output.",
@@ -467,7 +444,7 @@ final class HtmlTest extends TestCase
             'data' => ['role' => 'presentation'],
         ];
 
-        self::assertEquals(
+        self::assertSame(
             "<{$expectedTagName} class=\"void\" data-role=\"presentation\">",
             Html::void($tag, $attributes),
             "Html void '<{$expectedTagName}>' tag should match expected output.",
