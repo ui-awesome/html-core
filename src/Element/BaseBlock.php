@@ -31,21 +31,14 @@ use UIAwesome\Html\Interop\BlockInterface;
 use UIAwesome\Html\Mixin\{HasAttributes, HasContent};
 
 /**
- * Base class for constructing block-level HTML elements.
+ * Provides the base implementation for block HTML elements.
  *
- * Provides the shared implementation for block-level tags rendered through {@see Html}. Subclasses supply the tag via
- * {@see BaseBlock::getTag()}, while attributes and content are managed via mixins.
+ * Subclasses return a {@see BlockInterface} tag and inherit attribute and content handling.
  *
- * Intended for tag classes that need block-level rendering with optional `begin()`/`end()` usage.
- *
- * Key features.
- * - Mixes in global attribute traits and attribute/content storage.
- * - Normalizes output by collapsing consecutive blank lines.
- * - Renders a full element via {@see Html::element()} when not in `begin()`/`end()` mode.
- * - Requires subclasses to provide a {@see BlockInterface} tag.
- * - Supports `begin()`/`end()` rendering via {@see Html::begin()} and {@see Html::end()}.
- *
- * {@see BlockInterface} for contract details.
+ * Usage example:
+ * ```php
+ * <?= \App\Html\SomeBlock::tag()->content('Content')->render() ?>
+ * ```
  *
  * @link https://developer.mozilla.org/en-US/docs/Glossary/Block-level_content
  *
@@ -79,25 +72,20 @@ abstract class BaseBlock extends BaseTag
     /**
      * Returns the tag instance representing the block element.
      *
-     * Must be implemented by subclasses to specify the concrete block tag.
-     *
-     * @return BlockInterface Tag instance for the block element.
-     *
      * Usage example:
      * ```php
      * public function getTag(): BlockInterface
      * {
-     *    return Block::DIV;
+     *     return \UIAwesome\Html\Interop\Block::DIV;
      * }
      * ```
+     *
+     * @return BlockInterface Tag instance for the block element.
      */
     abstract protected function getTag(): BlockInterface;
 
     /**
      * Renders the block element.
-     *
-     * If the begin tag was not executed, renders the complete tag with content and attributes, otherwise returns the
-     * closing tag for the block element.
      *
      * @return string Rendered HTML for the block element.
      */
@@ -111,17 +99,14 @@ abstract class BaseBlock extends BaseTag
     }
 
     /**
-     * Begins rendering the block element.
-     *
-     * Calls the parent begin method and returns the opening tag for the block element with the current attributes.
-     *
-     * @return string Opening HTML tag for the block element.
+     * Returns the opening tag for begin/end rendering.
      *
      * Usage example:
      * ```php
      * <?= $block->begin() ?>
-     * // Output: <div class="example-class" id="example-id">
      * ```
+     *
+     * @return string Opening HTML tag for the block element.
      */
     protected function runBegin(): string
     {

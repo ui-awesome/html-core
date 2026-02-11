@@ -25,21 +25,15 @@ use UIAwesome\Html\Interop\VoidInterface;
 use UIAwesome\Html\Mixin\HasAttributes;
 
 /**
- * Base class for constructing void HTML elements.
+ * Provides the base implementation for void HTML elements.
  *
- * Provides the shared implementation for void elements rendered through {@see Html}. Subclasses supply the tag via
- * {@see BaseVoid::getTag()}, and attributes are managed via mixins.
+ * Subclasses return a {@see VoidInterface} tag and inherit attribute handling for rendering through
+ * {@see Html::void()}.
  *
- * Intended for tag classes that represent void elements (no child content) with attribute-based configuration.
- *
- * Key features.
- * - Exposes fluent attribute configuration through attribute traits.
- * - Mixes in global attribute traits and attribute storage.
- * - Renders void tags via {@see Html::void()}.
- * - Represents void elements that do not render child content.
- * - Requires subclasses to provide a {@see VoidInterface} tag.
- *
- * {@see VoidInterface} for contract details.
+ * Usage example:
+ * ```php
+ * <?= \App\Html\SomeVoid::tag()->class('image')->render() ?>
+ * ```
  *
  * @link https://developer.mozilla.org/en-US/docs/Glossary/Void_element
  *
@@ -66,15 +60,13 @@ abstract class BaseVoid extends BaseTag
     /**
      * Returns the tag instance representing the void element.
      *
-     * Must be implemented by subclasses to specify the concrete void tag.
-     *
      * @return VoidInterface Tag instance for the void element.
      *
      * Usage example:
      * ```php
      * public function getTag(): VoidInterface
      * {
-     *    return Void::IMG;
+     *     return \UIAwesome\Html\Interop\Void::IMG;
      * }
      * ```
      */
@@ -82,8 +74,6 @@ abstract class BaseVoid extends BaseTag
 
     /**
      * Renders the void element.
-     *
-     * Constructs the element by rendering the tag with the configured attributes.
      *
      * @return string Rendered HTML for the void element.
      */

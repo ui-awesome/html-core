@@ -32,20 +32,14 @@ use UIAwesome\Html\Core\Tests\Support\Stub\{
 use UIAwesome\Html\Interop\Block;
 
 /**
- * Unit tests for {@see TagBlock} element rendering and attribute handling.
- *
- * Verifies rendered output, provider application, and `begin()`/`end()` stack behavior for {@see TagBlock}.
+ * Unit tests for the {@see TagBlock} class.
  *
  * Test coverage.
- * - Applies default and theme providers.
- * - Renders block elements with representative global HTML attributes.
- * - Supports nested rendering via `begin()` and `end()` with stack integrity.
- * - Throws exceptions for invalid `begin()`/`end()` usage.
- * - Uses `SimpleFactory` defaults while preserving user overrides.
- *
- * {@see DefaultProvider} for default provider implementation.
- * {@see DefaultThemeProvider} for theme provider implementation.
- * {@see SimpleFactory} for default configuration management.
+ * - Ensures default and theme providers apply expected attributes.
+ * - Ensures global defaults are applied and user attributes override them.
+ * - Verifies block tags render expected HTML for representative global attributes.
+ * - Verifies LogicException and RuntimeException are thrown for invalid `end()` calls.
+ * - Verifies nested `begin()` and `end()` calls keep stack state consistent.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.

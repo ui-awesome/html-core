@@ -2,27 +2,27 @@
 
 declare(strict_types=1);
 
-namespace UIAwesome\Html\Core\Tests\Support\Provider\Tag;
+namespace UIAwesome\Html\Core\Tests\Provider;
 
 use PHPForge\Support\EnumDataProvider;
-use UIAwesome\Html\Interop\Inline;
+use UIAwesome\Html\Interop\Lists;
 use UnitEnum;
 
 /**
  * Data provider for {@see \UIAwesome\Html\Core\Tests\HtmlTest} test cases.
  *
- * Provides representative tag enum cases and expected tag names for inline tags.
+ * Provides representative input/output pairs for list tag rendering.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
-final class InlineProvider
+final class ListsProvider
 {
     /**
      * @phpstan-return array<string, array{UnitEnum, string}>
      */
-    public static function inlineTags(): array
+    public static function listTags(): array
     {
-        return EnumDataProvider::tagCases(Inline::class, 'inline');
+        return EnumDataProvider::tagCases(Lists::class, 'list');
     }
 }

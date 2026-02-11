@@ -13,12 +13,14 @@ use UIAwesome\Html\Core\Tests\Support\Stub\{DefaultProvider, TagInput, TagInputW
 use UIAwesome\Html\Interop\{Block, Inline, Voids};
 
 /**
- * Unit tests for {@see TagInput} element rendering.
+ * Unit tests for the {@see TagInput} class.
  *
- * Verifies rendered output for input elements including global attributes and prefix/suffix composition using block,
- * inline and void tags.
- *
- * {@see TagInput} for element implementation details.
+ * Test coverage.
+ * - Ensures `aria-describedby` derives from `id` when set to `true` and is omitted when `id` is `null`.
+ * - Ensures default providers and global defaults apply expected attributes, with user overrides preserved.
+ * - Verifies input tags render expected HTML for representative global and input-specific attributes.
+ * - Verifies prefix and suffix content renders with block, inline, and void wrapper tags.
+ * - Verifies template fallback renders prefix, tag, and suffix when `template` is empty.
  *
  * @copyright Copyright (C) 2026 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.

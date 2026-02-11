@@ -18,21 +18,15 @@ use WeakMap;
 use function array_pop;
 
 /**
- * Base class for HTML tag objects with lifecycle hooks and begin/end support.
+ * Provides the base implementation for fluent HTML tag objects.
  *
- * Provides shared infrastructure for tag rendering, including `beforeRun()`/`afterRun()` hooks and a context-aware
- * begin/end stack for nested rendering. The stack is stored in a {@see WeakMap} keyed by the current {@see Fiber}
- * (or a sentinel object when running outside a fiber).
+ * Uses lifecycle hooks and a context-aware begin/end stack backed by {@see WeakMap} and {@see Fiber}.
  *
- * Designed to be extended by concrete tag implementations that implement {@see BaseTag::run()} and optionally override
- * {@see BaseTag::runBegin()} for `begin()`/`end()` style rendering.
- *
- * Key features.
- * - Applies defaults and themes via {@see DefaultsProviderInterface} and {@see ThemeProviderInterface} providers.
- * - Creates and configures instances via {@see BaseTag::tag()} and {@see SimpleFactory}.
- * - Supports paired `begin()`/`end()` rendering using a per-context stack.
- * - Uses `WeakMap` and {@see Fiber} to isolate stacks between execution contexts.
- * - Wraps {@see BaseTag::run()} with `beforeRun()`/`afterRun()` hooks via {@see BaseTag::render()}.
+ * Usage example:
+ * ```php
+ * $tag = \App\Html\SomeTag::tag(['class' => 'container']);
+ * echo $tag->render();
+ * ```
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
@@ -43,21 +37,17 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
     use HasBeforeRun;
 
     /**
-     * Indicates whether the `begin()` method has been executed for this tag instance.
-     *
-     * Used internally to manage the tag rendering lifecycle and stack integrity.
+     * Tracks whether `begin()` was executed for this instance.
      */
     private bool $beginExecuted = false;
 
     /**
-     * Sentinel object representing the Main Thread in the WeakMap.
-     *
-     * Used when the code is running outside any Fiber.
+     * Stores the sentinel object for the main execution context.
      */
     private static stdClass|null $mainThread = null;
 
     /**
-     * Fiber-specific stacks using weak references for automatic cleanup.
+     * Stores per-context begin/end stacks.
      *
      * @phpstan-var WeakMap<object, static[]>|null
      */
@@ -65,22 +55,18 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
 
     /**
      * Initializes a new tag instance.
-     *
-     * The constructor is final to enforce immutability and consistent instantiation via factory methods.
      */
     final public function __construct() {}
 
     /**
-     * Renders the tag as a string.
-     *
-     * Invokes the `render()` method to produce the HTML representation of the tag.
-     *
-     * @return string Rendered HTML tag string.
+     * Returns the rendered tag string.
      *
      * Usage example:
      * ```php
      * <?= $element ?>
      * ```
+     *
+     * @return string Rendered HTML tag string.
      */
     public function __toString(): string
     {
@@ -97,20 +83,19 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
     abstract protected function run(): string;
 
     /**
-     * Adds one or more default providers to the tag instance.
+     * Applies one or more default providers.
      *
-     * Applies configuration defaults from the specified provider classes to the tag.
+     * Usage example:
+     * ```php
+     * $tag = \App\Html\SomeTag::tag()
+     *     ->addDefaultProvider(\App\Html\SomeDefaultProvider::class);
+     * ```
      *
      * @param string ...$providers List of default provider class names.
      *
      * @return static Tag instance with applied default providers.
      *
      * @phpstan-param class-string<DefaultsProviderInterface> ...$providers
-     *
-     * Usage example:
-     * ```php
-     * $tag = Div::tag()->addDefaultProvider(\UIAwesome\Html\Provider\SomeDefaultProvider::class);
-     * ```
      */
     public function addDefaultProvider(string ...$providers): static
     {
@@ -131,9 +116,13 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
     }
 
     /**
-     * Adds one or more theme providers to the tag instance.
+     * Applies one or more theme providers.
      *
-     * Applies theme configuration from the specified provider classes to the tag.
+     * Usage example:
+     * ```php
+     * $tag = \App\Html\SomeTag::tag()
+     *     ->addThemeProvider('dark', \App\Html\SomeThemeProvider::class);
+     * ```
      *
      * @param string $name Theme name to apply.
      * @param string ...$themeProviders List of theme provider class names.
@@ -141,11 +130,6 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
      * @return static Tag instance with applied theme providers.
      *
      * @phpstan-param class-string<ThemeProviderInterface> ...$themeProviders
-     *
-     * Usage example:
-     * ```php
-     * $tag = Div::tag()->addThemeProvider('dark', \UIAwesome\Html\Provider\SomeThemeProvider::class);
-     * ```
      */
     public function addThemeProvider(string $name, string ...$themeProviders): static
     {
@@ -166,9 +150,15 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
     }
 
     /**
-     * Applies a theme configuration to the tag instance.
+     * Returns theme configuration for the given tag.
      *
-     * Returns an array of configuration values for the given tag and theme.
+     * Usage example:
+     * ```php
+     * public function apply(self $tag, string $theme): array
+     * {
+     *     return $theme === 'dark' ? ['class' => 'btn-dark'] : [];
+     * }
+     * ```
      *
      * @param BaseTag $tag Tag instance being configured.
      * @param string $theme Theme name to apply.
@@ -176,22 +166,6 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
      * @return array Configuration array for the theme.
      *
      * @phpstan-return mixed[]
-     *
-     * Usage example:
-     * ```php
-     * public function apply(self $tag, string $theme): array
-     * {
-     *     if ($tag instanceof ButtonTag === false) {
-     *        return [];
-     *     }
-     *
-     *     return match ($theme) {
-     *         'dark' => ['class' => 'btn-dark'],
-     *         'light' => ['class' => 'btn-light'],
-     *         default => [],
-     *     };
-     * }
-     * ```
      */
     public function apply(self $tag, string $theme): array
     {
@@ -199,19 +173,16 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
     }
 
     /**
-     * Begins a tag rendering block and pushes the instance onto the context-specific stack.
-     *
-     * Identifies the current execution context (`Fiber` or `self::$mainThread`) and stores the tag instance in the
-     * corresponding stack, ensuring safe nesting even in concurrent environments.
-     *
-     * @return string Empty string for output buffering compatibility.
+     * Starts begin/end rendering for this instance.
      *
      * Usage example:
      * ```php
-     * <?= Div::tag()->begin() ?>
+     * <?= \App\Html\SomeTag::tag()->begin() ?>
      * Content inside the tag.
-     * <?= Div::end() ?>
+     * <?= \App\Html\SomeTag::end() ?>
      * ```
+     *
+     * @return string Empty string for output buffering compatibility.
      */
     final public function begin(): string
     {
@@ -228,21 +199,17 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
     }
 
     /**
-     * Ends the most recently begun tag rendering block.
+     * Ends the most recent begin/end rendering block for the current class.
      *
-     * Pops the tag instance from the current context's stack and render its HTML output.
-     *
-     * Automatically cleans up the stack entry if it becomes empty.
+     * Usage example:
+     * ```php
+     * <?= \App\Html\SomeTag::end() ?>
+     * ```
      *
      * @throws LogicException if no matching `begin()` call is found.
      * @throws RuntimeException if the tag class does not match the expected type.
      *
      * @return string Rendered HTML tag string.
-     *
-     * Usage example:
-     * ```php
-     * <?= Element::end() ?>
-     * ```
      */
     final public static function end(): string
     {
@@ -275,18 +242,21 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
     }
 
     /**
-     * Returns configuration defaults for the given tag instance.
+     * Returns default configuration for the given tag.
+     *
+     * Usage example:
+     * ```php
+     * public function getDefaults(self $tag): array
+     * {
+     *     return ['class' => 'default'];
+     * }
+     * ```
      *
      * @param BaseTag $tag Tag instance being configured.
      *
      * @return array<string, mixed> Cookbook-style configuration array.
      *
      * @phpstan-return mixed[]
-     *
-     * Usage example:
-     * ```php
-     * <?= $tag->getDefaults($tag) ?>
-     * ```
      */
     public function getDefaults(self $tag): array
     {
@@ -294,16 +264,14 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
     }
 
     /**
-     * Renders the tag, applying before and after run event hooks.
-     *
-     * Executes the `beforeRun()` and `afterRun()` hooks around the core `run()` rendering logic.
-     *
-     * @return string Rendered HTML tag string, or empty string if rendering is skipped.
+     * Renders the tag with lifecycle hooks.
      *
      * Usage example:
      * ```php
      * <?= $tag->render() ?>
      * ```
+     *
+     * @return string Rendered HTML tag string, or empty string if rendering is skipped.
      */
     final public function render(): string
     {
@@ -322,8 +290,10 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
      * - Class defaults from {@see BaseTag::loadDefault()}.
      * - Defaults passed directly by the user to {@see tag()}.
      *
-     * After construction, additional user modifications (via setter methods like `class`, `id`, `data`, etc.) and
-     * theme overrides will always have the highest priority.
+     * Usage example:
+     * ```php
+     * $element = \App\Html\SomeTag::tag(['class' => 'container']);
+     * ```
      *
      * @param array ...$defaults Configuration cookbook arrays. Each array maps "methodName" → arguments, and will be
      * applied in order.
@@ -331,16 +301,6 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
      * @return static Fully configured tag instance.
      *
      * @phpstan-param mixed[] ...$defaults
-     *
-     * Usage example:
-     * ```php
-     * $element = Div::tag(
-     *     [
-     *         'class' => 'container',
-     *         'id' => 'main-div',
-     *     ],
-     * );
-     * ```
      */
     public static function tag(array ...$defaults): static
     {
@@ -364,11 +324,9 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
     }
 
     /**
-     * Indicates whether the `begin()` method has been executed for this tag instance.
+     * Indicates whether `begin()` was executed for this instance.
      *
-     * Used internally for stack and lifecycle management.
-     *
-     * @return bool Returns `true` if `begin()` was executed, `false` otherwise.
+     * @return bool Returns `true` if `begin()` was executed, otherwise `false`.
      */
     protected function isBeginExecuted(): bool
     {
@@ -376,30 +334,13 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
     }
 
     /**
-     * Returns default definitions for the tag class.
+     * Returns class-level default definitions.
      *
-     * Provides a cookbook style array of default configurations that are applied when the tag is instantiated.
-     *
-     * These defaults have the medium priority in the configuration pipeline.
-     *
-     * Override this method in subclasses to provide class specific default values.
+     * Override this method in subclasses to provide default configuration values.
      *
      * @return array Cookbook style configuration array.
      *
      * @phpstan-return array<string, mixed>
-     *
-     * Usage example:
-     * ```php
-     * protected function loadDefault(): array
-     * {
-     *     $shortClassName = Utils::getShortNameClass(static::class, false, true);
-     *
-     *     return [
-     *         'id()' => [Utils::generateId("$shortClassName-")],
-     *         'template()' => ["{prefix}\n{tag}\n{suffix}"],
-     *     ];
-     * }
-     * ```
      */
     protected function loadDefault(): array
     {
@@ -407,12 +348,9 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
     }
 
     /**
-     * Handles the logic for the `begin()` method.
+     * Returns the opening tag for begin/end rendering.
      *
-     * By default, this method throws a `LogicException`, indicating that the tag does not support block rendering.
-     *
-     * Subclasses that support `begin()`/`end()` rendering should override this method to provide the appropriate
-     * behavior.
+     * Override this method in subclasses that support `begin()` and `end()`.
      *
      * @throws LogicException if the tag does not support `begin()`/`end()` rendering.
      *
@@ -428,10 +366,7 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
     }
 
     /**
-     * Retrieves the unique identifier for the current execution context.
-     *
-     * Returns the current `Fiber` instance if running in an async context or the `stdClass` sentinel object if running
-     * in the {@see self::$mainThread}.
+     * Returns the identifier for the current execution context.
      *
      * @phpstan-return Fiber<mixed, mixed, mixed, mixed>|stdClass
      */
@@ -441,9 +376,7 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
     }
 
     /**
-     * Retrieves the stack for the current execution context.
-     *
-     * Initializes the WeakMap if necessary and ensures an array exists for the current key.
+     * Returns the begin/end stack for the current execution context.
      *
      * @phpstan-return array<array-key, static>
      */

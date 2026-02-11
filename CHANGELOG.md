@@ -14,6 +14,7 @@
 - Bug #66: Replace direct property access with getter methods for `prefix` and `suffix` in `BaseInput` and `BaseInline` classes (@terabytesoftw)
 - Bug #67: Update condition for `aria-describedby` attribute in `BaseInput` class to accept string `true` (@terabytesoftw)
 - Bug #68: Enhance HTML output formatting by adding line breaks using `PHP_EOL` const in `BaseHtml`, `BaseBlock`, `BaseInline`, and `BaseTag` classes (@terabytesoftw)
+- Bug #69: Standardize PHPDoc headers for src and test classes and update related documentation (@terabytesoftw)
 
 ## 0.5.2 January 28, 2026
 

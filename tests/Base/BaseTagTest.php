@@ -12,15 +12,11 @@ use UIAwesome\Html\Interop\{Block, Inline};
 use UIAwesome\Html\Mixin\{HasAttributes, HasContent};
 
 /**
- * Unit tests for {@see BaseTag} rendering and lifecycle behavior.
- *
- * Verifies lifecycle-driven rendering behavior for {@see BaseTag}.
+ * Unit tests for the {@see BaseTag} class.
  *
  * Test coverage.
- * - Renders begin/end output when `begin()` and `end()` are supported by the tag.
- * - Skips rendering when `beforeRun()` returns `false`.
- *
- * {@see BaseTag} for implementation details.
+ * - Ensures rendering is skipped when `beforeRun()` returns `false`.
+ * - Verifies `begin()` and `end()` output when the tag supports both lifecycle methods.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.

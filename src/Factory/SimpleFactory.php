@@ -15,20 +15,13 @@ use function method_exists;
 use function property_exists;
 
 /**
- * Factory class for instantiating and configuring tag objects.
+ * Creates and configures tag instances from cookbook-style definitions.
  *
- * Creates instances of {@see BaseTag} subclasses via reflection and applies configuration using cookbook-style arrays.
- * Configuration entries are mapped to method calls (when a method exists) or to property assignment (when a property
- * exists).
- *
- * Designed to support {@see BaseTag::tag()} and provider pipelines that apply defaults and theme definitions.
- *
- * Key features.
- * - Applies configuration by invoking methods and assigning properties when available.
- * - Creates non-abstract tag classes via {@see ReflectionClass}.
- * - Rejects abstract classes during instantiation.
- * - Stores global default configuration arrays per tag class.
- * - Supports chaining multiple configuration arrays in a deterministic order.
+ * Usage example:
+ * ```php
+ * $tag = \UIAwesome\Html\Core\Factory\SimpleFactory::create(\App\Html\SomeTag::class);
+ * $tag = \UIAwesome\Html\Core\Factory\SimpleFactory::configure($tag, ['class' => 'container']);
+ * ```
  *
  * @phpstan-template T of BaseTag
  *
@@ -38,21 +31,23 @@ use function property_exists;
 final class SimpleFactory
 {
     /**
-     * Stores global default configuration arrays for tag classes.
-     *
-     * Maps class names to arrays of default configuration values, applied during instantiation.
+     * Stores global default configuration arrays keyed by class name.
      *
      * @phpstan-var array<class-string<BaseTag>, mixed[]>
      */
     public static array $defaults = [];
 
     /**
-     * Configures a tag instance using the provided defaults array.
+     * Applies configuration values to a tag instance.
      *
-     * Iterates over the defaults array, invoking methods on the tag instance for each action key ending with '()'.
-     *
-     * Arguments are passed as arrays or single values, and the tag instance is updated if the method returns a new
-     * instance.
+     * Usage example:
+     * ```php
+     * $tag = \UIAwesome\Html\Core\Factory\SimpleFactory::create(\App\Html\SomeTag::class);
+     * $tag = \UIAwesome\Html\Core\Factory\SimpleFactory::configure(
+     *     $tag,
+     *     ['id' => 'my-div', 'class' => ['container', 'highlight']],
+     * );
+     * ```
      *
      * @param BaseTag $tag Tag instance to configure.
      * @param array $defaults Associative array of method names and arguments.
@@ -63,16 +58,6 @@ final class SimpleFactory
      * @phpstan-param mixed[] $defaults
      *
      * @phpstan-return T
-     *
-     * Usage example:
-     * ```php
-     * $element = SimpleFactory::configure(
-     *     Div::tag(),
-     *     [
-     *        'id' => 'my-div',
-     *        'class' => ['container', 'highlight'],
-     *     ],
-     * );
      */
     public static function configure(BaseTag $tag, array $defaults): BaseTag
     {
@@ -98,22 +83,23 @@ final class SimpleFactory
     }
 
     /**
-     * Instantiates a tag class by name, enforcing non-abstractness.
+     * Creates a non-abstract tag instance by class name.
+     *
+     * Usage example:
+     * ```php
+     * $tag = \UIAwesome\Html\Core\Factory\SimpleFactory::create(\App\Html\SomeTag::class);
+     * ```
      *
      * @param string $class Tag class name.
      *
      * @throws LogicException if the class is abstract and cannot be instantiated.
      * @throws ReflectionException
+     *
      * @return BaseTag Instantiated tag object.
      *
      * @phpstan-param class-string<T> $class
      *
      * @phpstan-return T
-     *
-     * Usage example:
-     * ```php
-     * $tag = SimpleFactory::create(Div::class);
-     * ```
      */
     public static function create(string $class): BaseTag
     {
@@ -130,9 +116,12 @@ final class SimpleFactory
     }
 
     /**
-     * Returns the global default configuration array for a tag class.
+     * Returns global defaults for a tag class.
      *
-     * Retrieves the stored defaults for the specified tag class, or an empty array if none are set.
+     * Usage example:
+     * ```php
+     * $defaults = \UIAwesome\Html\Core\Factory\SimpleFactory::getDefaults(\App\Html\SomeTag::class);
+     * ```
      *
      * @param string $class Tag class name.
      *
@@ -140,11 +129,6 @@ final class SimpleFactory
      *
      * @phpstan-param class-string<BaseTag> $class
      * @phpstan-return mixed[]
-     *
-     * Usage example:
-     * ```php
-     * $defaults = SimpleFactory::getDefaults(SomeTag::class);
-     * ```
      */
     public static function getDefaults(string $class): array
     {
@@ -152,20 +136,21 @@ final class SimpleFactory
     }
 
     /**
-     * Sets global default configuration for a tag class.
+     * Sets global defaults for a tag class.
      *
-     * Stores the provided defaults array for the specified tag class, to be applied during instantiation.
+     * Usage example:
+     * ```php
+     * \UIAwesome\Html\Core\Factory\SimpleFactory::setDefaults(
+     *     \App\Html\SomeTag::class,
+     *     ['class' => 'default-class'],
+     * );
+     * ```
      *
      * @param string $class Tag class name.
      * @param array $defaults Default configuration array.
      *
      * @phpstan-param class-string<BaseTag> $class
      * @phpstan-param mixed[] $defaults
-     *
-     * Usage example:
-     * ```php
-     * SimpleFactory::setDefaults(SomeTag::class, ['class' => 'default-class']);
-     * ```
      */
     public static function setDefaults(string $class, array $defaults): void
     {
