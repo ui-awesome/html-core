@@ -27,21 +27,14 @@ use UIAwesome\Html\Interop\{BlockInterface, InlineInterface, VoidInterface};
 use UIAwesome\Html\Mixin\{HasAttributes, HasContent, HasPrefixCollection, HasSuffixCollection, HasTemplate};
 
 /**
- * Base class for constructing inline-level HTML elements.
+ * Provides the base implementation for inline HTML elements.
  *
- * Provides the shared implementation for inline tags rendered through {@see Html}. Subclasses supply the tag via
- * {@see BaseInline::getTag()}, while attributes, content, and optional prefix/suffix rendering are managed via mixins.
+ * Subclasses return an {@see InlineInterface} tag and can compose prefix, tag, and suffix output via templates.
  *
- * Intended for tag classes that need inline rendering with optional template-driven composition.
- *
- * Key features.
- * - Builds composed output via {@see BaseInline::buildElement()} and {@see Template::render()}.
- * - Mixes in global attribute traits and attribute/content storage.
- * - Renders inline tags via {@see Html::inline()} and can skip tag rendering when configured.
- * - Requires subclasses to provide a {@see InlineInterface} tag.
- * - Supports additional template token values for prefix/tag/suffix rendering.
- *
- * {@see InlineInterface} for contract details.
+ * Usage example:
+ * ```php
+ * <?= \App\Html\SomeInline::tag()->content('Label')->render() ?>
+ * ```
  *
  * @link https://developer.mozilla.org/en-US/docs/Glossary/Inline-level_content
  *
@@ -72,25 +65,20 @@ abstract class BaseInline extends BaseTag
     /**
      * Returns the tag instance representing the inline element.
      *
-     * Must be implemented by subclasses to specify the concrete inline tag.
-     *
      * @return InlineInterface Tag instance for the inline element.
      *
      * Usage example:
      * ```php
      * public function getTag(): InlineInterface
      * {
-     *    return Inline::SPAN;
+     *     return \UIAwesome\Html\Interop\Inline::SPAN;
      * }
      * ```
      */
     abstract protected function getTag(): InlineInterface;
 
     /**
-     * Builds the inline element using the provided content and token values.
-     *
-     * Constructs the element by rendering the prefix, main tag, and suffix using the configured template and
-     * attributes.
+     * Builds inline output from content and template tokens.
      *
      * @param string|Stringable $content Content to be rendered inside the tag.
      * @param array $tokenValues Additional token values for template rendering.
@@ -119,7 +107,7 @@ abstract class BaseInline extends BaseTag
     }
 
     /**
-     * Renders a tag or returns the content if the tag is not specified.
+     * Renders a tag, or returns content when the tag is `false`.
      *
      * @param BlockInterface|false|InlineInterface|VoidInterface $tag Tag instance or `false` to skip rendering.
      * @param string $content Content to be rendered inside the tag.

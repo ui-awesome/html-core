@@ -7,19 +7,16 @@ namespace UIAwesome\Html\Core;
 use UIAwesome\Html\Core\Base\BaseHtml;
 
 /**
- * Facade for HTML tag rendering helpers.
+ * Provides a implementation for static methods to generate HTML elements.
  *
- * Exposes the static rendering API from {@see Base\BaseHtml} under a concise class name.
- *
- * Intended for call sites that render tags using backed-enum tag values and attribute arrays.
- *
- * Key features.
- * - Formats block element output with line breaks consistent with {@see Base\BaseHtml}.
- * - Provides `begin()`, `end()`, `inline()`, `void()`, and `element()` helpers.
- * - Renders attributes and optionally encodes content via the base implementation.
- * - Supports block, inline, and void tag types through the corresponding interop contracts.
- *
- * {@see BaseHtml} for the base implementation.
+ * Usage example:
+ * ```php
+ * echo \UIAwesome\Html\Core\Html::inline(
+ *     \UIAwesome\Html\Interop\Inline::SPAN,
+ *     'Hello',
+ *     ['class' => 'label'],
+ * );
+ * ```
  *
  * @link https://developer.mozilla.org/en-US/docs/Glossary/Block-level_content
  * @link https://developer.mozilla.org/en-US/docs/Glossary/Inline-level_content

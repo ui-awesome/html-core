@@ -7,7 +7,7 @@ namespace UIAwesome\Html\Core\Tests;
 use PHPUnit\Framework\Attributes\{DataProviderExternal, Group};
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Core\Html;
-use UIAwesome\Html\Core\Tests\Support\Provider\Tag\{
+use UIAwesome\Html\Core\Tests\Provider\{
     BlockProvider,
     InlineProvider,
     ListsProvider,
@@ -18,21 +18,16 @@ use UIAwesome\Html\Core\Tests\Support\Provider\Tag\{
 use UIAwesome\Html\Interop\{Block, BlockInterface, Inline, InlineInterface, VoidInterface, Voids};
 
 /**
- * Unit tests for {@see Html} rendering and tag validation.
- *
- * Verifies rendered output, content encoding, and attribute normalization behavior for {@see Html}.
+ * Unit tests for the {@see Html} class.
  *
  * Test coverage.
- * - Encodes content when requested for `Html::element()` and `Html::inline()`.
- * - Escapes special characters in attribute values.
- * - Filters empty string attribute values while preserving `null` values.
- * - Normalizes and renders complex attribute structures (for example `class` arrays and nested `data` arrays).
- * - Renders begin/end output for block, list, root, and table tags via enum providers.
- * - Renders inline and void tags with representative attribute sets, including boolean attributes.
- * - Retains newline and tab characters within attribute values.
+ * - Ensures attribute normalization handles boolean, empty-string, `null`, and nested array values.
+ * - Ensures special characters, newline characters, and tab characters in attributes are preserved or escaped.
+ * - Verifies `begin()` and `end()` render expected output for block, list, root, and table tags.
+ * - Verifies `element()` and `inline()` render expected HTML with and without content encoding.
+ * - Verifies `void()` renders expected HTML for void tags, including boolean attributes.
  *
- * {@see Html} for implementation details.
- * {@see BlockProvider}, {@see InlineProvider}, {@see ListsProvider}, {@see RootProvider}, {@see TableProvider},
+ * {@see BlockProvider}, {@see InlineProvider}, {@see ListsProvider}, {@see RootProvider}, {@see TableProvider}, and
  * {@see VoidProvider} for test case data providers.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.

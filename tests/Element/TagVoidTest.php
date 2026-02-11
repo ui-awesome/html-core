@@ -12,16 +12,13 @@ use UIAwesome\Html\Core\Factory\SimpleFactory;
 use UIAwesome\Html\Core\Tests\Support\Stub\{DefaultProvider, DefaultThemeProvider, TagVoid};
 
 /**
- * Unit tests for {@see TagVoid} element rendering and attribute handling.
- *
- * Verifies rendered output and provider application behavior for {@see TagVoid}.
+ * Unit tests for the {@see TagVoid} class.
  *
  * Test coverage.
- * - Applies default providers.
- * - Renders void elements with representative global HTML attributes.
- *
- * {@see TagVoid} for element implementation details.
- * {@see DefaultProvider} for default provider implementation.
+ * - Ensures default and theme providers apply expected attributes.
+ * - Ensures global defaults are applied and user attributes override them.
+ * - Verifies undefined themes and missing defaults return empty arrays.
+ * - Verifies void tags render expected HTML for representative global attributes.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.

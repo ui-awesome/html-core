@@ -2,27 +2,27 @@
 
 declare(strict_types=1);
 
-namespace UIAwesome\Html\Core\Tests\Support\Provider\Tag;
+namespace UIAwesome\Html\Core\Tests\Provider;
 
 use PHPForge\Support\EnumDataProvider;
-use UIAwesome\Html\Interop\Voids;
+use UIAwesome\Html\Interop\Block;
 use UnitEnum;
 
 /**
  * Data provider for {@see \UIAwesome\Html\Core\Tests\HtmlTest} test cases.
  *
- * Provides representative tag enum cases and expected tag names for void tags.
+ * Provides representative input/output pairs for block tag rendering.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
-final class VoidProvider
+final class BlockProvider
 {
     /**
      * @phpstan-return array<string, array{UnitEnum, string}>
      */
-    public static function voidTags(): array
+    public static function blockTags(): array
     {
-        return EnumDataProvider::tagCases(Voids::class, 'void');
+        return EnumDataProvider::tagCases(Block::class, 'block');
     }
 }

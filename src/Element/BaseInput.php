@@ -29,21 +29,14 @@ use UIAwesome\Html\Interop\{BlockInterface, InlineInterface, VoidInterface};
 use UIAwesome\Html\Mixin\{HasAttributes, HasPrefixCollection, HasSuffixCollection, HasTemplate};
 
 /**
- * Abstract base class for HTML input element components.
+ * Provides the base implementation for input elements.
  *
- * Provides the foundation for creating various input type components (text, email, password, checkbox, radio, etc.).
+ * Builds input markup with attribute traits and template-driven prefix and suffix composition.
  *
- * Implements common functionality for rendering input elements with prefix/suffix support and template-based
- * composition.
- *
- * This class serves as the base for all input element types and provides the structure for implementing HTML input
- * attributes through traits.
- *
- * Key features.
- * - Automatic ID generation based on class name.
- * - Immutable configuration through method chaining.
- * - Supports additional template token values for prefix/tag/suffix rendering.
- * - Template-based rendering with prefix, tag, and suffix placeholders.
+ * Usage example:
+ * ```php
+ * <?= \App\Html\SomeInput::tag()->name('email')->render() ?>
+ * ```
  *
  * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
  *
@@ -77,32 +70,27 @@ abstract class BaseInput extends BaseTag
     /**
      * Returns the tag instance representing the void element.
      *
-     * Must be implemented by subclasses to specify the concrete void tag.
-     *
      * @return VoidInterface Tag instance for the void element.
      *
      * Usage example:
      * ```php
      * public function getTag(): VoidInterface
      * {
-     *     return Void::INPUT;
+     *     return \UIAwesome\Html\Interop\Void::INPUT;
      * }
      * ```
      */
     abstract protected function getTag(): VoidInterface;
 
     /**
-     * Builds the input element using the provided content and token values.
-     *
-     * Constructs the element by rendering the prefix, main tag, and suffix using the configured template and
-     * attributes.
+     * Builds input output from content and template tokens.
      *
      * @param string|Stringable $content Content to be rendered inside the tag.
      * Note: The `<input>` element is a void element and does not render inner content. Use attributes such as `value`
      * to configure the input's value.
      * @param array $tokenValues Additional token values for template rendering.
      *
-     * @return string Rendered HTML for the inline element.
+     * @return string Rendered HTML for the input element.
      *
      * @phpstan-param mixed[] $tokenValues
      *
@@ -136,9 +124,7 @@ abstract class BaseInput extends BaseTag
     }
 
     /**
-     * Returns the default configuration for the input element.
-     *
-     * Generates default values for the element based on the short class name.
+     * Returns class-level default configuration for input elements.
      *
      * @return array Default configuration array with method calls as keys.
      *
@@ -155,7 +141,7 @@ abstract class BaseInput extends BaseTag
     }
 
     /**
-     * Renders a tag or returns the content if the tag is not specified.
+     * Renders a tag, or returns content when the tag is `false`.
      *
      * @param BlockInterface|false|InlineInterface|VoidInterface $tag Tag instance or `false` to skip rendering.
      * @param string $content Content to be rendered inside the tag.

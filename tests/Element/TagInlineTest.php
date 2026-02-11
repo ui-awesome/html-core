@@ -25,21 +25,14 @@ use UIAwesome\Html\Core\Tests\Support\Stub\{DefaultProvider, DefaultThemeProvide
 use UIAwesome\Html\Interop\{Block, Inline, Voids};
 
 /**
- * Unit tests for {@see TagInline} element rendering and attribute handling.
- *
- * Verifies rendered output, provider application, and prefix/suffix rendering behavior for {@see TagInline}.
+ * Unit tests for the {@see TagInline} class.
  *
  * Test coverage.
- * - Applies default and theme providers.
- * - Renders inline elements with representative global HTML attributes.
- * - Renders prefix and suffix content with and without wrapper tags.
- * - Throws exceptions for unsupported `begin()`/`end()` usage.
- * - Uses `SimpleFactory` defaults while preserving user overrides.
- *
- * {@see TagInline} for element implementation details.
- * {@see DefaultProvider} for default provider implementation.
- * {@see DefaultThemeProvider} for theme provider implementation.
- * {@see SimpleFactory} for default configuration management.
+ * - Ensures default and theme providers apply expected attributes.
+ * - Ensures global defaults are applied and user attributes override them.
+ * - Verifies inline tags render expected HTML for representative global attributes.
+ * - Verifies LogicException is thrown when `begin()` or `end()` is called.
+ * - Verifies prefix and suffix content renders with block, inline, and void wrapper tags.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.

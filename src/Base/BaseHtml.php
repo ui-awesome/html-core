@@ -9,25 +9,17 @@ use UIAwesome\Html\Helper\{Attributes, Encode};
 use UIAwesome\Html\Interop\{BlockInterface, InlineInterface, VoidInterface};
 
 /**
- * Base class for HTML tag rendering and element generation.
+ * Provides the base implementation for rendering block, inline, and void HTML tags.
  *
- * Provides static helpers for rendering opening tags, closing tags, and full elements using backed-enum tag values.
- * Attribute arrays are rendered via {@see Attributes::render()}, and content can be encoded via
- * {@see Encode::content()} when requested.
- *
- * Intended for helper and facade classes that expose a consistent rendering API for block, inline, and void tag types.
- *
- * Key features.
- * - Accepts backed-enum tags for block, inline, and void elements.
- * - Encodes content via {@see Encode::content()} when `$encode` is `true`.
- * - Formats block element output with line breaks and predictable empty-content handling.
- * - Provides static helpers for `begin()`, `end()`, `element()`, `inline()`, and `void()`.
- * - Renders attribute arrays via {@see Attributes::render()}.
- * - Selects rendering strategy based on `VoidInterface` and `InlineInterface` tag contracts.
- *
- * {@see BlockInterface} for contract details.
- * {@see InlineInterface} for contract details.
- * {@see VoidInterface} for contract details.
+ * Usage example:
+ * ```php
+ * \UIAwesome\Html\Core\Html::element(
+ *     \UIAwesome\Html\Interop\Block::DIV,
+ *     'Hello, World!',
+ *     ['class' => 'container'],
+ *     true,
+ * );
+ * ```
  *
  * @link https://developer.mozilla.org/en-US/docs/Glossary/Block-level_content
  * @link https://developer.mozilla.org/en-US/docs/Glossary/Inline-level_content
@@ -41,9 +33,15 @@ use UIAwesome\Html\Interop\{BlockInterface, InlineInterface, VoidInterface};
 abstract class BaseHtml
 {
     /**
-     * Begins a block-level HTML tag with rendered attributes.
+     * Returns the opening tag for a block element.
      *
-     * Generates the opening tag string for the specified tag type, including rendered attributes.
+     * Usage example:
+     * ```php
+     * \UIAwesome\Html\Core\Html::begin(
+     *     \UIAwesome\Html\Interop\Block::DIV,
+     *     ['class' => 'container'],
+     * );
+     * ```
      *
      * @param BlockInterface $tag Tag enumeration instance.
      * @param array $attributes Associative array of HTML attributes.
@@ -56,14 +54,6 @@ abstract class BaseHtml
      * {@see \UIAwesome\Html\Interop\Table} for valid table-level tags.
      *
      * @phpstan-param mixed[] $attributes
-     *
-     * Usage example:
-     * ```php
-     * Html::begin(\UIAwesome\Html\Interop\Block::DIV, ['class' => 'container']);
-     * Html::begin(\UIAwesome\Html\Interop\Lists::UL, ['class' => 'list']);
-     * Html::begin(\UIAwesome\Html\Interop\Root::HTML, ['lang' => 'en']);
-     * Html::begin(\UIAwesome\Html\Interop\Table::TABLE, ['class' => 'table']);
-     * ```
      */
     public static function begin(BlockInterface $tag, array $attributes = []): string
     {
@@ -73,10 +63,17 @@ abstract class BaseHtml
     }
 
     /**
-     * Renders a complete HTML element with content and attributes.
+     * Returns a complete HTML element `string`.
      *
-     * Handles block-level, inline-level, and void-level tag types, encoding content if specified, and rendering
-     * attributes as needed.
+     * Usage example:
+     * ```php
+     * \UIAwesome\Html\Core\Html::element(
+     *     \UIAwesome\Html\Interop\Inline::SPAN,
+     *     '<Click Here>',
+     *     ['class' => 'link'],
+     *     true,
+     * );
+     * ```
      *
      * @param BackedEnum $tag Tag enumeration instance.
      * @param string $content Content to be rendered inside the tag.
@@ -93,13 +90,6 @@ abstract class BaseHtml
      * {@see \UIAwesome\Html\Interop\Void} for valid void-level tags.
      *
      * @phpstan-param mixed[] $attributes
-     *
-     * Usage example:
-     * ```php
-     * Html::element(\UIAwesome\Html\Interop\Block::DIV, 'Hello, World!', ['class' => 'container'], true);
-     * Html::element(\UIAwesome\Html\Interop\Inline::SPAN, 'Hello, World!', ['class' => 'highlight'], false);
-     * Html::element(\UIAwesome\Html\Interop\Void::IMG, '', ['src' => 'image.png', 'alt' => 'An image']);
-     * ```
      */
     public static function element(
         BackedEnum $tag,
@@ -129,9 +119,12 @@ abstract class BaseHtml
     }
 
     /**
-     * Ends a block-level HTML tag.
+     * Returns the closing tag for a block element.
      *
-     * Generates the closing tag string for the specified tag type.
+     * Usage example:
+     * ```php
+     * \UIAwesome\Html\Core\Html::end(\UIAwesome\Html\Interop\Block::DIV);
+     * ```
      *
      * @param BlockInterface $tag Tag enumeration instance.
      *
@@ -141,14 +134,6 @@ abstract class BaseHtml
      * {@see \UIAwesome\Html\Interop\Lists} for valid list-level tags.
      * {@see \UIAwesome\Html\Interop\Root} for valid root-level tags.
      * {@see \UIAwesome\Html\Interop\Table} for valid table-level tags.
-     *
-     * Usage example:
-     * ```php
-     * Html::end(\UIAwesome\Html\Interop\Block::DIV);
-     * Html::end(\UIAwesome\Html\Interop\Lists::UL);
-     * Html::end(\UIAwesome\Html\Interop\Root::HTML);
-     * Html::end(\UIAwesome\Html\Interop\Table::TABLE);
-     * ```
      */
     public static function end(BlockInterface $tag): string
     {
@@ -156,9 +141,17 @@ abstract class BaseHtml
     }
 
     /**
-     * Renders an inline-level HTML element with content and attributes.
+     * Returns an inline HTML element `string`.
      *
-     * Encodes content if specified and renders attributes for the inline tag.
+     * Usage example:
+     * ```php
+     * \UIAwesome\Html\Core\Html::inline(
+     *     \UIAwesome\Html\Interop\Inline::A,
+     *     '<Click Here>',
+     *     ['href' => '#'],
+     *     true,
+     * );
+     * ```
      *
      * @param InlineInterface $tag Inline tag enumeration instance.
      * @param string $content Content to be rendered inside the tag.
@@ -170,12 +163,6 @@ abstract class BaseHtml
      * {@see \UIAwesome\Html\Interop\Inline} for valid inline-level tags.
      *
      * @phpstan-param mixed[] $attributes
-     *
-     * Usage example:
-     * ```php
-     * Html::inline(\UIAwesome\Html\Interop\Inline::SPAN, 'Hello, World!', ['class' => 'highlight']);
-     * Html::inline(\UIAwesome\Html\Interop\Inline::A, '<Click Here>', ['href' => '#'], true);
-     * ```
      */
     public static function inline(
         InlineInterface $tag,
@@ -193,9 +180,15 @@ abstract class BaseHtml
     }
 
     /**
-     * Renders a void-level (self-closing) HTML element with attributes.
+     * Returns a void HTML element `string`.
      *
-     * Generates the tag string for void elements, including rendered attributes.
+     * Usage example:
+     * ```php
+     * \UIAwesome\Html\Core\Html::void(
+     *     \UIAwesome\Html\Interop\Void::IMG,
+     *     ['src' => 'image.png', 'alt' => 'An image'],
+     * );
+     * ```
      *
      * @param VoidInterface $tag Void tag enumeration instance.
      * @param array $attributes Associative array of HTML attributes.
@@ -205,11 +198,6 @@ abstract class BaseHtml
      * {@see \UIAwesome\Html\Interop\Void} for valid void-level tags.
      *
      * @phpstan-param mixed[] $attributes
-     *
-     * Usage example:
-     * ```php
-     * Html::void(\UIAwesome\Html\Interop\Void::IMG, ['src' => 'image.png', 'alt' => 'An image']);
-     * ```
      */
     public static function void(VoidInterface $tag, array $attributes = []): string
     {

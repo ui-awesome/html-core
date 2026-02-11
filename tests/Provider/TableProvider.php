@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace UIAwesome\Html\Core\Tests\Support\Provider\Tag;
+namespace UIAwesome\Html\Core\Tests\Provider;
 
 use PHPForge\Support\EnumDataProvider;
 use UIAwesome\Html\Interop\Table;
@@ -11,7 +11,7 @@ use UnitEnum;
 /**
  * Data provider for {@see \UIAwesome\Html\Core\Tests\HtmlTest} test cases.
  *
- * Provides representative tag enum cases and expected tag names for table tags.
+ * Provides representative input/output pairs for table tag rendering.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
