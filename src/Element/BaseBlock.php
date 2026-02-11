@@ -99,7 +99,6 @@ abstract class BaseBlock extends BaseTag
         return LineBreakNormalizer::normalize(parent::afterRun($result));
     }
 
-
     /**
      * Renders the block element.
      *
