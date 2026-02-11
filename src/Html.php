@@ -7,7 +7,7 @@ namespace UIAwesome\Html\Core;
 use UIAwesome\Html\Core\Base\BaseHtml;
 
 /**
- * Provides a implementation for static methods to generate HTML elements.
+ * Provides an implementation for static methods to generate HTML elements.
  *
  * Usage example:
  * ```php

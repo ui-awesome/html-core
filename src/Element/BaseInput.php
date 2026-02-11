@@ -76,7 +76,7 @@ abstract class BaseInput extends BaseTag
      * ```php
      * public function getTag(): VoidInterface
      * {
-     *     return \UIAwesome\Html\Interop\Void::INPUT;
+     *     return \UIAwesome\Html\Interop\Voids::INPUT;
      * }
      * ```
      */
