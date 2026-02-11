@@ -27,6 +27,7 @@ use UIAwesome\Html\Attribute\Global\{
 };
 use UIAwesome\Html\Core\Base\BaseTag;
 use UIAwesome\Html\Core\Html;
+use UIAwesome\Html\Helper\LineBreakNormalizer;
 use UIAwesome\Html\Interop\BlockInterface;
 use UIAwesome\Html\Mixin\{HasAttributes, HasContent};
 
@@ -83,6 +84,20 @@ abstract class BaseBlock extends BaseTag
      * @return BlockInterface Tag instance for the block element.
      */
     abstract protected function getTag(): BlockInterface;
+
+    /**
+     * Cleans up the output after rendering the block element.
+     *
+     * Removes excessive consecutive newlines from the rendered output to ensure clean HTML structure.
+     *
+     * @param string $result Rendered HTML output.
+     *
+     * @return string Cleaned HTML output with excessive newlines removed.
+     */
+    protected function afterRun(string $result): string
+    {
+        return LineBreakNormalizer::normalize(parent::afterRun($result));
+    }
 
     /**
      * Renders the block element.
