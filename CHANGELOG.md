@@ -16,6 +16,7 @@
 - Bug #68: Enhance HTML output formatting by adding line breaks using `PHP_EOL` const in `BaseHtml`, `BaseBlock`, `BaseInline`, and `BaseTag` classes (@terabytesoftw)
 - Bug #69: Standardize PHPDoc headers for src and test classes and update related documentation (@terabytesoftw)
 - Bug #70: Add `afterRun()` method to clean up excessive newlines in `BaseBlock` class (@terabytesoftw)
+- Bug #71: Update `ui-awesome/html-helper` to version `^0.7` and `ui-awesome/html-mixin` to version `^0.4` in `composer.json` (@terabytesoftw)
 
 ## 0.5.2 January 28, 2026
 
