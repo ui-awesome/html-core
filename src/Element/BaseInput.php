@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Element;
 
 use Stringable;
+use UIAwesome\Html\Attribute\{CanBeDisabled, HasName, HasType};
 use UIAwesome\Html\Attribute\Form\HasForm;
 use UIAwesome\Html\Attribute\Global\{
     CanBeHidden,
@@ -21,7 +22,6 @@ use UIAwesome\Html\Attribute\Global\{
     HasTitle,
     HasTranslate,
 };
-use UIAwesome\Html\Attribute\{HasDisabled, HasName, HasType};
 use UIAwesome\Html\Core\Base\BaseTag;
 use UIAwesome\Html\Core\Html;
 use UIAwesome\Html\Helper\{Naming, Template};
@@ -40,6 +40,7 @@ use UIAwesome\Html\Mixin\{HasAttributes, HasPrefixCollection, HasSuffixCollectio
  */
 abstract class BaseInput extends BaseTag
 {
+    use CanBeDisabled;
     use CanBeHidden;
     use HasAccesskey;
     use HasAria;
@@ -47,7 +48,6 @@ abstract class BaseInput extends BaseTag
     use HasClass;
     use HasData;
     use HasDir;
-    use HasDisabled;
     use HasEvents;
     use HasForm;
     use HasId;
