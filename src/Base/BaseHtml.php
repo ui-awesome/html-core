@@ -11,16 +11,6 @@ use UIAwesome\Html\Interop\{BlockInterface, InlineInterface, VoidInterface};
 /**
  * Provides the base implementation for rendering block, inline, and void HTML tags.
  *
- * Usage example:
- * ```php
- * \UIAwesome\Html\Core\Html::element(
- *     \UIAwesome\Html\Interop\Block::DIV,
- *     'Hello, World!',
- *     ['class' => 'container'],
- *     true,
- * );
- * ```
- *
  * @link https://developer.mozilla.org/en-US/docs/Glossary/Block-level_content
  * @link https://developer.mozilla.org/en-US/docs/Glossary/Inline-level_content
  * @link https://developer.mozilla.org/en-US/docs/Glossary/Void_element

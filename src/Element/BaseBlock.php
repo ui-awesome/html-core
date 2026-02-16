@@ -36,11 +36,6 @@ use UIAwesome\Html\Mixin\{HasAttributes, HasContent};
  *
  * Subclasses return a {@see BlockInterface} tag and inherit attribute and content handling.
  *
- * Usage example:
- * ```php
- * <?= \App\Html\SomeBlock::tag()->content('Content')->render() ?>
- * ```
- *
  * @link https://developer.mozilla.org/en-US/docs/Glossary/Block-level_content
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.

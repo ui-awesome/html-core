@@ -17,6 +17,7 @@
 - Bug #69: Standardize PHPDoc headers for src and test classes and update related documentation (@terabytesoftw)
 - Bug #70: Add `afterRun()` method to clean up excessive newlines in `BaseBlock` class (@terabytesoftw)
 - Bug #71: Update `ui-awesome/html-helper` to version `^0.7` and `ui-awesome/html-mixin` to version `^0.4` in `composer.json` (@terabytesoftw)
+- Bug #72: Remove usage examples from PHPDoc in multiple classes for cleaner documentation (@terabytesoftw)
 
 ## 0.5.2 January 28, 2026
 

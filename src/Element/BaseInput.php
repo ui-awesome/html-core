@@ -33,11 +33,6 @@ use UIAwesome\Html\Mixin\{HasAttributes, HasPrefixCollection, HasSuffixCollectio
  *
  * Builds input markup with attribute traits and template-driven prefix and suffix composition.
  *
- * Usage example:
- * ```php
- * <?= \App\Html\SomeInput::tag()->name('email')->render() ?>
- * ```
- *
  * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
  *
  * @copyright Copyright (C) 2026 Terabytesoftw.
