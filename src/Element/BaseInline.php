@@ -31,11 +31,6 @@ use UIAwesome\Html\Mixin\{HasAttributes, HasContent, HasPrefixCollection, HasSuf
  *
  * Subclasses return an {@see InlineInterface} tag and can compose prefix, tag, and suffix output via templates.
  *
- * Usage example:
- * ```php
- * <?= \App\Html\SomeInline::tag()->content('Label')->render() ?>
- * ```
- *
  * @link https://developer.mozilla.org/en-US/docs/Glossary/Inline-level_content
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.

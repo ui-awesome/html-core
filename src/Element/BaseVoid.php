@@ -30,11 +30,6 @@ use UIAwesome\Html\Mixin\HasAttributes;
  * Subclasses return a {@see VoidInterface} tag and inherit attribute handling for rendering through
  * {@see Html::void()}.
  *
- * Usage example:
- * ```php
- * <?= \App\Html\SomeVoid::tag()->class('image')->render() ?>
- * ```
- *
  * @link https://developer.mozilla.org/en-US/docs/Glossary/Void_element
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.

@@ -22,12 +22,6 @@ use function array_pop;
  *
  * Uses lifecycle hooks and a context-aware begin/end stack backed by {@see WeakMap} and {@see Fiber}.
  *
- * Usage example:
- * ```php
- * $tag = \App\Html\SomeTag::tag(['class' => 'container']);
- * echo $tag->render();
- * ```
- *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
