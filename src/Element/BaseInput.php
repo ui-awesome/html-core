@@ -64,6 +64,8 @@ abstract class BaseInput extends BaseTag
 
     /**
      * Suffix appended to the element `id` when `aria-describedby` is set to `true`.
+     *
+     * An empty string falls back to `'-help'` during rendering.
      */
     protected string $ariaDescribedBySuffix = '';
 

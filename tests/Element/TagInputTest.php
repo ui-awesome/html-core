@@ -282,7 +282,7 @@ final class TagInputTest extends TestCase
                 ->ariaDescribedBySuffix('')
                 ->id('taginput')
                 ->render(),
-            "Failed asserting that element renders correctly with a custom 'ariaDescribedBySuffix()' value.",
+            "Failed asserting that an empty 'ariaDescribedBySuffix()' falls back to the default '-help' suffix.",
         );
     }
 
