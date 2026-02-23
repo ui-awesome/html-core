@@ -119,8 +119,10 @@ abstract class BaseInput extends BaseTag
         $id = $this->getAttribute('id', null);
         $ariaDescribedBy = $this->getAttribute('aria-describedby', null);
 
+        $ariaDescribedBySuffix = $this->ariaDescribedBySuffix === '' ? '-help' : $this->ariaDescribedBySuffix;
+
         if ($ariaDescribedBy === true || $ariaDescribedBy === 'true') {
-            $attributes['aria-describedby'] = $id !== null ? "{$id}{$this->ariaDescribedBySuffix}" : null;
+            $attributes['aria-describedby'] = $id !== null ? "{$id}{$ariaDescribedBySuffix}" : null;
         }
 
         $tokenTemplateValues = [

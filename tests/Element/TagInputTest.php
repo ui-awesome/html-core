@@ -271,6 +271,21 @@ final class TagInputTest extends TestCase
         );
     }
 
+    public function testRenderWithAriaDescribedBySuffixAndEmptySuffix(): void
+    {
+        self::assertSame(
+            <<<HTML
+            <input id="taginput" aria-describedby="taginput-help">
+            HTML,
+            TagInput::tag()
+                ->addAriaAttribute('describedby', true)
+                ->ariaDescribedBySuffix('')
+                ->id('taginput')
+                ->render(),
+            "Failed asserting that element renders correctly with a custom 'ariaDescribedBySuffix()' value.",
+        );
+    }
+
     public function testRenderWithAriaDescribedBySuffixAndIdNull(): void
     {
         self::assertSame(
