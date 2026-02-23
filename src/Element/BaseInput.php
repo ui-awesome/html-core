@@ -24,7 +24,7 @@ use UIAwesome\Html\Attribute\Global\{
 };
 use UIAwesome\Html\Core\Base\BaseTag;
 use UIAwesome\Html\Core\Html;
-use UIAwesome\Html\Helper\{Naming, Template};
+use UIAwesome\Html\Helper\Template;
 use UIAwesome\Html\Interop\{BlockInterface, InlineInterface, VoidInterface};
 use UIAwesome\Html\Mixin\{HasAttributes, HasPrefixCollection, HasSuffixCollection, HasTemplate};
 
@@ -63,6 +63,13 @@ abstract class BaseInput extends BaseTag
     use HasType;
 
     /**
+     * Suffix appended to the element `id` when `aria-describedby` is set to `true`.
+     *
+     * An empty string falls back to `'-help'` during rendering.
+     */
+    protected string $ariaDescribedBySuffix = '';
+
+    /**
      * Returns the tag instance representing the void element.
      *
      * @return VoidInterface Tag instance for the void element.
@@ -76,6 +83,21 @@ abstract class BaseInput extends BaseTag
      * ```
      */
     abstract protected function getTag(): VoidInterface;
+
+    /**
+     * Sets the suffix appended to the element `id` when `aria-describedby` is set to `true`.
+     *
+     * @param string $value Suffix to append to the element `id` for `aria-describedby`. Defaults to `'-help'`.
+     *
+     * @return static New instance with the updated `ariaDescribedBySuffix` value.
+     */
+    public function ariaDescribedBySuffix(string $value): static
+    {
+        $new = clone $this;
+        $new->ariaDescribedBySuffix = $value;
+
+        return $new;
+    }
 
     /**
      * Builds input output from content and template tokens.
@@ -99,8 +121,10 @@ abstract class BaseInput extends BaseTag
         $id = $this->getAttribute('id', null);
         $ariaDescribedBy = $this->getAttribute('aria-describedby', null);
 
+        $ariaDescribedBySuffix = $this->ariaDescribedBySuffix === '' ? '-help' : $this->ariaDescribedBySuffix;
+
         if ($ariaDescribedBy === true || $ariaDescribedBy === 'true') {
-            $attributes['aria-describedby'] = $id !== null ? "{$id}-help" : null;
+            $attributes['aria-describedby'] = $id !== null ? "{$id}{$ariaDescribedBySuffix}" : null;
         }
 
         $tokenTemplateValues = [
@@ -127,10 +151,7 @@ abstract class BaseInput extends BaseTag
      */
     protected function loadDefault(): array
     {
-        $shortClassName = Naming::getShortNameClass(static::class, false, true);
-
         return [
-            'id' => [Naming::generateId("$shortClassName-")],
             'template' => ["{prefix}\n{tag}\n{suffix}"],
         ];
     }

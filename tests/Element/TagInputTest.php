@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Tests\Element;
 
+use InvalidArgumentException;
 use PHPForge\Support\ReflectionHelper;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
-use UIAwesome\Html\Attribute\Values\{Aria, Data, Direction, Event, Language, Role, Translate};
+use UIAwesome\Html\Attribute\Values\{Aria, Data, Direction, Event, GlobalAttribute, Language, Role, Translate};
 use UIAwesome\Html\Core\Factory\SimpleFactory;
 use UIAwesome\Html\Core\Tests\Support\Stub\{DefaultProvider, TagInput, TagInputWithTokenValues};
+use UIAwesome\Html\Helper\Enum;
+use UIAwesome\Html\Helper\Exception\Message;
 use UIAwesome\Html\Interop\{Block, Inline, Voids};
 
 /**
@@ -17,6 +20,7 @@ use UIAwesome\Html\Interop\{Block, Inline, Voids};
  *
  * Test coverage.
  * - Ensures `aria-describedby` derives from `id` when set to `true` and is omitted when `id` is `null`.
+ * - Ensures `ariaDescribedBySuffix()` customizes the suffix appended to `id` for `aria-describedby`.
  * - Ensures default providers and global defaults apply expected attributes, with user overrides preserved.
  * - Verifies input tags render expected HTML for representative global and input-specific attributes.
  * - Verifies prefix and suffix content renders with block, inline, and void wrapper tags.
@@ -32,11 +36,10 @@ final class TagInputTest extends TestCase
     {
         self::assertSame(
             <<<HTML
-            <input id="taginput" accesskey="k">
+            <input accesskey="value">
             HTML,
             TagInput::tag()
-                ->accesskey('k')
-                ->id('taginput')
+                ->accesskey('value')
                 ->render(),
             "Failed asserting that element renders correctly with 'accesskey' attribute.",
         );
@@ -46,11 +49,10 @@ final class TagInputTest extends TestCase
     {
         self::assertSame(
             <<<HTML
-            <input id="taginput" aria-pressed="true">
+            <input aria-label="value">
             HTML,
             TagInput::tag()
-                ->addAriaAttribute('pressed', true)
-                ->id('taginput')
+                ->addAriaAttribute('label', 'value')
                 ->render(),
             "Failed asserting that element renders correctly with 'addAriaAttribute()' method.",
         );
@@ -60,11 +62,10 @@ final class TagInputTest extends TestCase
     {
         self::assertSame(
             <<<HTML
-            <input id="taginput" aria-pressed="true">
+            <input aria-label="value">
             HTML,
             TagInput::tag()
-                ->addAriaAttribute(Aria::PRESSED, true)
-                ->id('taginput')
+                ->addAriaAttribute(Aria::LABEL, 'value')
                 ->render(),
             "Failed asserting that element renders correctly with 'addAriaAttribute()' method using enum.",
         );
@@ -74,11 +75,10 @@ final class TagInputTest extends TestCase
     {
         self::assertSame(
             <<<HTML
-            <input id="taginput" aria-describedby="custom-help">
+            <input aria-describedby="value">
             HTML,
             TagInput::tag()
-                ->addAriaAttribute('describedby', 'custom-help')
-                ->id('taginput')
+                ->addAriaAttribute('describedby', 'value')
                 ->render(),
             "Failed asserting that an explicit 'aria-describedby' string value is preserved.",
         );
@@ -175,11 +175,10 @@ final class TagInputTest extends TestCase
     {
         self::assertSame(
             <<<HTML
-            <input id="taginput" data-value="value">
+            <input data-value="value">
             HTML,
             TagInput::tag()
                 ->addDataAttribute('value', 'value')
-                ->id('taginput')
                 ->render(),
             "Failed asserting that element renders correctly with 'addDataAttribute()' method.",
         );
@@ -189,11 +188,10 @@ final class TagInputTest extends TestCase
     {
         self::assertSame(
             <<<HTML
-            <input id="taginput" data-value="value">
+            <input data-value="value">
             HTML,
             TagInput::tag()
                 ->addDataAttribute(Data::VALUE, 'value')
-                ->id('taginput')
                 ->render(),
             "Failed asserting that element renders correctly with 'addDataAttribute()' method using enum.",
         );
@@ -203,11 +201,10 @@ final class TagInputTest extends TestCase
     {
         self::assertSame(
             <<<HTML
-            <input id="taginput" onclick="handleClick()">
+            <input onclick="handleClick()">
             HTML,
             TagInput::tag()
                 ->addEvent(Event::CLICK, 'handleClick()')
-                ->id('taginput')
                 ->render(),
             "Failed asserting that element renders correctly with 'addEvent()' method.",
         );
@@ -217,17 +214,15 @@ final class TagInputTest extends TestCase
     {
         self::assertSame(
             <<<HTML
-            <input id="taginput" aria-label="Close" aria-hidden="false" aria-controls="modal-1">
+            <input aria-controls="value" aria-label="value">
             HTML,
             TagInput::tag()
                 ->ariaAttributes(
                     [
-                        'label' => 'Close',
-                        'hidden' => false,
-                        'controls' => static fn(): string => 'modal-1',
+                        'controls' => 'value',
+                        'label' => 'value',
                     ],
                 )
-                ->id('taginput')
                 ->render(),
             "Failed asserting that element renders correctly with 'ariaAttributes()' method.",
         );
@@ -261,15 +256,60 @@ final class TagInputTest extends TestCase
         );
     }
 
+    public function testRenderWithAriaDescribedBySuffix(): void
+    {
+        self::assertSame(
+            <<<HTML
+            <input id="taginput" aria-describedby="taginput-hint">
+            HTML,
+            TagInput::tag()
+                ->addAriaAttribute('describedby', true)
+                ->ariaDescribedBySuffix('-hint')
+                ->id('taginput')
+                ->render(),
+            "Failed asserting that element renders correctly with a custom 'ariaDescribedBySuffix()' value.",
+        );
+    }
+
+    public function testRenderWithAriaDescribedBySuffixAndEmptySuffixUsesDefault(): void
+    {
+        self::assertSame(
+            <<<HTML
+            <input id="taginput" aria-describedby="taginput-help">
+            HTML,
+            TagInput::tag()
+                ->addAriaAttribute('describedby', true)
+                ->ariaDescribedBySuffix('')
+                ->id('taginput')
+                ->render(),
+            "Failed asserting that an empty 'ariaDescribedBySuffix()' falls back to the default '-help' suffix.",
+        );
+    }
+
+    public function testRenderWithAriaDescribedBySuffixAndIdNull(): void
+    {
+        self::assertSame(
+            <<<HTML
+            <input>
+            HTML,
+            TagInput::tag()
+                ->addAriaAttribute('describedby', true)
+                ->ariaDescribedBySuffix('-hint')
+                ->id(null)
+                ->render(),
+            "Failed asserting that element renders correctly with a custom 'ariaDescribedBySuffix()' value and 'id' "
+            . "is 'null'.",
+        );
+    }
+
     public function testRenderWithAttributes(): void
     {
         self::assertSame(
             <<<HTML
-            <input class="value" id="taginput">
+            <input class="value">
             HTML,
             TagInput::tag()
                 ->attributes(['class' => 'value'])
-                ->id('taginput')
                 ->render(),
             "Failed asserting that element renders correctly with 'attributes()' method.",
         );
@@ -307,11 +347,10 @@ final class TagInputTest extends TestCase
     {
         self::assertSame(
             <<<HTML
-            <input class="value" id="taginput">
+            <input class="value">
             HTML,
             TagInput::tag()
                 ->class('value')
-                ->id('taginput')
                 ->render(),
             "Failed asserting that element renders correctly with 'class' attribute.",
         );
@@ -321,11 +360,10 @@ final class TagInputTest extends TestCase
     {
         self::assertSame(
             <<<HTML
-            <input id="taginput">
+            <input>
             <span class="custom-token">Custom content from token</span>
             HTML,
             TagInputWithTokenValues::tag()
-                ->id('taginput')
                 ->template("{tag}\n{custom}")
                 ->tokenValues(['{custom}' => '<span class="custom-token">Custom content from token</span>'])
                 ->render(),
@@ -337,11 +375,10 @@ final class TagInputTest extends TestCase
     {
         self::assertSame(
             <<<HTML
-            <input id="taginput" data-value="test-value">
+            <input data-value="test-value">
             HTML,
             TagInput::tag()
                 ->dataAttributes(['value' => 'test-value'])
-                ->id('taginput')
                 ->render(),
             "Failed asserting that element renders correctly with 'dataAttributes()' method.",
         );
@@ -351,11 +388,9 @@ final class TagInputTest extends TestCase
     {
         self::assertSame(
             <<<HTML
-            <input class="default-class" id="taginput" title="default-title">
+            <input class="default-class" title="default-title">
             HTML,
-            TagInput::tag(['class' => 'default-class', 'title' => 'default-title'])
-                ->id('taginput')
-                ->render(),
+            TagInput::tag(['class' => 'default-class', 'title' => 'default-title'])->render(),
             'Failed asserting that default configuration values are applied correctly.',
         );
     }
@@ -364,11 +399,10 @@ final class TagInputTest extends TestCase
     {
         self::assertSame(
             <<<HTML
-            <input class="default-provider" id="taginput">
+            <input class="default-provider">
             HTML,
             TagInput::tag()
                 ->addDefaultProvider(DefaultProvider::class)
-                ->id('taginput')
                 ->render(),
             'Failed asserting that default provider is applied correctly.',
         );
@@ -380,9 +414,7 @@ final class TagInputTest extends TestCase
             <<<HTML
             <input>
             HTML,
-            TagInput::tag()
-                ->id(null)
-                ->render(),
+            TagInput::tag()->render(),
             'Failed asserting that element renders correctly with default values.',
         );
     }
@@ -391,11 +423,10 @@ final class TagInputTest extends TestCase
     {
         self::assertSame(
             <<<HTML
-            <input id="taginput" dir="rtl">
+            <input dir="rtl">
             HTML,
             TagInput::tag()
                 ->dir('rtl')
-                ->id('taginput')
                 ->render(),
             "Failed asserting that element renders correctly with 'dir' attribute.",
         );
@@ -405,11 +436,10 @@ final class TagInputTest extends TestCase
     {
         self::assertSame(
             <<<HTML
-            <input id="taginput" dir="ltr">
+            <input dir="ltr">
             HTML,
             TagInput::tag()
                 ->dir(Direction::LTR)
-                ->id('taginput')
                 ->render(),
             "Failed asserting that element renders correctly with 'dir' attribute using enum.",
         );
@@ -419,11 +449,10 @@ final class TagInputTest extends TestCase
     {
         self::assertSame(
             <<<HTML
-            <input id="taginput" disabled>
+            <input disabled>
             HTML,
             TagInput::tag()
                 ->disabled(true)
-                ->id('taginput')
                 ->render(),
             "Failed asserting that element renders correctly with 'disabled' attribute.",
         );
@@ -433,11 +462,10 @@ final class TagInputTest extends TestCase
     {
         self::assertSame(
             <<<HTML
-            <input id="taginput" onchange="handleChange()">
+            <input onchange="handleChange()">
             HTML,
             TagInput::tag()
                 ->events(['change' => 'handleChange()'])
-                ->id('taginput')
                 ->render(),
             "Failed asserting that element renders correctly with 'events()' method.",
         );
@@ -447,25 +475,12 @@ final class TagInputTest extends TestCase
     {
         self::assertSame(
             <<<HTML
-            <input id="taginput" form="signup-form">
+            <input form="value">
             HTML,
             TagInput::tag()
-                ->form('signup-form')
-                ->id('taginput')
+                ->form('value')
                 ->render(),
             "Failed asserting that element renders correctly with 'form' attribute.",
-        );
-    }
-
-    public function testRenderWithGenerateId(): void
-    {
-        /** @phpstan-var string $id */
-        $id = TagInput::tag()->getAttribute('id', '');
-
-        self::assertMatchesRegularExpression(
-            '/^taginput-\w+$/',
-            $id,
-            'Failed asserting that element generates an ID when not provided.',
         );
     }
 
@@ -480,11 +495,9 @@ final class TagInputTest extends TestCase
 
         self::assertSame(
             <<<HTML
-            <input class="from-global" id="taginput">
+            <input class="from-global">
             HTML,
-            TagInput::tag()
-                ->id('taginput')
-                ->render(),
+            TagInput::tag()->render(),
             'Failed asserting that global defaults are applied correctly.',
         );
 
@@ -498,11 +511,10 @@ final class TagInputTest extends TestCase
     {
         self::assertSame(
             <<<HTML
-            <input id="taginput" hidden>
+            <input hidden>
             HTML,
             TagInput::tag()
                 ->hidden(true)
-                ->id('taginput')
                 ->render(),
             "Failed asserting that element renders correctly with 'hidden' attribute.",
         );
@@ -512,10 +524,10 @@ final class TagInputTest extends TestCase
     {
         self::assertSame(
             <<<HTML
-            <input id="taginput">
+            <input id="value">
             HTML,
             TagInput::tag()
-                ->id('taginput')
+                ->id('value')
                 ->render(),
             "Failed asserting that element renders correctly with 'id' attribute.",
         );
@@ -525,11 +537,10 @@ final class TagInputTest extends TestCase
     {
         self::assertSame(
             <<<HTML
-            <input id="taginput" lang="es">
+            <input lang="en">
             HTML,
             TagInput::tag()
-                ->id('taginput')
-                ->lang('es')
+                ->lang('en')
                 ->render(),
             "Failed asserting that element renders correctly with 'lang' attribute.",
         );
@@ -539,11 +550,10 @@ final class TagInputTest extends TestCase
     {
         self::assertSame(
             <<<HTML
-            <input id="taginput" lang="es">
+            <input lang="en">
             HTML,
             TagInput::tag()
-                ->id('taginput')
-                ->lang(Language::SPANISH)
+                ->lang(Language::ENGLISH)
                 ->render(),
             "Failed asserting that element renders correctly with 'lang' attribute using enum.",
         );
@@ -559,19 +569,6 @@ final class TagInputTest extends TestCase
             $defaults,
             "Failed asserting that 'loadDefault()' method returns an array.",
         );
-        self::assertIsArray(
-            $defaults['id'] ?? null,
-            "Failed asserting that default 'id' is an array in 'loadDefault()' method.",
-        );
-        self::assertIsString(
-            $defaults['id'][0] ?? null,
-            "Failed asserting that default 'id' template is a string in 'loadDefault()' method.",
-        );
-        self::assertStringContainsString(
-            'taginput-',
-            $defaults['id'][0],
-            "Failed asserting that default 'id' is generated correctly in 'loadDefault()' method.",
-        );
         self::assertSame(
             ["{prefix}\n{tag}\n{suffix}"],
             $defaults['template'] ?? [],
@@ -583,11 +580,10 @@ final class TagInputTest extends TestCase
     {
         self::assertSame(
             <<<HTML
-            <input id="taginput" name="username">
+            <input name="value">
             HTML,
             TagInput::tag()
-                ->id('taginput')
-                ->name('username')
+                ->name('value')
                 ->render(),
             "Failed asserting that element renders correctly with 'name' attribute.",
         );
@@ -598,11 +594,10 @@ final class TagInputTest extends TestCase
         self::assertSame(
             <<<HTML
             <strong>Prefix</strong>
-            <input id="taginput">
+            <input>
             <em>Suffix</em>
             HTML,
             TagInput::tag()
-                ->id('taginput')
                 ->prefix('Prefix')
                 ->prefixTag(Inline::STRONG)
                 ->suffix('Suffix')
@@ -617,11 +612,10 @@ final class TagInputTest extends TestCase
         self::assertSame(
             <<<HTML
             Prefix content
-            <input class="test" id="taginput">
+            <input class="value">
             HTML,
             TagInput::tag()
-                ->class('test')
-                ->id('taginput')
+                ->class('value')
                 ->prefix('Prefix content')
                 ->render(),
             "Failed asserting that element renders correctly with 'prefix()' method.",
@@ -635,10 +629,9 @@ final class TagInputTest extends TestCase
             <div class="prefix-class" id="prefix-id">
             Prefix content
             </div>
-            <input id="taginput">
+            <input>
             HTML,
             TagInput::tag()
-                ->id('taginput')
                 ->prefix('Prefix content')
                 ->prefixAttributes(['id' => 'prefix-id'])
                 ->prefixClass('prefix-class')
@@ -653,10 +646,9 @@ final class TagInputTest extends TestCase
         self::assertSame(
             <<<HTML
             <strong class="prefix-class" id="prefix-id">Prefix content</strong>
-            <input id="taginput">
+            <input>
             HTML,
             TagInput::tag()
-                ->id('taginput')
                 ->prefix('Prefix content')
                 ->prefixAttributes(['id' => 'prefix-id'])
                 ->prefixClass('prefix-class')
@@ -670,10 +662,9 @@ final class TagInputTest extends TestCase
     {
         self::assertSame(
             <<<HTML
-            <input id="taginput" role="button">
+            <input role="button">
             HTML,
             TagInput::tag()
-                ->id('taginput')
                 ->role('button')
                 ->render(),
             "Failed asserting that element renders correctly with 'role' attribute.",
@@ -684,10 +675,9 @@ final class TagInputTest extends TestCase
     {
         self::assertSame(
             <<<HTML
-            <input id="taginput" role="button">
+            <input role="button">
             HTML,
             TagInput::tag()
-                ->id('taginput')
                 ->role(Role::BUTTON)
                 ->render(),
             "Failed asserting that element renders correctly with 'role' attribute using enum.",
@@ -698,11 +688,10 @@ final class TagInputTest extends TestCase
     {
         self::assertSame(
             <<<HTML
-            <input id="taginput" style='test-value'>
+            <input style='value'>
             HTML,
             TagInput::tag()
-                ->id('taginput')
-                ->style('test-value')
+                ->style('value')
                 ->render(),
             "Failed asserting that element renders correctly with 'style' attribute.",
         );
@@ -712,12 +701,11 @@ final class TagInputTest extends TestCase
     {
         self::assertSame(
             <<<HTML
-            <input class="test" id="taginput">
+            <input class="value">
             Suffix content
             HTML,
             TagInput::tag()
-                ->class('test')
-                ->id('taginput')
+                ->class('value')
                 ->suffix('Suffix content')
                 ->render(),
             "Failed asserting that element renders correctly with 'suffix()' method.",
@@ -728,13 +716,12 @@ final class TagInputTest extends TestCase
     {
         self::assertSame(
             <<<HTML
-            <input id="taginput">
+            <input>
             <div class="suffix-class" id="suffix-id">
             Suffix content
             </div>
             HTML,
             TagInput::tag()
-                ->id('taginput')
                 ->suffix('Suffix content')
                 ->suffixAttributes(['id' => 'suffix-id'])
                 ->suffixClass('suffix-class')
@@ -748,11 +735,10 @@ final class TagInputTest extends TestCase
     {
         self::assertSame(
             <<<HTML
-            <input id="taginput">
+            <input>
             <strong class="suffix-class" id="suffix-id">Suffix content</strong>
             HTML,
             TagInput::tag()
-                ->id('taginput')
                 ->suffix('Suffix content')
                 ->suffixAttributes(['id' => 'suffix-id'])
                 ->suffixClass('suffix-class')
@@ -767,11 +753,10 @@ final class TagInputTest extends TestCase
         self::assertSame(
             <<<HTML
             Prefix content
-            <input id="taginput">
+            <input>
             Suffix content
             HTML,
             TagInput::tag()
-                ->id('taginput')
                 ->template('')
                 ->prefix('Prefix content')
                 ->suffix('Suffix content')
@@ -784,11 +769,10 @@ final class TagInputTest extends TestCase
     {
         self::assertSame(
             <<<HTML
-            <input id="taginput" title="test-value">
+            <input title="value">
             HTML,
             TagInput::tag()
-                ->id('taginput')
-                ->title('test-value')
+                ->title('value')
                 ->render(),
             "Failed asserting that element renders correctly with 'title' attribute.",
         );
@@ -809,12 +793,11 @@ final class TagInputTest extends TestCase
     {
         self::assertSame(
             <<<HTML
-            <input id="taginput" translate="no">
+            <input translate="no">
             HTML,
             TagInput::tag()
-                    ->id('taginput')
-                    ->translate('no')
-                    ->render(),
+                ->translate('no')
+                ->render(),
             "Failed asserting that element renders correctly with 'translate' attribute.",
         );
     }
@@ -823,11 +806,10 @@ final class TagInputTest extends TestCase
     {
         self::assertSame(
             <<<HTML
-            <input id="taginput" translate="yes">
+            <input translate="yes">
             HTML,
             TagInput::tag()
                 ->translate(Translate::YES)
-                ->id('taginput')
                 ->render(),
             "Failed asserting that element renders correctly with 'translate' attribute using enum.",
         );
@@ -837,10 +819,9 @@ final class TagInputTest extends TestCase
     {
         self::assertSame(
             <<<HTML
-            <input id="taginput" type="text">
+            <input type="text">
             HTML,
             TagInput::tag()
-                ->id('taginput')
                 ->type('text')
                 ->render(),
             "Failed asserting that element renders correctly with 'type' attribute.",
@@ -861,9 +842,9 @@ final class TagInputTest extends TestCase
 
         self::assertSame(
             <<<HTML
-            <input class="from-global" id="id-user">
+            <input class="from-global" id="value">
             HTML,
-            TagInput::tag(['id' => 'id-user'])->render(),
+            TagInput::tag(['id' => 'value'])->render(),
             'Failed asserting that user-defined attributes override global defaults correctly.',
         );
 
@@ -881,7 +862,6 @@ final class TagInputTest extends TestCase
             <input>
             HTML,
             TagInput::tag()
-                ->id(null)
                 ->prefixAttributes(['src' => 'icon.svg', 'alt' => 'Icon'])
                 ->prefixTag(Voids::IMG)
                 ->render(),
@@ -897,7 +877,6 @@ final class TagInputTest extends TestCase
             <img src="icon.svg" alt="Icon">
             HTML,
             TagInput::tag()
-                ->id(null)
                 ->suffixAttributes(['src' => 'icon.svg', 'alt' => 'Icon'])
                 ->suffixTag(Voids::IMG)
                 ->render(),
@@ -923,5 +902,72 @@ final class TagInputTest extends TestCase
             $tag->getDefaults($tag),
             'Failed asserting that getting defaults returns an empty array when no defaults are set.',
         );
+    }
+
+    public function testReturnNewInstanceWhenSettingAttribute(): void
+    {
+        $tagInput = TagInput::tag();
+
+        self::assertNotSame(
+            $tagInput,
+            $tagInput->ariaDescribedBySuffix(''),
+            'Should return a new instance when setting the attribute, ensuring immutability.',
+        );
+    }
+
+    public function testThrowInvalidArgumentExceptionWhenSettingDir(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            Message::VALUE_NOT_IN_LIST->getMessage(
+                'invalid-value',
+                GlobalAttribute::DIR->value,
+                implode("', '", Enum::normalizeArray(Direction::cases())),
+            ),
+        );
+
+        TagInput::tag()->dir('invalid-value');
+    }
+
+    public function testThrowInvalidArgumentExceptionWhenSettingLang(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            Message::VALUE_NOT_IN_LIST->getMessage(
+                'invalid-value',
+                GlobalAttribute::LANG->value,
+                implode("', '", Enum::normalizeArray(Language::cases())),
+            ),
+        );
+
+        TagInput::tag()->lang('invalid-value');
+    }
+
+    public function testThrowInvalidArgumentExceptionWhenSettingRole(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            Message::VALUE_NOT_IN_LIST->getMessage(
+                'invalid-value',
+                GlobalAttribute::ROLE->value,
+                implode("', '", Enum::normalizeArray(Role::cases())),
+            ),
+        );
+
+        TagInput::tag()->role('invalid-value');
+    }
+
+    public function testThrowInvalidArgumentExceptionWhenSettingTranslate(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            Message::VALUE_NOT_IN_LIST->getMessage(
+                'invalid-value',
+                GlobalAttribute::TRANSLATE->value,
+                implode("', '", Enum::normalizeArray(Translate::cases())),
+            ),
+        );
+
+        TagInput::tag()->translate('invalid-value');
     }
 }

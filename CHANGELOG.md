@@ -19,6 +19,7 @@
 - Bug #71: Update `ui-awesome/html-helper` to version `^0.7` and `ui-awesome/html-mixin` to version `^0.4` in `composer.json` (@terabytesoftw)
 - Bug #72: Remove usage examples from PHPDoc in multiple classes for cleaner documentation (@terabytesoftw)
 - Bug #73: Update last modified from `ui-awesome/html-attribute` in related classes (@terabytesoftw)
+- Enh #74: Add `ariaDescribedBySuffix` property and method to customize `aria-describedby` suffix in `BaseInput` class (@terabytesoftw)
 
 ## 0.5.2 January 28, 2026
 
