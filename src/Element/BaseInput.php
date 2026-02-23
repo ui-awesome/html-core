@@ -65,7 +65,7 @@ abstract class BaseInput extends BaseTag
     /**
      * Suffix appended to the element `id` when `aria-describedby` is set to `true`.
      */
-    protected string $ariaDescribedBySuffix = '-help';
+    protected string $ariaDescribedBySuffix = '';
 
     /**
      * Returns the tag instance representing the void element.

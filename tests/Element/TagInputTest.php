@@ -271,7 +271,7 @@ final class TagInputTest extends TestCase
         );
     }
 
-    public function testRenderWithAriaDescribedBySuffixAndEmptySuffix(): void
+    public function testRenderWithAriaDescribedBySuffixAndEmptySuffixUsesDefault(): void
     {
         self::assertSame(
             <<<HTML
