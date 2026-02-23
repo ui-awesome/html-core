@@ -20,6 +20,7 @@
 - Bug #72: Remove usage examples from PHPDoc in multiple classes for cleaner documentation (@terabytesoftw)
 - Bug #73: Update last modified from `ui-awesome/html-attribute` in related classes (@terabytesoftw)
 - Enh #74: Add `ariaDescribedBySuffix` property and method to customize `aria-describedby` suffix in `BaseInput` class (@terabytesoftw)
+- Fix #75: Correct `ariaDescribedBySuffix` formatting in `BaseInput` class and update test case in `TagInputTest` class (@terabytesoftw)
 
 ## 0.5.2 January 28, 2026
 

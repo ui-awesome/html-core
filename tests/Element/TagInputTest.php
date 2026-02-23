@@ -264,7 +264,7 @@ final class TagInputTest extends TestCase
             HTML,
             TagInput::tag()
                 ->addAriaAttribute('describedby', true)
-                ->ariaDescribedBySuffix('-hint')
+                ->ariaDescribedBySuffix('hint')
                 ->id('taginput')
                 ->render(),
             "Failed asserting that element renders correctly with a custom 'ariaDescribedBySuffix()' value.",
