@@ -4,48 +4,23 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Base;
 
-use Fiber;
-use LogicException;
-use RuntimeException;
-use stdClass;
-use Stringable;
+use UIAwesome\Html\Contracts\RenderableInterface;
 use UIAwesome\Html\Core\Event\{HasAfterRun, HasBeforeRun};
-use UIAwesome\Html\Core\Exception\Message;
 use UIAwesome\Html\Core\Factory\SimpleFactory;
 use UIAwesome\Html\Core\Provider\{DefaultsProviderInterface, ThemeProviderInterface};
-use WeakMap;
-
-use function array_pop;
 
 /**
  * Provides the base implementation for fluent HTML tag objects.
  *
- * Uses lifecycle hooks and a context-aware begin/end stack backed by {@see WeakMap} and {@see Fiber}.
+ * Uses lifecycle hooks and provider-based default and theme configuration.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
-abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterface, Stringable
+abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterface, RenderableInterface
 {
     use HasAfterRun;
     use HasBeforeRun;
-
-    /**
-     * Tracks whether `begin()` was executed for this instance.
-     */
-    private bool $beginExecuted = false;
-
-    /**
-     * Stores the sentinel object for the main execution context.
-     */
-    private static stdClass|null $mainThread = null;
-
-    /**
-     * Stores per-context begin/end stacks.
-     *
-     * @phpstan-var WeakMap<object, static[]>|null
-     */
-    private static WeakMap|null $stack = null;
 
     /**
      * Initializes a new tag instance.
@@ -167,75 +142,6 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
     }
 
     /**
-     * Starts begin/end rendering for this instance.
-     *
-     * Usage example:
-     * ```php
-     * <?= \App\Html\SomeTag::tag()->begin() ?>
-     * Content inside the tag.
-     * <?= \App\Html\SomeTag::end() ?>
-     * ```
-     *
-     * @return string Empty string for output buffering compatibility.
-     */
-    final public function begin(): string
-    {
-        $this->beginExecuted = true;
-
-        $renderBegin = $this->runBegin();
-        $stack = self::getContextStack();
-
-        $stack[] = $this;
-
-        self::$stack?->offsetSet(self::getContextId(), $stack);
-
-        return $renderBegin;
-    }
-
-    /**
-     * Ends the most recent begin/end rendering block for the current class.
-     *
-     * Usage example:
-     * ```php
-     * <?= \App\Html\SomeTag::end() ?>
-     * ```
-     *
-     * @throws LogicException if no matching `begin()` call is found.
-     * @throws RuntimeException if the tag class does not match the expected type.
-     *
-     * @return string Rendered HTML tag string.
-     */
-    final public static function end(): string
-    {
-        $key = self::getContextId();
-        $stack = self::getContextStack();
-
-        if ($stack === []) {
-            throw new LogicException(
-                Message::UNEXPECTED_END_CALL_NO_BEGIN->getMessage(static::class),
-            );
-        }
-
-        $tag = array_pop($stack);
-
-        if ($stack === []) {
-            self::$stack?->offsetUnset($key);
-        } else {
-            self::$stack?->offsetSet($key, $stack);
-        }
-
-        $tagClass = $tag::class;
-
-        if ($tagClass !== static::class) {
-            throw new RuntimeException(
-                Message::TAG_CLASS_MISMATCH_ON_END->getMessage($tagClass, static::class),
-            );
-        }
-
-        return $tag->render();
-    }
-
-    /**
      * Returns default configuration for the given tag.
      *
      * Usage example:
@@ -318,16 +224,6 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
     }
 
     /**
-     * Indicates whether `begin()` was executed for this instance.
-     *
-     * @return bool Returns `true` if `begin()` was executed, otherwise `false`.
-     */
-    protected function isBeginExecuted(): bool
-    {
-        return $this->beginExecuted;
-    }
-
-    /**
      * Returns class-level default definitions.
      *
      * Override this method in subclasses to provide default configuration values.
@@ -339,51 +235,5 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
     protected function loadDefault(): array
     {
         return [];
-    }
-
-    /**
-     * Returns the opening tag for begin/end rendering.
-     *
-     * Override this method in subclasses that support `begin()` and `end()`.
-     *
-     * @throws LogicException if the tag does not support `begin()`/`end()` rendering.
-     *
-     * @return string Opening HTML tag.
-     *
-     * @infection-ignore-all
-     */
-    protected function runBegin(): string
-    {
-        throw new LogicException(
-            Message::TAG_DOES_NOT_SUPPORT_BEGIN->getMessage(static::class),
-        );
-    }
-
-    /**
-     * Returns the identifier for the current execution context.
-     *
-     * @phpstan-return Fiber<mixed, mixed, mixed, mixed>|stdClass
-     */
-    private static function getContextId(): Fiber|stdClass
-    {
-        return Fiber::getCurrent() ?? self::$mainThread ??= new stdClass();
-    }
-
-    /**
-     * Returns the begin/end stack for the current execution context.
-     *
-     * @phpstan-return array<array-key, static>
-     */
-    private static function getContextStack(): array
-    {
-        self::$stack ??= new WeakMap();
-
-        $key = self::getContextId();
-
-        if (self::$stack->offsetExists($key) === false) {
-            self::$stack->offsetSet($key, []);
-        }
-
-        return self::$stack->offsetGet($key);
     }
 }

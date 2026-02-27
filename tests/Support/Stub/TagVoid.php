@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Tests\Support\Stub;
 
+use BackedEnum;
 use UIAwesome\Html\Core\Element\BaseVoid;
-use UIAwesome\Html\Interop\VoidInterface;
 use UIAwesome\Html\Interop\Voids;
 
 /**
@@ -24,9 +24,9 @@ final class TagVoid extends BaseVoid
      *
      * Provides the tag enumeration instance used by the base void element to determine the tag name to render.
      *
-     * @return VoidInterface Tag enumeration instance for `<hr>`.
+     * @return BackedEnum Tag enumeration instance for `<hr>`.
      */
-    protected function getTag(): VoidInterface
+    protected function getTag(): BackedEnum
     {
         return Voids::HR;
     }

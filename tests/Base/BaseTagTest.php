@@ -4,19 +4,18 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Tests\Base;
 
-use PHPUnit\Framework\Attributes\{Group, RequiresPhp};
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Core\Base\BaseTag;
 use UIAwesome\Html\Core\Html;
-use UIAwesome\Html\Interop\{Block, Inline};
-use UIAwesome\Html\Mixin\{HasAttributes, HasContent};
+use UIAwesome\Html\Interop\Inline;
+use UIAwesome\Html\Mixin\HasAttributes;
 
 /**
  * Unit tests for the {@see BaseTag} class.
  *
  * Test coverage.
  * - Ensures rendering is skipped when `beforeRun()` returns `false`.
- * - Verifies `begin()` and `end()` output when the tag supports both lifecycle methods.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
@@ -48,45 +47,6 @@ final class BaseTagTest extends TestCase
         self::assertEmpty(
             $tag->render(),
             "Expected empty output when 'beforeRun()' method returns 'false'.",
-        );
-    }
-
-    #[RequiresPhp('8.5')]
-    public function testRenderBegin(): void
-    {
-        $tag = new class extends BaseTag {
-            use HasAttributes;
-            use HasContent;
-
-            protected function getTag(): Block
-            {
-                return Block::DIV;
-            }
-
-            protected function run(): string
-            {
-                if ($this->isBeginExecuted() === false) {
-                    return Html::element($this->getTag(), $this->getContent(), $this->attributes);
-                }
-
-                return Html::end($this->getTag());
-            }
-
-            #[\Override]
-            protected function runBegin(): string
-            {
-                return Html::begin($this->getTag(), $this->attributes);
-            }
-        };
-
-        self::assertEquals(
-            <<<HTML
-            <div>
-            Content
-            </div>
-            HTML,
-            $tag->begin() . 'Content' . $tag::end(),
-            'Expected correct rendering of begin and end tags.',
         );
     }
 }

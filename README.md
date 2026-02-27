@@ -131,11 +131,12 @@ declare(strict_types=1);
 namespace App;
 
 use UIAwesome\Html\Core\Element\BaseBlock;
-use UIAwesome\Html\Interop\{Block, BlockInterface};
+use UIAwesome\Html\Interop\Block;
+use BackedEnum;
 
 final class Div extends BaseBlock
 {
-    protected function getTag(): BlockInterface
+    protected function getTag(): BackedEnum
     {
         return Block::DIV;
     }
@@ -163,11 +164,12 @@ declare(strict_types=1);
 namespace App;
 
 use UIAwesome\Html\Core\Element\BaseBlock;
-use UIAwesome\Html\Interop\{Block, BlockInterface};
+use UIAwesome\Html\Interop\Block;
+use BackedEnum;
 
 final class Div extends BaseBlock
 {
-    protected function getTag(): BlockInterface
+    protected function getTag(): BackedEnum
     {
         return Block::DIV;
     }
@@ -194,11 +196,12 @@ declare(strict_types=1);
 namespace App;
 
 use UIAwesome\Html\Core\Element\BaseInline;
-use UIAwesome\Html\Interop\{Inline, InlineInterface};
+use UIAwesome\Html\Interop\Inline;
+use BackedEnum;
 
 final class Span extends BaseInline
 {
-    protected function getTag(): InlineInterface
+    protected function getTag(): BackedEnum
     {
         return Inline::SPAN;
     }
@@ -237,11 +240,12 @@ use UIAwesome\Html\Core\Base\BaseTag;
 use UIAwesome\Html\Core\Element\BaseInline;
 use UIAwesome\Html\Core\Factory\SimpleFactory;
 use UIAwesome\Html\Core\Provider\{DefaultsProviderInterface, ThemeProviderInterface};
-use UIAwesome\Html\Interop\{Inline, InlineInterface};
+use UIAwesome\Html\Interop\Inline;
+use BackedEnum;
 
 final class Span extends BaseInline
 {
-    protected function getTag(): InlineInterface
+    protected function getTag(): BackedEnum
     {
         return Inline::SPAN;
     }
@@ -292,11 +296,12 @@ declare(strict_types=1);
 namespace App;
 
 use UIAwesome\Html\Core\Element\BaseBlock;
-use UIAwesome\Html\Interop\{Block, BlockInterface};
+use UIAwesome\Html\Interop\Block;
+use BackedEnum;
 
 final class Container extends BaseBlock
 {
-    protected function getTag(): BlockInterface
+    protected function getTag(): BackedEnum
     {
         return Block::DIV;
     }
@@ -325,18 +330,16 @@ Configuration priority (from weakest to strongest):
 #### Extensibility
 
 This library is agnostic and designed to be extended. You can define your own tag collections (for example, for SVG,
-MathML, or Web Components) by implementing the core interfaces backed by a string Enum.
+MathML, or Web Components) with custom string-backed enums.
 
-- `\UIAwesome\Html\Interop\BlockInterface`: For container elements that have content and a closing tag.
-- `\UIAwesome\Html\Interop\InlineInterface`: For text-level elements.
-- `\UIAwesome\Html\Interop\VoidInterface`: For self-closing elements (no closing tag).
+- `Html::element()` handles generic open/content/close rendering.
+- `Html::inline()` handles inline rendering.
+- `Html::void()` handles void rendering.
 
-You can create a custom Enum for your specific domain (for example, SVG tags) and use it seamlessly with `html-core`.
+You can create a custom enum for your specific domain and use it with `html-core`.
 
 ```php
-use UIAwesome\Html\Interop\BlockInterface;
-
-enum SvgTag: string implements BlockInterface
+enum SvgTag: string
 {
     case SVG = 'svg';
     case G = 'g';

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Tests\Element;
 
-use LogicException;
 use PHPForge\Support\ReflectionHelper;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
@@ -19,7 +18,6 @@ use UIAwesome\Html\Attribute\Values\{
     Role,
     Translate,
 };
-use UIAwesome\Html\Core\Exception\Message;
 use UIAwesome\Html\Core\Factory\SimpleFactory;
 use UIAwesome\Html\Core\Tests\Support\Stub\{DefaultProvider, DefaultThemeProvider, TagInline, TagInlineWithTokenValues};
 use UIAwesome\Html\Interop\{Block, Inline, Voids};
@@ -31,7 +29,6 @@ use UIAwesome\Html\Interop\{Block, Inline, Voids};
  * - Ensures default and theme providers apply expected attributes.
  * - Ensures global defaults are applied and user attributes override them.
  * - Verifies inline tags render expected HTML for representative global attributes.
- * - Verifies LogicException is thrown when `begin()` or `end()` is called.
  * - Verifies prefix and suffix content renders with block, inline, and void wrapper tags.
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
@@ -805,25 +802,5 @@ final class TagInlineTest extends TestCase
             $tag->getDefaults($tag),
             'Failed asserting that getting defaults returns an empty array when no defaults are set.',
         );
-    }
-
-    public function testThrowLogicExceptionForBeginCalled(): void
-    {
-        $this->expectException(LogicException::class);
-        $this->expectExceptionMessage(
-            Message::TAG_DOES_NOT_SUPPORT_BEGIN->getMessage(TagInline::class),
-        );
-
-        TagInline::tag()->begin();
-    }
-
-    public function testThrowLogicExceptionForEndCalled(): void
-    {
-        $this->expectException(LogicException::class);
-        $this->expectExceptionMessage(
-            Message::UNEXPECTED_END_CALL_NO_BEGIN->getMessage(TagInline::class),
-        );
-
-        TagInline::tag()::end();
     }
 }

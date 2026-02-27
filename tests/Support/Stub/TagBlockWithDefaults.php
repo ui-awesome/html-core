@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Tests\Support\Stub;
 
+use BackedEnum;
 use UIAwesome\Html\Core\Element\BaseBlock;
 use UIAwesome\Html\Interop\Block;
-use UIAwesome\Html\Interop\BlockInterface;
 
 /**
  * Stub for a block tag with default definitions.
@@ -22,9 +22,9 @@ final class TagBlockWithDefaults extends BaseBlock
     /**
      * Returns the tag enumeration for the `<div>` element.
      *
-     * @return BlockInterface Tag enumeration instance for `<div>`.
+     * @return BackedEnum Tag enumeration instance for `<div>`.
      */
-    protected function getTag(): BlockInterface
+    protected function getTag(): BackedEnum
     {
         return Block::DIV;
     }

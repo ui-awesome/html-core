@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Tests\Support\Stub;
 
+use BackedEnum;
 use UIAwesome\Html\Core\Element\BaseInput;
-use UIAwesome\Html\Interop\{VoidInterface, Voids};
+use UIAwesome\Html\Interop\Voids;
 
 /**
  * Stub for input tag that exposes `buildElement()` with `tokenValues` parameter.
@@ -45,9 +46,9 @@ final class TagInputWithTokenValues extends BaseInput
     /**
      * Returns the tag enumeration for the `<input>` element.
      *
-     * @return VoidInterface Tag enumeration instance for `<input>`.
+     * @return BackedEnum Tag enumeration instance for `<input>`.
      */
-    protected function getTag(): VoidInterface
+    protected function getTag(): BackedEnum
     {
         return Voids::INPUT;
     }

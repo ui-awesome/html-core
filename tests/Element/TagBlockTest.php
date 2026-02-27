@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Tests\Element;
 
 use LogicException;
-use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\{Group, RequiresPhp};
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use UIAwesome\Html\Attribute\Values\{
@@ -22,6 +22,7 @@ use UIAwesome\Html\Attribute\Values\{
 use UIAwesome\Html\Core\Element\BaseBlock;
 use UIAwesome\Html\Core\Exception\Message;
 use UIAwesome\Html\Core\Factory\SimpleFactory;
+use UIAwesome\Html\Core\Html;
 use UIAwesome\Html\Core\Tests\Support\Stub\{
     DefaultProvider,
     DefaultThemeProvider,
@@ -35,8 +36,11 @@ use UIAwesome\Html\Interop\Block;
  * Unit tests for the {@see TagBlock} class.
  *
  * Test coverage.
+ * - Ensures `beginExecuted` state resets after render failures so direct render and subsequent begin/end cycles
+ *   continue working.
  * - Ensures default and theme providers apply expected attributes.
  * - Ensures global defaults are applied and user attributes override them.
+ * - Ensures subclasses can call inherited protected begin/end lifecycle helper methods.
  * - Verifies block tags render expected HTML for representative global attributes.
  * - Verifies LogicException and RuntimeException are thrown for invalid `end()` calls.
  * - Verifies nested `begin()` and `end()` calls keep stack state consistent.
@@ -47,6 +51,71 @@ use UIAwesome\Html\Interop\Block;
 #[Group('element')]
 final class TagBlockTest extends TestCase
 {
+    #[RequiresPhp('8.5')]
+    public function testBeginExecutedIsResetAfterRenderEvenWhenExceptionOccurs(): void
+    {
+        $tag = new class extends BaseBlock {
+            private bool $throwOnFirstBeginRender = true;
+
+            protected function getTag(): Block
+            {
+                return Block::DIV;
+            }
+
+            protected function run(): string
+            {
+                if ($this->isBeginExecuted() && $this->throwOnFirstBeginRender) {
+                    $this->throwOnFirstBeginRender = false;
+
+                    throw new RuntimeException('Simulated exception during render');
+                }
+
+                return parent::run();
+            }
+        };
+
+        $tag->begin();
+
+        try {
+            $tag::end();
+
+            self::fail("Failed asserting that RuntimeException is thrown when rendering with 'beginExecuted' state.");
+        } catch (RuntimeException $e) {
+            self::assertSame(
+                'Simulated exception during render',
+                $e->getMessage(),
+                'Failed asserting that RuntimeException contains the expected render failure message.',
+            );
+        }
+
+        self::assertSame(
+            <<<HTML
+            <div>
+            </div>
+            HTML,
+            $tag->render(),
+            "Failed asserting that direct render returns a full element after reset of 'beginExecuted' state.",
+        );
+
+        $result = $tag->begin() . 'Content' . $tag::end();
+
+        self::assertStringContainsString(
+            '<div>',
+            $result,
+            "Failed asserting that opening tag renders after reset of 'beginExecuted' state.",
+        );
+        self::assertStringContainsString(
+            'Content',
+            $result,
+            "Failed asserting that content renders after reset of 'beginExecuted' state.",
+        );
+        self::assertStringContainsString(
+            '</div>',
+            $result,
+            "Failed asserting that closing tag renders after reset of 'beginExecuted' state.",
+        );
+    }
+
     public function testRenderWithAccesskey(): void
     {
         self::assertSame(
@@ -189,6 +258,43 @@ final class TagBlockTest extends TestCase
             HTML,
             TagBlock::tag()->begin() . 'Content' . TagBlock::end(),
             "Failed asserting that element renders correctly with 'begin()' and 'end()' methods.",
+        );
+    }
+
+    #[RequiresPhp('8.5')]
+    public function testRenderWithBeginEndFromSubclassLifecycleHelpers(): void
+    {
+        $tag = new class extends BaseBlock {
+            protected function beforeRun(): bool
+            {
+                return parent::beforeRun();
+            }
+
+            protected function getTag(): Block
+            {
+                return Block::DIV;
+            }
+
+            protected function run(): string
+            {
+                if ($this->isBeginExecuted()) {
+                    $this->runBegin();
+
+                    return Html::end($this->getTag());
+                }
+
+                return parent::run();
+            }
+        };
+
+        self::assertSame(
+            <<<HTML
+            <div>
+            Content
+            </div>
+            HTML,
+            $tag->begin() . 'Content' . $tag::end(),
+            "Failed asserting that subclass lifecycle helpers render correctly with 'begin()' and 'end()' methods.",
         );
     }
 
