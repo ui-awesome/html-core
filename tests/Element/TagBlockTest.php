@@ -811,4 +811,42 @@ final class TagBlockTest extends TestCase
 
         $tag::end();
     }
+
+    #[RequiresPhp('8.5')]
+    public function testBeginExecutedIsResetAfterRenderEvenWhenExceptionOccurs(): void
+    {
+        $tag = new class extends BaseBlock {
+            protected function getTag(): Block
+            {
+                return Block::DIV;
+            }
+
+            protected function run(): string
+            {
+                if ($this->isBeginExecuted()) {
+                    throw new RuntimeException('Simulated exception during render');
+                }
+
+                return parent::run();
+            }
+        };
+
+        $tag->begin();
+
+        try {
+            $tag::end();
+            self::fail('Expected RuntimeException was not thrown');
+        } catch (RuntimeException $e) {
+            self::assertSame('Simulated exception during render', $e->getMessage());
+        }
+
+        // After the exception, we verify that a new begin/end cycle works correctly
+        // This ensures that the beginExecuted state was properly cleaned up
+        $result = $tag->begin() . 'Content' . $tag::end();
+
+        // If beginExecuted was not reset, this would fail with another exception
+        self::assertStringContainsString('<div>', $result);
+        self::assertStringContainsString('Content', $result);
+        self::assertStringContainsString('</div>', $result);
+    }
 }
