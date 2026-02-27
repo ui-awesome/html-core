@@ -36,6 +36,8 @@ use UIAwesome\Html\Interop\Block;
  * Unit tests for the {@see TagBlock} class.
  *
  * Test coverage.
+ * - Ensures `beginExecuted` state resets after render failures so direct render and subsequent begin/end cycles
+ *   continue working.
  * - Ensures default and theme providers apply expected attributes.
  * - Ensures global defaults are applied and user attributes override them.
  * - Ensures subclasses can call inherited protected begin/end lifecycle helper methods.
@@ -49,6 +51,71 @@ use UIAwesome\Html\Interop\Block;
 #[Group('element')]
 final class TagBlockTest extends TestCase
 {
+    #[RequiresPhp('8.5')]
+    public function testBeginExecutedIsResetAfterRenderEvenWhenExceptionOccurs(): void
+    {
+        $tag = new class extends BaseBlock {
+            private bool $throwOnFirstBeginRender = true;
+
+            protected function getTag(): Block
+            {
+                return Block::DIV;
+            }
+
+            protected function run(): string
+            {
+                if ($this->isBeginExecuted() && $this->throwOnFirstBeginRender) {
+                    $this->throwOnFirstBeginRender = false;
+
+                    throw new RuntimeException('Simulated exception during render');
+                }
+
+                return parent::run();
+            }
+        };
+
+        $tag->begin();
+
+        try {
+            $tag::end();
+
+            self::fail("Failed asserting that RuntimeException is thrown when rendering with 'beginExecuted' state.");
+        } catch (RuntimeException $e) {
+            self::assertSame(
+                'Simulated exception during render',
+                $e->getMessage(),
+                'Failed asserting that RuntimeException contains the expected render failure message.',
+            );
+        }
+
+        self::assertSame(
+            <<<HTML
+            <div>
+            </div>
+            HTML,
+            $tag->render(),
+            "Failed asserting that direct render returns a full element after reset of 'beginExecuted' state.",
+        );
+
+        $result = $tag->begin() . 'Content' . $tag::end();
+
+        self::assertStringContainsString(
+            '<div>',
+            $result,
+            "Failed asserting that opening tag renders after reset of 'beginExecuted' state.",
+        );
+        self::assertStringContainsString(
+            'Content',
+            $result,
+            "Failed asserting that content renders after reset of 'beginExecuted' state.",
+        );
+        self::assertStringContainsString(
+            '</div>',
+            $result,
+            "Failed asserting that closing tag renders after reset of 'beginExecuted' state.",
+        );
+    }
+
     public function testRenderWithAccesskey(): void
     {
         self::assertSame(
@@ -227,6 +294,7 @@ final class TagBlockTest extends TestCase
             </div>
             HTML,
             $tag->begin() . 'Content' . $tag::end(),
+            "Failed asserting that subclass lifecycle helpers render correctly with 'begin()' and 'end()' methods.",
         );
     }
 
@@ -810,43 +878,5 @@ final class TagBlockTest extends TestCase
         );
 
         $tag::end();
-    }
-
-    #[RequiresPhp('8.5')]
-    public function testBeginExecutedIsResetAfterRenderEvenWhenExceptionOccurs(): void
-    {
-        $tag = new class extends BaseBlock {
-            protected function getTag(): Block
-            {
-                return Block::DIV;
-            }
-
-            protected function run(): string
-            {
-                if ($this->isBeginExecuted()) {
-                    throw new RuntimeException('Simulated exception during render');
-                }
-
-                return parent::run();
-            }
-        };
-
-        $tag->begin();
-
-        try {
-            $tag::end();
-            self::fail('Expected RuntimeException was not thrown');
-        } catch (RuntimeException $e) {
-            self::assertSame('Simulated exception during render', $e->getMessage());
-        }
-
-        // After the exception, we verify that a new begin/end cycle works correctly
-        // This ensures that the beginExecuted state was properly cleaned up
-        $result = $tag->begin() . 'Content' . $tag::end();
-
-        // If beginExecuted was not reset, this would fail with another exception
-        self::assertStringContainsString('<div>', $result);
-        self::assertStringContainsString('Content', $result);
-        self::assertStringContainsString('</div>', $result);
     }
 }

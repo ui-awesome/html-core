@@ -111,18 +111,17 @@ abstract class BaseBlock extends BaseTag implements AttributesInterface, BlockIn
     /**
      * Starts begin/end rendering for this instance.
      *
-     * @return string Empty string for output buffering compatibility.
+     * @return string Opening HTML tag string for the block element.
      */
     final public function begin(): string
     {
-        $this->beginExecuted = true;
-
         $renderBegin = $this->runBegin();
         $stack = self::getContextStack();
 
         $stack[] = $this;
 
         self::$stack?->offsetSet(self::getContextId(), $stack);
+        $this->beginExecuted = true;
 
         return $renderBegin;
     }
@@ -167,7 +166,11 @@ abstract class BaseBlock extends BaseTag implements AttributesInterface, BlockIn
             self::$stack?->offsetSet($key, $stack);
         }
 
-        return $tag->render();
+        try {
+            return $tag->render();
+        } finally {
+            $tag->beginExecuted = false;
+        }
     }
 
     /**
