@@ -236,5 +236,4 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
     {
         return [];
     }
-
 }

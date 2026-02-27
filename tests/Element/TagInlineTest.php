@@ -803,5 +803,4 @@ final class TagInlineTest extends TestCase
             'Failed asserting that getting defaults returns an empty array when no defaults are set.',
         );
     }
-
 }

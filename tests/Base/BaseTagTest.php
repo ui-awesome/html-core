@@ -49,5 +49,4 @@ final class BaseTagTest extends TestCase
             "Expected empty output when 'beforeRun()' method returns 'false'.",
         );
     }
-
 }
