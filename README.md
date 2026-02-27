@@ -332,9 +332,9 @@ Configuration priority (from weakest to strongest):
 This library is agnostic and designed to be extended. You can define your own tag collections (for example, for SVG,
 MathML, or Web Components) with custom string-backed enums.
 
-- Use `Html::element()` for generic open/content/close rendering.
-- Use `Html::inline()` for inline rendering.
-- Use `Html::void()` for void rendering.
+- `Html::element()` handles generic open/content/close rendering.
+- `Html::inline()` handles inline rendering.
+- `Html::void()` handles void rendering.
 
 You can create a custom enum for your specific domain and use it with `html-core`.
 

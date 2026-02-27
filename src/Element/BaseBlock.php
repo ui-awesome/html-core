@@ -39,6 +39,7 @@ use UIAwesome\Html\Helper\LineBreakNormalizer;
 use UIAwesome\Html\Mixin\{HasAttributes, HasContent};
 use WeakMap;
 
+use function array_key_last;
 use function array_pop;
 
 /**
@@ -145,13 +146,10 @@ abstract class BaseBlock extends BaseTag implements AttributesInterface, BlockIn
             );
         }
 
-        $tag = array_pop($stack);
+        $lastIndex = array_key_last($stack);
 
-        if ($stack === []) {
-            self::$stack?->offsetUnset($key);
-        } else {
-            self::$stack?->offsetSet($key, $stack);
-        }
+        /** @var static $tag */
+        $tag = $stack[$lastIndex];
 
         $tagClass = $tag::class;
 
@@ -159,6 +157,14 @@ abstract class BaseBlock extends BaseTag implements AttributesInterface, BlockIn
             throw new RuntimeException(
                 Message::TAG_CLASS_MISMATCH_ON_END->getMessage($tagClass, static::class),
             );
+        }
+
+        array_pop($stack);
+
+        if ($stack === []) {
+            self::$stack?->offsetUnset($key);
+        } else {
+            self::$stack?->offsetSet($key, $stack);
         }
 
         return $tag->render();

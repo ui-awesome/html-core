@@ -6,10 +6,10 @@
 
 - Custom element `getTag()` implementations should now return `BackedEnum`.
 - `BaseTag` now implements `UIAwesome\Html\Contracts\RenderableInterface`.
-- `BaseBlock` now implements `UIAwesome\Html\Contracts\Element\BlockInterface` and `UIAwesome\Html\Contracts\Attribute\AttributesInterface`.
-- `BaseInline` now implements `UIAwesome\Html\Contracts\Element\InlineInterface` and `UIAwesome\Html\Contracts\Attribute\AttributesInterface`.
-- `BaseVoid` now implements `UIAwesome\Html\Contracts\Element\VoidInterface` and `UIAwesome\Html\Contracts\Attribute\AttributesInterface`.
-- `BaseInput` now implements `UIAwesome\Html\Contracts\Form\FormControlInterface`.
+- Block elements (`BaseBlock`) now implement `UIAwesome\Html\Contracts\Element\BlockInterface` and `UIAwesome\Html\Contracts\Attribute\AttributesInterface`.
+- Inline elements (`BaseInline`) now implement `UIAwesome\Html\Contracts\Element\InlineInterface` and `UIAwesome\Html\Contracts\Attribute\AttributesInterface`.
+- Void elements (`BaseVoid`) now implement `UIAwesome\Html\Contracts\Element\VoidInterface` and `UIAwesome\Html\Contracts\Attribute\AttributesInterface`.
+- Form controls (`BaseInput`) now implement `UIAwesome\Html\Contracts\Form\FormControlInterface`.
 
 If you extend these base classes and override contract methods, ensure signatures remain compatible with
 `ui-awesome/html-contracts`.

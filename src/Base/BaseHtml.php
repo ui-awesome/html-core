@@ -76,7 +76,7 @@ abstract class BaseHtml
      * {@see \UIAwesome\Html\Interop\Lists} for valid list-level tags.
      * {@see \UIAwesome\Html\Interop\Root} for valid root-level tags.
      * {@see \UIAwesome\Html\Interop\Table} for valid table-level tags.
-     * {@see \UIAwesome\Html\Interop\Voids} for valid void-level tags.
+     * For void tags, use {`@see` \UIAwesome\Html\Core\Html::void()}.
      *
      * @phpstan-param mixed[] $attributes
      */
