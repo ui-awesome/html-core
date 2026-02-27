@@ -1,6 +1,6 @@
 # ChangeLog
 
-## 0.5.3 Under development
+## 0.6.0 Under development
 
 - Dep #57: Update `ui-awesome/html-interop` requirement from `^0.2` to `^0.3` in `composer.json` (@terabytesoftw)
 - Enh #58: Add `loadDefault()` method in `BaseTag` class to provide default attribute values (@terabytesoftw)
@@ -21,6 +21,7 @@
 - Bug #73: Update last modified from `ui-awesome/html-attribute` in related classes (@terabytesoftw)
 - Enh #74: Add `ariaDescribedBySuffix` property and method to customize `aria-describedby` suffix in `BaseInput` class (@terabytesoftw)
 - Fix #75: Correct `ariaDescribedBySuffix` formatting in `BaseInput` class and update test case in `TagInputTest` class (@terabytesoftw)
+- Enh #76: Align architecture with `ui-awesome/html-contracts` by migrating element tag type hints to `BackedEnum`, implementing contracts across base elements, moving `begin()`/`end()` lifecycle flow from `BaseTag` to `BaseBlock`, and making `BaseHtml::element()` a generic renderer while inline and void selection remains in element-specific classes (@terabytesoftw)
 
 ## 0.5.2 January 28, 2026
 

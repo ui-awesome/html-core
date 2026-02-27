@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Tests\Element;
 
 use LogicException;
-use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\{Group, RequiresPhp};
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use UIAwesome\Html\Attribute\Values\{
@@ -22,6 +22,7 @@ use UIAwesome\Html\Attribute\Values\{
 use UIAwesome\Html\Core\Element\BaseBlock;
 use UIAwesome\Html\Core\Exception\Message;
 use UIAwesome\Html\Core\Factory\SimpleFactory;
+use UIAwesome\Html\Core\Html;
 use UIAwesome\Html\Core\Tests\Support\Stub\{
     DefaultProvider,
     DefaultThemeProvider,
@@ -37,6 +38,7 @@ use UIAwesome\Html\Interop\Block;
  * Test coverage.
  * - Ensures default and theme providers apply expected attributes.
  * - Ensures global defaults are applied and user attributes override them.
+ * - Ensures subclasses can call inherited protected begin/end lifecycle helper methods.
  * - Verifies block tags render expected HTML for representative global attributes.
  * - Verifies LogicException and RuntimeException are thrown for invalid `end()` calls.
  * - Verifies nested `begin()` and `end()` calls keep stack state consistent.
@@ -189,6 +191,42 @@ final class TagBlockTest extends TestCase
             HTML,
             TagBlock::tag()->begin() . 'Content' . TagBlock::end(),
             "Failed asserting that element renders correctly with 'begin()' and 'end()' methods.",
+        );
+    }
+
+    #[RequiresPhp('8.5')]
+    public function testRenderWithBeginEndFromSubclassLifecycleHelpers(): void
+    {
+        $tag = new class extends BaseBlock {
+            protected function beforeRun(): bool
+            {
+                return parent::beforeRun();
+            }
+
+            protected function getTag(): Block
+            {
+                return Block::DIV;
+            }
+
+            protected function run(): string
+            {
+                if ($this->isBeginExecuted()) {
+                    $this->runBegin();
+
+                    return Html::end($this->getTag());
+                }
+
+                return parent::run();
+            }
+        };
+
+        self::assertSame(
+            <<<HTML
+            <div>
+            Content
+            </div>
+            HTML,
+            $tag->begin() . 'Content' . $tag::end(),
         );
     }
 

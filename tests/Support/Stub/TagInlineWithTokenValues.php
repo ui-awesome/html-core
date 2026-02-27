@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Tests\Support\Stub;
 
+use BackedEnum;
 use UIAwesome\Html\Core\Element\BaseInline;
-use UIAwesome\Html\Interop\{Inline, InlineInterface};
+use UIAwesome\Html\Interop\Inline;
 
 /**
  * Stub for inline tag that exposes `buildElement()` with `tokenValues` parameter.
@@ -45,9 +46,9 @@ final class TagInlineWithTokenValues extends BaseInline
     /**
      * Returns the tag enumeration for the `<span>` element.
      *
-     * @return InlineInterface Tag enumeration instance for `<span>`.
+     * @return BackedEnum Tag enumeration instance for `<span>`.
      */
-    protected function getTag(): InlineInterface
+    protected function getTag(): BackedEnum
     {
         return Inline::SPAN;
     }

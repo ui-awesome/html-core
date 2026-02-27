@@ -6,10 +6,9 @@ namespace UIAwesome\Html\Core\Base;
 
 use BackedEnum;
 use UIAwesome\Html\Helper\{Attributes, Encode};
-use UIAwesome\Html\Interop\{BlockInterface, InlineInterface, VoidInterface};
 
 /**
- * Provides the base implementation for rendering block, inline, and void HTML tags.
+ * Provides the base implementation for rendering HTML tags.
  *
  * @link https://developer.mozilla.org/en-US/docs/Glossary/Block-level_content
  * @link https://developer.mozilla.org/en-US/docs/Glossary/Inline-level_content
@@ -33,7 +32,7 @@ abstract class BaseHtml
      * );
      * ```
      *
-     * @param BlockInterface $tag Tag enumeration instance.
+     * @param BackedEnum $tag Tag enumeration instance.
      * @param array $attributes Associative array of HTML attributes.
      *
      * @return string Rendered opening tag string with attributes.
@@ -45,7 +44,7 @@ abstract class BaseHtml
      *
      * @phpstan-param mixed[] $attributes
      */
-    public static function begin(BlockInterface $tag, array $attributes = []): string
+    public static function begin(BackedEnum $tag, array $attributes = []): string
     {
         $renderAttributes = Attributes::render($attributes);
 
@@ -58,10 +57,10 @@ abstract class BaseHtml
      * Usage example:
      * ```php
      * \UIAwesome\Html\Core\Html::element(
-     *     \UIAwesome\Html\Interop\Inline::SPAN,
+     *     \UIAwesome\Html\Interop\Block::DIV,
      *     '<Click Here>',
      *     ['class' => 'link'],
-     *     true,
+     *     true
      * );
      * ```
      *
@@ -77,7 +76,7 @@ abstract class BaseHtml
      * {@see \UIAwesome\Html\Interop\Lists} for valid list-level tags.
      * {@see \UIAwesome\Html\Interop\Root} for valid root-level tags.
      * {@see \UIAwesome\Html\Interop\Table} for valid table-level tags.
-     * {@see \UIAwesome\Html\Interop\Void} for valid void-level tags.
+     * {@see \UIAwesome\Html\Interop\Voids} for valid void-level tags.
      *
      * @phpstan-param mixed[] $attributes
      */
@@ -87,14 +86,6 @@ abstract class BaseHtml
         array $attributes = [],
         bool $encode = false,
     ): string {
-        if ($tag instanceof VoidInterface) {
-            return self::void($tag, $attributes);
-        }
-
-        if ($tag instanceof InlineInterface) {
-            return self::inline($tag, $content, $attributes, $encode);
-        }
-
         if ($encode) {
             $content = Encode::content($content);
         }
@@ -116,7 +107,7 @@ abstract class BaseHtml
      * \UIAwesome\Html\Core\Html::end(\UIAwesome\Html\Interop\Block::DIV);
      * ```
      *
-     * @param BlockInterface $tag Tag enumeration instance.
+     * @param BackedEnum $tag Tag enumeration instance.
      *
      * @return string Rendered closing tag string.
      *
@@ -125,7 +116,7 @@ abstract class BaseHtml
      * {@see \UIAwesome\Html\Interop\Root} for valid root-level tags.
      * {@see \UIAwesome\Html\Interop\Table} for valid table-level tags.
      */
-    public static function end(BlockInterface $tag): string
+    public static function end(BackedEnum $tag): string
     {
         return "\n</{$tag->value}>";
     }
@@ -143,7 +134,7 @@ abstract class BaseHtml
      * );
      * ```
      *
-     * @param InlineInterface $tag Inline tag enumeration instance.
+     * @param BackedEnum $tag Inline tag enumeration instance.
      * @param string $content Content to be rendered inside the tag.
      * @param array $attributes Associative array of HTML attributes.
      * @param bool $encode Whether to encode the content for HTML output.
@@ -155,7 +146,7 @@ abstract class BaseHtml
      * @phpstan-param mixed[] $attributes
      */
     public static function inline(
-        InlineInterface $tag,
+        BackedEnum $tag,
         string $content,
         array $attributes = [],
         bool $encode = false,
@@ -175,21 +166,21 @@ abstract class BaseHtml
      * Usage example:
      * ```php
      * \UIAwesome\Html\Core\Html::void(
-     *     \UIAwesome\Html\Interop\Void::IMG,
+     *     \UIAwesome\Html\Interop\Voids::IMG,
      *     ['src' => 'image.png', 'alt' => 'An image'],
      * );
      * ```
      *
-     * @param VoidInterface $tag Void tag enumeration instance.
+     * @param BackedEnum $tag Void tag enumeration instance.
      * @param array $attributes Associative array of HTML attributes.
      *
      * @return string Rendered void HTML element string.
      *
-     * {@see \UIAwesome\Html\Interop\Void} for valid void-level tags.
+     * {@see \UIAwesome\Html\Interop\Voids} for valid void-level tags.
      *
      * @phpstan-param mixed[] $attributes
      */
-    public static function void(VoidInterface $tag, array $attributes = []): string
+    public static function void(BackedEnum $tag, array $attributes = []): string
     {
         $renderAttributes = Attributes::render($attributes);
 

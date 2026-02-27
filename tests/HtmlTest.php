@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Tests;
 
+use BackedEnum;
 use PHPUnit\Framework\Attributes\{DataProviderExternal, Group};
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Core\Html;
@@ -15,7 +16,7 @@ use UIAwesome\Html\Core\Tests\Provider\{
     TableProvider,
     VoidProvider,
 };
-use UIAwesome\Html\Interop\{Block, BlockInterface, Inline, InlineInterface, VoidInterface, Voids};
+use UIAwesome\Html\Interop\{Block, Inline, Voids};
 
 /**
  * Unit tests for the {@see Html} class.
@@ -37,7 +38,7 @@ use UIAwesome\Html\Interop\{Block, BlockInterface, Inline, InlineInterface, Void
 final class HtmlTest extends TestCase
 {
     #[DataProviderExternal(BlockProvider::class, 'blockTags')]
-    public function testRenderBeginWithBlockTag(BlockInterface $tag, string $expectedTagName): void
+    public function testRenderBeginWithBlockTag(BackedEnum $tag, string $expectedTagName): void
     {
         self::assertSame(
             "<{$expectedTagName}>\n",
@@ -47,7 +48,7 @@ final class HtmlTest extends TestCase
     }
 
     #[DataProviderExternal(ListsProvider::class, 'listTags')]
-    public function testRenderBeginWithListTag(BlockInterface $tag, string $expectedTagName): void
+    public function testRenderBeginWithListTag(BackedEnum $tag, string $expectedTagName): void
     {
         self::assertSame(
             "<{$expectedTagName}>\n",
@@ -57,7 +58,7 @@ final class HtmlTest extends TestCase
     }
 
     #[DataProviderExternal(RootProvider::class, 'rootTags')]
-    public function testRenderBeginWithRootTag(BlockInterface $tag, string $expectedTagName): void
+    public function testRenderBeginWithRootTag(BackedEnum $tag, string $expectedTagName): void
     {
         self::assertSame(
             "<{$expectedTagName}>\n",
@@ -67,7 +68,7 @@ final class HtmlTest extends TestCase
     }
 
     #[DataProviderExternal(TableProvider::class, 'tableTags')]
-    public function testRenderBeginWithTableTag(BlockInterface $tag, string $expectedTagName): void
+    public function testRenderBeginWithTableTag(BackedEnum $tag, string $expectedTagName): void
     {
         self::assertSame(
             "<{$expectedTagName}>\n",
@@ -285,7 +286,7 @@ final class HtmlTest extends TestCase
             <<<HTML
             <span id="inline"><mark>inline</mark></span>
             HTML,
-            Html::element(Inline::SPAN, $content, $attributes),
+            Html::inline(Inline::SPAN, $content, $attributes),
             "Html element '<span>' with content and attributes should match expected output.",
         );
 
@@ -293,7 +294,7 @@ final class HtmlTest extends TestCase
             <<<HTML
             <span id="inline">&lt;mark&gt;inline&lt;/mark&gt;</span>
             HTML,
-            Html::element(Inline::SPAN, $content, $attributes, true),
+            Html::inline(Inline::SPAN, $content, $attributes, true),
             "Html element '<span>' with encoded content and attributes should match expected output.",
         );
     }
@@ -368,13 +369,13 @@ final class HtmlTest extends TestCase
             <<<HTML
             <img class="void" data-role="presentation">
             HTML,
-            Html::element(Voids::IMG, '', $attributes),
+            Html::void(Voids::IMG, $attributes),
             "Html element '<img>' void tag with attributes should match expected output.",
         );
     }
 
     #[DataProviderExternal(BlockProvider::class, 'blockTags')]
-    public function testRenderEndWithBlockTag(BlockInterface $tag, string $expectedTagName): void
+    public function testRenderEndWithBlockTag(BackedEnum $tag, string $expectedTagName): void
     {
         self::assertSame(
             "\n</{$expectedTagName}>",
@@ -384,7 +385,7 @@ final class HtmlTest extends TestCase
     }
 
     #[DataProviderExternal(ListsProvider::class, 'listTags')]
-    public function testRenderEndWithListTag(BlockInterface $tag, string $expectedTagName): void
+    public function testRenderEndWithListTag(BackedEnum $tag, string $expectedTagName): void
     {
         self::assertSame(
             "\n</{$expectedTagName}>",
@@ -394,7 +395,7 @@ final class HtmlTest extends TestCase
     }
 
     #[DataProviderExternal(RootProvider::class, 'rootTags')]
-    public function testRenderEndWithRootTag(BlockInterface $tag, string $expectedTagName): void
+    public function testRenderEndWithRootTag(BackedEnum $tag, string $expectedTagName): void
     {
         self::assertSame(
             "\n</{$expectedTagName}>",
@@ -404,7 +405,7 @@ final class HtmlTest extends TestCase
     }
 
     #[DataProviderExternal(TableProvider::class, 'tableTags')]
-    public function testRenderEndWithTableTag(BlockInterface $tag, string $expectedTagName): void
+    public function testRenderEndWithTableTag(BackedEnum $tag, string $expectedTagName): void
     {
         self::assertSame(
             "\n</{$expectedTagName}>",
@@ -414,7 +415,7 @@ final class HtmlTest extends TestCase
     }
 
     #[DataProviderExternal(InlineProvider::class, 'inlineTags')]
-    public function testRenderInline(InlineInterface $tag, string $expectedTagName): void
+    public function testRenderInline(BackedEnum $tag, string $expectedTagName): void
     {
         $content = '<mark>inline</mark>';
         $attributes = ['id' => 'inline'];
@@ -432,7 +433,7 @@ final class HtmlTest extends TestCase
     }
 
     #[DataProviderExternal(VoidProvider::class, 'voidTags')]
-    public function testRenderVoid(VoidInterface $tag, string $expectedTagName): void
+    public function testRenderVoid(BackedEnum $tag, string $expectedTagName): void
     {
         $attributes = [
             'class' => ['void'],

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Element;
 
+use BackedEnum;
 use Stringable;
 use UIAwesome\Html\Attribute\{CanBeDisabled, HasName, HasType};
 use UIAwesome\Html\Attribute\Form\HasForm;
@@ -22,10 +23,11 @@ use UIAwesome\Html\Attribute\Global\{
     HasTitle,
     HasTranslate,
 };
+use UIAwesome\Html\Contracts\Form\FormControlInterface;
 use UIAwesome\Html\Core\Base\BaseTag;
 use UIAwesome\Html\Core\Html;
 use UIAwesome\Html\Helper\Template;
-use UIAwesome\Html\Interop\{BlockInterface, InlineInterface, VoidInterface};
+use UIAwesome\Html\Interop\{Inline, MetadataVoid, Voids};
 use UIAwesome\Html\Mixin\{HasAttributes, HasPrefixCollection, HasSuffixCollection, HasTemplate};
 
 /**
@@ -38,7 +40,7 @@ use UIAwesome\Html\Mixin\{HasAttributes, HasPrefixCollection, HasSuffixCollectio
  * @copyright Copyright (C) 2026 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
-abstract class BaseInput extends BaseTag
+abstract class BaseInput extends BaseTag implements FormControlInterface
 {
     use CanBeDisabled;
     use CanBeHidden;
@@ -72,17 +74,17 @@ abstract class BaseInput extends BaseTag
     /**
      * Returns the tag instance representing the void element.
      *
-     * @return VoidInterface Tag instance for the void element.
+     * @return BackedEnum Tag instance for the void element.
      *
      * Usage example:
      * ```php
-     * public function getTag(): VoidInterface
+     * public function getTag(): BackedEnum
      * {
      *     return \UIAwesome\Html\Interop\Voids::INPUT;
      * }
      * ```
      */
-    abstract protected function getTag(): VoidInterface;
+    abstract protected function getTag(): BackedEnum;
 
     /**
      * Sets the suffix appended to the element `id` when `aria-describedby` is set to `true`.
@@ -159,7 +161,7 @@ abstract class BaseInput extends BaseTag
     /**
      * Renders a tag, or returns content when the tag is `false`.
      *
-     * @param BlockInterface|false|InlineInterface|VoidInterface $tag Tag instance or `false` to skip rendering.
+     * @param BackedEnum|false $tag Tag instance or `false` to skip rendering.
      * @param string $content Content to be rendered inside the tag.
      * @param array $attributes HTML attributes for the tag.
      *
@@ -170,12 +172,20 @@ abstract class BaseInput extends BaseTag
      * @phpstan-return string
      */
     private function renderTag(
-        BlockInterface|false|InlineInterface|VoidInterface $tag,
+        BackedEnum|false $tag,
         string $content,
         array $attributes = [],
     ): string {
         if ($tag === false) {
             return $content;
+        }
+
+        if ($tag instanceof Voids || $tag instanceof MetadataVoid) {
+            return Html::void($tag, $attributes);
+        }
+
+        if ($tag instanceof Inline) {
+            return Html::inline($tag, $content, $attributes);
         }
 
         return Html::element($tag, $content, $attributes);

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Tests\Support\Stub;
 
+use BackedEnum;
 use UIAwesome\Html\Attribute\Global\{HasContentEditable, HasDraggable, HasMicroData, HasTabindex};
 use UIAwesome\Html\Core\Element\BaseInline;
 use UIAwesome\Html\Interop\Inline;
-use UIAwesome\Html\Interop\InlineInterface;
 
 /**
  * Stub for an inline tag implementation.
@@ -40,9 +40,9 @@ final class TagInline extends BaseInline
     /**
      * Returns the tag enumeration for the `<span>` element.
      *
-     * @return InlineInterface Tag enumeration instance for `<span>`.
+     * @return BackedEnum Tag enumeration instance for `<span>`.
      */
-    protected function getTag(): InlineInterface
+    protected function getTag(): BackedEnum
     {
         return Inline::SPAN;
     }

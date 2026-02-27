@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Element;
 
+use BackedEnum;
 use Stringable;
 use UIAwesome\Html\Attribute\Global\{
     CanBeHidden,
@@ -20,23 +21,25 @@ use UIAwesome\Html\Attribute\Global\{
     HasTitle,
     HasTranslate,
 };
+use UIAwesome\Html\Contracts\Attribute\AttributesInterface;
+use UIAwesome\Html\Contracts\Element\InlineInterface;
 use UIAwesome\Html\Core\Base\BaseTag;
 use UIAwesome\Html\Core\Html;
 use UIAwesome\Html\Helper\Template;
-use UIAwesome\Html\Interop\{BlockInterface, InlineInterface, VoidInterface};
+use UIAwesome\Html\Interop\{Inline, MetadataVoid, Voids};
 use UIAwesome\Html\Mixin\{HasAttributes, HasContent, HasPrefixCollection, HasSuffixCollection, HasTemplate};
 
 /**
  * Provides the base implementation for inline HTML elements.
  *
- * Subclasses return an {@see InlineInterface} tag and can compose prefix, tag, and suffix output via templates.
+ * Subclasses return a {@see BackedEnum} tag and can compose prefix, tag, and suffix output via templates.
  *
  * @link https://developer.mozilla.org/en-US/docs/Glossary/Inline-level_content
  *
  * @copyright Copyright (C) 2025 Terabytesoftw.
  * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
-abstract class BaseInline extends BaseTag
+abstract class BaseInline extends BaseTag implements AttributesInterface, InlineInterface
 {
     use CanBeHidden;
     use HasAccesskey;
@@ -60,17 +63,17 @@ abstract class BaseInline extends BaseTag
     /**
      * Returns the tag instance representing the inline element.
      *
-     * @return InlineInterface Tag instance for the inline element.
+     * @return BackedEnum Tag instance for the inline element.
      *
      * Usage example:
      * ```php
-     * public function getTag(): InlineInterface
+     * public function getTag(): BackedEnum
      * {
      *     return \UIAwesome\Html\Interop\Inline::SPAN;
      * }
      * ```
      */
-    abstract protected function getTag(): InlineInterface;
+    abstract protected function getTag(): BackedEnum;
 
     /**
      * Builds inline output from content and template tokens.
@@ -104,7 +107,7 @@ abstract class BaseInline extends BaseTag
     /**
      * Renders a tag, or returns content when the tag is `false`.
      *
-     * @param BlockInterface|false|InlineInterface|VoidInterface $tag Tag instance or `false` to skip rendering.
+     * @param BackedEnum|false $tag Tag instance or `false` to skip rendering.
      * @param string $content Content to be rendered inside the tag.
      * @param array $attributes HTML attributes for the tag.
      *
@@ -115,12 +118,20 @@ abstract class BaseInline extends BaseTag
      * @phpstan-return string
      */
     private function renderTag(
-        BlockInterface|false|InlineInterface|VoidInterface $tag,
+        BackedEnum|false $tag,
         string $content,
         array $attributes = [],
     ): string {
         if ($tag === false) {
             return $content;
+        }
+
+        if ($tag instanceof Voids || $tag instanceof MetadataVoid) {
+            return Html::void($tag, $attributes);
+        }
+
+        if ($tag instanceof Inline) {
+            return Html::inline($tag, $content, $attributes);
         }
 
         return Html::element($tag, $content, $attributes);
