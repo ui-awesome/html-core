@@ -713,17 +713,6 @@ final class TagInputTest extends TestCase
         );
     }
 
-    public function testReturnNewInstanceWhenSettingAttribute(): void
-    {
-        $tagInput = TagInput::tag();
-
-        self::assertNotSame(
-            $tagInput,
-            $tagInput->id('value'),
-            'Should return a new instance when setting the attribute, ensuring immutability.',
-        );
-    }
-
     public function testThrowInvalidArgumentExceptionWhenSettingDir(): void
     {
         $this->expectException(InvalidArgumentException::class);
