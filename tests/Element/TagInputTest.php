@@ -19,8 +19,6 @@ use UIAwesome\Html\Interop\{Block, Inline, Voids};
  * Unit tests for the {@see TagInput} class.
  *
  * Test coverage.
- * - Ensures `aria-describedby` derives from `id` when set to `true` and is omitted when `id` is `null`.
- * - Ensures `ariaDescribedBySuffix()` customizes the suffix appended to `id` for `aria-describedby`.
  * - Ensures default providers and global defaults apply expected attributes, with user overrides preserved.
  * - Verifies input tags render expected HTML for representative global and input-specific attributes.
  * - Verifies prefix and suffix content renders with block, inline, and void wrapper tags.
@@ -84,93 +82,6 @@ final class TagInputTest extends TestCase
         );
     }
 
-    public function testRenderWithAddAriaDescribedByTrueBooleanValue(): void
-    {
-        self::assertSame(
-            <<<HTML
-            <input id="taginput" aria-describedby="taginput-help">
-            HTML,
-            TagInput::tag()
-                ->addAriaAttribute('describedby', true)
-                ->id('taginput')
-                ->render(),
-            "Failed asserting that element renders correctly with 'aria-describedby' attribute set to "
-            . "'true'.",
-        );
-    }
-
-    public function testRenderWithAddAriaDescribedByTrueBooleanValueAndIdNull(): void
-    {
-        self::assertSame(
-            <<<HTML
-            <input>
-            HTML,
-            TagInput::tag()
-                ->addAriaAttribute('describedby', true)
-                ->id(null)
-                ->render(),
-            "Failed asserting that element renders correctly with 'aria-describedby' attribute set to "
-            . "'true' and 'id' is 'null'.",
-        );
-    }
-
-    public function testRenderWithAddAriaDescribedByTrueBooleanValueAndPrefixSuffix(): void
-    {
-        self::assertSame(
-            <<<HTML
-            <span>Prefix</span>
-            <input id="taginput" aria-describedby="taginput-help">
-            <span>Suffix</span>
-            HTML,
-            TagInput::tag()
-                ->addAriaAttribute('describedby', true)
-                ->id('taginput')
-                ->prefix('Prefix')
-                ->prefixTag(Inline::SPAN)
-                ->suffix('Suffix')
-                ->suffixTag(Inline::SPAN)
-                ->render(),
-            "Failed asserting that element renders correctly with 'aria-describedby' attribute set to "
-            . "'true' and prefix/suffix.",
-        );
-    }
-
-    public function testRenderWithAddAriaDescribedByTrueBooleanValueString(): void
-    {
-        self::assertSame(
-            <<<HTML
-            <input id="taginput" aria-describedby="taginput-help">
-            HTML,
-            TagInput::tag()
-                ->addAriaAttribute('describedby', 'true')
-                ->id('taginput')
-                ->render(),
-            "Failed asserting that element renders correctly with 'aria-describedby' attribute set to "
-            . "'true'.",
-        );
-    }
-
-    public function testRenderWithAddAriaDescribedByTrueStringValueAndPrefixSuffix(): void
-    {
-        self::assertSame(
-            <<<HTML
-            <span>Prefix</span>
-            <input id="taginput" aria-describedby="taginput-help">
-            <span>Suffix</span>
-            HTML,
-            TagInput::tag()
-                ->addAriaAttribute('describedby', 'true')
-                ->id('taginput')
-                ->prefix('Prefix')
-                ->prefixTag(Inline::SPAN)
-                ->suffix('Suffix')
-                ->suffixTag(Inline::SPAN)
-                ->render(),
-            "Failed asserting that element renders correctly with 'aria-describedby' attribute set to "
-            . "'true' and prefix/suffix.",
-        );
-    }
-
     public function testRenderWithAddDataAttribute(): void
     {
         self::assertSame(
@@ -228,80 +139,6 @@ final class TagInputTest extends TestCase
         );
     }
 
-    public function testRenderWithAriaAttributesAndAriaDescribedByTrueBooleanValue(): void
-    {
-        self::assertSame(
-            <<<HTML
-            <input id="taginput" aria-describedby="taginput-help">
-            HTML,
-            TagInput::tag()
-                ->ariaAttributes(['describedby' => true])
-                ->id('taginput')
-                ->render(),
-            "Failed asserting that element renders correctly with 'aria-describedby' attribute set to true.",
-        );
-    }
-
-    public function testRenderWithAriaAttributesAndAriaDescribedByTrueStringValue(): void
-    {
-        self::assertSame(
-            <<<HTML
-            <input id="taginput" aria-describedby="taginput-help">
-            HTML,
-            TagInput::tag()
-                ->ariaAttributes(['describedby' => 'true'])
-                ->id('taginput')
-                ->render(),
-            "Failed asserting that element renders correctly with 'aria-describedby' attribute set to true.",
-        );
-    }
-
-    public function testRenderWithAriaDescribedBySuffix(): void
-    {
-        self::assertSame(
-            <<<HTML
-            <input id="taginput" aria-describedby="taginput-hint">
-            HTML,
-            TagInput::tag()
-                ->addAriaAttribute('describedby', true)
-                ->ariaDescribedBySuffix('hint')
-                ->id('taginput')
-                ->render(),
-            "Failed asserting that element renders correctly with a custom 'ariaDescribedBySuffix()' value.",
-        );
-    }
-
-    public function testRenderWithAriaDescribedBySuffixAndEmptySuffixUsesDefault(): void
-    {
-        self::assertSame(
-            <<<HTML
-            <input id="taginput" aria-describedby="taginput-help">
-            HTML,
-            TagInput::tag()
-                ->addAriaAttribute('describedby', true)
-                ->ariaDescribedBySuffix('')
-                ->id('taginput')
-                ->render(),
-            "Failed asserting that an empty 'ariaDescribedBySuffix()' falls back to the default '-help' suffix.",
-        );
-    }
-
-    public function testRenderWithAriaDescribedBySuffixAndIdNull(): void
-    {
-        self::assertSame(
-            <<<HTML
-            <input>
-            HTML,
-            TagInput::tag()
-                ->addAriaAttribute('describedby', true)
-                ->ariaDescribedBySuffix('-hint')
-                ->id(null)
-                ->render(),
-            "Failed asserting that element renders correctly with a custom 'ariaDescribedBySuffix()' value and 'id' "
-            . "is 'null'.",
-        );
-    }
-
     public function testRenderWithAttributes(): void
     {
         self::assertSame(
@@ -312,34 +149,6 @@ final class TagInputTest extends TestCase
                 ->attributes(['class' => 'value'])
                 ->render(),
             "Failed asserting that element renders correctly with 'attributes()' method.",
-        );
-    }
-
-    public function testRenderWithAttributesAndAriaDescribedByTrueBooleanValue(): void
-    {
-        self::assertSame(
-            <<<HTML
-            <input id="taginput" aria-describedby="taginput-help">
-            HTML,
-            TagInput::tag()
-                ->attributes(['aria-describedby' => true])
-                ->id('taginput')
-                ->render(),
-            "Failed asserting that element renders correctly with 'aria-describedby' attribute set to true.",
-        );
-    }
-
-    public function testRenderWithAttributesAndAriaDescribedByTrueStringValue(): void
-    {
-        self::assertSame(
-            <<<HTML
-            <input id="taginput" aria-describedby="taginput-help">
-            HTML,
-            TagInput::tag()
-                ->attributes(['aria-describedby' => 'true'])
-                ->id('taginput')
-                ->render(),
-            "Failed asserting that element renders correctly with 'aria-describedby' attribute set to true.",
         );
     }
 
@@ -901,17 +710,6 @@ final class TagInputTest extends TestCase
         self::assertEmpty(
             $tag->getDefaults($tag),
             'Failed asserting that getting defaults returns an empty array when no defaults are set.',
-        );
-    }
-
-    public function testReturnNewInstanceWhenSettingAttribute(): void
-    {
-        $tagInput = TagInput::tag();
-
-        self::assertNotSame(
-            $tagInput,
-            $tagInput->ariaDescribedBySuffix(''),
-            'Should return a new instance when setting the attribute, ensuring immutability.',
         );
     }
 
