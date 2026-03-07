@@ -22,6 +22,7 @@
 - Enh #74: Add `ariaDescribedBySuffix` property and method to customize `aria-describedby` suffix in `BaseInput` class (@terabytesoftw)
 - Fix #75: Correct `ariaDescribedBySuffix` formatting in `BaseInput` class and update test case in `TagInputTest` class (@terabytesoftw)
 - Enh #76: Align architecture with `ui-awesome/html-contracts` by migrating element tag type hints to `BackedEnum`, implementing contracts across base elements, moving `begin()`/`end()` lifecycle flow from `BaseTag` to `BaseBlock`, and making `BaseHtml::element()` a generic renderer while inline and void selection remains in element-specific classes (@terabytesoftw)
+- Bug #77: Remove automatic `aria-describedby` handling and suffix customization from `BaseInput` and delete related tests from `TagInputTest` (@terabytesoftw)
 
 ## 0.5.2 January 28, 2026
 
