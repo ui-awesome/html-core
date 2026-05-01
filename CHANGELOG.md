@@ -1,105 +1,107 @@
-# ChangeLog
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 
 ## 0.6.0 Under development
 
-- Dep #57: Update `ui-awesome/html-interop` requirement from `^0.2` to `^0.3` in `composer.json` (@terabytesoftw)
-- Enh #58: Add `loadDefault()` method in `BaseTag` class to provide default attribute values (@terabytesoftw)
-- Bug #59: Update PHP version requirement in `BaseTagTest` from `8.4` to `8.5` (@terabytesoftw)
-- Enh #60: Add `BaseInput` class for HTML input elements with common attributes, methods and fix prefix/suffix rendering to support block, inline and void tags in `BaseInline` (@terabytesoftw)
-- Bug #61: Correct parameter order in docblocks for `BaseInput` and `BaseInline` classes (@terabytesoftw)
-- Bug #62: Reorder use statements in `BaseInput` class for better organization (@terabytesoftw)
-- Bug #63: Use `HasName` trait in `BaseInput` class to manage the `name` attribute (@terabytesoftw)
-- Enh #64: Add support for automatic `aria-describedby` attribute in `BaseInput` class (@terabytesoftw)
-- Enh #65: Add stubs for `TagInline` and `TagInput` with token values for template rendering tests (@terabytesoftw)
-- Bug #66: Replace direct property access with getter methods for `prefix` and `suffix` in `BaseInput` and `BaseInline` classes (@terabytesoftw)
-- Bug #67: Update condition for `aria-describedby` attribute in `BaseInput` class to accept string `true` (@terabytesoftw)
-- Bug #68: Enhance HTML output formatting by adding line breaks using `PHP_EOL` const in `BaseHtml`, `BaseBlock`, `BaseInline`, and `BaseTag` classes (@terabytesoftw)
-- Bug #69: Standardize PHPDoc headers for src and test classes and update related documentation (@terabytesoftw)
-- Bug #70: Add `afterRun()` method to clean up excessive newlines in `BaseBlock` class (@terabytesoftw)
-- Bug #71: Update `ui-awesome/html-helper` to version `^0.7` and `ui-awesome/html-mixin` to version `^0.4` in `composer.json` (@terabytesoftw)
-- Bug #72: Remove usage examples from PHPDoc in multiple classes for cleaner documentation (@terabytesoftw)
-- Bug #73: Update last modified from `ui-awesome/html-attribute` in related classes (@terabytesoftw)
-- Enh #74: Add `ariaDescribedBySuffix` property and method to customize `aria-describedby` suffix in `BaseInput` class (@terabytesoftw)
-- Fix #75: Correct `ariaDescribedBySuffix` formatting in `BaseInput` class and update test case in `TagInputTest` class (@terabytesoftw)
-- Enh #76: Align architecture with `ui-awesome/html-contracts` by migrating element tag type hints to `BackedEnum`, implementing contracts across base elements, moving `begin()`/`end()` lifecycle flow from `BaseTag` to `BaseBlock`, and making `BaseHtml::element()` a generic renderer while inline and void selection remains in element-specific classes (@terabytesoftw)
-- Bug #77: Remove automatic `aria-describedby` handling and suffix customization from `BaseInput` and delete related tests from `TagInputTest` (@terabytesoftw)
+- chore: update the `ui-awesome/html-interop` requirement from `^0.2` to `^0.3`.
+- feat: add `BaseTag::loadDefault()` for class-level default configuration.
+- fix: update the PHP version requirement in `BaseTagTest` from `8.4` to `8.5`.
+- feat: add `BaseInput` for input elements and improve prefix/suffix rendering for block, inline, and void tags.
+- fix: correct parameter order in `BaseInput` and `BaseInline` docblocks.
+- fix: reorder `BaseInput` imports.
+- feat: use `HasName` in `BaseInput` for the `name` attribute.
+- test: add token-value stubs for `TagInline` and `TagInput` template rendering.
+- fix: use prefix and suffix getters in `BaseInput` and `BaseInline`.
+- fix: improve HTML output formatting with `PHP_EOL` line breaks in core renderers.
+- docs: standardize PHPDoc headers for source and test classes.
+- fix: add `BaseBlock::afterRun()` to normalize excessive line breaks.
+- chore: update `ui-awesome/html-helper` to `^0.7` and `ui-awesome/html-mixin` to `^0.4`.
+- docs: remove usage examples from PHPDoc in multiple classes.
+- docs: update last-modified references from `ui-awesome/html-attribute` in related classes.
+- feat: align base elements with `ui-awesome/html-contracts` and migrate tag type hints to `BackedEnum`.
+- fix: remove automatic `aria-describedby` handling and suffix customization from `BaseInput`.
+- docs: refresh feature overview SVGs with the shared documentation layout and alphabetical ordering.
+- chore: prepare the `0.6.0` release with workflow, docs, input element, and test updates.
 
 ## 0.5.2 January 28, 2026
 
-- Bug #53: Add section for automated refactoring using `Rector` in testing documentation (@terabytesoftw)
-- Bug #54: Update examples in `testing.md` for running Composer script with arguments and update `.styleci.yml` accordingly (@terabytesoftw)
-- Bug #55: Update command syntax in `development.md` and `testing.md` for clarity and consistency (@terabytesoftw)
-- Bug #56: Remove redundant ignore rule in `actionlint.yml` configuration and update Rector command in `composer.json` to remove unnecessary 'src' argument (@terabytesoftw)
+- docs: add an automated refactoring section to the testing documentation.
+- docs: update testing examples for running Composer scripts with arguments.
+- docs: update command syntax in `development.md` and `testing.md` for clarity and consistency.
+- chore: remove the redundant ignore rule in `actionlint.yml` and update the Rector command.
 
 ## 0.5.1 January 24, 2026
 
-- Enh #52: Add `php-forge/coding-standard` to development dependencies for code quality checks (@terabytesoftw)
+- chore: add `php-forge/coding-standard` to development dependencies for code quality checks.
 
 ## 0.5.0 January 19, 2026
 
-- Enh #42: Introduce interfaces for block, inline, and void tags; update related classes and tests (@terabytesoftw)
-- Bug #43: Update usage examples for `getTag()` method in `BaseBlock`, `BaseInline`, and `BaseVoid` classes (@terabytesoftw)
-- Enh #44: Using global config files organization (@terabytesoftw)
-- Enh #45: Move related tag classes to `ui-awesome/html-interop` package and update imports accordingly (@terabytesoftw)
-- Enh #46: Add development guide and sync metadata instructions and update testing documentation (@terabytesoftw)
-- Enh #47: Use package `ui-awesome/html-mixin` for mixin traits and update related imports accordingly (@terabytesoftw)
-- Enh #48: Move attribute traits from `ui-awesome/html-core` package and update related imports accordingly (@terabytesoftw)
-- Bug #49: Update documentation for clarity and consistency (@terabytesoftw)
-- Bug #50: Improve `testing.md` for clarity and consistency in Composer script usage (@terabytesoftw)
-- Bug #51: Update documentation in tests for clarity and consistency (@terabytesoftw)
+- feat: introduce interfaces for block, inline, and void tags.
+- docs: update `getTag()` usage examples in `BaseBlock`, `BaseInline`, and `BaseVoid`.
+- chore: use global configuration file organization.
+- feat: move related tag classes to `ui-awesome/html-interop` and update imports.
+- docs: add a development guide and sync metadata instructions.
+- chore: use `ui-awesome/html-mixin` for mixin traits and update imports.
+- refactor: move attribute traits from `ui-awesome/html-core` and update imports.
+- docs: update documentation for clarity and consistency.
+- docs: improve `testing.md` Composer script usage.
+- docs: update test documentation for clarity and consistency.
 
 ## 0.4.0 December 27, 2025
 
-- Bug #37: Move `Message` enum to `Helper\Exception` namespace and clean up unused cases (@terabytesoftw)
-- Bug #38: Update method calls to use `getAttributes()` method for consistency in `BaseBlock`, `BaseInline`, and `BaseVoid` classes (@terabytesoftw)
-- Bug #39: Rename exception test methods for clarity and consistency (@terabytesoftw)
-- Bug #40: Consolidate attribute handling in `setAttribute()` method in `HasAttributes` class and remove redundant code in related classes (@terabytesoftw)
-- Dep #41: Update `ui-awesome/html-helper` version constraint to `^0.6` in `composer.json` and adjust related tests (@terabytesoftw)
+- refactor: move the `Message` enum to the `Helper\Exception` namespace and remove unused cases.
+- fix: use `getAttributes()` consistently in `BaseBlock`, `BaseInline`, and `BaseVoid`.
+- test: rename exception test methods for clarity and consistency.
+- refactor: consolidate attribute handling through `setAttribute()` and remove redundant code.
+- chore: update the `ui-awesome/html-helper` requirement to `^0.6` and adjust related tests.
 
 ## 0.3.1 December 26, 2025
 
-- Bug #33: Update test group annotations for `BaseTagTest` and `SimpleFactoryTest` classes (@terabytesoftw)
-- Dep #34: Update `infection/infection` version constraint to `^0.32` in `composer.json` (@terabytesoftw)
-- Enh #35: Add `SVG` case to `Block` enum for HTML tag representation (@terabytesoftw)
-- Bug #36: Simplify attribute management by utilizing `addAttribute` method across multiple traits (@terabytesoftw)
+- test: update group annotations for `BaseTagTest` and `SimpleFactoryTest`.
+- chore: update the `infection/infection` version constraint to `^0.32`.
+- feat: add the `SVG` case to the block tag enum.
+- refactor: simplify attribute management by using `addAttribute()` across traits.
 
 ## 0.3.0 December 24, 2025
 
-- Bug #6: Update testsuite name to match project name (@terabytesoftw)
-- Enh #7: Add methods to set and remove single HTML attributes (@terabytesoftw)
-- Enh #8: Enhance data attribute handling with support for `scalar`, `Closure`, and `UnitEnum` values (@terabytesoftw)
-- Bug #9: Update `dataAttribute()` method handling to support enum values and improve error messages (@terabytesoftw)
-- Bug #10: Update documentation for `dataAttributes()` method to include example with enum value (@terabytesoftw)
-- Bug #11: Enhance `DataProvider` class documentation and add comprehensive test cases for HTML `data-*` attributes (@terabytesoftw)
-- Bug #12: Update `removeDataAttribute()` method documentation to include example with enum key (@terabytesoftw)
-- Bug #13: Correct documentation formatting for key features across multiple attribute and providers external classes (@terabytesoftw)
-- Enh #14: Enhance `addAttribute()` and `removeAttribute()` methods to support enum keys and improve handling of attributes (@terabytesoftw)
-- Bug #15: Update PHPStan annotations in `DataProvider` and `HasDataTest` classes for improved type clarity (@terabytesoftw)
-- Enh #16: Enhance support for `Stringable` interface types across `HasClass`, `HasData`, `HasStyle`, `HasTitle` and update related tests (@terabytesoftw)
-- Bug #17: Add cases for `<details>`, `<dialog>`, and `<menu>` HTML tags in `Block` enum (@terabytesoftw)
-- Enh #18: Add `HasAccesskey` trait with `accesskey()` method and tests (@terabytesoftw)
-- Enh #19: Add `HasTranslate` trait with `translate()` method and tests (@terabytesoftw)
-- Bug #20: Update `draggable` method parameter type to include `UnitEnum` class (@terabytesoftw)
-- Bug #21: Improve PHPDoc for attribute related classes to reflect support for `UnitEnum` types (@terabytesoftw)
-- Enh #22: Add `HasRole` trait with `role()` method and tests (@terabytesoftw)
-- Enh #23: Add `HasAria` trait with `ariaAttributes()`, `addAriaAttribute()`, `removeAriaAttribute()` methods and tests (@terabytesoftw)
-- Bug #24: Improve `HasData` trait to support closure evaluation for `data-*` attributes (@terabytesoftw)
-- Bug #25: Remove redundant test cases for multiple string `aria-*` attributes in `AriaProvider` class (@terabytesoftw)
-- Enh #26: Add `AttributeProperty` enum to standardize common HTML attribute names (@terabytesoftw)
-- Bug #27: Update `style()` method to accept array as a valid input type in `HasStyle` trait (@terabytesoftw)
-- Bug #28: Improve `HasAriaTest` and `AriaProvider` with comprehensive test coverage for `aria-*` attributes (@terabytesoftw)
-- Enh #29: Add `HasEvents` trait with `events()`, `addEvent()`, `removeEvent()` methods and tests (@terabytesoftw)
-- Bug #30: Improve `HasAriaTest` with additional test cases for invalid `aria-*` attribute keys and `AriaProvider` data provider (@terabytesoftw)
-- Bug #31: Improve `HasEventsTest` with additional cases for invalid `on-*` attribute keys and `EventProvider` data provider (@terabytesoftw)
-- Bug #32: Refactor `HasAria`, `HasData` and `HasEvents` classes for handling normalize keys and update related tests (@terabytesoftw)
+- test: update the test suite name to match the project name.
+- feat: add methods to set and remove single HTML attributes.
+- feat: enhance data attribute handling with scalar, closure, and `UnitEnum` values.
+- fix: support enum values in `dataAttribute()` and improve error messages.
+- docs: update `dataAttributes()` documentation with an enum value example.
+- test: enhance data provider documentation and add comprehensive HTML `data-*` attribute cases.
+- docs: update `removeDataAttribute()` documentation with an enum key example.
+- docs: correct feature documentation formatting across attribute and provider classes.
+- feat: support enum keys in `addAttribute()` and `removeAttribute()`.
+- docs: update PHPStan annotations in data providers and data attribute tests.
+- feat: add `Stringable` support across class, data, style, and title attribute traits.
+- feat: add `<details>`, `<dialog>`, and `<menu>` cases to the block tag enum.
+- feat: add `HasAccesskey` with `accesskey()` and tests.
+- feat: add `HasTranslate` with `translate()` and tests.
+- fix: allow `UnitEnum` values in the `draggable()` parameter type.
+- docs: improve attribute PHPDoc to reflect `UnitEnum` support.
+- feat: add `HasRole` with `role()` and tests.
+- feat: add `HasAria` with ARIA attribute collection methods and tests.
+- fix: support closure evaluation in `HasData` for `data-*` attributes.
+- test: remove redundant string `aria-*` cases from the ARIA provider.
+- feat: add `AttributeProperty` for common HTML attribute names.
+- fix: allow arrays as valid input for `style()`.
+- test: improve ARIA attribute test coverage.
+- feat: add `HasEvents` with event attribute collection methods and tests.
+- test: add invalid ARIA attribute key cases.
+- test: add invalid event attribute key cases.
+- refactor: improve key normalization in ARIA, data, and event attribute traits.
 
 ## 0.2.0 December 18, 2025
 
-- Enh #5: Refactor codebase to improve performance (@terabytesoftw)
+- refactor: improve codebase performance.
 
 ## 0.1.0 March 30, 2024
 
-- Enh #1: Initial commit (@terabytesoftw)
-- Bug #2: Update docs `Block.md` (@terabytesoftw)
-- Dep #3: Update `ui-awesome/html-attribute`, `ui-awesome/html-concern`, `ui-awesome/html-helper` to `0.2` in `composer.json` (@terabytesoftw)
-- Bug #4: Refactor `AbstractBlockElement` and `Block` classes to use `HasTagName` trait (@terabytesoftw)
+- feat: initial `ui-awesome/html-core` package structure.
+- docs: update block documentation.
+- chore: update `ui-awesome/html-attribute`, `ui-awesome/html-concern`, and `ui-awesome/html-helper` to `0.2`.
+- refactor: use `HasTagName` in abstract block element and block classes.

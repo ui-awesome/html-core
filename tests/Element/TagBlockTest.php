@@ -7,6 +7,7 @@ namespace UIAwesome\Html\Core\Tests\Element;
 use LogicException;
 use PHPUnit\Framework\Attributes\{Group, RequiresPhp};
 use PHPUnit\Framework\TestCase;
+use ReflectionProperty;
 use RuntimeException;
 use UIAwesome\Html\Attribute\Values\{
     Aria,
@@ -31,6 +32,7 @@ use UIAwesome\Html\Core\Tests\Support\Stub\{
     TagInline,
 };
 use UIAwesome\Html\Interop\Block;
+use WeakMap;
 
 /**
  * Unit tests for the {@see TagBlock} class.
@@ -51,7 +53,6 @@ use UIAwesome\Html\Interop\Block;
 #[Group('element')]
 final class TagBlockTest extends TestCase
 {
-    #[RequiresPhp('8.5')]
     public function testBeginExecutedIsResetAfterRenderEvenWhenExceptionOccurs(): void
     {
         $tag = new class extends BaseBlock {
@@ -114,6 +115,38 @@ final class TagBlockTest extends TestCase
             $result,
             "Failed asserting that closing tag renders after reset of 'beginExecuted' state.",
         );
+    }
+
+    public function testEndRemovesEmptyContextStackAfterBalancedRender(): void
+    {
+        $stackProperty = new ReflectionProperty(BaseBlock::class, 'stack');
+        $mainThreadProperty = new ReflectionProperty(BaseBlock::class, 'mainThread');
+
+        $stackProperty->setValue(null, null);
+        $mainThreadProperty->setValue(null, null);
+
+        TagBlock::tag()->begin();
+        TagBlock::end();
+
+        $stack = $stackProperty->getValue();
+        $mainThread = $mainThreadProperty->getValue();
+
+        self::assertInstanceOf(
+            WeakMap::class,
+            $stack,
+            'Failed asserting that the begin/end stack storage is initialized.',
+        );
+        self::assertIsObject(
+            $mainThread,
+            'Failed asserting that the main execution context identifier is initialized.',
+        );
+        self::assertFalse(
+            $stack->offsetExists($mainThread),
+            'Failed asserting that a balanced begin/end cycle removes the empty context stack.',
+        );
+
+        $stackProperty->setValue(null, null);
+        $mainThreadProperty->setValue(null, null);
     }
 
     public function testRenderWithAccesskey(): void
@@ -261,7 +294,7 @@ final class TagBlockTest extends TestCase
         );
     }
 
-    #[RequiresPhp('8.5')]
+    #[RequiresPhp('>= 8.5.0')]
     public function testRenderWithBeginEndFromSubclassLifecycleHelpers(): void
     {
         $tag = new class extends BaseBlock {

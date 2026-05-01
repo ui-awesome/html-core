@@ -1,75 +1,56 @@
-<svg fill="none" viewBox="0 0 1200 430" width="100%" height="340" xmlns="http://www.w3.org/2000/svg">
-    <foreignObject width="100%" height="100%">
-        <div xmlns="http://www.w3.org/1999/xhtml">
-            <style>
-                .container {
-                    display: grid;
-                    grid-template-columns: 1fr 1fr;
-                    gap: 20px;
-                    padding: 20px;
-                }
-                .alert-box {
-                    border-left: 4px solid #1f883d;
-                    padding: 12px;
-                    margin-bottom: 16px;
-                    border-radius: 6px;
-                    background: rgba(31, 136, 61, 0.1);
-                    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-                    width: 100%;
-                    box-sizing: border-box;
-                }
-                .alert-title {
-                    margin: 0 0 8px 0;
-                    font-weight: 600;
-                }
-                .alert-content {
-                    margin: 0;
-                    line-height: 1.5;
-                }
+<svg viewBox="0 0 1200 380" width="100%" height="340" xmlns="http://www.w3.org/2000/svg">
+    <style>
+        text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        .box-bg { fill: #e6f4ea; stroke: #a7cdb3; stroke-width: 1; }
+        .title { font-weight: 700; font-size: 16px; fill: #1a202c; }
+        .content { font-size: 13px; fill: #4a5568; }
+    </style>
 
-                /* Light mode */
-                    @media (prefers-color-scheme: light) {
-                    .alert-title { color: #000000; }
-                    .alert-content { color: #333333; }
-                    .alert-box { background: rgba(31, 136, 61, 0.1); }
-                }
+    <g>
+        <rect class="box-bg" x="20" y="20" width="570" height="100" rx="6"/>
+        <rect x="20" y="20" width="4" height="100" fill="#1f883d"/>
+        <text class="title" x="40" y="50">Defaults and Theming</text>
+        <text class="content" x="40" y="78">SimpleFactory defaults, provider hooks and loadDefault() composition</text>
+        <text class="content" x="40" y="98">User configuration remains the final override layer</text>
+    </g>
 
-                /* Dark mode */
-                @media (prefers-color-scheme: dark) {
-                    .alert-title { color: #ffffff; }
-                    .alert-content { color: #ffffff; }
-                    .alert-box { background: rgba(31, 136, 61, 0.2); }
-                }
-            </style>
-            <div class="container">
-                <div class="alert-box">
-                    <p class="alert-title"><strong>Defaults and theming</strong></p>
-                    <p class="alert-content">Configure tags via SimpleFactory defaults, DefaultsProviderInterface, ThemeProviderInterface, or override loadDefault() for class-level defaults</p>
-                </div>
-                <div class="alert-box">
-                    <p class="alert-title"><strong>Extensible base elements</strong></p>
-                    <p class="alert-content">
-                        Build your own tags by extending <code>BaseBlock</code>, <code>BaseInline</code>, or <code>BaseVoid</code>
-                        and implementing <code>getTag()</code> returning <code>BlockInterface</code>, <code>InlineInterface</code>, or <code>VoidInterface</code>
-                    </p>
-                </div>
-                <div class="alert-box">
-                    <p class="alert-title"><strong>Immutable fluent builders</strong></p>
-                    <p class="alert-content">Clone-based API via BaseTag, plus attribute/content traits for predictable configuration</p>
-                </div>
-                <div class="alert-box">
-                    <p class="alert-title"><strong>Safe content encoding</strong></p>
-                    <p class="alert-content">Optional HTML entity encoding for XSS protection with `encodeContent()` parameter on element rendering</p>
-                </div>
-                <div class="alert-box">
-                    <p class="alert-title"><strong>Stack-safe begin/end</strong></p>
-                    <p class="alert-content">Fiber-aware stacks (WeakMap) with explicit errors for missing `begin()` and tag mismatches</p>
-                </div>
-                <div class="alert-box">
-                    <p class="alert-title"><strong>Static HTML renderer</strong></p>
-                    <p class="alert-content">Render begin/end tags and full elements via `Html::begin()`, `::end()`, `::element()`, `::inline()`, `::void()`</p>
-                </div>
-            </div>
-        </div>
-    </foreignObject>
+    <g>
+        <rect class="box-bg" x="610" y="20" width="570" height="100" rx="6"/>
+        <rect x="610" y="20" width="4" height="100" fill="#1f883d"/>
+        <text class="title" x="630" y="50">Extensible Base Elements</text>
+        <text class="content" x="630" y="78">Build block, inline, input and void elements from reusable base classes</text>
+        <text class="content" x="630" y="98">BackedEnum tags keep rendering decoupled from concrete enum packages</text>
+    </g>
+
+    <g>
+        <rect class="box-bg" x="20" y="140" width="570" height="100" rx="6"/>
+        <rect x="20" y="140" width="4" height="100" fill="#1f883d"/>
+        <text class="title" x="40" y="170">Immutable Fluent Builders</text>
+        <text class="content" x="40" y="198">Clone-based tag APIs with attribute, content, prefix and suffix mixins</text>
+        <text class="content" x="40" y="218">Predictable configuration for reusable component classes</text>
+    </g>
+
+    <g>
+        <rect class="box-bg" x="610" y="140" width="570" height="100" rx="6"/>
+        <rect x="610" y="140" width="4" height="100" fill="#1f883d"/>
+        <text class="title" x="630" y="170">Safe Content Encoding</text>
+        <text class="content" x="630" y="198">Optional encoded content output for full elements and inline tags</text>
+        <text class="content" x="630" y="218">Raw rendering stays explicit for trusted markup</text>
+    </g>
+
+    <g>
+        <rect class="box-bg" x="20" y="260" width="570" height="100" rx="6"/>
+        <rect x="20" y="260" width="4" height="100" fill="#1f883d"/>
+        <text class="title" x="40" y="290">Stack-Safe Begin/End</text>
+        <text class="content" x="40" y="318">Fiber-aware WeakMap stacks for nested begin() and end() flows</text>
+        <text class="content" x="40" y="338">Explicit errors for missing begin() calls and tag class mismatches</text>
+    </g>
+
+    <g>
+        <rect class="box-bg" x="610" y="260" width="570" height="100" rx="6"/>
+        <rect x="610" y="260" width="4" height="100" fill="#1f883d"/>
+        <text class="title" x="630" y="290">Static HTML Renderer</text>
+        <text class="content" x="630" y="318">Html::begin(), end(), element(), inline() and void() entry points</text>
+        <text class="content" x="630" y="338">Attribute rendering is delegated to the helper package</text>
+    </g>
 </svg>

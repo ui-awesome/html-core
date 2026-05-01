@@ -7,7 +7,6 @@ namespace UIAwesome\Html\Core\Element;
 use BackedEnum;
 use Stringable;
 use UIAwesome\Html\Attribute\{CanBeDisabled, HasName, HasType};
-use UIAwesome\Html\Attribute\Form\HasForm;
 use UIAwesome\Html\Attribute\Global\{
     CanBeHidden,
     HasAccesskey,
@@ -23,12 +22,14 @@ use UIAwesome\Html\Attribute\Global\{
     HasTitle,
     HasTranslate,
 };
+use UIAwesome\Html\Attribute\Values\Attribute;
 use UIAwesome\Html\Contracts\Form\FormControlInterface;
 use UIAwesome\Html\Core\Base\BaseTag;
 use UIAwesome\Html\Core\Html;
 use UIAwesome\Html\Helper\Template;
 use UIAwesome\Html\Interop\{Inline, MetadataVoid, Voids};
 use UIAwesome\Html\Mixin\{HasAttributes, HasPrefixCollection, HasSuffixCollection, HasTemplate};
+use UnitEnum;
 
 /**
  * Provides the base implementation for input elements.
@@ -51,7 +52,6 @@ abstract class BaseInput extends BaseTag implements FormControlInterface
     use HasData;
     use HasDir;
     use HasEvents;
-    use HasForm;
     use HasId;
     use HasLang;
     use HasName;
@@ -78,6 +78,25 @@ abstract class BaseInput extends BaseTag implements FormControlInterface
      * ```
      */
     abstract protected function getTag(): BackedEnum;
+
+    /**
+     * Sets the `form` attribute.
+     *
+     * Usage example:
+     * ```php
+     * $element->form('myForm');
+     * $element->form($formId);
+     * $element->form(null);
+     * ```
+     *
+     * @param string|Stringable|UnitEnum|null $value Form ID, or `null` to remove the attribute.
+     *
+     * @return static New instance with the updated `form` attribute.
+     */
+    public function form(string|Stringable|UnitEnum|null $value): static
+    {
+        return $this->addAttribute(Attribute::FORM, $value);
+    }
 
     /**
      * Builds input output from content and template tokens.
