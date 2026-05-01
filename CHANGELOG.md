@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 
-## 0.6.0 Under development
+## 0.6.0 May 1, 2026
 
 - chore: update the `ui-awesome/html-interop` requirement from `^0.2` to `^0.3`.
 - feat: add `BaseTag::loadDefault()` for class-level default configuration.
