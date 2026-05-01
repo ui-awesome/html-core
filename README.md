@@ -1,11 +1,9 @@
 <!-- markdownlint-disable MD041 -->
 <p align="center">
     <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/ui-awesome/.github/refs/heads/main/logo/ui_awesome_dark.png">
-        <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/ui-awesome/.github/refs/heads/main/logo/ui_awesome_light.png">
-        <img src="https://raw.githubusercontent.com/ui-awesome/.github/refs/heads/main/logo/ui_awesome_dark.png" alt="UI Awesome" width="150px">
+        <img src="https://raw.githubusercontent.com/ui-awesome/.github/refs/heads/main/logo/ui_awesome.png" alt="UI Awesome" width="25%">
     </picture>
-    <h1 align="center">Html core</h1>
+    <h1 align="center">Html Core</h1>
     <br>
 </p>
 <!-- markdownlint-enable MD041 -->
@@ -24,7 +22,7 @@
 
 <p align="center">
     <strong>A type-safe PHP library for standards-compliant HTML tag rendering</strong><br>
-    <em>Build and render block, inline, list, root, table, and void elements with immutable fluent APIs.</em>
+    <em>Build and render block, inline, input, and void elements with immutable fluent APIs.</em>
 </p>
 
 ## Features
@@ -37,7 +35,7 @@
 ### Installation
 
 ```bash
-composer require ui-awesome/html-core:^0.5
+composer require ui-awesome/html-core:^0.6
 ```
 
 ### Quick start
@@ -117,6 +115,46 @@ echo Html::void(
 );
 
 // <img class="void" data-role="presentation">
+```
+
+#### Input elements with prefix/suffix templates
+
+Input elements render the input tag with optional prefix and suffix segments through the same template primitives used
+by inline elements.
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App;
+
+use BackedEnum;
+use UIAwesome\Html\Core\Element\BaseInput;
+use UIAwesome\Html\Interop\{Inline, Voids};
+
+final class SearchInput extends BaseInput
+{
+    protected function getTag(): BackedEnum
+    {
+        return Voids::INPUT;
+    }
+
+    protected function run(): string
+    {
+        return $this->buildElement();
+    }
+}
+
+echo SearchInput::tag()
+    ->type('search')
+    ->name('q')
+    ->prefix('Search')
+    ->prefixTag(Inline::LABEL)
+    ->render();
+
+// <label>Search</label>
+// <input name="q" type="search">
 ```
 
 #### Building custom elements with immutable fluent APIs
@@ -315,10 +353,12 @@ final class Container extends BaseBlock
 }
 
 echo Container::tag()->render();
-// <div class="container"></div>
+// <div class="container">
+// </div>
 
 echo Container::tag(['class' => 'container-fluid'])->render();
-// <div class="container-fluid"></div>
+// <div class="container container-fluid">
+// </div>
 ```
 
 Configuration priority (from weakest to strongest):
@@ -346,7 +386,7 @@ enum SvgTag: string
     // ... add other SVG block tags as needed
 }
 
-// now you can use it with the Html helper or your custom classes
+// now you can use it with the Html renderer or your custom classes
 echo Html::element(SvgTag::G, '...');
 // <g>...</g>
 ```
@@ -355,12 +395,12 @@ echo Html::element(SvgTag::G, '...');
 
 For detailed configuration options and advanced usage.
 
-- 🧪 [Testing Guide](docs/testing.md)
-- 🛠️ [Development Guide](docs/development.md)
+- [Testing Guide](docs/testing.md)
+- [Upgrade Guide](UPGRADE.md)
 
 ## Package information
 
-[![PHP](https://img.shields.io/badge/%3E%3D8.1-777BB4.svg?style=for-the-badge&logo=php&logoColor=white)](https://www.php.net/releases/8.1/en.php)
+[![PHP](https://img.shields.io/badge/%3E%3D8.3-777BB4.svg?style=for-the-badge&logo=php&logoColor=white)](https://www.php.net/releases/8.3/en.php)
 [![Latest Stable Version](https://img.shields.io/packagist/v/ui-awesome/html-core.svg?style=for-the-badge&logo=packagist&logoColor=white&label=Stable)](https://packagist.org/packages/ui-awesome/html-core)
 [![Total Downloads](https://img.shields.io/packagist/dt/ui-awesome/html-core.svg?style=for-the-badge&logo=composer&logoColor=white&label=Downloads)](https://packagist.org/packages/ui-awesome/html-core)
 
