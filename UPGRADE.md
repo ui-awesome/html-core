@@ -2,8 +2,6 @@
 
 ## 0.6.0
 
-### Breaking changes
-
 - Custom element `getTag()` implementations should now return `BackedEnum`.
 - `BaseTag` now implements `UIAwesome\Html\Contracts\RenderableInterface`.
 - Block elements (`BaseBlock`) now implement `UIAwesome\Html\Contracts\Element\BlockInterface` and `UIAwesome\Html\Contracts\Attribute\AttributesInterface`.
