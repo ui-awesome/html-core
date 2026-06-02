@@ -395,8 +395,8 @@ echo Html::element(SvgTag::G, '...');
 
 For detailed configuration options and advanced usage.
 
-- [Testing Guide](docs/testing.md)
-- [Upgrade Guide](UPGRADE.md)
+- 🧪 [Testing Guide](docs/testing.md)
+- ⬆️ [Upgrade Guide](UPGRADE.md)
 
 ## Package information
 
