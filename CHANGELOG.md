@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - docs: update logo link in `README.md` to use an anchor tag.
 - ci: migrate GitHub workflows to pinned reusable quality and security checks.
 - ci: remove php-version specification from easy-coding-standard job in `ecs.yml`.
+- ci: add importNames configuration to `rector .php` setup.
 
 ## 0.6.0 May 1, 2026
 
