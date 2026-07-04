@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Tests\Element;
 
+use BackedEnum;
 use InvalidArgumentException;
 use PHPForge\Support\ReflectionHelper;
 use PHPUnit\Framework\Attributes\Group;
@@ -16,15 +17,6 @@ use UIAwesome\Html\Interop\{Block, Inline, Voids};
 
 /**
  * Unit tests for the {@see TagInput} class.
- *
- * Test coverage.
- * - Ensures default providers and global defaults apply expected attributes, with user overrides preserved.
- * - Verifies input tags render expected HTML for representative global and input-specific attributes.
- * - Verifies prefix and suffix content renders with block, inline, and void wrapper tags.
- * - Verifies template fallback renders prefix, tag, and suffix when `template` is empty.
- *
- * @copyright Copyright (C) 2026 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
 #[Group('element')]
 final class TagInputTest extends TestCase
@@ -719,7 +711,7 @@ final class TagInputTest extends TestCase
             Message::VALUE_NOT_IN_LIST->getMessage(
                 'invalid-value',
                 GlobalAttribute::DIR->value,
-                implode("', '", array_map(static fn(\BackedEnum $case): string => $case->value, Direction::cases())),
+                implode("', '", array_map(static fn(BackedEnum $case): string => $case->value, Direction::cases())),
             ),
         );
 
@@ -733,7 +725,7 @@ final class TagInputTest extends TestCase
             Message::VALUE_NOT_IN_LIST->getMessage(
                 'invalid-value',
                 GlobalAttribute::LANG->value,
-                implode("', '", array_map(static fn(\BackedEnum $case): string => $case->value, Language::cases())),
+                implode("', '", array_map(static fn(BackedEnum $case): string => $case->value, Language::cases())),
             ),
         );
 
@@ -747,7 +739,7 @@ final class TagInputTest extends TestCase
             Message::VALUE_NOT_IN_LIST->getMessage(
                 'invalid-value',
                 GlobalAttribute::ROLE->value,
-                implode("', '", array_map(static fn(\BackedEnum $case): string => $case->value, Role::cases())),
+                implode("', '", array_map(static fn(BackedEnum $case): string => $case->value, Role::cases())),
             ),
         );
 
@@ -761,7 +753,7 @@ final class TagInputTest extends TestCase
             Message::VALUE_NOT_IN_LIST->getMessage(
                 'invalid-value',
                 GlobalAttribute::TRANSLATE->value,
-                implode("', '", array_map(static fn(\BackedEnum $case): string => $case->value, Translate::cases())),
+                implode("', '", array_map(static fn(BackedEnum $case): string => $case->value, Translate::cases())),
             ),
         );
 

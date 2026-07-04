@@ -14,9 +14,6 @@ use UIAwesome\Html\Interop\Inline;
  *
  * Supplies a minimal {@see BaseInline} implementation that always resolves to the `<span>` tag, supporting
  * deterministic assertions in unit tests involving inline element rendering.
- *
- * @copyright Copyright (C) 2025 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
 final class TagInline extends BaseInline
 {

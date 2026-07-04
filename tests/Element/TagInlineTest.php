@@ -24,15 +24,6 @@ use UIAwesome\Html\Interop\{Block, Inline, Voids};
 
 /**
  * Unit tests for the {@see TagInline} class.
- *
- * Test coverage.
- * - Ensures default and theme providers apply expected attributes.
- * - Ensures global defaults are applied and user attributes override them.
- * - Verifies inline tags render expected HTML for representative global attributes.
- * - Verifies prefix and suffix content renders with block, inline, and void wrapper tags.
- *
- * @copyright Copyright (C) 2025 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
 #[Group('element')]
 final class TagInlineTest extends TestCase

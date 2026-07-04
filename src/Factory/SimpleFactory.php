@@ -24,9 +24,6 @@ use function property_exists;
  * ```
  *
  * @phpstan-template T of BaseTag
- *
- * @copyright Copyright (C) 2025 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
 final class SimpleFactory
 {
@@ -66,13 +63,12 @@ final class SimpleFactory
 
             if (method_exists($tag, $action)) {
                 /**
-                 * @phpstan-var T $tag
+                 * @phpstan-var T
                  * @phpstan-ignore method.dynamicName
                  */
                 $tag = $tag->$action(...(is_array($value) ? $value : [$value]));
             } elseif (property_exists($tag, $action)) {
                 /**
-                 * @phpstan-var T $tag
                  * @phpstan-ignore property.dynamicName
                  */
                 $tag->$action = $value;

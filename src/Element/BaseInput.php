@@ -36,10 +36,7 @@ use UnitEnum;
  *
  * Builds input markup with attribute traits and template-driven prefix and suffix composition.
  *
- * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
- *
- * @copyright Copyright (C) 2026 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
+ * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
  */
 abstract class BaseInput extends BaseTag implements FormControlInterface
 {

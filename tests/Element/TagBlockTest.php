@@ -36,19 +36,6 @@ use WeakMap;
 
 /**
  * Unit tests for the {@see TagBlock} class.
- *
- * Test coverage.
- * - Ensures `beginExecuted` state resets after render failures so direct render and subsequent begin/end cycles
- *   continue working.
- * - Ensures default and theme providers apply expected attributes.
- * - Ensures global defaults are applied and user attributes override them.
- * - Ensures subclasses can call inherited protected begin/end lifecycle helper methods.
- * - Verifies block tags render expected HTML for representative global attributes.
- * - Verifies LogicException and RuntimeException are thrown for invalid `end()` calls.
- * - Verifies nested `begin()` and `end()` calls keep stack state consistent.
- *
- * @copyright Copyright (C) 2025 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
 #[Group('element')]
 final class TagBlockTest extends TestCase

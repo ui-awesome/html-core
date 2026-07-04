@@ -11,9 +11,6 @@ use UIAwesome\Html\Core\Provider\ThemeProviderInterface;
  * Stub theme provider for tests.
  *
  * Returns deterministic theme configuration used by tests that verify theme application.
- *
- * @copyright Copyright (C) 2025 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
 final class DefaultThemeProvider implements ThemeProviderInterface
 {
