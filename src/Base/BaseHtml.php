@@ -10,14 +10,11 @@ use UIAwesome\Html\Helper\{Attributes, Encode};
 /**
  * Provides the base implementation for rendering HTML tags.
  *
- * @link https://developer.mozilla.org/en-US/docs/Glossary/Block-level_content
- * @link https://developer.mozilla.org/en-US/docs/Glossary/Inline-level_content
- * @link https://developer.mozilla.org/en-US/docs/Glossary/Void_element
- * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements#main_root
- * @link https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements#table_content
- *
- * @copyright Copyright (C) 2025 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
+ * @see https://developer.mozilla.org/en-US/docs/Glossary/Block-level_content
+ * @see https://developer.mozilla.org/en-US/docs/Glossary/Inline-level_content
+ * @see https://developer.mozilla.org/en-US/docs/Glossary/Void_element
+ * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements#main_root
+ * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements#table_content
  */
 abstract class BaseHtml
 {

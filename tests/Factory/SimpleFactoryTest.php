@@ -15,15 +15,6 @@ use UIAwesome\Html\Core\Tests\Support\Stub\TagInline;
 
 /**
  * Unit tests for the {@see SimpleFactory} class.
- *
- * Test coverage.
- * - Ensures instances are created with default property values when configuration is omitted.
- * - Sets public properties from configuration arrays during instance creation.
- * - Verifies Error is thrown when configuration targets non-public properties.
- * - Verifies LogicException is thrown when instantiating an abstract class.
- *
- * @copyright Copyright (C) 2025 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
 #[Group('factory')]
 final class SimpleFactoryTest extends TestCase

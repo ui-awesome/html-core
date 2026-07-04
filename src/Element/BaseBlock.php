@@ -47,10 +47,7 @@ use function array_pop;
  *
  * Subclasses return a {@see BackedEnum} tag and inherit attribute and content handling.
  *
- * @link https://developer.mozilla.org/en-US/docs/Glossary/Block-level_content
- *
- * @copyright Copyright (C) 2025 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
+ * @see https://developer.mozilla.org/en-US/docs/Glossary/Block-level_content.
  */
 abstract class BaseBlock extends BaseTag implements AttributesInterface, BlockInterface
 {

@@ -34,10 +34,7 @@ use UIAwesome\Html\Mixin\{HasAttributes, HasContent, HasPrefixCollection, HasSuf
  *
  * Subclasses return a {@see BackedEnum} tag and can compose prefix, tag, and suffix output via templates.
  *
- * @link https://developer.mozilla.org/en-US/docs/Glossary/Inline-level_content
- *
- * @copyright Copyright (C) 2025 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
+ * @see https://developer.mozilla.org/en-US/docs/Glossary/Inline-level_content
  */
 abstract class BaseInline extends BaseTag implements AttributesInterface, InlineInterface
 {

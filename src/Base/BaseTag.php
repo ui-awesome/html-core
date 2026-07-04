@@ -13,9 +13,6 @@ use UIAwesome\Html\Core\Provider\{DefaultsProviderInterface, ThemeProviderInterf
  * Provides the base implementation for fluent HTML tag objects.
  *
  * Uses lifecycle hooks and provider-based default and theme configuration.
- *
- * @copyright Copyright (C) 2025 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
 abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterface, RenderableInterface
 {

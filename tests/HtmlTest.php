@@ -30,9 +30,6 @@ use UIAwesome\Html\Interop\{Block, Inline, Voids};
  *
  * {@see BlockProvider}, {@see InlineProvider}, {@see ListsProvider}, {@see RootProvider}, {@see TableProvider}, and
  * {@see VoidProvider} for test case data providers.
- *
- * @copyright Copyright (C) 2025 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
 #[Group('html')]
 final class HtmlTest extends TestCase

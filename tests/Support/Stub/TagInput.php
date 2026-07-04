@@ -13,9 +13,6 @@ use UIAwesome\Html\Interop\Voids;
  *
  * Supplies a minimal {@see BaseInput} implementation that always resolves to the `<input>` tag, supporting
  * deterministic assertions in unit tests involving input element rendering.
- *
- * @copyright Copyright (C) 2026 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
 final class TagInput extends BaseInput
 {

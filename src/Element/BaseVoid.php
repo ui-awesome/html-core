@@ -32,10 +32,7 @@ use UIAwesome\Html\Mixin\HasAttributes;
  * Subclasses return a {@see BackedEnum} tag and inherit attribute handling for rendering through
  * {@see Html::void()}.
  *
- * @link https://developer.mozilla.org/en-US/docs/Glossary/Void_element
- *
- * @copyright Copyright (C) 2025 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
+ * @see https://developer.mozilla.org/en-US/docs/Glossary/Void_element
  */
 abstract class BaseVoid extends BaseTag implements AttributesInterface, VoidInterface
 {

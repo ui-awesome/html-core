@@ -13,12 +13,6 @@ use UIAwesome\Html\Mixin\HasAttributes;
 
 /**
  * Unit tests for the {@see BaseTag} class.
- *
- * Test coverage.
- * - Ensures rendering is skipped when `beforeRun()` returns `false`.
- *
- * @copyright Copyright (C) 2025 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
 #[Group('base')]
 final class BaseTagTest extends TestCase

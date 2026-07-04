@@ -13,9 +13,6 @@ use UIAwesome\Html\Interop\Inline;
  *
  * Used to test the spread operator behavior in {@see BaseInline::buildElement()} when merging token template values
  * with additional token values.
- *
- * @copyright Copyright (C) 2026 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
 final class TagInlineWithTokenValues extends BaseInline
 {

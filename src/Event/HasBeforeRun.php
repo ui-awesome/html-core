@@ -6,9 +6,6 @@ namespace UIAwesome\Html\Core\Event;
 
 /**
  * Provides a pre-render lifecycle hook.
- *
- * @copyright Copyright (C) 2025 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
 trait HasBeforeRun
 {

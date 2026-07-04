@@ -13,9 +13,6 @@ use UIAwesome\Html\Interop\Voids;
  *
  * Supplies a minimal {@see BaseVoid} implementation that always resolves to the `<hr>` tag, supporting deterministic
  * assertions in unit tests involving void element rendering.
- *
- * @copyright Copyright (C) 2025 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
 final class TagVoid extends BaseVoid
 {

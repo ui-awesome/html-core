@@ -22,9 +22,6 @@ use UIAwesome\Html\Core\Base\BaseTag;
  *     }
  * }
  * ```
- *
- * @copyright Copyright (C) 2025 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
 interface DefaultsProviderInterface
 {

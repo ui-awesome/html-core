@@ -13,15 +13,6 @@ use UIAwesome\Html\Core\Tests\Support\Stub\{DefaultProvider, DefaultThemeProvide
 
 /**
  * Unit tests for the {@see TagVoid} class.
- *
- * Test coverage.
- * - Ensures default and theme providers apply expected attributes.
- * - Ensures global defaults are applied and user attributes override them.
- * - Verifies undefined themes and missing defaults return empty arrays.
- * - Verifies void tags render expected HTML for representative global attributes.
- *
- * @copyright Copyright (C) 2025 Terabytesoftw.
- * @license https://opensource.org/license/bsd-3-clause BSD 3-Clause License.
  */
 #[Group('element')]
 final class TagVoidTest extends TestCase
