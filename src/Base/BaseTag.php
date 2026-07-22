@@ -157,7 +157,8 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
      * @param Config $config Application-scoped config service.
      * @param ComponentContext $context Semantic context used to resolve recipes.
      *
-     * @throws ConfigException If a custom config applier returns an incompatible component.
+     * @throws ConfigException If a resolved recipe cannot be applied or a custom config applier returns an
+     * incompatible component.
      *
      * @return static Configured tag instance.
      */

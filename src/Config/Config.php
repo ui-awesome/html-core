@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Config;
 
 use LogicException;
-use UIAwesome\Html\Core\Exception\Message;
+use UIAwesome\Html\Core\Exception\{ConfigException, Message};
 use UIAwesome\Html\Core\Factory\ComponentFactoryInterface;
 use UIAwesome\Html\Core\Theme\ThemeInterface;
 
@@ -44,6 +44,8 @@ final readonly class Config
      * @param object $component Component to configure.
      * @param ComponentContext $context Semantic component context.
      *
+     * @throws ConfigException If a resolved recipe cannot be applied to the component.
+     *
      * @return object Configured component instance.
      */
     public function apply(object $component, ComponentContext $context): object
@@ -65,6 +67,7 @@ final readonly class Config
      *
      * @param ComponentContext $context Semantic component context.
      *
+     * @throws ConfigException If a resolved recipe cannot be applied to the created component.
      * @throws LogicException If no component factory is configured.
      *
      * @return object Created and configured component instance.
