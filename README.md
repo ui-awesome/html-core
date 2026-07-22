@@ -266,9 +266,10 @@ echo Span::tag()
 // <em>Suffix</em>
 ```
 
-#### Defaults and theming via providers
+#### Application-scoped config recipes
 
-You can apply configuration through global defaults, per-instance defaults, and optional default/theme providers.
+Use an immutable `Config` instance to apply a design-system recipe without global mutable state. Multiple configs can be
+used in the same process, and fluent calls made after `config()` are local overrides.
 
 ```php
 <?php
@@ -277,10 +278,9 @@ declare(strict_types=1);
 
 namespace App;
 
-use UIAwesome\Html\Core\Base\BaseTag;
+use UIAwesome\Html\Core\Config\{Call, ComponentContext, Config, Cookbook, Recipe};
 use UIAwesome\Html\Core\Element\BaseInline;
-use UIAwesome\Html\Core\Factory\SimpleFactory;
-use UIAwesome\Html\Core\Provider\{DefaultsProviderInterface, ThemeProviderInterface};
+use UIAwesome\Html\Core\Theme\ThemeInterface;
 use UIAwesome\Html\Interop\Inline;
 use BackedEnum;
 
@@ -297,31 +297,33 @@ final class Span extends BaseInline
     }
 }
 
-final class Defaults implements DefaultsProviderInterface
+final readonly class FlowbiteTheme implements ThemeInterface
 {
-    public function getDefaults(BaseTag $tag): array
+    public function getName(): string
     {
-        return ['class' => 'badge'];
+        return 'flowbite';
+    }
+
+    public function getRecipes(ComponentContext $context): iterable
+    {
+        if ($context->component === 'badge') {
+            yield new Recipe(
+                'flowbite.badge',
+                new Cookbook(new Call('class', 'rounded text-sm')),
+            );
+        }
     }
 }
 
-final class Theme implements ThemeProviderInterface
-{
-    public function apply(BaseTag $tag, string $theme): array
-    {
-        return $theme === 'muted' ? ['class' => 'text-muted'] : [];
-    }
-}
+$config = new Config(new FlowbiteTheme());
 
-SimpleFactory::setDefaults(Span::class, ['title' => 'from-global']);
-
-echo Span::tag(['id' => 'badge-1'])
-    ->addDefaultProvider(Defaults::class)
-    ->addThemeProvider('muted', Theme::class)
+echo Span::tag()
+    ->config($config, new ComponentContext('badge'))
+    ->id('badge-1')
     ->content('New')
     ->render();
 
-// <span class="badge text-muted" id="badge-1" title="from-global">New</span>
+// <span class="rounded text-sm" id="badge-1">New</span>
 ```
 
 #### Class-level defaults with `loadDefault()`
@@ -366,9 +368,10 @@ echo Container::tag(['class' => 'container-fluid'])->render();
 
 Configuration priority (from weakest to strongest):
 
-1. Global defaults via `SimpleFactory::setDefaults()`
-2. Class defaults from `loadDefault()`
-3. User defaults passed to `tag()`
+1. Class defaults from `loadDefault()`
+2. Defaults passed to `tag()`
+3. Application-scoped recipes applied by `config()`
+4. Fluent local overrides called after `config()`
 
 #### Extensibility
 

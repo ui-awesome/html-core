@@ -1,5 +1,24 @@
 # Upgrade Guide
 
+## 0.6.2
+
+The global `SimpleFactory::$defaults` store and its `getDefaults()` and `setDefaults()` methods were removed. Define
+application-scoped recipes and apply them with `BaseTag::config()` instead:
+
+```php
+$config = new Config($applicationTheme);
+
+$button = Button::tag()
+    ->config($config, new ComponentContext('button'))
+    ->id('save');
+```
+
+The config path does not share mutable state between requests, tests, themes, or tenants. Calls made after `config()`
+remain local overrides.
+
+Recipe calls must use canonical method names such as `class`. Names with a trailing parenthesis pair, such as `class()`,
+are no longer normalized and fail when strict configuration is enabled.
+
 ## 0.6.0
 
 - Custom element `getTag()` implementations should now return `BackedEnum`.

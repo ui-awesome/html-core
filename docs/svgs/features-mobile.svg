@@ -11,7 +11,7 @@
         <rect class="box-bg" x="16" y="16" width="588" height="84" rx="6"/>
         <rect x="16" y="16" width="4" height="84" fill="#1f883d"/>
         <text class="title" x="32" y="42">Defaults and Theming</text>
-        <text class="content" x="32" y="66">SimpleFactory defaults, provider hooks and loadDefault() composition</text>
+        <text class="content" x="32" y="66">Scoped config recipes, provider hooks and loadDefault() composition</text>
         <text class="content" x="32" y="84">User configuration remains the final override layer</text>
     </g>
     <g>

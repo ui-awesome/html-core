@@ -18,7 +18,6 @@ use UIAwesome\Html\Attribute\Values\{
     Role,
     Translate,
 };
-use UIAwesome\Html\Core\Factory\SimpleFactory;
 use UIAwesome\Html\Core\Tests\Support\Stub\{DefaultProvider, DefaultThemeProvider, TagInline, TagInlineWithTokenValues};
 use UIAwesome\Html\Interop\{Block, Inline, Voids};
 
@@ -316,27 +315,6 @@ final class TagInlineTest extends TestCase
                 ->events(['change' => 'handleChange()'])
                 ->render(),
             "Failed asserting that element renders correctly with 'events()' method.",
-        );
-    }
-
-    public function testRenderWithGlobalDefaultsAreApplied(): void
-    {
-        SimpleFactory::setDefaults(
-            TagInline::class,
-            ['class' => 'from-global'],
-        );
-
-        self::assertSame(
-            <<<HTML
-            <span class="from-global"></span>
-            HTML,
-            TagInline::tag()->render(),
-            'Failed asserting that global defaults are applied correctly.',
-        );
-
-        SimpleFactory::setDefaults(
-            TagInline::class,
-            [],
         );
     }
 
@@ -716,32 +694,6 @@ final class TagInlineTest extends TestCase
                 ->translate(Translate::NO)
                 ->render(),
             "Failed asserting that element renders correctly with 'translate' attribute using enum.",
-        );
-    }
-
-    public function testRenderWithUserOverridesGlobalDefaults(): void
-    {
-        SimpleFactory::setDefaults(
-            TagInline::class,
-            [
-                'class' => 'from-global',
-                'id' => 'taginline-id-global',
-            ],
-        );
-
-        self::assertSame(
-            <<<HTML
-            <span class="from-global" id="taginline-id-user"></span>
-            HTML,
-            TagInline::tag()
-                ->id('taginline-id-user')
-                ->render(),
-            'Failed asserting that user-defined attributes override global defaults correctly.',
-        );
-
-        SimpleFactory::setDefaults(
-            TagInline::class,
-            [],
         );
     }
 

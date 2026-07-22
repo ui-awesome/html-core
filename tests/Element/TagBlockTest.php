@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Tests\Element;
 
+use Fiber;
 use LogicException;
 use PHPUnit\Framework\Attributes\{Group, RequiresPhp};
 use PHPUnit\Framework\TestCase;
@@ -22,7 +23,6 @@ use UIAwesome\Html\Attribute\Values\{
 };
 use UIAwesome\Html\Core\Element\BaseBlock;
 use UIAwesome\Html\Core\Exception\Message;
-use UIAwesome\Html\Core\Factory\SimpleFactory;
 use UIAwesome\Html\Core\Html;
 use UIAwesome\Html\Core\Tests\Support\Stub\{
     DefaultProvider,
@@ -55,7 +55,9 @@ final class TagBlockTest extends TestCase
                 if ($this->isBeginExecuted() && $this->throwOnFirstBeginRender) {
                     $this->throwOnFirstBeginRender = false;
 
-                    throw new RuntimeException('Simulated exception during render');
+                    throw new RuntimeException(
+                        'Simulated exception during render',
+                    );
                 }
 
                 return parent::run();
@@ -67,7 +69,9 @@ final class TagBlockTest extends TestCase
         try {
             $tag::end();
 
-            self::fail("Failed asserting that RuntimeException is thrown when rendering with 'beginExecuted' state.");
+            self::fail(
+                "Failed asserting that RuntimeException is thrown when rendering with 'beginExecuted' state.",
+            );
         } catch (RuntimeException $e) {
             self::assertSame(
                 'Simulated exception during render',
@@ -131,6 +135,45 @@ final class TagBlockTest extends TestCase
             $stack->offsetExists($mainThread),
             'Failed asserting that a balanced begin/end cycle removes the empty context stack.',
         );
+
+        $stackProperty->setValue(null, null);
+        $mainThreadProperty->setValue(null, null);
+    }
+
+    public function testMaintainsIndependentBeginEndStackForFiber(): void
+    {
+        $stackProperty = new ReflectionProperty(BaseBlock::class, 'stack');
+        $mainThreadProperty = new ReflectionProperty(BaseBlock::class, 'mainThread');
+
+        $stackProperty->setValue(null, null);
+        $mainThreadProperty->setValue(null, null);
+
+        TagBlock::tag()->begin();
+
+        $fiber = new Fiber(
+            static function (): void {
+                TagBlock::tag()->begin();
+                Fiber::suspend();
+                TagBlock::end();
+            },
+        );
+
+        $fiber->start();
+        $stack = $stackProperty->getValue();
+
+        self::assertInstanceOf(
+            WeakMap::class,
+            $stack,
+            'Failed asserting that begin/end stacks use weak context storage.',
+        );
+        self::assertTrue(
+            $stack->offsetExists($fiber),
+            'Failed asserting that a Fiber receives a begin/end stack independent from the main context.',
+        );
+
+        $fiber->resume();
+
+        TagBlock::end();
 
         $stackProperty->setValue(null, null);
         $mainThreadProperty->setValue(null, null);
@@ -495,28 +538,6 @@ final class TagBlockTest extends TestCase
         );
     }
 
-    public function testRenderWithGlobalDefaultsAreApplied(): void
-    {
-        SimpleFactory::setDefaults(
-            TagBlock::class,
-            ['class' => 'from-global'],
-        );
-
-        self::assertSame(
-            <<<HTML
-            <div class="from-global">
-            </div>
-            HTML,
-            TagBlock::tag()->render(),
-            'Failed asserting that global defaults are applied correctly.',
-        );
-
-        SimpleFactory::setDefaults(
-            TagBlock::class,
-            [],
-        );
-    }
-
     public function testRenderWithHidden(): void
     {
         self::assertSame(
@@ -818,31 +839,6 @@ final class TagBlockTest extends TestCase
                 ->translate(Translate::YES)
                 ->render(),
             "Failed asserting that element renders correctly with 'translate' attribute using enum.",
-        );
-    }
-
-    public function testRenderWithUserOverridesGlobalDefaults(): void
-    {
-        SimpleFactory::setDefaults(
-            TagBlock::class,
-            [
-                'class' => 'from-global',
-                'id' => 'id-global',
-            ],
-        );
-
-        self::assertSame(
-            <<<HTML
-            <div class="from-global" id="id-user">
-            </div>
-            HTML,
-            TagBlock::tag(['id' => 'id-user'])->render(),
-            'Failed asserting that user-defined attributes override global defaults correctly.',
-        );
-
-        SimpleFactory::setDefaults(
-            TagBlock::class,
-            [],
         );
     }
 

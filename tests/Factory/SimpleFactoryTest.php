@@ -19,6 +19,21 @@ use UIAwesome\Html\Core\Tests\Support\Stub\TagInline;
 #[Group('factory')]
 final class SimpleFactoryTest extends TestCase
 {
+    public function testConfigureIgnoresNumericKeys(): void
+    {
+        $tag = SimpleFactory::configure(TagInline::tag(), [null, 'flag' => true]);
+
+        self::assertInstanceOf(
+            TagInline::class,
+            $tag,
+            'Failed asserting that configuration preserves the tag type.',
+        );
+        self::assertTrue(
+            $tag->flag,
+            'Failed asserting that numeric cookbook keys are ignored while valid string keys are applied.',
+        );
+    }
+
     public function testCreateWithDefaultConfigurationPropertiesValues(): void
     {
         self::assertTrue(

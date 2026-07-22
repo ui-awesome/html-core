@@ -12,6 +12,9 @@ use function preg_match;
 /**
  * Associates an identifiable theme recipe with its ordered cookbook.
  *
+ * By convention, the recipe name is prefixed with the theme identifier (for example, `flowbite.button`) so error
+ * messages and diagnostics trace the originating theme without extra plumbing.
+ *
  * Usage example:
  * ```php
  * $recipe = new \UIAwesome\Html\Core\Config\Recipe(

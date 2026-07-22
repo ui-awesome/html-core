@@ -5,9 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 0.6.2 Under development
+## 0.7.0 Under development
 
 - feat: introduce immutable config contracts for cookbook recipes, themes, and component factories.
+- feat!: add strict recipe execution and application-scoped tag configuration without new global mutable state.
 
 ## 0.6.1 July 21, 2026
 

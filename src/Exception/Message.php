@@ -42,6 +42,29 @@ enum Message: string
     case CONFIG_ARGUMENTS_MUST_BE_POSITIONAL_LIST = 'Config arguments must be an ordered positional list.';
 
     /**
+     * Error when a config call fails during execution.
+     *
+     * Format: "Config call '%s' from recipe '%s' failed for component '%s' (%s): %s"
+     */
+    case CONFIG_CALL_EXECUTION_FAILED = "Config call '%s' from recipe '%s' failed for component '%s' (%s): %s";
+
+    /**
+     * Error when a config call does not target a public instance method.
+     *
+     * Format: "Config call '%s' from recipe '%s' is not a public instance method for component '%s' (%s)."
+     */
+    case CONFIG_CALL_METHOD_NOT_AVAILABLE = "Config call '%s' from recipe '%s' is not a public instance method for "
+        . "component '%s' (%s).";
+
+    /**
+     * Error when a config call returns an incompatible value.
+     *
+     * Format: "Config call '%s' from recipe '%s' must return component '%s' (%s); %s returned."
+     */
+    case CONFIG_CALL_RETURNED_INCOMPATIBLE_VALUE = "Config call '%s' from recipe '%s' must return component '%s' "
+        . '(%s); %s returned.';
+
+    /**
      * Error when creating a component without a configured component factory.
      *
      * Format: 'Config does not define a component factory.'
@@ -54,6 +77,13 @@ enum Message: string
      * Format: 'Config method must be a non-empty string without whitespace.'
      */
     case CONFIG_METHOD_MUST_BE_NON_EMPTY = 'Config method must be a non-empty string without whitespace.';
+
+    /**
+     * Error when a config applier returns a component incompatible with the fluent receiver.
+     *
+     * Format: "Config for component '%s' (%s) returned incompatible component %s."
+     */
+    case CONFIG_RETURNED_INCOMPATIBLE_COMPONENT = "Config for component '%s' (%s) returned incompatible component %s.";
 
     /**
      * Error when cookbook calls are passed by name instead of position.
