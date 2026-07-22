@@ -49,11 +49,11 @@ enum Message: string
     case CONFIG_DOES_NOT_DEFINE_COMPONENT_FACTORY = 'Config does not define a component factory.';
 
     /**
-     * Error when a config method name is empty or contains surrounding whitespace.
+     * Error when a config method name is empty or contains whitespace.
      *
-     * Format: 'Config method must be a non-empty string without surrounding whitespace.'
+     * Format: 'Config method must be a non-empty string without whitespace.'
      */
-    case CONFIG_METHOD_MUST_BE_NON_EMPTY = 'Config method must be a non-empty string without surrounding whitespace.';
+    case CONFIG_METHOD_MUST_BE_NON_EMPTY = 'Config method must be a non-empty string without whitespace.';
 
     /**
      * Error when cookbook calls are passed by name instead of position.
@@ -91,11 +91,11 @@ enum Message: string
     case UNEXPECTED_END_CALL_NO_BEGIN = "Unexpected '%s::end()' call, a matching 'begin()' is not found.";
 
     /**
-     * Error when a named value is empty or contains surrounding whitespace.
+     * Error when a named value is empty or contains whitespace.
      *
-     * Format: '%s must be non-empty and contain no surrounding whitespace.'
+     * Format: '%s must be non-empty and contain no whitespace.'
      */
-    case VALUE_MUST_BE_NON_EMPTY_WITHOUT_WHITESPACE = '%s must be non-empty and contain no surrounding whitespace.';
+    case VALUE_MUST_BE_NON_EMPTY_WITHOUT_WHITESPACE = '%s must be non-empty and contain no whitespace.';
 
     /**
      * Returns the formatted message string for the error case.

@@ -8,7 +8,7 @@ use InvalidArgumentException;
 use UIAwesome\Html\Core\Exception\Message;
 
 use function array_is_list;
-use function trim;
+use function preg_match;
 
 /**
  * Represents one ordered immutable cookbook method call.
@@ -36,12 +36,12 @@ final readonly class Call
      * @param string $method Method name to call.
      * @param mixed ...$arguments Positional arguments passed to the method.
      *
-     * @throws InvalidArgumentException If the method name is empty or contains surrounding whitespace, or if the
-     * arguments are passed by name.
+     * @throws InvalidArgumentException If the method name is empty or contains whitespace, or if the arguments are
+     * passed by name.
      */
     public function __construct(public string $method, mixed ...$arguments)
     {
-        if ($method === '' || trim($method) !== $method) {
+        if ($method === '' || preg_match('/[\s\p{Z}\p{C}]/u', $method) !== 0) {
             throw new InvalidArgumentException(
                 Message::CONFIG_METHOD_MUST_BE_NON_EMPTY->getMessage(),
             );

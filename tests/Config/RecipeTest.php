@@ -33,6 +33,17 @@ final class RecipeTest extends TestCase
         );
     }
 
+    public function testPreservesUnicodeName(): void
+    {
+        $recipe = new Recipe('flowbite.là', new Cookbook());
+
+        self::assertSame(
+            'flowbite.là',
+            $recipe->name,
+            'Failed asserting that a Unicode recipe name is preserved.',
+        );
+    }
+
     public function testThrowInvalidArgumentExceptionForEmptyName(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -43,6 +54,16 @@ final class RecipeTest extends TestCase
         new Recipe('', new Cookbook());
     }
 
+    public function testThrowInvalidArgumentExceptionForNameWithInteriorWhitespace(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            Message::VALUE_MUST_BE_NON_EMPTY_WITHOUT_WHITESPACE->getMessage('Recipe name'),
+        );
+
+        new Recipe('flowbite button', new Cookbook());
+    }
+
     public function testThrowInvalidArgumentExceptionForNameWithSurroundingWhitespace(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -51,5 +72,15 @@ final class RecipeTest extends TestCase
         );
 
         new Recipe(' flowbite.field', new Cookbook());
+    }
+
+    public function testThrowInvalidArgumentExceptionForNameWithUnicodeWhitespace(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            Message::VALUE_MUST_BE_NON_EMPTY_WITHOUT_WHITESPACE->getMessage('Recipe name'),
+        );
+
+        new Recipe("flowbite.field\u{00A0}", new Cookbook());
     }
 }

@@ -7,7 +7,7 @@ namespace UIAwesome\Html\Core\Config;
 use InvalidArgumentException;
 use UIAwesome\Html\Core\Exception\Message;
 
-use function trim;
+use function preg_match;
 
 /**
  * Associates an identifiable theme recipe with its ordered cookbook.
@@ -26,11 +26,11 @@ final readonly class Recipe
      * @param string $name Recipe identifier used to trace which recipe configured a component.
      * @param Cookbook $cookbook Ordered config calls applied by the recipe.
      *
-     * @throws InvalidArgumentException If the recipe name is empty or contains surrounding whitespace.
+     * @throws InvalidArgumentException If the recipe name is empty or contains whitespace.
      */
     public function __construct(public string $name, public Cookbook $cookbook)
     {
-        if ($name === '' || trim($name) !== $name) {
+        if ($name === '' || preg_match('/[\s\p{Z}\p{C}]/u', $name) !== 0) {
             throw new InvalidArgumentException(
                 Message::VALUE_MUST_BE_NON_EMPTY_WITHOUT_WHITESPACE->getMessage('Recipe name'),
             );

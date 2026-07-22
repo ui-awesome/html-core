@@ -11,7 +11,7 @@ use function array_is_list;
 use function array_key_exists;
 use function in_array;
 use function is_string;
-use function trim;
+use function preg_match;
 
 /**
  * Describes the semantic component and qualifiers used to resolve config recipes.
@@ -51,8 +51,8 @@ final readonly class ComponentContext
      * @param array<array-key, mixed> $states Active component states.
      * @param array<array-key, mixed> $metadata Additional semantic metadata.
      *
-     * @throws InvalidArgumentException If the component identifier or a qualifier is empty or contains surrounding
-     * whitespace, the states are not a list of non-empty strings, or a metadata key is not a non-empty string.
+     * @throws InvalidArgumentException If the component identifier or a qualifier is empty or contains whitespace, the
+     * states are not a list of non-empty strings, or a metadata key is not a non-empty string.
      */
     public function __construct(
         public string $component,
@@ -140,7 +140,7 @@ final readonly class ComponentContext
 
     private function assertName(string $value, string $label): void
     {
-        if ($value === '' || trim($value) !== $value) {
+        if ($value === '' || preg_match('/[\s\p{Z}\p{C}]/u', $value) !== 0) {
             throw new InvalidArgumentException(
                 Message::VALUE_MUST_BE_NON_EMPTY_WITHOUT_WHITESPACE->getMessage($label),
             );

@@ -32,6 +32,17 @@ final class CallTest extends TestCase
         );
     }
 
+    public function testPreservesUnicodeMethodName(): void
+    {
+        $call = new Call('clàss');
+
+        self::assertSame(
+            'clàss',
+            $call->method,
+            'Failed asserting that a Unicode method name is preserved.',
+        );
+    }
+
     public function testThrowInvalidArgumentExceptionForEmptyMethod(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -42,6 +53,16 @@ final class CallTest extends TestCase
         new Call('');
     }
 
+    public function testThrowInvalidArgumentExceptionForMethodWithInteriorWhitespace(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            Message::CONFIG_METHOD_MUST_BE_NON_EMPTY->getMessage(),
+        );
+
+        new Call('add attribute');
+    }
+
     public function testThrowInvalidArgumentExceptionForMethodWithSurroundingWhitespace(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -50,6 +71,16 @@ final class CallTest extends TestCase
         );
 
         new Call(' class');
+    }
+
+    public function testThrowInvalidArgumentExceptionForMethodWithUnicodeWhitespace(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            Message::CONFIG_METHOD_MUST_BE_NON_EMPTY->getMessage(),
+        );
+
+        new Call("\u{00A0}class");
     }
 
     public function testThrowInvalidArgumentExceptionForNamedArguments(): void

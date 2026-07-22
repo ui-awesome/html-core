@@ -16,6 +16,17 @@ use UIAwesome\Html\Core\Exception\Message;
 #[Group('config')]
 final class ComponentContextTest extends TestCase
 {
+    public function testPreservesUnicodeComponentIdentifier(): void
+    {
+        $context = new ComponentContext('field.là');
+
+        self::assertSame(
+            'field.là',
+            $context->component,
+            'Failed asserting that a Unicode component identifier is preserved.',
+        );
+    }
+
     public function testReturnsSemanticValues(): void
     {
         $context = new ComponentContext(
@@ -79,6 +90,26 @@ final class ComponentContextTest extends TestCase
         );
 
         new ComponentContext('field', states: ['state' => 'invalid']);
+    }
+
+    public function testThrowInvalidArgumentExceptionForComponentWithInteriorWhitespace(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            Message::VALUE_MUST_BE_NON_EMPTY_WITHOUT_WHITESPACE->getMessage('Component identifier'),
+        );
+
+        new ComponentContext('field control');
+    }
+
+    public function testThrowInvalidArgumentExceptionForComponentWithUnicodeWhitespace(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            Message::VALUE_MUST_BE_NON_EMPTY_WITHOUT_WHITESPACE->getMessage('Component identifier'),
+        );
+
+        new ComponentContext("\u{200B}field");
     }
 
     public function testThrowInvalidArgumentExceptionForEmptyComponent(): void
