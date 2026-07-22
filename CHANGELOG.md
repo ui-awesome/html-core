@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 0.6.2 Under development
 
+- feat: introduce immutable config contracts for cookbook recipes, themes, and component factories.
+
 ## 0.6.1 July 21, 2026
 
 - chore: migrate to `yii2-extensions/scaffold` consumer model with `php-forge/baseline` and `php-forge/coding-standard ^0.3@dev`.
