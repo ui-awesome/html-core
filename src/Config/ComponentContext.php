@@ -31,6 +31,8 @@ final readonly class ComponentContext
     /**
      * Extensible semantic metadata available to config providers.
      *
+     * Object values are stored by reference, so pass immutable values when deep immutability is required.
+     *
      * @var array<string, mixed>
      */
     public array $metadata;

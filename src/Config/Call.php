@@ -13,6 +13,11 @@ use function trim;
 /**
  * Represents one ordered immutable cookbook method call.
  *
+ * Immutability is structural: the method name and the ordered argument list cannot change after construction.
+ *
+ * Object arguments are stored by reference, so pass immutable values (scalars, enums, `readonly` objects) when deep
+ * immutability is required.
+ *
  * Usage example:
  * ```php
  * $call = new \UIAwesome\Html\Core\Config\Call('class', 'btn-primary');
