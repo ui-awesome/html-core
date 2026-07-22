@@ -8,7 +8,6 @@ use PHPForge\Support\ReflectionHelper;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Attribute\Values\{Aria, Data, Direction, Event, Language, Role, Translate};
-use UIAwesome\Html\Core\Factory\SimpleFactory;
 use UIAwesome\Html\Core\Tests\Support\Stub\{DefaultProvider, DefaultThemeProvider, TagVoid};
 
 /**
@@ -227,27 +226,6 @@ final class TagVoidTest extends TestCase
         );
     }
 
-    public function testRenderWithGlobalDefaultsAreApplied(): void
-    {
-        SimpleFactory::setDefaults(
-            TagVoid::class,
-            ['class' => 'from-global'],
-        );
-
-        self::assertSame(
-            <<<HTML
-            <hr class="from-global">
-            HTML,
-            TagVoid::tag()->render(),
-            'Failed asserting that global defaults are applied correctly.',
-        );
-
-        SimpleFactory::setDefaults(
-            TagVoid::class,
-            [],
-        );
-    }
-
     public function testRenderWithHidden(): void
     {
         self::assertSame(
@@ -407,30 +385,6 @@ final class TagVoidTest extends TestCase
                 ->translate(Translate::NO)
                 ->render(),
             "Failed asserting that element renders correctly with 'translate' attribute using enum.",
-        );
-    }
-
-    public function testRenderWithUserOverridesGlobalDefaults(): void
-    {
-        SimpleFactory::setDefaults(
-            TagVoid::class,
-            [
-                'class' => 'from-global',
-                'id' => 'id-global',
-            ],
-        );
-
-        self::assertSame(
-            <<<HTML
-            <hr class="from-global" id="id-user">
-            HTML,
-            TagVoid::tag(['id' => 'id-user'])->render(),
-            'Failed asserting that user-defined attributes override global defaults correctly.',
-        );
-
-        SimpleFactory::setDefaults(
-            TagVoid::class,
-            [],
         );
     }
 

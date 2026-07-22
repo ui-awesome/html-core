@@ -11,11 +11,11 @@ use UIAwesome\Html\Core\Config\{ComponentContext, ConfigApplierInterface, Recipe
  */
 final class ConfigApplier implements ConfigApplierInterface
 {
+    public object|null $component = null;
     /**
      * @var list<ComponentContext>
      */
     public array $contexts = [];
-
     /**
      * @var list<string>
      */
@@ -35,6 +35,6 @@ final class ConfigApplier implements ConfigApplierInterface
         $this->contexts[] = $context;
         $this->strictModes[] = $strict;
 
-        return $component;
+        return $this->component ?? $component;
     }
 }

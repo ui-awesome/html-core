@@ -31,7 +31,7 @@ use UIAwesome\Html\Core\Config\{ComponentContext, Recipe};
 interface ThemeInterface
 {
     /**
-     * Returns the stable theme identifier used in diagnostics.
+     * Returns the stable theme identifier used in diagnostics and as the conventional recipe-name prefix.
      *
      * Usage example:
      * ```php

@@ -52,7 +52,8 @@ interface ConfigApplierInterface
      * @param object $component Component to configure.
      * @param Recipe $recipe Resolved recipe to apply.
      * @param ComponentContext $context Semantic component context.
-     * @param bool $strict Whether unknown or incompatible calls must fail.
+     * @param bool $strict Whether unavailable methods or incompatible return values must fail instead of being
+     * skipped.
      *
      * @return object Configured component instance.
      */

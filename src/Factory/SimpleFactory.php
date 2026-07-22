@@ -11,6 +11,7 @@ use UIAwesome\Html\Core\Base\BaseTag;
 use UIAwesome\Html\Core\Exception\Message;
 
 use function is_array;
+use function is_string;
 use function method_exists;
 use function property_exists;
 
@@ -27,13 +28,6 @@ use function property_exists;
  */
 final class SimpleFactory
 {
-    /**
-     * Stores global default configuration arrays keyed by class name.
-     *
-     * @phpstan-var array<class-string<BaseTag>, mixed[]>
-     */
-    public static array $defaults = [];
-
     /**
      * Applies configuration values to a tag instance.
      *
@@ -59,7 +53,9 @@ final class SimpleFactory
     public static function configure(BaseTag $tag, array $defaults): BaseTag
     {
         foreach ($defaults as $action => $value) {
-            $action = (string) $action;
+            if (is_string($action) === false) {
+                continue;
+            }
 
             if (method_exists($tag, $action)) {
                 /**
@@ -109,47 +105,5 @@ final class SimpleFactory
 
         /** @phpstan-var T */
         return $reflection->newInstance();
-    }
-
-    /**
-     * Returns global defaults for a tag class.
-     *
-     * Usage example:
-     * ```php
-     * $defaults = \UIAwesome\Html\Core\Factory\SimpleFactory::getDefaults(\App\Html\SomeTag::class);
-     * ```
-     *
-     * @param string $class Tag class name.
-     *
-     * @return array Default configuration array.
-     *
-     * @phpstan-param class-string<BaseTag> $class
-     * @phpstan-return mixed[]
-     */
-    public static function getDefaults(string $class): array
-    {
-        return self::$defaults[$class] ?? [];
-    }
-
-    /**
-     * Sets global defaults for a tag class.
-     *
-     * Usage example:
-     * ```php
-     * \UIAwesome\Html\Core\Factory\SimpleFactory::setDefaults(
-     *     \App\Html\SomeTag::class,
-     *     ['class' => 'default-class'],
-     * );
-     * ```
-     *
-     * @param string $class Tag class name.
-     * @param array $defaults Default configuration array.
-     *
-     * @phpstan-param class-string<BaseTag> $class
-     * @phpstan-param mixed[] $defaults
-     */
-    public static function setDefaults(string $class, array $defaults): void
-    {
-        self::$defaults[$class] = $defaults;
     }
 }

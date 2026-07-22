@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 use stdClass;
 use UIAwesome\Html\Core\Config\{Call, ComponentContext, Config, Cookbook, Recipe};
 use UIAwesome\Html\Core\Exception\Message;
-use UIAwesome\Html\Core\Tests\Support\Stub\{ComponentFactory, ConfigApplier, Theme};
+use UIAwesome\Html\Core\Tests\Support\Stub\{ComponentFactory, ConfigApplier, ConfigurableComponent, Theme};
 
 /**
  * Unit tests for the {@see Config} class.
@@ -81,7 +81,12 @@ final class ConfigTest extends TestCase
     {
         $context = new ComponentContext('field.control.email');
         $factory = new ComponentFactory();
-        $config = new Config(new Theme('base'), new ConfigApplier(), $factory);
+        $applier = new ConfigApplier();
+        $config = new Config(
+            new Theme('base', new Recipe('base.control', new Cookbook())),
+            $applier,
+            $factory,
+        );
 
         $component = $config->create($context);
 
@@ -93,7 +98,12 @@ final class ConfigTest extends TestCase
         self::assertSame(
             $factory->component,
             $component,
-            'Failed asserting that the factory-created instance is returned.',
+            'Failed asserting that the configured factory-created instance is returned.',
+        );
+        self::assertSame(
+            ['base.control'],
+            $applier->recipes,
+            'Failed asserting that resolved recipes are applied to the factory-created component.',
         );
     }
 
@@ -107,5 +117,28 @@ final class ConfigTest extends TestCase
         );
 
         $config->create(new ComponentContext('field.control.email'));
+    }
+
+    public function testUsesMethodCallConfigApplierByDefault(): void
+    {
+        $config = new Config(
+            new Theme(
+                'base',
+                new Recipe('base.field', new Cookbook(new Call('append', 'configured'))),
+            ),
+        );
+
+        $component = $config->apply(new ConfigurableComponent(), new ComponentContext('field'));
+
+        self::assertInstanceOf(
+            ConfigurableComponent::class,
+            $component,
+            'Failed asserting that the default applier preserves the component type.',
+        );
+        self::assertSame(
+            ['configured'],
+            $component->values,
+            'Failed asserting that the default applier executes resolved recipe calls.',
+        );
     }
 }

@@ -117,7 +117,8 @@ abstract class BaseBlock extends BaseTag implements AttributesInterface, BlockIn
 
         $stack[] = $this;
 
-        self::$stack?->offsetSet(self::getContextId(), $stack);
+        self::getStackStorage()->offsetSet(self::getContextId(), $stack);
+
         $this->beginExecuted = true;
 
         return $renderBegin;
@@ -158,9 +159,9 @@ abstract class BaseBlock extends BaseTag implements AttributesInterface, BlockIn
         array_pop($stack);
 
         if ($stack === []) {
-            self::$stack?->offsetUnset($key);
+            self::getStackStorage()->offsetUnset($key);
         } else {
-            self::$stack?->offsetSet($key, $stack);
+            self::getStackStorage()->offsetSet($key, $stack);
         }
 
         try {
@@ -238,14 +239,23 @@ abstract class BaseBlock extends BaseTag implements AttributesInterface, BlockIn
      */
     private static function getContextStack(): array
     {
-        self::$stack ??= new WeakMap();
-
+        $storage = self::getStackStorage();
         $key = self::getContextId();
 
-        if (self::$stack->offsetExists($key) === false) {
-            self::$stack->offsetSet($key, []);
+        if ($storage->offsetExists($key) === false) {
+            $storage->offsetSet($key, []);
         }
 
-        return self::$stack->offsetGet($key);
+        return $storage->offsetGet($key);
+    }
+
+    /**
+     * Returns initialized begin/end stack storage.
+     *
+     * @phpstan-return WeakMap<object, static[]>
+     */
+    private static function getStackStorage(): WeakMap
+    {
+        return self::$stack ??= new WeakMap();
     }
 }

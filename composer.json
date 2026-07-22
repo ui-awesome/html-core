@@ -1,7 +1,7 @@
 {
     "name": "ui-awesome/html-core",
     "type": "library",
-    "description": "Core HTML tag rendering foundation for PHP: abstract bases for block, inline, input, and void elements, lifecycle hooks, simple factory, and defaults/theme providers.",
+    "description": "Core HTML tag rendering foundation for PHP: abstract bases for block, inline, input, and void elements, lifecycle hooks, simple factory, provider hooks, and application-scoped config recipes.",
     "keywords": [
         "ui-awesome",
         "html",

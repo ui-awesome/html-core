@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace UIAwesome\Html\Core\Base;
 
 use UIAwesome\Html\Contracts\RenderableInterface;
+use UIAwesome\Html\Core\Config\{ComponentContext, Config};
 use UIAwesome\Html\Core\Event\{HasAfterRun, HasBeforeRun};
+use UIAwesome\Html\Core\Exception\{ConfigException, Message};
 use UIAwesome\Html\Core\Factory\SimpleFactory;
 use UIAwesome\Html\Core\Provider\{DefaultsProviderInterface, ThemeProviderInterface};
+
+use function get_debug_type;
 
 /**
  * Provides the base implementation for fluent HTML tag objects.
@@ -139,6 +143,42 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
     }
 
     /**
+     * Applies application-scoped config recipes to this tag.
+     *
+     * Calls made after this method remain local overrides because the config is applied immediately.
+     *
+     * Usage example:
+     * ```php
+     * $tag = \App\Html\SomeTag::tag()
+     *     ->config($config, new \UIAwesome\Html\Core\Config\ComponentContext('field.control.email'))
+     *     ->id('email');
+     * ```
+     *
+     * @param Config $config Application-scoped config service.
+     * @param ComponentContext $context Semantic context used to resolve recipes.
+     *
+     * @throws ConfigException If a custom config applier returns an incompatible component.
+     *
+     * @return static Configured tag instance.
+     */
+    public function config(Config $config, ComponentContext $context): static
+    {
+        $tag = $config->apply($this, $context);
+
+        if (($tag instanceof $this) === false) {
+            throw new ConfigException(
+                Message::CONFIG_RETURNED_INCOMPATIBLE_COMPONENT->getMessage(
+                    $context->component,
+                    get_debug_type($this),
+                    get_debug_type($tag),
+                ),
+            );
+        }
+
+        return $tag;
+    }
+
+    /**
      * Returns default configuration for the given tag.
      *
      * Usage example:
@@ -183,9 +223,10 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
      * Creates and configures a new tag instance.
      *
      * Configuration priority (from weakest to strongest):
-     * - Global defaults defined via {@see SimpleFactory::setDefaults()}.
      * - Class defaults from {@see BaseTag::loadDefault()}.
      * - Defaults passed directly by the user to {@see tag()}.
+     *
+     * Application-scoped recipes should be applied afterward through {@see BaseTag::config()}.
      *
      * Usage example:
      * ```php
@@ -205,7 +246,6 @@ abstract class BaseTag implements DefaultsProviderInterface, ThemeProviderInterf
         $tag = SimpleFactory::create(static::class);
 
         $pipeline = [
-            SimpleFactory::getDefaults(static::class),
             $tag->loadDefault(),
             ...$defaults,
         ];

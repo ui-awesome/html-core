@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## 0.6.2 Under development
 
 - feat: introduce immutable config contracts for cookbook recipes, themes, and component factories.
+- feat!: add strict recipe execution and application-scoped tag configuration without new global mutable state.
 
 ## 0.6.1 July 21, 2026
 

@@ -10,7 +10,6 @@ use PHPForge\Support\ReflectionHelper;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Attribute\Values\{Aria, Data, Direction, Event, GlobalAttribute, Language, Role, Translate};
-use UIAwesome\Html\Core\Factory\SimpleFactory;
 use UIAwesome\Html\Core\Tests\Support\Stub\{DefaultProvider, TagInput, TagInputWithTokenValues};
 use UIAwesome\Html\Helper\Exception\Message;
 use UIAwesome\Html\Interop\{Block, Inline, Voids};
@@ -281,29 +280,6 @@ final class TagInputTest extends TestCase
                 ->form('value')
                 ->render(),
             "Failed asserting that element renders correctly with 'form' attribute.",
-        );
-    }
-
-    public function testRenderWithGlobalDefaultsAreApplied(): void
-    {
-        $previous = SimpleFactory::getDefaults(TagInput::class);
-
-        SimpleFactory::setDefaults(
-            TagInput::class,
-            ['class' => 'from-global'],
-        );
-
-        self::assertSame(
-            <<<HTML
-            <input class="from-global">
-            HTML,
-            TagInput::tag()->render(),
-            'Failed asserting that global defaults are applied correctly.',
-        );
-
-        SimpleFactory::setDefaults(
-            TagInput::class,
-            $previous,
         );
     }
 
@@ -625,32 +601,6 @@ final class TagInputTest extends TestCase
                 ->type('text')
                 ->render(),
             "Failed asserting that element renders correctly with 'type' attribute.",
-        );
-    }
-
-    public function testRenderWithUserOverridesGlobalDefaults(): void
-    {
-        $previous = SimpleFactory::getDefaults(TagInput::class);
-
-        SimpleFactory::setDefaults(
-            TagInput::class,
-            [
-                'class' => 'from-global',
-                'id' => 'id-global',
-            ],
-        );
-
-        self::assertSame(
-            <<<HTML
-            <input class="from-global" id="value">
-            HTML,
-            TagInput::tag(['id' => 'value'])->render(),
-            'Failed asserting that user-defined attributes override global defaults correctly.',
-        );
-
-        SimpleFactory::setDefaults(
-            TagInput::class,
-            $previous,
         );
     }
 
