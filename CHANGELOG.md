@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - chore: require `ui-awesome/html-mixin` and `ui-awesome/html-attribute` `^0.7@dev`.
 - docs: add an application-scoped theming section to `README.md` and drop provider references from package metadata.
 - fix: update `ui-awesome/html-interop` dependency to latest version.
+- fix: infer the configured tag type from method-level generics in `SimpleFactory`, removing the need for `@var` narrowing in consumers.
 
 ## 0.6.1 July 21, 2026
 
