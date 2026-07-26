@@ -8,7 +8,7 @@ use PHPForge\Support\ReflectionHelper;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Attribute\Values\{Aria, Data, Direction, Event, Language, Role, Translate};
-use UIAwesome\Html\Core\Tests\Support\Stub\{DefaultProvider, DefaultThemeProvider, TagVoid};
+use UIAwesome\Html\Core\Tests\Support\Stub\TagVoid;
 
 /**
  * Unit tests for the {@see TagVoid} class.
@@ -163,19 +163,6 @@ final class TagVoidTest extends TestCase
         );
     }
 
-    public function testRenderWithDefaultProvider(): void
-    {
-        self::assertSame(
-            <<<HTML
-            <hr class="default-provider">
-            HTML,
-            TagVoid::tag()
-                ->addDefaultProvider(DefaultProvider::class)
-                ->render(),
-            'Failed asserting that default provider is applied correctly.',
-        );
-    }
-
     public function testRenderWithDefaultValues(): void
     {
         self::assertSame(
@@ -325,19 +312,6 @@ final class TagVoidTest extends TestCase
         );
     }
 
-    public function testRenderWithThemeProvider(): void
-    {
-        self::assertSame(
-            <<<HTML
-            <hr class="text-muted">
-            HTML,
-            TagVoid::tag()
-                ->addThemeProvider('muted', DefaultThemeProvider::class)
-                ->render(),
-            'Failed asserting that theme provider is applied correctly.',
-        );
-    }
-
     public function testRenderWithTitle(): void
     {
         self::assertSame(
@@ -385,26 +359,6 @@ final class TagVoidTest extends TestCase
                 ->translate(Translate::NO)
                 ->render(),
             "Failed asserting that element renders correctly with 'translate' attribute using enum.",
-        );
-    }
-
-    public function testReturnEmptyArrayWhenApplyThemeAndUndefinedTheme(): void
-    {
-        $tag = TagVoid::tag();
-
-        self::assertEmpty(
-            $tag->apply($tag, ''),
-            'Failed asserting that applying an undefined theme returns an empty array.',
-        );
-    }
-
-    public function testReturnEmptyArrayWhenGetDefaultsAndNoDefaultsSet(): void
-    {
-        $tag = TagVoid::tag();
-
-        self::assertEmpty(
-            $tag->getDefaults($tag),
-            'Failed asserting that getting defaults returns an empty array when no defaults are set.',
         );
     }
 }

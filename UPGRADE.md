@@ -1,6 +1,6 @@
 # Upgrade Guide
 
-## 0.6.2
+## 0.7.0
 
 The global `SimpleFactory::$defaults` store and its `getDefaults()` and `setDefaults()` methods were removed. Define
 application-scoped recipes and apply them with `BaseTag::config()` instead:
@@ -18,6 +18,46 @@ remain local overrides.
 
 Recipe calls must use canonical method names such as `class`. Names with a trailing parenthesis pair, such as `class()`,
 are no longer normalized and fail when strict configuration is enabled.
+
+### Defaults and theme provider API removed
+
+`BaseTag` no longer implements `DefaultsProviderInterface` or `ThemeProviderInterface`, and the following members were
+removed:
+
+- `BaseTag::addDefaultProvider()`
+- `BaseTag::addThemeProvider()`
+- `BaseTag::apply()`
+- `BaseTag::getDefaults()`
+- `UIAwesome\Html\Core\Provider\DefaultsProviderInterface`
+- `UIAwesome\Html\Core\Provider\ThemeProviderInterface`
+
+Migrate provider classes to a `ThemeInterface` implementation and apply it through `Config` and `ComponentContext`.
+
+Before.
+
+```php
+$button = Button::tag()
+    ->addDefaultProvider(ButtonDefaultsProvider::class)
+    ->addThemeProvider('dark', ButtonThemeProvider::class);
+```
+
+After.
+
+```php
+$config = new Config(new DarkTheme());
+
+$button = Button::tag()->config($config, new ComponentContext('button'));
+```
+
+Class-level defaults previously returned by a defaults provider belong in `BaseTag::loadDefault()` or in the array
+arguments passed to `tag()`; both keep working unchanged.
+
+### Non-public property configuration
+
+`SimpleFactory::configure()` now throws `ConfigException` instead of a raw `Error` when a configuration key resolves to
+a property that is not a public instance property; keys matching no member are still skipped silently. Public
+properties that reject an external write, such as `readonly` and asymmetric visibility (`public private(set)`), are
+rejected with `ConfigException` as well, with the original `Error` attached as the previous exception.
 
 ## 0.6.0
 

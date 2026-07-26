@@ -18,7 +18,7 @@ use UIAwesome\Html\Attribute\Values\{
     Role,
     Translate,
 };
-use UIAwesome\Html\Core\Tests\Support\Stub\{DefaultProvider, DefaultThemeProvider, TagInline, TagInlineWithTokenValues};
+use UIAwesome\Html\Core\Tests\Support\Stub\{TagInline, TagInlineWithTokenValues};
 use UIAwesome\Html\Interop\{Block, Inline, Voids};
 
 /**
@@ -226,19 +226,6 @@ final class TagInlineTest extends TestCase
             HTML,
             TagInline::tag(['class' => 'default-class', 'title' => 'default-title'])->render(),
             'Failed asserting that default configuration values are applied correctly.',
-        );
-    }
-
-    public function testRenderWithDefaultProvider(): void
-    {
-        self::assertSame(
-            <<<HTML
-            <span class="default-provider"></span>
-            HTML,
-            TagInline::tag()
-                ->addDefaultProvider(DefaultProvider::class)
-                ->render(),
-            'Failed asserting that default provider is applied correctly.',
         );
     }
 
@@ -634,19 +621,6 @@ final class TagInlineTest extends TestCase
         );
     }
 
-    public function testRenderWithThemeProvider(): void
-    {
-        self::assertSame(
-            <<<HTML
-            <span class="text-muted"></span>
-            HTML,
-            TagInline::tag()
-                ->addThemeProvider('muted', DefaultThemeProvider::class)
-                ->render(),
-            'Failed asserting that theme provider is applied correctly.',
-        );
-    }
-
     public function testRenderWithTitle(): void
     {
         self::assertSame(
@@ -724,26 +698,6 @@ final class TagInlineTest extends TestCase
                 ->suffixTag(Voids::IMG)
                 ->render(),
             'Failed asserting that element renders correctly with a void suffix tag.',
-        );
-    }
-
-    public function testReturnEmptyArrayWhenApplyThemeAndUndefinedTheme(): void
-    {
-        $tag = TagInline::tag();
-
-        self::assertEmpty(
-            $tag->apply($tag, ''),
-            'Failed asserting that applying an undefined theme returns an empty array.',
-        );
-    }
-
-    public function testReturnEmptyArrayWhenGetDefaultsAndNoDefaultsSet(): void
-    {
-        $tag = TagInline::tag();
-
-        self::assertEmpty(
-            $tag->getDefaults($tag),
-            'Failed asserting that getting defaults returns an empty array when no defaults are set.',
         );
     }
 }

@@ -10,7 +10,7 @@ use PHPForge\Support\ReflectionHelper;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Attribute\Values\{Aria, Data, Direction, Event, GlobalAttribute, Language, Role, Translate};
-use UIAwesome\Html\Core\Tests\Support\Stub\{DefaultProvider, TagInput, TagInputWithTokenValues};
+use UIAwesome\Html\Core\Tests\Support\Stub\{TagInput, TagInputWithTokenValues};
 use UIAwesome\Html\Helper\Exception\Message;
 use UIAwesome\Html\Interop\{Block, Inline, Voids};
 
@@ -191,19 +191,6 @@ final class TagInputTest extends TestCase
             HTML,
             TagInput::tag(['class' => 'default-class', 'title' => 'default-title'])->render(),
             'Failed asserting that default configuration values are applied correctly.',
-        );
-    }
-
-    public function testRenderWithDefaultProvider(): void
-    {
-        self::assertSame(
-            <<<HTML
-            <input class="default-provider">
-            HTML,
-            TagInput::tag()
-                ->addDefaultProvider(DefaultProvider::class)
-                ->render(),
-            'Failed asserting that default provider is applied correctly.',
         );
     }
 
@@ -631,26 +618,6 @@ final class TagInputTest extends TestCase
                 ->suffixTag(Voids::IMG)
                 ->render(),
             'Failed asserting that element renders correctly with a void suffix tag.',
-        );
-    }
-
-    public function testReturnEmptyArrayWhenApplyThemeAndUndefinedTheme(): void
-    {
-        $tag = TagInput::tag();
-
-        self::assertEmpty(
-            $tag->apply($tag, ''),
-            'Failed asserting that applying an undefined theme returns an empty array.',
-        );
-    }
-
-    public function testReturnEmptyArrayWhenGetDefaultsAndNoDefaultsSet(): void
-    {
-        $tag = TagInput::tag();
-
-        self::assertEmpty(
-            $tag->getDefaults($tag),
-            'Failed asserting that getting defaults returns an empty array when no defaults are set.',
         );
     }
 

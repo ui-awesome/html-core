@@ -25,9 +25,7 @@ use UIAwesome\Html\Attribute\Global\{
 use UIAwesome\Html\Attribute\Values\Attribute;
 use UIAwesome\Html\Contracts\Form\FormControlInterface;
 use UIAwesome\Html\Core\Base\BaseTag;
-use UIAwesome\Html\Core\Html;
-use UIAwesome\Html\Helper\Template;
-use UIAwesome\Html\Interop\{Inline, MetadataVoid, Voids};
+use UIAwesome\Html\Core\Element\Concern\HasElementBuilder;
 use UIAwesome\Html\Mixin\{HasAttributes, HasPrefixCollection, HasSuffixCollection, HasTemplate};
 use UnitEnum;
 
@@ -48,6 +46,7 @@ abstract class BaseInput extends BaseTag implements FormControlInterface
     use HasClass;
     use HasData;
     use HasDir;
+    use HasElementBuilder;
     use HasEvents;
     use HasId;
     use HasLang;
@@ -96,39 +95,6 @@ abstract class BaseInput extends BaseTag implements FormControlInterface
     }
 
     /**
-     * Builds input output from content and template tokens.
-     *
-     * @param string|Stringable $content Content to be rendered inside the tag.
-     * Note: The `<input>` element is a void element and does not render inner content. Use attributes such as `value`
-     * to configure the input's value.
-     * @param array $tokenValues Additional token values for template rendering.
-     *
-     * @return string Rendered HTML for the input element.
-     *
-     * @phpstan-param mixed[] $tokenValues
-     *
-     * @phpstan-return string
-     */
-    protected function buildElement(string|Stringable $content = '', array $tokenValues = []): string
-    {
-        $attributes = $this->getAttributes();
-
-        $tokenTemplateValues = [
-            '{prefix}' => $this->renderTag($this->getPrefixTag(), $this->getPrefix(), $this->getPrefixAttributes()),
-            '{tag}' => $this->renderTag($this->getTag(), (string) $content, $attributes),
-            '{suffix}' => $this->renderTag($this->getSuffixTag(), $this->getSuffix(), $this->getSuffixAttributes()),
-        ];
-
-        $template = $this->getTemplate();
-
-        if ($template === '') {
-            $template = "{prefix}\n{tag}\n{suffix}";
-        }
-
-        return Template::render($template, [...$tokenTemplateValues, ...$tokenValues]);
-    }
-
-    /**
      * Returns class-level default configuration for input elements.
      *
      * @return array Default configuration array with method calls as keys.
@@ -140,38 +106,5 @@ abstract class BaseInput extends BaseTag implements FormControlInterface
         return [
             'template' => ["{prefix}\n{tag}\n{suffix}"],
         ];
-    }
-
-    /**
-     * Renders a tag, or returns content when the tag is `false`.
-     *
-     * @param BackedEnum|false $tag Tag instance or `false` to skip rendering.
-     * @param string $content Content to be rendered inside the tag.
-     * @param array $attributes HTML attributes for the tag.
-     *
-     * @return string Rendered tag or content.
-     *
-     * @phpstan-param mixed[] $attributes
-     *
-     * @phpstan-return string
-     */
-    private function renderTag(
-        BackedEnum|false $tag,
-        string $content,
-        array $attributes = [],
-    ): string {
-        if ($tag === false) {
-            return $content;
-        }
-
-        if ($tag instanceof Voids || $tag instanceof MetadataVoid) {
-            return Html::void($tag, $attributes);
-        }
-
-        if ($tag instanceof Inline) {
-            return Html::inline($tag, $content, $attributes);
-        }
-
-        return Html::element($tag, $content, $attributes);
     }
 }
