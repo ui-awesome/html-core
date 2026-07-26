@@ -79,6 +79,13 @@ enum Message: string
     case CONFIG_METHOD_MUST_BE_NON_EMPTY = 'Config method must be a non-empty string without whitespace.';
 
     /**
+     * Error when a config targets a property that is not a public instance property.
+     *
+     * Format: 'Config property "%s::$%s" must be a public instance property.'
+     */
+    case CONFIG_PROPERTY_MUST_BE_PUBLIC = 'Config property "%s::$%s" must be a public instance property.';
+
+    /**
      * Error when a config applier returns a component incompatible with the fluent receiver.
      *
      * Format: "Config for component '%s' (%s) returned incompatible component %s."

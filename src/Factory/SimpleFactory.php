@@ -7,8 +7,9 @@ namespace UIAwesome\Html\Core\Factory;
 use LogicException;
 use ReflectionClass;
 use ReflectionException;
+use ReflectionProperty;
 use UIAwesome\Html\Core\Base\BaseTag;
-use UIAwesome\Html\Core\Exception\Message;
+use UIAwesome\Html\Core\Exception\{ConfigException, Message};
 
 use function is_array;
 use function is_string;
@@ -31,6 +32,8 @@ final class SimpleFactory
     /**
      * Applies configuration values to a tag instance.
      *
+     * Keys resolve to public methods first, then to public instance properties. Keys matching no member are skipped.
+     *
      * Usage example:
      * ```php
      * $tag = \UIAwesome\Html\Core\Factory\SimpleFactory::create(\App\Html\SomeTag::class);
@@ -42,6 +45,8 @@ final class SimpleFactory
      *
      * @param BaseTag $tag Tag instance to configure.
      * @param array $defaults Associative array of method names and arguments.
+     *
+     * @throws ConfigException if a key resolves to a property that is not a public instance property.
      *
      * @return BaseTag Configured tag instance.
      *
@@ -64,6 +69,14 @@ final class SimpleFactory
                  */
                 $tag = $tag->$action(...(is_array($value) ? $value : [$value]));
             } elseif (property_exists($tag, $action)) {
+                $property = new ReflectionProperty($tag, $action);
+
+                if ($property->isPublic() === false || $property->isStatic()) {
+                    throw new ConfigException(
+                        Message::CONFIG_PROPERTY_MUST_BE_PUBLIC->getMessage($tag::class, $action),
+                    );
+                }
+
                 /**
                  * @phpstan-ignore property.dynamicName
                  */

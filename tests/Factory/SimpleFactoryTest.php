@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Tests\Factory;
 
-use Error;
 use LogicException;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Core\Base\BaseTag;
-use UIAwesome\Html\Core\Exception\Message;
+use UIAwesome\Html\Core\Exception\{ConfigException, Message};
 use UIAwesome\Html\Core\Factory\SimpleFactory;
 use UIAwesome\Html\Core\Tests\Support\Stub\TagInline;
 
@@ -34,6 +33,14 @@ final class SimpleFactoryTest extends TestCase
         );
     }
 
+    public function testConfigureSkipsKeysMatchingNoMember(): void
+    {
+        self::assertTrue(
+            TagInline::tag(['undefinedMember' => true, 'flag' => true])->flag,
+            'Unknown keys must be skipped without interrupting the remaining configuration.',
+        );
+    }
+
     public function testCreateWithDefaultConfigurationPropertiesValues(): void
     {
         self::assertTrue(
@@ -50,14 +57,24 @@ final class SimpleFactoryTest extends TestCase
         );
     }
 
-    public function testThrowErrorForSetNotPublicProperty(): void
+    public function testThrowConfigExceptionWhenSettingNotPublicProperty(): void
     {
-        $this->expectException(Error::class);
+        $this->expectException(ConfigException::class);
         $this->expectExceptionMessage(
-            'Cannot access private property UIAwesome\Html\Core\Tests\Support\Stub\TagInline::$flagDisabled',
+            Message::CONFIG_PROPERTY_MUST_BE_PUBLIC->getMessage(TagInline::class, 'flagDisabled'),
         );
 
         TagInline::tag(['flagDisabled' => true]);
+    }
+
+    public function testThrowConfigExceptionWhenSettingStaticProperty(): void
+    {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage(
+            Message::CONFIG_PROPERTY_MUST_BE_PUBLIC->getMessage(TagInline::class, 'flagShared'),
+        );
+
+        TagInline::tag(['flagShared' => true]);
     }
 
     public function testThrowLogicExceptionForInstantiateAbstractClass(): void

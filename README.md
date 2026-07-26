@@ -326,10 +326,49 @@ echo Span::tag()
 // <span class="rounded text-sm" id="badge-1">New</span>
 ```
 
+#### Application-scoped theming
+
+Theming is dependency injection, not global state. Build **one** `Config` in the application container from the theme
+and the applier, inject it where components are created, and apply it per component with a `ComponentContext`. The
+library holds no static or global theme registry, so parallel tests, multiple tenants, and several design systems can
+coexist in the same process.
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App;
+
+use UIAwesome\Html\Core\Config\{ComponentContext, Config, ConfigApplier};
+
+// Container definition, built once per application.
+$container->set(
+    Config::class,
+    static fn(): Config => new Config(new FlowbiteTheme(), new ConfigApplier()),
+);
+
+// Consumer, receiving the config by injection.
+final readonly class Badge
+{
+    public function __construct(private Config $config) {}
+
+    public function render(string $label): string
+    {
+        return Span::tag()
+            ->config($this->config, new ComponentContext('badge'))
+            ->content($label)
+            ->render();
+    }
+}
+```
+
+Fluent calls made after `config()` are local overrides, and each `Config` instance applies only its own recipes.
+
 #### Class-level defaults with `loadDefault()`
 
-For a simpler approach without separate provider classes, override `loadDefault()` in your tag class. These defaults are
-applied automatically when `tag()` is called.
+For a simpler approach without a theme, override `loadDefault()` in your tag class. These defaults are applied
+automatically when `tag()` is called.
 
 ```php
 <?php

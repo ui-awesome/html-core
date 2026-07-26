@@ -24,13 +24,7 @@ use UIAwesome\Html\Attribute\Values\{
 use UIAwesome\Html\Core\Element\BaseBlock;
 use UIAwesome\Html\Core\Exception\Message;
 use UIAwesome\Html\Core\Html;
-use UIAwesome\Html\Core\Tests\Support\Stub\{
-    DefaultProvider,
-    DefaultThemeProvider,
-    TagBlock,
-    TagBlockWithDefaults,
-    TagInline,
-};
+use UIAwesome\Html\Core\Tests\Support\Stub\{TagBlock, TagBlockWithDefaults, TagInline};
 use UIAwesome\Html\Interop\Block;
 use WeakMap;
 
@@ -444,20 +438,6 @@ final class TagBlockTest extends TestCase
         );
     }
 
-    public function testRenderWithDefaultProvider(): void
-    {
-        self::assertSame(
-            <<<HTML
-            <div class="default-provider">
-            </div>
-            HTML,
-            TagBlock::tag()
-                ->addDefaultProvider(DefaultProvider::class)
-                ->render(),
-            'Failed asserting that default provider is applied correctly.',
-        );
-    }
-
     public function testRenderWithDefaultValues(): void
     {
         self::assertSame(
@@ -774,20 +754,6 @@ final class TagBlockTest extends TestCase
         );
     }
 
-    public function testRenderWithThemeProvider(): void
-    {
-        self::assertSame(
-            <<<HTML
-            <div class="tag-primary">
-            </div>
-            HTML,
-            TagBlock::tag()
-                ->addThemeProvider('primary', DefaultThemeProvider::class)
-                ->render(),
-            'Failed asserting that theme provider is applied correctly.',
-        );
-    }
-
     public function testRenderWithTitle(): void
     {
         self::assertSame(
@@ -839,26 +805,6 @@ final class TagBlockTest extends TestCase
                 ->translate(Translate::YES)
                 ->render(),
             "Failed asserting that element renders correctly with 'translate' attribute using enum.",
-        );
-    }
-
-    public function testReturnEmptyArrayWhenApplyThemeAndUndefinedTheme(): void
-    {
-        $tag = TagBlock::tag();
-
-        self::assertEmpty(
-            $tag->apply($tag, ''),
-            'Failed asserting that applying an undefined theme returns an empty array.',
-        );
-    }
-
-    public function testReturnEmptyArrayWhenGetDefaultsAndNoDefaultsSet(): void
-    {
-        $tag = TagBlock::tag();
-
-        self::assertEmpty(
-            $tag->getDefaults($tag),
-            'Failed asserting that getting defaults returns an empty array when no defaults are set.',
         );
     }
 
