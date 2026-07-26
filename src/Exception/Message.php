@@ -86,6 +86,13 @@ enum Message: string
     case CONFIG_PROPERTY_MUST_BE_PUBLIC = 'Config property "%s::$%s" must be a public instance property.';
 
     /**
+     * Error when a config targets a property that rejects the write, such as `readonly` or asymmetric visibility.
+     *
+     * Format: 'Config property "%s::$%s" must be publicly writable.'
+     */
+    case CONFIG_PROPERTY_MUST_BE_WRITABLE = 'Config property "%s::$%s" must be publicly writable.';
+
+    /**
      * Error when a config applier returns a component incompatible with the fluent receiver.
      *
      * Format: "Config for component '%s' (%s) returned incompatible component %s."

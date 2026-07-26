@@ -27,6 +27,12 @@ final class TagInline extends BaseInline
      */
     public bool $flag = false;
     /**
+     * Public readonly flag used to verify that the factory rejects properties that reject external writes.
+     *
+     * @phpstan-ignore property.uninitializedReadonly
+     */
+    public readonly bool $flagLocked;
+    /**
      * Public static flag used to verify that the factory rejects static properties.
      */
     public static bool $flagShared = false;

@@ -55,7 +55,9 @@ arguments passed to `tag()`; both keep working unchanged.
 ### Non-public property configuration
 
 `SimpleFactory::configure()` now throws `ConfigException` instead of a raw `Error` when a configuration key resolves to
-a property that is not a public instance property; keys matching no member are still skipped silently.
+a property that is not a public instance property; keys matching no member are still skipped silently. Public
+properties that reject an external write, such as `readonly` and asymmetric visibility (`public private(set)`), are
+rejected with `ConfigException` as well, with the original `Error` attached as the previous exception.
 
 ## 0.6.0
 
