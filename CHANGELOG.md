@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - feat: introduce immutable config contracts for cookbook recipes, themes, and component factories.
 - feat!: add strict recipe execution and application-scoped tag configuration without new global mutable state.
+- feat: implement `ContentInterface` from `ui-awesome/html-contracts` in `BaseBlock`, and inherit it in `BaseInline` through `InlineInterface`.
 
 ## 0.6.1 July 21, 2026
 
