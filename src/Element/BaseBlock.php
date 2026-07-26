@@ -31,7 +31,7 @@ use UIAwesome\Html\Attribute\Global\{
     HasTranslate,
 };
 use UIAwesome\Html\Contracts\Attribute\AttributesInterface;
-use UIAwesome\Html\Contracts\Element\BlockInterface;
+use UIAwesome\Html\Contracts\Element\{BlockInterface, ContentInterface};
 use UIAwesome\Html\Core\Base\BaseTag;
 use UIAwesome\Html\Core\Exception\Message;
 use UIAwesome\Html\Core\Html;
@@ -49,7 +49,7 @@ use function array_pop;
  *
  * @see https://developer.mozilla.org/en-US/docs/Glossary/Block-level_content.
  */
-abstract class BaseBlock extends BaseTag implements AttributesInterface, BlockInterface
+abstract class BaseBlock extends BaseTag implements AttributesInterface, BlockInterface, ContentInterface
 {
     use CanBeAutofocus;
     use CanBeHidden;
