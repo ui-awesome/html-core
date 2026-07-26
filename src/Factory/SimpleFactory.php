@@ -25,8 +25,6 @@ use function property_exists;
  * $tag = \UIAwesome\Html\Core\Factory\SimpleFactory::create(\App\Html\SomeTag::class);
  * $tag = \UIAwesome\Html\Core\Factory\SimpleFactory::configure($tag, ['class' => 'container']);
  * ```
- *
- * @phpstan-template T of BaseTag
  */
 final class SimpleFactory
 {
@@ -54,6 +52,8 @@ final class SimpleFactory
      * property that rejects the write.
      *
      * @return BaseTag Configured tag instance.
+     *
+     * @phpstan-template T of BaseTag
      *
      * @phpstan-param T $tag
      * @phpstan-param mixed[] $defaults
@@ -113,6 +113,8 @@ final class SimpleFactory
      * @throws ReflectionException
      *
      * @return BaseTag Instantiated tag object.
+     *
+     * @phpstan-template T of BaseTag
      *
      * @phpstan-param class-string<T> $class
      *
