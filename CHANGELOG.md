@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 0.7.1 Under development
 
+- docs: simplify the upgrade guide around consumer-facing API changes.
+
 ## 0.7.0 July 29, 2026
 
 - feat: introduce immutable config contracts for cookbook recipes, themes, and component factories.

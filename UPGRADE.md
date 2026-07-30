@@ -2,8 +2,10 @@
 
 ## 0.7.0
 
-The global `SimpleFactory::$defaults` store and its `getDefaults()` and `setDefaults()` methods were removed. Define
-application-scoped recipes and apply them with `BaseTag::config()` instead:
+### Application-scoped configuration
+
+Global configuration through `SimpleFactory::$defaults`, `SimpleFactory::getDefaults()`, and
+`SimpleFactory::setDefaults()` was removed. Apply a `Config` before fluent setters that must remain local overrides:
 
 ```php
 $config = new Config($applicationTheme);
@@ -13,78 +15,47 @@ $button = Button::tag()
     ->id('save');
 ```
 
-The config path does not share mutable state between requests, tests, themes, or tenants. Calls made after `config()`
-remain local overrides.
+Configuration call names must be canonical method names such as `class`; names such as `class()` now fail in strict
+mode.
 
-Recipe calls must use canonical method names such as `class`. Names with a trailing parenthesis pair, such as `class()`,
-are no longer normalized and fail when strict configuration is enabled.
+### Provider API
 
-### Defaults and theme provider API removed
+The defaults and theme provider interfaces and these `BaseTag` methods were removed:
 
-`BaseTag` no longer implements `DefaultsProviderInterface` or `ThemeProviderInterface`, and the following members were
-removed:
+- `addDefaultProvider()`
+- `addThemeProvider()`
+- `apply()`
+- `getDefaults()`
 
-- `BaseTag::addDefaultProvider()`
-- `BaseTag::addThemeProvider()`
-- `BaseTag::apply()`
-- `BaseTag::getDefaults()`
-- `UIAwesome\Html\Core\Provider\DefaultsProviderInterface`
-- `UIAwesome\Html\Core\Provider\ThemeProviderInterface`
+Move application defaults to a `ThemeInterface` implementation and apply it through `Config` and `ComponentContext`.
+Class defaults belong in `loadDefault()` or the arguments passed to `tag()`.
 
-Migrate provider classes to a `ThemeInterface` implementation and apply it through `Config` and `ComponentContext`.
+### Property configuration failures
 
-Before.
+`SimpleFactory::configure()` now throws `ConfigException` when a key targets a non-public or static property. A public
+property write rejected because it is `readonly`, has asymmetric visibility, or receives an incompatible typed value
+also throws `ConfigException`, with the original `Error` or `TypeError` available through `getPrevious()`.
 
-```php
-$button = Button::tag()
-    ->addDefaultProvider(ButtonDefaultsProvider::class)
-    ->addThemeProvider('dark', ButtonThemeProvider::class);
-```
-
-After.
-
-```php
-$config = new Config(new DarkTheme());
-
-$button = Button::tag()->config($config, new ComponentContext('button'));
-```
-
-Class-level defaults previously returned by a defaults provider belong in `BaseTag::loadDefault()` or in the array
-arguments passed to `tag()`; both keep working unchanged.
-
-### Non-public property configuration
-
-`SimpleFactory::configure()` now throws `ConfigException` instead of a raw `Error` when a configuration key resolves to
-a property that is not a public instance property; keys matching no member are still skipped silently. Public
-properties that reject an external write, such as `readonly` and asymmetric visibility (`public private(set)`), are
-rejected with `ConfigException` as well, with the original `Error` attached as the previous exception.
+Catch `ConfigException` instead of the former `Error` or `TypeError`. Keys matching no method or property continue to
+be skipped.
 
 ## 0.6.0
 
-- Custom element `getTag()` implementations should now return `BackedEnum`.
-- `BaseTag` now implements `UIAwesome\Html\Contracts\RenderableInterface`.
-- Block elements (`BaseBlock`) now implement `UIAwesome\Html\Contracts\Element\BlockInterface` and `UIAwesome\Html\Contracts\Attribute\AttributesInterface`.
-- Inline elements (`BaseInline`) now implement `UIAwesome\Html\Contracts\Element\InlineInterface` and `UIAwesome\Html\Contracts\Attribute\AttributesInterface`.
-- Void elements (`BaseVoid`) now implement `UIAwesome\Html\Contracts\Element\VoidInterface` and `UIAwesome\Html\Contracts\Attribute\AttributesInterface`.
-- Form controls (`BaseInput`) now implement `UIAwesome\Html\Contracts\Form\FormControlInterface`.
+### Element contracts
 
-If you extend these base classes and override contract methods, ensure signatures remain compatible with
-`ui-awesome/html-contracts`.
+- Custom `getTag()` implementations must return `BackedEnum`.
+- `BaseTag` implements `RenderableInterface`.
+- `BaseBlock`, `BaseInline`, and `BaseVoid` implement their matching element and attribute contracts.
+- `BaseInput` implements `FormControlInterface`.
 
-### `begin()` and `end()` moved from `BaseTag` to `BaseBlock`
+Update overridden method signatures to remain compatible with those contracts.
 
-- `BaseTag` no longer exposes `begin()` and `end()`.
-- `BaseBlock` now owns begin/end stack behavior.
-- Inline, void, and input base elements no longer support begin/end calls.
+### Block-only lifecycle
 
-If your code called `begin()` or `end()` on non-block elements, migrate to block element classes that extend
-`BaseBlock`.
+`begin()` and `end()` moved from `BaseTag` to `BaseBlock`. Replace calls on inline, void, or input elements with a
+block element when begin/end rendering is required.
 
-### `BaseHtml::element()` no longer auto-detects inline/void tags
+### Explicit element rendering
 
-- `BaseHtml::element()` now always renders a generic opening/content/closing tag structure.
-- Use `BaseHtml::inline()` for inline rendering and `BaseHtml::void()` for void rendering.
-- Element classes now own this selection logic where needed.
-
-If your code previously passed inline or void tags to `Html::element()`, migrate those calls to `Html::inline()` or
-`Html::void()`.
+`BaseHtml::element()` no longer detects inline or void tags. Use `BaseHtml::inline()` or `BaseHtml::void()` for those
+rendering modes.
