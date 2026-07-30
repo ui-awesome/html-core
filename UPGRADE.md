@@ -8,6 +8,8 @@ Global configuration through `SimpleFactory::$defaults`, `SimpleFactory::getDefa
 `SimpleFactory::setDefaults()` was removed. Apply a `Config` before fluent setters that must remain local overrides:
 
 ```php
+$config = new Config($applicationTheme);
+
 $button = Button::tag()
     ->config($config, new ComponentContext('button'))
     ->id('save');
@@ -28,10 +30,14 @@ The defaults and theme provider interfaces and these `BaseTag` methods were remo
 Move application defaults to a `ThemeInterface` implementation and apply it through `Config` and `ComponentContext`.
 Class defaults belong in `loadDefault()` or the arguments passed to `tag()`.
 
-### Invalid property configuration
+### Property configuration failures
 
-`SimpleFactory::configure()` now throws `ConfigException` when a key targets a non-public, `readonly`, or
-asymmetric-visibility property. Catch `ConfigException` instead of the raw `Error`.
+`SimpleFactory::configure()` now throws `ConfigException` when a key targets a non-public or static property. A public
+property write rejected because it is `readonly`, has asymmetric visibility, or receives an incompatible typed value
+also throws `ConfigException`, with the original `Error` or `TypeError` available through `getPrevious()`.
+
+Catch `ConfigException` instead of the former `Error` or `TypeError`. Keys matching no method or property continue to
+be skipped.
 
 ## 0.6.0
 
