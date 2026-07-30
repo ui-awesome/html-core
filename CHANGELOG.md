@@ -5,18 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 0.7.0 Under development
+## 0.7.0 July 29, 2026
 
 - feat: introduce immutable config contracts for cookbook recipes, themes, and component factories.
 - feat!: add strict recipe execution and application-scoped tag configuration without new global mutable state.
 - feat: implement `ContentInterface` from `ui-awesome/html-contracts` in `BaseBlock`, and inherit it in `BaseInline` through `InlineInterface`.
-- docs: move the `SimpleFactory` defaults-removal upgrade note under the `0.7.0` heading in `UPGRADE.md`.
 - feat!: remove the defaults and theme provider API in favor of application-scoped `Config` and `ThemeInterface`.
 - feat!: throw `ConfigException` instead of a raw `Error` when a configuration targets a non-public, `readonly`, or asymmetric-visibility property.
 - refactor: share the tag rendering and element building logic between inline and input base elements.
-- chore: require `ui-awesome/html-mixin` and `ui-awesome/html-attribute` `^0.7@dev`.
 - docs: add an application-scoped theming section to `README.md` and drop provider references from package metadata.
-- fix: update `ui-awesome/html-interop` dependency to latest version.
 - fix: infer the configured tag type from method-level generics in `SimpleFactory`, removing the need for `@var` narrowing in consumers.
 
 ## 0.6.1 July 21, 2026
