@@ -21,14 +21,6 @@ trait HasElementBuilder
     /**
      * Builds element output from content and template tokens.
      *
-     * Usage example:
-     * ```php
-     * protected function run(): string
-     * {
-     *     return $this->buildElement($this->getContent());
-     * }
-     * ```
-     *
      * @param string|Stringable $content Content to be rendered inside the tag. Void tags, such as `<input>`, render no
      * inner content; use attributes such as `value` instead.
      * @param array $tokenValues Additional token values for template rendering.

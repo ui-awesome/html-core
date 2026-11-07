@@ -35,7 +35,6 @@ use UIAwesome\Html\Contracts\Element\{BlockInterface, ContentInterface};
 use UIAwesome\Html\Core\Base\BaseTag;
 use UIAwesome\Html\Core\Exception\Message;
 use UIAwesome\Html\Core\Html;
-use UIAwesome\Html\Helper\LineBreakNormalizer;
 use UIAwesome\Html\Mixin\{HasAttributes, HasContent};
 use WeakMap;
 
@@ -92,14 +91,6 @@ abstract class BaseBlock extends BaseTag implements AttributesInterface, BlockIn
 
     /**
      * Returns the tag instance representing the block element.
-     *
-     * Usage example:
-     * ```php
-     * public function getTag(): BackedEnum
-     * {
-     *     return \UIAwesome\Html\Interop\Block::DIV;
-     * }
-     * ```
      *
      * @return BackedEnum Tag instance for the block element.
      */
@@ -172,20 +163,6 @@ abstract class BaseBlock extends BaseTag implements AttributesInterface, BlockIn
     }
 
     /**
-     * Cleans up the output after rendering the block element.
-     *
-     * Removes excessive consecutive newlines from the rendered output to ensure clean HTML structure.
-     *
-     * @param string $result Rendered HTML output.
-     *
-     * @return string Cleaned HTML output with excessive newlines removed.
-     */
-    protected function afterRun(string $result): string
-    {
-        return LineBreakNormalizer::normalize(parent::afterRun($result));
-    }
-
-    /**
      * Indicates whether `begin()` was executed for this instance.
      */
     protected function isBeginExecuted(): bool
@@ -209,11 +186,6 @@ abstract class BaseBlock extends BaseTag implements AttributesInterface, BlockIn
 
     /**
      * Returns the opening tag for begin/end rendering.
-     *
-     * Usage example:
-     * ```php
-     * <?= $block->begin() ?>
-     * ```
      *
      * @return string Opening HTML tag for the block element.
      */

@@ -30,11 +30,6 @@ abstract class BaseTag implements RenderableInterface
     /**
      * Returns the rendered tag string.
      *
-     * Usage example:
-     * ```php
-     * <?= $element ?>
-     * ```
-     *
      * @return string Rendered HTML tag string.
      */
     public function __toString(): string
@@ -55,13 +50,6 @@ abstract class BaseTag implements RenderableInterface
      * Applies application-scoped config recipes to this tag.
      *
      * Calls made after this method remain local overrides because the config is applied immediately.
-     *
-     * Usage example:
-     * ```php
-     * $tag = \App\Html\SomeTag::tag()
-     *     ->config($config, new \UIAwesome\Html\Core\Config\ComponentContext('field.control.email'))
-     *     ->id('email');
-     * ```
      *
      * @param Config $config Application-scoped config service.
      * @param ComponentContext $context Semantic context used to resolve recipes.
@@ -91,11 +79,6 @@ abstract class BaseTag implements RenderableInterface
     /**
      * Renders the tag with lifecycle hooks.
      *
-     * Usage example:
-     * ```php
-     * <?= $tag->render() ?>
-     * ```
-     *
      * @return string Rendered HTML tag string, or empty string if rendering is skipped.
      */
     final public function render(): string
@@ -115,11 +98,6 @@ abstract class BaseTag implements RenderableInterface
      * - Defaults passed directly by the user to {@see tag()}.
      *
      * Application-scoped recipes should be applied afterward through {@see BaseTag::config()}.
-     *
-     * Usage example:
-     * ```php
-     * $element = \App\Html\SomeTag::tag(['class' => 'container']);
-     * ```
      *
      * @param array ...$defaults Configuration cookbook arrays. Each array maps "methodName" → arguments, and will be
      * applied in order.

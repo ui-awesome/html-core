@@ -64,26 +64,11 @@ abstract class BaseInput extends BaseTag implements FormControlInterface
      * Returns the tag instance representing the void element.
      *
      * @return BackedEnum Tag instance for the void element.
-     *
-     * Usage example:
-     * ```php
-     * public function getTag(): BackedEnum
-     * {
-     *     return \UIAwesome\Html\Interop\Voids::INPUT;
-     * }
-     * ```
      */
     abstract protected function getTag(): BackedEnum;
 
     /**
      * Sets the `form` attribute.
-     *
-     * Usage example:
-     * ```php
-     * $element->form('myForm');
-     * $element->form($formId);
-     * $element->form(null);
-     * ```
      *
      * @param string|Stringable|UnitEnum|null $value Form ID, or `null` to remove the attribute.
      *

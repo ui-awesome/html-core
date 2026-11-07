@@ -12,14 +12,6 @@ trait HasAfterRun
     /**
      * Post-processes rendered output.
      *
-     * Usage example:
-     * ```php
-     * protected function afterRun(string $result): string
-     * {
-     *     return trim($result);
-     * }
-     * ```
-     *
      * @param string $result Rendered HTML output from the tag.
      *
      * @return string Post-processed HTML output.

@@ -17,11 +17,6 @@ use function preg_match;
  *
  * Object arguments are stored by reference, so pass immutable values (scalars, enums, `readonly` objects) when deep
  * immutability is required.
- *
- * Usage example:
- * ```php
- * $call = new \UIAwesome\Html\Core\Config\Call('class', 'btn-primary');
- * ```
  */
 final readonly class Call
 {

@@ -144,14 +144,6 @@ enum Message: string
     /**
      * Returns the formatted message string for the error case.
      *
-     * Usage example:
-     * ```php
-     * throw new \InvalidArgumentException(
-     *     \UIAwesome\Html\Core\Exception\Message::CANNOT_INSTANTIATE_ABSTRACT_CLASS
-     *         ->getMessage(\App\Html\MyAbstractClass::class),
-     * );
-     * ```
-     *
      * @param int|string ...$argument Values to insert into the message template.
      *
      * @return string Formatted error message with interpolated arguments.

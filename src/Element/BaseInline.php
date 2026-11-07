@@ -59,14 +59,6 @@ abstract class BaseInline extends BaseTag implements AttributesInterface, Inline
      * Returns the tag instance representing the inline element.
      *
      * @return BackedEnum Tag instance for the inline element.
-     *
-     * Usage example:
-     * ```php
-     * public function getTag(): BackedEnum
-     * {
-     *     return \UIAwesome\Html\Interop\Inline::SPAN;
-     * }
-     * ```
      */
     abstract protected function getTag(): BackedEnum;
 }

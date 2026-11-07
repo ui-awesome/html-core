@@ -15,16 +15,6 @@ use function preg_match;
 
 /**
  * Describes the semantic component and qualifiers used to resolve config recipes.
- *
- * Usage example:
- * ```php
- * $context = new \UIAwesome\Html\Core\Config\ComponentContext(
- *     'field.control.email',
- *     variant: 'floating',
- *     size: 'medium',
- *     states: ['invalid'],
- * );
- * ```
  */
 final readonly class ComponentContext
 {
@@ -106,11 +96,6 @@ final readonly class ComponentContext
     /**
      * Returns semantic metadata or the provided default value.
      *
-     * Usage example:
-     * ```php
-     * $maxLength = $context->get('maxlength', 255);
-     * ```
-     *
      * @param string $key Metadata key to look up.
      * @param mixed $default Value returned when the key is missing.
      *
@@ -123,11 +108,6 @@ final readonly class ComponentContext
 
     /**
      * Whether the component has the specified state.
-     *
-     * Usage example:
-     * ```php
-     * $isInvalid = $context->hasState('invalid');
-     * ```
      *
      * @param string $state State name to check.
      *
