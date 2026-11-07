@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## 0.8.1 Under development
 
 - refactor: remove prettier and stylelint templates now provided by `php-forge/baseline-frontend`.
+- chore: remove obsolete scaffold tooling and align package maintenance checks with PHP Forge conventions.
 
 ## 0.8.0 July 31, 2026
 
