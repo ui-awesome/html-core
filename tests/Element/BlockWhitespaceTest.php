@@ -162,7 +162,9 @@ final class BlockWhitespaceTest extends TestCase
             <div>
             <div>
             <pre>
+
             alpha
+
             beta</pre>
             </div>
             </div>
