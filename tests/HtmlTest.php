@@ -426,6 +426,24 @@ final class HtmlTest extends TestCase
         );
     }
 
+    public function testRenderPreWithEncodedLeadingCr(): void
+    {
+        self::assertSame(
+            "<pre title=\"A &amp; B\">\n\r&lt;b&gt; &amp;amp;\r</pre>",
+            Html::element(Block::PRE, "\r<b> &amp;\r", ['title' => 'A & B'], true),
+            'Encoded pre content must retain CR bytes and receive a protective LF.',
+        );
+    }
+
+    public function testRenderTextareaWithEncodedLeadingCrLf(): void
+    {
+        self::assertSame(
+            "<textarea title=\"A &amp; B\">\n\r\n&lt;/textarea&gt; &amp;amp;\r\n</textarea>",
+            Html::element(Block::TEXT_AREA, "\r\n</textarea> &amp;\r\n", ['title' => 'A & B'], true),
+            'Encoded textarea content must retain CRLF bytes and receive a protective LF.',
+        );
+    }
+
     #[DataProviderExternal(VoidProvider::class, 'voidTags')]
     public function testRenderVoid(BackedEnum $tag, string $expectedTagName): void
     {

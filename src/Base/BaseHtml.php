@@ -29,6 +29,9 @@ abstract class BaseHtml
      *
      * @return string Rendered opening tag string with attributes.
      *
+     * The `pre` and `textarea` opening tags do not add a newline. Callers must supply a protective LF before streamed
+     * content starting with LF or CR (including CRLF); the opening tag cannot inspect future content.
+     *
      * {@see \UIAwesome\Html\Interop\Block} for valid block-level tags.
      * {@see \UIAwesome\Html\Interop\Lists} for valid list-level tags.
      * {@see \UIAwesome\Html\Interop\Root} for valid root-level tags.
@@ -58,7 +61,8 @@ abstract class BaseHtml
      * @return string Rendered HTML element string.
      *
      * The `pre` and `textarea` elements do not receive presentation newlines around nonempty content. A protective
-     * newline is added only when their content starts with a newline, which the HTML parser otherwise ignores.
+     * LF is added only when their content starts with LF or CR (including CRLF). HTML normalizes CR/CRLF to LF
+     * before ignoring the first newline; the supplied content bytes are not normalized here.
      *
      * {@see \UIAwesome\Html\Interop\Block} for valid block-level tags.
      * {@see \UIAwesome\Html\Interop\Inline} for valid inline-level tags.
@@ -86,7 +90,7 @@ abstract class BaseHtml
         }
 
         if ($tag === Block::PRE || $tag === Block::TEXT_AREA) {
-            $leadingNewline = str_starts_with($content, "\n") ? "\n" : '';
+            $leadingNewline = str_starts_with($content, "\n") || str_starts_with($content, "\r") ? "\n" : '';
 
             return "<{$tag->value}{$renderAttributes}>{$leadingNewline}{$content}</{$tag->value}>";
         }
