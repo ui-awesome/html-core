@@ -21,13 +21,6 @@ use UIAwesome\Html\Interop\{Block, Inline, Voids};
 /**
  * Unit tests for the {@see Html} class.
  *
- * Test coverage.
- * - Ensures attribute normalization handles boolean, empty-string, `null`, and nested array values.
- * - Ensures special characters, newline characters, and tab characters in attributes are preserved or escaped.
- * - Verifies `begin()` and `end()` render expected output for block, list, root, and table tags.
- * - Verifies `element()` and `inline()` render expected HTML with and without content encoding.
- * - Verifies `void()` renders expected HTML for void tags, including boolean attributes.
- *
  * {@see BlockProvider}, {@see InlineProvider}, {@see ListsProvider}, {@see RootProvider}, {@see TableProvider}, and
  * {@see VoidProvider} for test case data providers.
  */
@@ -37,8 +30,10 @@ final class HtmlTest extends TestCase
     #[DataProviderExternal(BlockProvider::class, 'blockTags')]
     public function testRenderBeginWithBlockTag(BackedEnum $tag, string $expectedTagName): void
     {
+        $separator = $tag === Block::PRE || $tag === Block::TEXT_AREA ? '' : "\n";
+
         self::assertSame(
-            "<{$expectedTagName}>\n",
+            "<{$expectedTagName}>{$separator}",
             Html::begin($tag),
             "Html begin '<{$expectedTagName}>' block tag should match expected output.",
         );
@@ -374,8 +369,10 @@ final class HtmlTest extends TestCase
     #[DataProviderExternal(BlockProvider::class, 'blockTags')]
     public function testRenderEndWithBlockTag(BackedEnum $tag, string $expectedTagName): void
     {
+        $separator = $tag === Block::PRE || $tag === Block::TEXT_AREA ? '' : "\n";
+
         self::assertSame(
-            "\n</{$expectedTagName}>",
+            "{$separator}</{$expectedTagName}>",
             Html::end($tag),
             "Html end '</{$expectedTagName}>' block tag should match expected output.",
         );

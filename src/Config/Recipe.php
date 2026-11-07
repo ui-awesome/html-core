@@ -14,14 +14,6 @@ use function preg_match;
  *
  * By convention, the recipe name is prefixed with the theme identifier (for example, `flowbite.button`) so error
  * messages and diagnostics trace the originating theme without extra plumbing.
- *
- * Usage example:
- * ```php
- * $recipe = new \UIAwesome\Html\Core\Config\Recipe(
- *     'flowbite.button',
- *     new \UIAwesome\Html\Core\Config\Cookbook(new \UIAwesome\Html\Core\Config\Call('class', 'btn-primary')),
- * );
- * ```
  */
 final readonly class Recipe
 {

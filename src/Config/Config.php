@@ -11,12 +11,6 @@ use UIAwesome\Html\Core\Theme\ThemeInterface;
 
 /**
  * Holds immutable application-scoped config services without global mutable state.
- *
- * Usage example:
- * ```php
- * $config = new \UIAwesome\Html\Core\Config\Config($theme);
- * $component = $config->apply($component, new \UIAwesome\Html\Core\Config\ComponentContext('field.control.email'));
- * ```
  */
 final readonly class Config
 {
@@ -36,11 +30,6 @@ final readonly class Config
     /**
      * Applies every theme recipe resolved for the component context in declaration order.
      *
-     * Usage example:
-     * ```php
-     * $component = $config->apply($component, new \UIAwesome\Html\Core\Config\ComponentContext('field.control.email'));
-     * ```
-     *
      * @param object $component Component to configure.
      * @param ComponentContext $context Semantic component context.
      *
@@ -59,11 +48,6 @@ final readonly class Config
 
     /**
      * Creates a component through the configured component factory and applies the resolved theme recipes.
-     *
-     * Usage example:
-     * ```php
-     * $component = $config->create(new \UIAwesome\Html\Core\Config\ComponentContext('field.control.email'));
-     * ```
      *
      * @param ComponentContext $context Semantic component context.
      *

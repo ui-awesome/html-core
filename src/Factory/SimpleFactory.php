@@ -19,12 +19,6 @@ use function property_exists;
 
 /**
  * Creates and configures tag instances from cookbook-style definitions.
- *
- * Usage example:
- * ```php
- * $tag = \UIAwesome\Html\Core\Factory\SimpleFactory::create(\App\Html\SomeTag::class);
- * $tag = \UIAwesome\Html\Core\Factory\SimpleFactory::configure($tag, ['class' => 'container']);
- * ```
  */
 final class SimpleFactory
 {
@@ -35,15 +29,6 @@ final class SimpleFactory
      *
      * Property writes rejected at runtime, such as `readonly`, asymmetric visibility, or type mismatches, surface as
      * {@see ConfigException} with the original `Error` attached as the previous exception.
-     *
-     * Usage example:
-     * ```php
-     * $tag = \UIAwesome\Html\Core\Factory\SimpleFactory::create(\App\Html\SomeTag::class);
-     * $tag = \UIAwesome\Html\Core\Factory\SimpleFactory::configure(
-     *     $tag,
-     *     ['id' => 'my-div', 'class' => ['container', 'highlight']],
-     * );
-     * ```
      *
      * @param BaseTag $tag Tag instance to configure.
      * @param array $defaults Associative array of method names and arguments.
@@ -101,11 +86,6 @@ final class SimpleFactory
 
     /**
      * Creates a non-abstract tag instance by class name.
-     *
-     * Usage example:
-     * ```php
-     * $tag = \UIAwesome\Html\Core\Factory\SimpleFactory::create(\App\Html\SomeTag::class);
-     * ```
      *
      * @param string $class Tag class name.
      *

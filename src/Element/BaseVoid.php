@@ -55,14 +55,6 @@ abstract class BaseVoid extends BaseTag implements AttributesInterface, VoidInte
      * Returns the tag instance representing the void element.
      *
      * @return BackedEnum Tag instance for the void element.
-     *
-     * Usage example:
-     * ```php
-     * public function getTag(): BackedEnum
-     * {
-     *     return \UIAwesome\Html\Interop\Voids::IMG;
-     * }
-     * ```
      */
     abstract protected function getTag(): BackedEnum;
 

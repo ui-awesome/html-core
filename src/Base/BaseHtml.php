@@ -6,6 +6,9 @@ namespace UIAwesome\Html\Core\Base;
 
 use BackedEnum;
 use UIAwesome\Html\Helper\{Attributes, Encode};
+use UIAwesome\Html\Interop\Block;
+
+use function str_starts_with;
 
 /**
  * Provides the base implementation for rendering HTML tags.
@@ -20,14 +23,6 @@ abstract class BaseHtml
 {
     /**
      * Returns the opening tag for a block element.
-     *
-     * Usage example:
-     * ```php
-     * \UIAwesome\Html\Core\Html::begin(
-     *     \UIAwesome\Html\Interop\Block::DIV,
-     *     ['class' => 'container'],
-     * );
-     * ```
      *
      * @param BackedEnum $tag Tag enumeration instance.
      * @param array $attributes Associative array of HTML attributes.
@@ -45,21 +40,15 @@ abstract class BaseHtml
     {
         $renderAttributes = Attributes::render($attributes);
 
+        if ($tag === Block::PRE || $tag === Block::TEXT_AREA) {
+            return "<{$tag->value}{$renderAttributes}>";
+        }
+
         return "<{$tag->value}{$renderAttributes}>\n";
     }
 
     /**
      * Returns a complete HTML element `string`.
-     *
-     * Usage example:
-     * ```php
-     * \UIAwesome\Html\Core\Html::element(
-     *     \UIAwesome\Html\Interop\Block::DIV,
-     *     '<Click Here>',
-     *     ['class' => 'link'],
-     *     true
-     * );
-     * ```
      *
      * @param BackedEnum $tag Tag enumeration instance.
      * @param string $content Content to be rendered inside the tag.
@@ -67,6 +56,9 @@ abstract class BaseHtml
      * @param bool $encode Whether to encode the content for HTML output.
      *
      * @return string Rendered HTML element string.
+     *
+     * The `pre` and `textarea` elements do not receive presentation newlines around nonempty content. A protective
+     * newline is added only when their content starts with a newline, which the HTML parser otherwise ignores.
      *
      * {@see \UIAwesome\Html\Interop\Block} for valid block-level tags.
      * {@see \UIAwesome\Html\Interop\Inline} for valid inline-level tags.
@@ -93,20 +85,23 @@ abstract class BaseHtml
             return "<{$tag->value}{$renderAttributes}>\n</{$tag->value}>";
         }
 
+        if ($tag === Block::PRE || $tag === Block::TEXT_AREA) {
+            $leadingNewline = str_starts_with($content, "\n") ? "\n" : '';
+
+            return "<{$tag->value}{$renderAttributes}>{$leadingNewline}{$content}</{$tag->value}>";
+        }
+
         return "<{$tag->value}{$renderAttributes}>\n{$content}\n</{$tag->value}>";
     }
 
     /**
      * Returns the closing tag for a block element.
      *
-     * Usage example:
-     * ```php
-     * \UIAwesome\Html\Core\Html::end(\UIAwesome\Html\Interop\Block::DIV);
-     * ```
-     *
      * @param BackedEnum $tag Tag enumeration instance.
      *
      * @return string Rendered closing tag string.
+     *
+     * No presentation newline is added before `pre` or `textarea` closing tags, so streamed content stays intact.
      *
      * {@see \UIAwesome\Html\Interop\Block} for valid block-level tags.
      * {@see \UIAwesome\Html\Interop\Lists} for valid list-level tags.
@@ -115,21 +110,15 @@ abstract class BaseHtml
      */
     public static function end(BackedEnum $tag): string
     {
+        if ($tag === Block::PRE || $tag === Block::TEXT_AREA) {
+            return "</{$tag->value}>";
+        }
+
         return "\n</{$tag->value}>";
     }
 
     /**
      * Returns an inline HTML element `string`.
-     *
-     * Usage example:
-     * ```php
-     * \UIAwesome\Html\Core\Html::inline(
-     *     \UIAwesome\Html\Interop\Inline::A,
-     *     '<Click Here>',
-     *     ['href' => '#'],
-     *     true,
-     * );
-     * ```
      *
      * @param BackedEnum $tag Inline tag enumeration instance.
      * @param string $content Content to be rendered inside the tag.
@@ -159,14 +148,6 @@ abstract class BaseHtml
 
     /**
      * Returns a void HTML element `string`.
-     *
-     * Usage example:
-     * ```php
-     * \UIAwesome\Html\Core\Html::void(
-     *     \UIAwesome\Html\Interop\Voids::IMG,
-     *     ['src' => 'image.png', 'alt' => 'An image'],
-     * );
-     * ```
      *
      * @param BackedEnum $tag Void tag enumeration instance.
      * @param array $attributes Associative array of HTML attributes.
