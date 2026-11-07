@@ -12,7 +12,9 @@ use UIAwesome\Html\Core\Tests\Support\Stub\TagBlock;
 use UIAwesome\Html\Interop\Block;
 
 /**
- * Unit tests for the {@see TagBlock} element renderer.
+ * Unit tests for whitespace-sensitive {@see BaseBlock} rendering.
+ *
+ * {@see BlockWhitespaceProvider} for test case data providers.
  */
 #[Group('element')]
 final class BlockWhitespaceTest extends TestCase
@@ -61,7 +63,7 @@ final class BlockWhitespaceTest extends TestCase
         );
     }
 
-    public function testPreBeginEndDoesNotAppendToItsText(): void
+    public function testPreBeginEndAllowsCallerSuppliedProtection(): void
     {
         $pre = new class extends BaseBlock {
             protected function getTag(): Block
@@ -71,11 +73,26 @@ final class BlockWhitespaceTest extends TestCase
         };
 
         self::assertSame(
-            <<<HTML
-            <pre>alpha</pre>
-            HTML,
-            $pre->begin() . 'alpha' . $pre::end(),
-            'Preformatted content must not gain surrounding line breaks.',
+            "<pre>\n\nalpha</pre>",
+            $pre->begin() . "\n" . "\nalpha" . $pre::end(),
+            'A caller-supplied protective LF must remain separate from the content LF.',
+        );
+    }
+
+    #[DataProviderExternal(BlockWhitespaceProvider::class, 'preStream')]
+    public function testPreBeginEndKeepsContentBytes(string $content, string $expected): void
+    {
+        $pre = new class extends BaseBlock {
+            protected function getTag(): Block
+            {
+                return Block::PRE;
+            }
+        };
+
+        self::assertSame(
+            $expected,
+            $pre->begin() . $content . $pre::end(),
+            'Streaming delimiters must not insert or remove content bytes.',
         );
     }
 
@@ -109,7 +126,27 @@ final class BlockWhitespaceTest extends TestCase
         );
     }
 
-    public function testTextareaBeginEndDoesNotAddPresentationLineBreaks(): void
+    public function testStreamedPreInsideBlockPreservesRawContentAndAttributes(): void
+    {
+        $pre = new class extends BaseBlock {
+            protected function getTag(): Block
+            {
+                return Block::PRE;
+            }
+        };
+
+        self::assertSame(
+            "<div>\n<pre title=\"A &amp; B\">\r<span>alpha</span>\r</pre>\n</div>",
+            TagBlock::tag()->begin()
+                . $pre->title('A & B')->begin()
+                . "\r<span>alpha</span>\r"
+                . $pre::end()
+                . TagBlock::end(),
+            'Streaming must retain raw markup, attributes and CR bytes inside the enclosing block.',
+        );
+    }
+
+    public function testStreamedTextareaInsideBlockPreservesExplicitNewlines(): void
     {
         $textarea = new class extends BaseBlock {
             protected function getTag(): Block
@@ -119,13 +156,49 @@ final class BlockWhitespaceTest extends TestCase
         };
 
         self::assertSame(
-            <<<HTML
-            <textarea>
-            alpha
-            </textarea>
-            HTML,
-            $textarea->begin() . "\nalpha\n" . $textarea::end(),
-            'Textarea delimiters must not add presentation line breaks.',
+            "<div>\n<textarea id=\"comment\">\r\nalpha\r\n\r\n</textarea>\n</div>",
+            TagBlock::tag()->begin()
+                . $textarea->id('comment')->begin()
+                . "\r\nalpha\r\n\r\n"
+                . $textarea::end()
+                . TagBlock::end(),
+            'Streaming must retain explicit CRLF bytes without adding a closing newline.',
+        );
+    }
+
+    public function testTextareaBeginEndAllowsCallerSuppliedProtection(): void
+    {
+        $textarea = new class extends BaseBlock {
+            protected function getTag(): Block
+            {
+                return Block::TEXT_AREA;
+            }
+        };
+
+        self::assertSame(
+            "<textarea>\n\r\nalpha</textarea>",
+            $textarea->begin()
+                . "\n"
+                . "\r\nalpha"
+                . $textarea::end(),
+            'A caller-supplied protective LF must remain separate from the content CRLF.',
+        );
+    }
+
+    #[DataProviderExternal(BlockWhitespaceProvider::class, 'textareaStream')]
+    public function testTextareaBeginEndKeepsContentBytes(string $content, string $expected): void
+    {
+        $textarea = new class extends BaseBlock {
+            protected function getTag(): Block
+            {
+                return Block::TEXT_AREA;
+            }
+        };
+
+        self::assertSame(
+            $expected,
+            $textarea->begin() . $content . $textarea::end(),
+            'Streaming delimiters must not insert or remove content bytes.',
         );
     }
 
@@ -171,6 +244,50 @@ final class BlockWhitespaceTest extends TestCase
             HTML,
             TagBlock::tag()->html($inner)->render(),
             'Nested preformatted text must retain its whitespace.',
+        );
+    }
+
+    public function testTwoEnclosingBlocksPreservePreLeadingCrAndRawMarkup(): void
+    {
+        $pre = new class extends BaseBlock {
+            protected function getTag(): Block
+            {
+                return Block::PRE;
+            }
+        };
+
+        self::assertSame(
+            "<div>\n<div>\n<pre title=\"A &amp; B\">\n\r<span>alpha</span>\r\r</pre>\n</div>\n</div>",
+            TagBlock::tag()
+                ->html(
+                    TagBlock::tag()
+                        ->html($pre->title('A & B')
+                        ->html("\r<span>alpha</span>\r\r"))
+                )
+                ->render(),
+            'Enclosing blocks must retain raw markup, attributes and the protective LF before CR.',
+        );
+    }
+
+    public function testTwoEnclosingBlocksPreserveTextareaLeadingCrLfAndEscaping(): void
+    {
+        $textarea = new class extends BaseBlock {
+            protected function getTag(): Block
+            {
+                return Block::TEXT_AREA;
+            }
+        };
+
+        self::assertSame(
+            "<div>\n<div>\n<textarea id=\"comment\">\n\r\nA &amp; &lt;b&gt; &amp;amp;\r\n</textarea>\n</div>\n</div>",
+            TagBlock::tag()
+                ->html(
+                    TagBlock::tag()
+                        ->html($textarea->id('comment')
+                        ->content("\r\nA & <b> &amp;\r\n")),
+                )
+                ->render(),
+            'Enclosing blocks must retain encoded text, attributes and the protective LF before CRLF.',
         );
     }
 }

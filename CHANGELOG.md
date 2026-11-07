@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - refactor: remove prettier and stylelint templates now provided by `php-forge/baseline-frontend`.
 - chore: remove obsolete scaffold tooling and align package maintenance checks with PHP Forge conventions.
 - fix: preserve textarea and pre text in complete, streamed, and nested blocks without normalizing composed HTML.
+- fix: protect initial CR and CRLF in complete pre and textarea rendering without changing content bytes.
 
 ## 0.8.0 July 31, 2026
 
