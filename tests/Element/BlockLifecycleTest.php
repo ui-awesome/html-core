@@ -244,7 +244,6 @@ final class BlockLifecycleTest extends TestCase
         );
         self::assertSame(
             <<<HTML
-            <HTML
             <div>
             <article>
             body
