@@ -40,6 +40,7 @@ use WeakMap;
 
 use function array_key_last;
 use function array_pop;
+use function in_array;
 
 /**
  * Provides the base implementation for block HTML elements.
@@ -73,15 +74,15 @@ abstract class BaseBlock extends BaseTag implements AttributesInterface, BlockIn
     use HasTranslate;
 
     /**
-     * Tracks whether `begin()` was executed for this instance.
-     */
-    private bool $beginExecuted = false;
-
-    /**
      * Stores the sentinel object for the main execution context.
      */
     private static stdClass|null $mainThread = null;
-
+    /**
+     * Stores end operations while their lifecycle hooks and rendering execute.
+     *
+     * @phpstan-var WeakMap<object, static[]>|null
+     */
+    private static WeakMap|null $rendering = null;
     /**
      * Stores per-context begin/end stacks.
      *
@@ -109,8 +110,6 @@ abstract class BaseBlock extends BaseTag implements AttributesInterface, BlockIn
         $stack[] = $this;
 
         self::getStackStorage()->offsetSet(self::getContextId(), $stack);
-
-        $this->beginExecuted = true;
 
         return $renderBegin;
     }
@@ -155,19 +154,33 @@ abstract class BaseBlock extends BaseTag implements AttributesInterface, BlockIn
             self::getStackStorage()->offsetSet($key, $stack);
         }
 
+        $rendering = self::$rendering ??= new WeakMap();
+        $frames = $rendering[$key] ?? [];
+        $frames[] = $tag;
+        $rendering[$key] = $frames;
+
         try {
             return $tag->render();
         } finally {
-            $tag->beginExecuted = false;
+            $frames = $rendering[$key];
+
+            array_pop($frames);
+
+            if ($frames === []) {
+                unset($rendering[$key]);
+            } else {
+                $rendering[$key] = $frames;
+            }
         }
     }
 
     /**
-     * Indicates whether `begin()` was executed for this instance.
+     * Indicates whether this instance has an open or closing operation in the current context.
      */
     protected function isBeginExecuted(): bool
     {
-        return $this->beginExecuted;
+        return in_array($this, self::getContextStack(), true)
+            || in_array($this, self::$rendering[self::getContextId()] ?? [], true);
     }
 
     /**
@@ -214,11 +227,7 @@ abstract class BaseBlock extends BaseTag implements AttributesInterface, BlockIn
         $storage = self::getStackStorage();
         $key = self::getContextId();
 
-        if ($storage->offsetExists($key) === false) {
-            $storage->offsetSet($key, []);
-        }
-
-        return $storage->offsetGet($key);
+        return $storage[$key] ?? [];
     }
 
     /**

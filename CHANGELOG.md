@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - chore: remove obsolete scaffold tooling and align package maintenance checks with PHP Forge conventions.
 - fix: preserve textarea and pre text in complete, streamed, and nested blocks without normalizing composed HTML.
 - fix: protect initial CR and CRLF in complete pre and textarea rendering without changing content bytes.
+- fix: isolate block begin/end state across clones, repeated openings, lifecycle hooks, and Fiber contexts.
 
 ## 0.8.0 July 31, 2026
 

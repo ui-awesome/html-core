@@ -839,6 +839,10 @@ final class TagBlockTest extends TestCase
             Message::TAG_CLASS_MISMATCH_ON_END->getMessage(TagBlock::class, $tag::class),
         );
 
-        $tag::end();
+        try {
+            $tag::end();
+        } finally {
+            TagBlock::end();
+        }
     }
 }
