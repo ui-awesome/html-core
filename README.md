@@ -193,6 +193,10 @@ echo Div::tag()
 // </div>
 ```
 
+`BaseBlock` implements `ClearableContentInterface`. Use `$element->clearContent()` to obtain an empty-content clone
+without changing attributes or the original instance. Chain `->content($value)` to append encoded replacement text
+or `->html($trustedHtml)` to append trusted raw HTML. Calling `content('')` alone does not clear existing content.
+
 #### Nested rendering with `begin()` / `end()`
 
 `BaseBlock` supports stack-based begin/end rendering, with protection against mismatched tags.
