@@ -102,8 +102,8 @@ abstract class BaseTag implements RenderableInterface
      * @param array ...$defaults Configuration cookbook arrays. Each array maps "methodName" → arguments, and will be
      * applied in order.
      *
-     * @throws ConfigException If a configuration key targets a property that is not a public instance property, or a
-     * public property that rejects the write.
+     * @throws ConfigException If a configuration key matches no method or property, targets a property that is not a
+     * public instance property, or targets a public property that rejects the write.
      *
      * @return static Fully configured tag instance.
      *

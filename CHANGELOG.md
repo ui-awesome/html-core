@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 0.8.1 Under development
+## 0.9.0 Under development
 
 - refactor: remove prettier and stylelint templates now provided by `php-forge/baseline-frontend`.
 - chore: remove obsolete scaffold tooling and align package maintenance checks with PHP Forge conventions.
@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fix: protect initial CR and CRLF in complete pre and textarea rendering without changing content bytes.
 - fix: isolate block begin/end state across clones, repeated openings, lifecycle hooks, and Fiber contexts.
 - feat: expose immutable content clearing through `ClearableContentInterface` on block elements.
+- feat!: normalize `ComponentContext` string enums to backing values; throw `ConfigException` for unmatched `SimpleFactory` configure/tag keys.
 
 ## 0.8.0 July 31, 2026
 
