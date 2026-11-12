@@ -435,8 +435,10 @@ echo Container::tag(['class' => 'container-fluid'])->render();
 // </div>
 ```
 
-Each key in `loadDefault()` and in the arrays passed to `tag()` must name a method or a public property of the tag.
-An unknown key, such as a misspelled method name, throws `ConfigException` instead of being skipped.
+Each key in `loadDefault()` and in the arrays passed to `tag()` must name a public instance method or property of the
+tag, and a method must return the tag, as fluent setters do. A numeric key, such as a value listed without its method
+name, an unknown key, such as a misspelled method name, or a method returning another value, such as `render`, throws
+`ConfigException`.
 
 Configuration priority (from weakest to strongest):
 
