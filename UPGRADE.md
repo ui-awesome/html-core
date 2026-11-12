@@ -2,14 +2,20 @@
 
 ## 0.9.0
 
-### Unknown configuration keys
+### Invalid configuration keys
 
 `SimpleFactory::configure()`, and therefore `tag()` with `loadDefault()` and its definition arrays, now throws
-`ConfigException` when a string key matches no method or property of the tag, instead of skipping it. Configuration
-stops at the first unknown key and returns no tag.
+`ConfigException` when a key:
 
-Remove or rename unknown keys, for example a misspelled method name, in `loadDefault()`, `tag()` arguments, and any
-definitions array applied through `SimpleFactory::configure()`. Numeric keys are still skipped.
+- is numeric, for example a value listed without its method name, such as `['class']` (formerly skipped);
+- matches no method or property of the tag (formerly skipped);
+- names a `private` or `protected` method (formerly a raw `Error`) or a `static` method (formerly called);
+- names a public method that does not return an instance of the tag class, such as `render` (formerly a raw
+  `TypeError`).
+
+Configuration stops at the first invalid key and returns no tag. Fix or remove such keys in `loadDefault()`, `tag()`
+arguments, and any definitions array applied through `SimpleFactory::configure()`. Exceptions thrown by a public
+instance method that a key calls still propagate unchanged.
 
 ## 0.7.0
 

@@ -72,6 +72,13 @@ enum Message: string
     case CONFIG_DOES_NOT_DEFINE_COMPONENT_FACTORY = 'Config does not define a component factory.';
 
     /**
+     * Error when a config key is numeric instead of a method or property name.
+     *
+     * Format: 'Config key "%s::%s" must be a string naming a method or property.'
+     */
+    case CONFIG_KEY_MUST_BE_STRING = 'Config key "%s::%s" must be a string naming a method or property.';
+
+    /**
      * Error when a config key matches neither a method nor a property of the configured tag.
      *
      * Format: 'Config key "%s::%s" must match a method or property.'
@@ -84,6 +91,21 @@ enum Message: string
      * Format: 'Config method must be a non-empty string without whitespace.'
      */
     case CONFIG_METHOD_MUST_BE_NON_EMPTY = 'Config method must be a non-empty string without whitespace.';
+
+    /**
+     * Error when a config key targets a method that is not a public instance method.
+     *
+     * Format: 'Config method "%s::%s()" must be a public instance method.'
+     */
+    case CONFIG_METHOD_MUST_BE_PUBLIC = 'Config method "%s::%s()" must be a public instance method.';
+
+    /**
+     * Error when a config method returns a value that is not an instance of the configured tag class.
+     *
+     * Format: 'Config method "%s::%s()" must return an instance of the tag class; %s returned.'
+     */
+    case CONFIG_METHOD_MUST_RETURN_TAG = 'Config method "%s::%s()" must return an instance of the tag class; %s '
+        . 'returned.';
 
     /**
      * Error when a config targets a property that is not a public instance property.

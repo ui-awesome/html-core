@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fix: isolate block begin/end state across clones, repeated openings, lifecycle hooks, and Fiber contexts.
 - feat: expose immutable content clearing through `ClearableContentInterface` on block elements.
 - feat!: normalize `ComponentContext` string enums to backing values; throw `ConfigException` for unmatched `SimpleFactory` configure/tag keys.
+- feat!: throw `ConfigException` for numeric keys, non-public or static methods, and non-tag return values in `SimpleFactory::configure()`.
 
 ## 0.8.0 July 31, 2026
 

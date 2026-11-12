@@ -8,10 +8,12 @@ use Error;
 use LogicException;
 use ReflectionClass;
 use ReflectionException;
+use ReflectionMethod;
 use ReflectionProperty;
 use UIAwesome\Html\Core\Base\BaseTag;
 use UIAwesome\Html\Core\Exception\{ConfigException, Message};
 
+use function get_debug_type;
 use function is_array;
 use function is_string;
 use function method_exists;
@@ -25,8 +27,9 @@ final class SimpleFactory
     /**
      * Applies configuration values to a tag instance.
      *
-     * Keys resolve to public methods first, then to public instance properties. A string key matching neither aborts
-     * the configuration with {@see ConfigException}. Numeric keys are skipped.
+     * Keys resolve to methods first, then to properties, and must name a public instance member. A method must return
+     * an instance of the tag class, such as the clone returned by an immutable setter. A numeric key, or a key matching
+     * no method or property, aborts the configuration with {@see ConfigException}.
      *
      * Property writes rejected at runtime, such as `readonly`, asymmetric visibility, or type mismatches, surface as
      * {@see ConfigException} with the original `Error` attached as the previous exception.
@@ -34,8 +37,9 @@ final class SimpleFactory
      * @param BaseTag $tag Tag instance to configure.
      * @param array $defaults Associative array of method names and arguments.
      *
-     * @throws ConfigException if a key matches no method or property, resolves to a property that is not a public
-     * instance property, or resolves to a public property that rejects the write.
+     * @throws ConfigException if a key is numeric, matches no method or property, resolves to a method that is not a
+     * public instance method or does not return an instance of the tag class, resolves to a property that is not a
+     * public instance property, or resolves to a public property that rejects the write.
      *
      * @return BaseTag Configured tag instance.
      *
@@ -50,15 +54,36 @@ final class SimpleFactory
     {
         foreach ($defaults as $action => $value) {
             if (is_string($action) === false) {
-                continue;
+                throw new ConfigException(
+                    Message::CONFIG_KEY_MUST_BE_STRING->getMessage($tag::class, $action),
+                );
             }
 
             if (method_exists($tag, $action)) {
+                $method = new ReflectionMethod($tag, $action);
+
+                if ($method->isPublic() === false || $method->isStatic()) {
+                    throw new ConfigException(
+                        Message::CONFIG_METHOD_MUST_BE_PUBLIC->getMessage($tag::class, $action),
+                    );
+                }
+
                 /**
-                 * @phpstan-var T
                  * @phpstan-ignore method.dynamicName
                  */
-                $tag = $tag->$action(...(is_array($value) ? $value : [$value]));
+                $configured = $tag->$action(...(is_array($value) ? $value : [$value]));
+
+                if (($configured instanceof $tag) === false) {
+                    throw new ConfigException(
+                        Message::CONFIG_METHOD_MUST_RETURN_TAG->getMessage(
+                            $tag::class,
+                            $action,
+                            get_debug_type($configured),
+                        ),
+                    );
+                }
+
+                $tag = $configured;
             } elseif (property_exists($tag, $action)) {
                 $property = new ReflectionProperty($tag, $action);
 

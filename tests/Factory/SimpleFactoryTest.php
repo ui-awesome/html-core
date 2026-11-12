@@ -6,34 +6,22 @@ namespace UIAwesome\Html\Core\Tests\Factory;
 
 use Error;
 use LogicException;
-use PHPUnit\Framework\Attributes\{Group, RequiresPhp};
+use PHPUnit\Framework\Attributes\{DataProviderExternal, Group, RequiresPhp};
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Core\Base\BaseTag;
 use UIAwesome\Html\Core\Exception\{ConfigException, Message};
 use UIAwesome\Html\Core\Factory\SimpleFactory;
+use UIAwesome\Html\Core\Tests\Provider\SimpleFactoryProvider;
 use UIAwesome\Html\Core\Tests\Support\Stub\TagInline;
 
 /**
  * Unit tests for the {@see SimpleFactory} class.
+ *
+ * {@see SimpleFactoryProvider} for test case data providers.
  */
 #[Group('factory')]
 final class SimpleFactoryTest extends TestCase
 {
-    public function testConfigureIgnoresNumericKeys(): void
-    {
-        $tag = SimpleFactory::configure(TagInline::tag(), [null, 'flag' => true]);
-
-        self::assertInstanceOf(
-            TagInline::class,
-            $tag,
-            'Failed asserting that configuration preserves the tag type.',
-        );
-        self::assertTrue(
-            $tag->flag,
-            'Failed asserting that numeric cookbook keys are ignored while valid string keys are applied.',
-        );
-    }
-
     public function testConfigureResolvesMethodAndPropertyKeys(): void
     {
         $tag = SimpleFactory::configure(TagInline::tag(), ['class' => 'value', 'flag' => true]);
@@ -72,7 +60,9 @@ final class SimpleFactoryTest extends TestCase
         try {
             SimpleFactory::configure(TagInline::tag(), ['undefinedMember' => true]);
 
-            self::fail('Unknown key must be rejected.');
+            self::fail(
+                'Unknown key must be rejected.',
+            );
         } catch (ConfigException $exception) {
             self::assertSame(
                 Message::CONFIG_KEY_MUST_MATCH_METHOD_OR_PROPERTY->getMessage(TagInline::class, 'undefinedMember'),
@@ -94,6 +84,135 @@ final class SimpleFactoryTest extends TestCase
         );
 
         TagInline::tag(['flag' => true], ['undefinedMember' => true]);
+    }
+
+    #[DataProviderExternal(SimpleFactoryProvider::class, 'nonPublicInstanceMethods')]
+    public function testThrowConfigExceptionForMethodNotPublicInstance(string $method): void
+    {
+        try {
+            SimpleFactory::configure(TagInline::tag(), [$method => []]);
+
+            self::fail(
+                'Method that is not a public instance method must be rejected.',
+            );
+        } catch (ConfigException $exception) {
+            self::assertSame(
+                Message::CONFIG_METHOD_MUST_BE_PUBLIC->getMessage(TagInline::class, $method),
+                $exception->getMessage(),
+                'Message must name the tag class and the rejected method.',
+            );
+            self::assertNull(
+                $exception->getPrevious(),
+                'Method must be rejected before it is called.',
+            );
+        }
+    }
+
+    public function testThrowConfigExceptionForMethodNotPublicInstancePassedToTag(): void
+    {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage(
+            Message::CONFIG_METHOD_MUST_BE_PUBLIC->getMessage(TagInline::class, 'run'),
+        );
+
+        TagInline::tag(['flag' => true], ['run' => []]);
+    }
+
+    /**
+     * @param list<string> $arguments
+     */
+    #[DataProviderExternal(SimpleFactoryProvider::class, 'methodsNotReturningTag')]
+    public function testThrowConfigExceptionForMethodNotReturningTag(
+        string $method,
+        array $arguments,
+        string $returnedType,
+    ): void {
+        try {
+            SimpleFactory::configure(TagInline::tag(), [$method => $arguments]);
+
+            self::fail(
+                'Method that does not return the tag must be rejected.',
+            );
+        } catch (ConfigException $exception) {
+            self::assertSame(
+                Message::CONFIG_METHOD_MUST_RETURN_TAG->getMessage(TagInline::class, $method, $returnedType),
+                $exception->getMessage(),
+                'Message must name the tag class, the method, and the returned type.',
+            );
+            self::assertNull(
+                $exception->getPrevious(),
+                'Returned value must be rejected without wrapping a previous exception.',
+            );
+        }
+    }
+
+    public function testThrowConfigExceptionForMethodNotReturningTagPassedToTag(): void
+    {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage(
+            Message::CONFIG_METHOD_MUST_RETURN_TAG->getMessage(TagInline::class, 'render', 'string'),
+        );
+
+        TagInline::tag(['flag' => true], ['render' => []]);
+    }
+
+    public function testThrowConfigExceptionForMethodReturningOtherTagClass(): void
+    {
+        $tag = new class extends BaseTag {
+            public function other(): TagInline
+            {
+                return TagInline::tag();
+            }
+
+            protected function run(): string
+            {
+                return '';
+            }
+        };
+
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage(
+            Message::CONFIG_METHOD_MUST_RETURN_TAG->getMessage($tag::class, 'other', TagInline::class),
+        );
+
+        SimpleFactory::configure($tag, ['other' => []]);
+    }
+
+    public function testThrowConfigExceptionForNumericKey(): void
+    {
+        $tag = TagInline::tag();
+
+        try {
+            SimpleFactory::configure($tag, ['class', 'flag' => true]);
+
+            self::fail(
+                'Numeric key must be rejected.',
+            );
+        } catch (ConfigException $exception) {
+            self::assertSame(
+                Message::CONFIG_KEY_MUST_BE_STRING->getMessage(TagInline::class, 0),
+                $exception->getMessage(),
+                'Message must name the tag class and the numeric key.',
+            );
+            self::assertNull(
+                $exception->getPrevious(),
+                'Numeric key must not wrap a previous exception.',
+            );
+            self::assertFalse(
+                $tag->flag,
+                'Keys after the numeric key must not be applied.',
+            );
+        }
+    }
+
+    public function testThrowConfigExceptionForNumericKeyPassedToTag(): void
+    {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage(
+            Message::CONFIG_KEY_MUST_BE_STRING->getMessage(TagInline::class, 1),
+        );
+
+        TagInline::tag(['flag' => true], [1 => null]);
     }
 
     public function testThrowConfigExceptionWhenKeyMatchingNoMemberPrecedesOtherKeys(): void
@@ -160,7 +279,9 @@ final class SimpleFactoryTest extends TestCase
         try {
             TagInline::tag(['flagLocked' => true]);
 
-            self::fail('Readonly property write must be rejected.');
+            self::fail(
+                'Readonly property write must be rejected.',
+            );
         } catch (ConfigException $exception) {
             self::assertSame(
                 Message::CONFIG_PROPERTY_MUST_BE_WRITABLE->getMessage(TagInline::class, 'flagLocked'),
@@ -183,6 +304,28 @@ final class SimpleFactoryTest extends TestCase
         );
 
         TagInline::tag(['flagShared' => true]);
+    }
+
+    public function testThrowErrorWhenPublicMethodThrowsError(): void
+    {
+        $tag = new class extends BaseTag {
+            public function fail(): static
+            {
+                throw new Error('Setter failure.');
+            }
+
+            protected function run(): string
+            {
+                return '';
+            }
+        };
+
+        $this->expectException(Error::class);
+        $this->expectExceptionMessage(
+            'Setter failure.',
+        );
+
+        SimpleFactory::configure($tag, ['fail' => []]);
     }
 
     public function testThrowLogicExceptionForInstantiateAbstractClass(): void
