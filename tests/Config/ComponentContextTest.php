@@ -4,11 +4,16 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Tests\Config;
 
+use BackedEnum;
 use InvalidArgumentException;
-use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\{DataProviderExternal, Group};
 use PHPUnit\Framework\TestCase;
 use UIAwesome\Html\Core\Config\ComponentContext;
 use UIAwesome\Html\Core\Exception\Message;
+use UIAwesome\Html\Core\Tests\Provider\ComponentContextProvider;
+use UIAwesome\Html\Core\Tests\Support\Stub\{ContextName, NumericContextName, PureContextName};
+
+use function get_object_vars;
 
 /**
  * Unit tests for the {@see ComponentContext} class.
@@ -16,6 +21,55 @@ use UIAwesome\Html\Core\Exception\Message;
 #[Group('config')]
 final class ComponentContextTest extends TestCase
 {
+    public function testNormalizesStringBackedEnumsToBackingValues(): void
+    {
+        $context = new ComponentContext(
+            ContextName::ALERT,
+            variant: ContextName::DANGER,
+            size: ContextName::LARGE,
+            scheme: ContextName::DARK,
+            states: [ContextName::DISMISSIBLE, 'open'],
+            metadata: ['role' => 'status'],
+        );
+
+        self::assertSame(
+            get_object_vars(
+                new ComponentContext(
+                    'alert',
+                    variant: 'danger',
+                    size: 'lg',
+                    scheme: 'dark',
+                    states: ['dismissible', 'open'],
+                    metadata: ['role' => 'status'],
+                ),
+            ),
+            get_object_vars($context),
+            'Enum arguments must produce the same state as their string backing values.',
+        );
+        self::assertSame(
+            'alert',
+            $context->component,
+            'Component identifier must hold the enum backing value.',
+        );
+        self::assertSame(
+            ['dismissible', 'open'],
+            $context->states,
+            'States must hold the enum backing values in order.',
+        );
+        self::assertTrue(
+            $context->hasState(ContextName::DISMISSIBLE),
+            'An active enum state must be reported as present.',
+        );
+        self::assertTrue(
+            $context->hasState('dismissible'),
+            'An active state must be found by its string backing value.',
+        );
+        self::assertFalse(
+            $context->hasState(ContextName::DANGER),
+            'A missing enum state must be reported as absent.',
+        );
+    }
+
     public function testPreservesUnicodeComponentIdentifier(): void
     {
         $context = new ComponentContext('field.là');
@@ -142,6 +196,51 @@ final class ComponentContextTest extends TestCase
         new ComponentContext('field', states: ['']);
     }
 
+    public function testThrowInvalidArgumentExceptionForEmptyStringBackedEnumState(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            Message::VALUE_MUST_BE_NON_EMPTY_WITHOUT_WHITESPACE->getMessage('Component state'),
+        );
+
+        new ComponentContext('field', states: [ContextName::EMPTY]);
+    }
+
+    /**
+     * @param list<BackedEnum|string> $states
+     */
+    #[DataProviderExternal(ComponentContextProvider::class, 'intBackedEnumNames')]
+    public function testThrowInvalidArgumentExceptionForIntBackedEnum(
+        string $label,
+        string|BackedEnum $component,
+        string|BackedEnum|null $variant,
+        string|BackedEnum|null $size,
+        string|BackedEnum|null $scheme,
+        array $states,
+    ): void {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            Message::VALUE_MUST_BE_STRING_OR_STRING_BACKED_ENUM->getMessage($label, NumericContextName::class),
+        );
+
+        new ComponentContext($component, $variant, $size, $scheme, $states);
+    }
+
+    public function testThrowInvalidArgumentExceptionForIntBackedEnumStateLookup(): void
+    {
+        $context = new ComponentContext('field', states: ['active']);
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            Message::VALUE_MUST_BE_STRING_OR_STRING_BACKED_ENUM->getMessage(
+                'Component state',
+                NumericContextName::class,
+            ),
+        );
+
+        $context->hasState(NumericContextName::ONE);
+    }
+
     public function testThrowInvalidArgumentExceptionForInvalidScheme(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -180,5 +279,25 @@ final class ComponentContextTest extends TestCase
         );
 
         new ComponentContext('field', states: [1]);
+    }
+
+    public function testThrowInvalidArgumentExceptionForPureEnumState(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            Message::COMPONENT_STATES_MUST_BE_STRING_LIST->getMessage(),
+        );
+
+        new ComponentContext('field', states: [PureContextName::ALERT]);
+    }
+
+    public function testThrowInvalidArgumentExceptionForStringBackedEnumComponentWithWhitespace(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            Message::VALUE_MUST_BE_NON_EMPTY_WITHOUT_WHITESPACE->getMessage('Component identifier'),
+        );
+
+        new ComponentContext(ContextName::WHITESPACE);
     }
 }

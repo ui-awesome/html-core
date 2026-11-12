@@ -369,6 +369,32 @@ final readonly class Badge
 
 Fluent calls made after `config()` are local overrides, and each `Config` instance applies only its own recipes.
 
+The component identifier, the `variant`, `size`, and `scheme` qualifiers, the states, and `hasState()` also accept a
+string-backed enum. The context stores the backing value, so themes keep comparing plain strings. An int-backed enum
+throws `InvalidArgumentException`.
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App;
+
+use UIAwesome\Html\Core\Config\ComponentContext;
+
+enum BadgeName: string
+{
+    case BADGE = 'badge';
+    case PILL = 'pill';
+}
+
+$context = new ComponentContext(BadgeName::BADGE, variant: BadgeName::PILL, states: ['active']);
+
+$context->component; // 'badge'
+$context->variant; // 'pill'
+$context->hasState('active'); // true
+```
+
 #### Class-level defaults with `loadDefault()`
 
 For a simpler approach without a theme, override `loadDefault()` in your tag class. These defaults are applied
@@ -408,6 +434,9 @@ echo Container::tag(['class' => 'container-fluid'])->render();
 // <div class="container container-fluid">
 // </div>
 ```
+
+Each key in `loadDefault()` and in the arrays passed to `tag()` must name a method or a public property of the tag.
+An unknown key, such as a misspelled method name, throws `ConfigException` instead of being skipped.
 
 Configuration priority (from weakest to strongest):
 

@@ -72,6 +72,13 @@ enum Message: string
     case CONFIG_DOES_NOT_DEFINE_COMPONENT_FACTORY = 'Config does not define a component factory.';
 
     /**
+     * Error when a config key matches neither a method nor a property of the configured tag.
+     *
+     * Format: 'Config key "%s::%s" must match a method or property.'
+     */
+    case CONFIG_KEY_MUST_MATCH_METHOD_OR_PROPERTY = 'Config key "%s::%s" must match a method or property.';
+
+    /**
      * Error when a config method name is empty or contains whitespace.
      *
      * Format: 'Config method must be a non-empty string without whitespace.'
@@ -140,6 +147,14 @@ enum Message: string
      * Format: '%s must be non-empty and contain no whitespace.'
      */
     case VALUE_MUST_BE_NON_EMPTY_WITHOUT_WHITESPACE = '%s must be non-empty and contain no whitespace.';
+
+    /**
+     * Error when a named value is passed as an int-backed enum instead of a string or a string-backed enum.
+     *
+     * Format: "%s must be a string or a string-backed enum; int-backed enum '%s' given."
+     */
+    case VALUE_MUST_BE_STRING_OR_STRING_BACKED_ENUM = '%s must be a string or a string-backed enum; int-backed enum '
+        . "'%s' given.";
 
     /**
      * Returns the formatted message string for the error case.

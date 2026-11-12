@@ -34,11 +34,20 @@ final class SimpleFactoryTest extends TestCase
         );
     }
 
-    public function testConfigureSkipsKeysMatchingNoMember(): void
+    public function testConfigureResolvesMethodAndPropertyKeys(): void
     {
+        $tag = SimpleFactory::configure(TagInline::tag(), ['class' => 'value', 'flag' => true]);
+
+        self::assertSame(
+            <<<HTML
+            <span class="value"></span>
+            HTML,
+            $tag->render(),
+            'Method key must be applied as a method call.',
+        );
         self::assertTrue(
-            TagInline::tag(['undefinedMember' => true, 'flag' => true])->flag,
-            'Unknown keys must be skipped without interrupting the remaining configuration.',
+            $tag->flag,
+            'Property key must be applied as a property write.',
         );
     }
 
@@ -56,6 +65,56 @@ final class SimpleFactoryTest extends TestCase
             TagInline::tag()->flag,
             'Failed asserting that factory creates instance with default property values.',
         );
+    }
+
+    public function testThrowConfigExceptionForKeyMatchingNoMember(): void
+    {
+        try {
+            SimpleFactory::configure(TagInline::tag(), ['undefinedMember' => true]);
+
+            self::fail('Unknown key must be rejected.');
+        } catch (ConfigException $exception) {
+            self::assertSame(
+                Message::CONFIG_KEY_MUST_MATCH_METHOD_OR_PROPERTY->getMessage(TagInline::class, 'undefinedMember'),
+                $exception->getMessage(),
+                'Message must name the tag class and the unknown key.',
+            );
+            self::assertNull(
+                $exception->getPrevious(),
+                'Unknown key must not wrap a previous exception.',
+            );
+        }
+    }
+
+    public function testThrowConfigExceptionForKeyMatchingNoMemberPassedToTag(): void
+    {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage(
+            Message::CONFIG_KEY_MUST_MATCH_METHOD_OR_PROPERTY->getMessage(TagInline::class, 'undefinedMember'),
+        );
+
+        TagInline::tag(['flag' => true], ['undefinedMember' => true]);
+    }
+
+    public function testThrowConfigExceptionWhenKeyMatchingNoMemberPrecedesOtherKeys(): void
+    {
+        $tag = TagInline::tag();
+
+        try {
+            SimpleFactory::configure($tag, ['undefinedMember' => true, 'flag' => true, 'otherMember' => true]);
+
+            self::fail('Unknown key must be rejected.');
+        } catch (ConfigException $exception) {
+            self::assertSame(
+                Message::CONFIG_KEY_MUST_MATCH_METHOD_OR_PROPERTY->getMessage(TagInline::class, 'undefinedMember'),
+                $exception->getMessage(),
+                'Message must name the first unknown key.',
+            );
+            self::assertFalse(
+                $tag->flag,
+                'Keys after the first unknown key must not be applied.',
+            );
+        }
     }
 
     public function testThrowConfigExceptionWhenSettingNotPublicProperty(): void

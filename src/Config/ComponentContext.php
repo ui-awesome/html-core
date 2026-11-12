@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace UIAwesome\Html\Core\Config;
 
+use BackedEnum;
 use InvalidArgumentException;
 use UIAwesome\Html\Core\Exception\Message;
 
@@ -15,9 +16,17 @@ use function preg_match;
 
 /**
  * Describes the semantic component and qualifiers used to resolve config recipes.
+ *
+ * The component identifier, qualifiers, and states accept a string or a string-backed enum. Enum cases are normalized
+ * to their backing values, so the public properties and {@see ComponentContext::hasState()} always work with plain
+ * strings, regardless of how the context was created.
  */
 final readonly class ComponentContext
 {
+    /**
+     * Semantic component identifier, normalized to a string.
+     */
+    public string $component;
     /**
      * Extensible semantic metadata available to config providers.
      *
@@ -27,35 +36,48 @@ final readonly class ComponentContext
      */
     public array $metadata;
     /**
-     * Active component states.
+     * Optional color scheme, normalized to a string.
+     */
+    public string|null $scheme;
+    /**
+     * Optional component size, normalized to a string.
+     */
+    public string|null $size;
+    /**
+     * Active component states, normalized to strings.
      *
      * @var list<string>
      */
     public array $states;
+    /**
+     * Optional presentation variant, normalized to a string.
+     */
+    public string|null $variant;
 
     /**
-     * @param string $component Semantic component identifier, for example `field.control.email`.
-     * @param string|null $variant Optional presentation variant.
-     * @param string|null $size Optional component size.
-     * @param string|null $scheme Optional color scheme.
-     * @param array<array-key, mixed> $states Active component states.
+     * @param BackedEnum|string $component Semantic component identifier, for example `field.control.email`.
+     * @param BackedEnum|string|null $variant Optional presentation variant.
+     * @param BackedEnum|string|null $size Optional component size.
+     * @param BackedEnum|string|null $scheme Optional color scheme.
+     * @param array<array-key, mixed> $states Active component states, as strings or string-backed enums.
      * @param array<array-key, mixed> $metadata Additional semantic metadata.
      *
-     * @throws InvalidArgumentException If the component identifier or a qualifier is empty or contains whitespace, the
-     * states are not a list of non-empty strings, or a metadata key is not a non-empty string.
+     * @throws InvalidArgumentException If the component identifier, a qualifier, or a state is an int-backed enum, is
+     * empty, or contains whitespace, the states are not a list of strings or backed enums, or a metadata key is not a
+     * non-empty string.
      */
     public function __construct(
-        public string $component,
-        public string|null $variant = null,
-        public string|null $size = null,
-        public string|null $scheme = null,
+        string|BackedEnum $component,
+        string|BackedEnum|null $variant = null,
+        string|BackedEnum|null $size = null,
+        string|BackedEnum|null $scheme = null,
         array $states = [],
         array $metadata = [],
     ) {
-        $this->assertName($component, 'Component identifier');
-        $this->assertOptionalName($variant, 'Variant');
-        $this->assertOptionalName($size, 'Size');
-        $this->assertOptionalName($scheme, 'Scheme');
+        $this->component = $this->normalizeName($component, 'Component identifier');
+        $this->variant = $this->normalizeOptionalName($variant, 'Variant');
+        $this->size = $this->normalizeOptionalName($size, 'Size');
+        $this->scheme = $this->normalizeOptionalName($scheme, 'Scheme');
 
         if (array_is_list($states) === false) {
             throw new InvalidArgumentException(
@@ -66,15 +88,13 @@ final readonly class ComponentContext
         $normalizedStates = [];
 
         foreach ($states as $state) {
-            if (is_string($state) === false) {
+            if (is_string($state) === false && $state instanceof BackedEnum === false) {
                 throw new InvalidArgumentException(
                     Message::COMPONENT_STATES_MUST_BE_STRING_LIST->getMessage(),
                 );
             }
 
-            $this->assertName($state, 'Component state');
-
-            $normalizedStates[] = $state;
+            $normalizedStates[] = $this->normalizeName($state, 'Component state');
         }
 
         $normalizedMetadata = [];
@@ -109,13 +129,15 @@ final readonly class ComponentContext
     /**
      * Whether the component has the specified state.
      *
-     * @param string $state State name to check.
+     * @param BackedEnum|string $state State name, or a string-backed enum whose backing value is the state name.
+     *
+     * @throws InvalidArgumentException If the state is an int-backed enum.
      *
      * @return bool `true` if the state is active, `false` otherwise.
      */
-    public function hasState(string $state): bool
+    public function hasState(string|BackedEnum $state): bool
     {
-        return in_array($state, $this->states, true);
+        return in_array($this->toName($state, 'Component state'), $this->states, true);
     }
 
     private function assertName(string $value, string $label): void
@@ -127,10 +149,34 @@ final readonly class ComponentContext
         }
     }
 
-    private function assertOptionalName(string|null $value, string $label): void
+    private function normalizeName(string|BackedEnum $value, string $label): string
     {
-        if ($value !== null) {
-            $this->assertName($value, $label);
+        $name = $this->toName($value, $label);
+
+        $this->assertName($name, $label);
+
+        return $name;
+    }
+
+    private function normalizeOptionalName(string|BackedEnum|null $value, string $label): string|null
+    {
+        return $value === null ? null : $this->normalizeName($value, $label);
+    }
+
+    private function toName(string|BackedEnum $value, string $label): string
+    {
+        if (is_string($value)) {
+            return $value;
         }
+
+        $name = $value->value;
+
+        if (is_string($name) === false) {
+            throw new InvalidArgumentException(
+                Message::VALUE_MUST_BE_STRING_OR_STRING_BACKED_ENUM->getMessage($label, $value::class),
+            );
+        }
+
+        return $name;
     }
 }

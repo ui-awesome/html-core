@@ -25,7 +25,8 @@ final class SimpleFactory
     /**
      * Applies configuration values to a tag instance.
      *
-     * Keys resolve to public methods first, then to public instance properties. Keys matching no member are skipped.
+     * Keys resolve to public methods first, then to public instance properties. A string key matching neither aborts
+     * the configuration with {@see ConfigException}. Numeric keys are skipped.
      *
      * Property writes rejected at runtime, such as `readonly`, asymmetric visibility, or type mismatches, surface as
      * {@see ConfigException} with the original `Error` attached as the previous exception.
@@ -33,8 +34,8 @@ final class SimpleFactory
      * @param BaseTag $tag Tag instance to configure.
      * @param array $defaults Associative array of method names and arguments.
      *
-     * @throws ConfigException if a key resolves to a property that is not a public instance property, or to a public
-     * property that rejects the write.
+     * @throws ConfigException if a key matches no method or property, resolves to a property that is not a public
+     * instance property, or resolves to a public property that rejects the write.
      *
      * @return BaseTag Configured tag instance.
      *
@@ -78,6 +79,10 @@ final class SimpleFactory
                         previous: $e,
                     );
                 }
+            } else {
+                throw new ConfigException(
+                    Message::CONFIG_KEY_MUST_MATCH_METHOD_OR_PROPERTY->getMessage($tag::class, $action),
+                );
             }
         }
 

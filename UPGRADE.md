@@ -1,5 +1,16 @@
 # Upgrade Guide
 
+## 0.9.0
+
+### Unknown configuration keys
+
+`SimpleFactory::configure()`, and therefore `tag()` with `loadDefault()` and its definition arrays, now throws
+`ConfigException` when a string key matches no method or property of the tag, instead of skipping it. Configuration
+stops at the first unknown key and returns no tag.
+
+Remove or rename unknown keys, for example a misspelled method name, in `loadDefault()`, `tag()` arguments, and any
+definitions array applied through `SimpleFactory::configure()`. Numeric keys are still skipped.
+
 ## 0.7.0
 
 ### Application-scoped configuration
