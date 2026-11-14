@@ -1,0 +1,4 @@
+interface:
+  display_name: "UI Awesome HTML Core"
+  short_description: "Build HTML elements and apply themed config"
+  default_prompt: "Use $ui-awesome-html-core to build a custom HTML element and apply application-scoped theme recipes."
