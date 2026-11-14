@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat: expose immutable content clearing through `ClearableContentInterface` on block elements.
 - feat!: normalize `ComponentContext` string enums to backing values; throw `ConfigException` for unmatched `SimpleFactory` configure/tag keys.
 - feat!: throw `ConfigException` for numeric keys, non-public or static methods, and non-tag return values in `SimpleFactory::configure()`.
+- docs: add package skill with AI assistance, Security and Built with AI README sections, and Coverage header badge.
 
 ## 0.8.0 July 31, 2026
 
