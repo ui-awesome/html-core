@@ -35,7 +35,7 @@ Do not "fix" these; they are documented behavior covered by tests.
 - With `strict: false`, `ConfigApplier` silently skips a call whose method is missing, non-public or static, and ignores a call that returns an incompatible value, keeping the previous component. An exception thrown by the invoked method is still wrapped in `ConfigException` in both modes.
 - `SimpleFactory::configure()` throws `ConfigException` for numeric keys, unknown keys, non-public or static members, methods that do not return an instance of the tag class and property writes rejected at runtime. Keys resolve to methods before properties.
 - `ComponentContext` normalizes string-backed enums to their backing values and rejects int-backed enums with `InvalidArgumentException`.
-- `BaseBlock::end()` is static and closes the most recent `begin()` of the same class in the current Fiber or main context; it throws `LogicException` without a matching `begin()`. Begin/end state does not leak across clones or Fibers.
+- `BaseBlock::end()` is static and closes the most recent `begin()` in the current Fiber or main context. The top of the stack must be the same class; an empty stack throws `LogicException` and a class mismatch throws `RuntimeException` without popping the stack. Begin/end state does not leak across clones or Fibers.
 - `beforeRun()` returning `false` makes `render()` return an empty string instead of throwing.
 - Block elements implement `ClearableContentInterface`; clearing content returns a new instance and leaves the original unchanged.
 

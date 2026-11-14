@@ -38,7 +38,7 @@
 ### Installation
 
 ```bash
-composer require ui-awesome/html-core:^0.8
+composer require ui-awesome/html-core:^0.9
 ```
 
 ### Quick start
@@ -468,7 +468,9 @@ enum SvgTag: string
 
 // now you can use it with the Html renderer or your custom classes
 echo Html::element(SvgTag::G, '...');
-// <g>...</g>
+// <g>
+// ...
+// </g>
 ```
 
 ## Documentation
