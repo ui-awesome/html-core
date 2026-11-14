@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 0.9.0 Under development
+## 0.9.0 November 14, 2026
 
 - refactor: remove prettier and stylelint templates now provided by `php-forge/baseline-frontend`.
 - chore: remove obsolete scaffold tooling and align package maintenance checks with PHP Forge conventions.
