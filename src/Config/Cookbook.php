@@ -28,6 +28,8 @@ final readonly class Cookbook implements Countable, IteratorAggregate
     public array $calls;
 
     /**
+     * Creates a cookbook of ordered calls.
+     *
      * @param Call ...$calls Ordered config calls stored by the cookbook.
      *
      * @throws InvalidArgumentException If the calls are passed by name.

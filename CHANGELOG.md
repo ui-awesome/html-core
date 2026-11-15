@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 0.9.1 Under development
 
+- docs: add constructor documentation.
+
 ## 0.9.0 November 14, 2026
 
 - refactor: remove prettier and stylelint templates now provided by `php-forge/baseline-frontend`.

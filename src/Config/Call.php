@@ -28,6 +28,8 @@ final readonly class Call
     public array $arguments;
 
     /**
+     * Creates a method call with positional arguments.
+     *
      * @param string $method Method name to call.
      * @param mixed ...$arguments Positional arguments passed to the method.
      *
