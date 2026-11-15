@@ -55,6 +55,8 @@ final readonly class ComponentContext
     public string|null $variant;
 
     /**
+     * Creates a semantic component context.
+     *
      * @param BackedEnum|string $component Semantic component identifier, for example `field.control.email`.
      * @param BackedEnum|string|null $variant Optional presentation variant.
      * @param BackedEnum|string|null $size Optional component size.

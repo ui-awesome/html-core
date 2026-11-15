@@ -15,6 +15,8 @@ use UIAwesome\Html\Core\Theme\ThemeInterface;
 final readonly class Config
 {
     /**
+     * Creates the application-scoped configuration.
+     *
      * @param ThemeInterface $theme Theme resolving recipes for component contexts.
      * @param ConfigApplierInterface $applier Applier executing recipe calls on component instances.
      * @param ComponentFactoryInterface|null $factory Factory creating components, or `null` to disable creation.

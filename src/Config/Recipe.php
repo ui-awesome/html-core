@@ -18,6 +18,8 @@ use function preg_match;
 final readonly class Recipe
 {
     /**
+     * Creates a named recipe with its cookbook.
+     *
      * @param string $name Recipe identifier used to trace which recipe configured a component.
      * @param Cookbook $cookbook Ordered config calls applied by the recipe.
      *
