@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## 0.9.1 November 15, 2026
 
 - docs: add constructor documentation.
+- chore: update `.gitattributes` and `.gitignore` for improved file handling and exclusions.
 
 ## 0.9.0 November 14, 2026
 
