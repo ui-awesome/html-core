@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - docs: add constructor documentation.
 - chore: update `.gitattributes` and `.gitignore` for improved file handling and exclusions.
+- chore: standardize comments in configuration files and update dependency ignore rules.
 
 ## 0.9.0 November 14, 2026
 
